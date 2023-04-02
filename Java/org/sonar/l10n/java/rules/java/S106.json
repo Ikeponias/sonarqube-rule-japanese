@@ -1,0 +1,30 @@
+{
+    "title": "\u6a19\u6e96\u51fa\u529b\u306f\u3001\u4f55\u304b\u3092\u8a18\u9332\u3059\u308b\u305f\u3081\u306b\u76f4\u63a5\u4f7f\u7528\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "bad-practice",
+        "cert",
+        "owasp-a3"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-106",
+    "sqKey": "S106",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "ERR02-J."
+        ],
+        "OWASP": [
+            "A3"
+        ],
+        "OWASP Top 10 2021": [
+            "A9"
+        ]
+    },
+    "quickfix": "unknown"
+}

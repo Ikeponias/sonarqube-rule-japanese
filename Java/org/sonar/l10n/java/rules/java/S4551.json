@@ -1,0 +1,15 @@
+{
+    "title": "Enum\u306e\u5024\u306f\"==\"\u3067\u6bd4\u8f03\u3059\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-4551",
+    "sqKey": "S4551",
+    "scope": "All",
+    "quickfix": "unknown"
+}

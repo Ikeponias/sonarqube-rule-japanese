@@ -1,0 +1,37 @@
+{
+    "title": "\u30cf\u30c3\u30b7\u30e5\u306f\u4e88\u6e2c\u4e0d\u53ef\u80fd\u306a\u5869\u3092\u542b\u3080\u3079\u304d\u3067\u3042\u308b",
+    "type": "VULNERABILITY",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "cwe",
+        "sans-top25-porous",
+        "owasp-a3"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-2053",
+    "sqKey": "S2053",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            759,
+            760
+        ],
+        "OWASP": [
+            "A3"
+        ],
+        "OWASP Top 10 2021": [
+            "A2"
+        ],
+        "PCI DSS 3.2": [
+            "6.5.10"
+        ],
+        "PCI DSS 4.0": [
+            "6.2.4"
+        ]
+    },
+    "quickfix": "unknown"
+}

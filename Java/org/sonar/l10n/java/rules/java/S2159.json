@@ -1,0 +1,23 @@
+{
+    "title": "\u611a\u304b\u306a\u5e73\u7b49\u30c1\u30a7\u30c3\u30af\u306f\u884c\u308f\u308c\u308b\u3079\u304d\u3067\u306f\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "cert",
+        "unused"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2159",
+    "sqKey": "S2159",
+    "scope": "Main",
+    "quickfix": "unknown",
+    "securityStandards": {
+        "CERT": [
+            "EXP02-J."
+        ]
+    }
+}

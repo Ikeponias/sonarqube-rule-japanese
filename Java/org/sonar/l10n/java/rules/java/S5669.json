@@ -1,0 +1,15 @@
+{
+    "title": "Vararg\u30e1\u30bd\u30c3\u30c9\u306e\u5f15\u6570\u3092\u7d1b\u3089\u308f\u3057\u304f\u3057\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5669",
+    "sqKey": "S5669",
+    "scope": "All",
+    "quickfix": "unknown"
+}

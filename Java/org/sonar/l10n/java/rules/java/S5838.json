@@ -1,0 +1,18 @@
+{
+    "title": "\u9023\u9396\u3059\u308bAssertJ\u30a2\u30b5\u30fc\u30b7\u30e7\u30f3\u306f\u3001\u5bfe\u5fdc\u3059\u308b\u5c02\u7528\u30a2\u30b5\u30fc\u30b7\u30e7\u30f3\u306b\u7c21\u7565\u5316\u3059\u308b\u3053\u3068\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "tests",
+        "assertj"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-5838",
+    "sqKey": "S5838",
+    "scope": "Tests",
+    "quickfix": "partial"
+}

@@ -1,0 +1,26 @@
+{
+    "title": "\u300ctoString()\u304a\u3088\u3073clone()\u30e1\u30bd\u30c3\u30c9\u306fNULL\u3092\u8fd4\u3055\u306a\u3044\u3088\u3046\u306b\u3059\u308b\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "cwe",
+        "cert"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2225",
+    "sqKey": "S2225",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "EXP01-J."
+        ],
+        "CWE": [
+            476
+        ]
+    },
+    "quickfix": "unknown"
+}

@@ -1,0 +1,18 @@
+{
+    "title": "Collection\u306e\u30a4\u30c6\u30ec\u30fc\u30b7\u30e7\u30f3\u306f\u3001Collection\u304c\u6271\u3046\u578b\u306b\u5bfe\u3057\u3066\u5b9f\u884c\u3055\u308c\u308b\u3079\u304d\u3067\u3042\u308b",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "1min"
+    },
+    "tags": [
+        "bad-practice",
+        "clumsy"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-4838",
+    "sqKey": "S4838",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

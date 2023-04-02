@@ -1,0 +1,17 @@
+{
+    "title": "\u5909\u66f4\u4e0d\u53ef\u306e\u30ea\u30b9\u30c8\u304c\u5fc5\u8981\u306a\u5834\u5408\u3001\"collectors \"\u306e\u4ee3\u308f\u308a\u306b \"Stream.toList() \"\u30e1\u30bd\u30c3\u30c9\u3092\u4f7f\u3046\u3079\u304d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "java16"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-6204",
+    "sqKey": "S6204",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

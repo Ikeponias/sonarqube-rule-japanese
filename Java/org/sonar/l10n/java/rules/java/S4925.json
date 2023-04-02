@@ -1,0 +1,17 @@
+{
+    "title": "\"Class.forName()\" \u306f\u3001JDBC 4.0+ \u30c9\u30e9\u30a4\u30d0\u3092\u8aad\u307f\u8fbc\u307e\u306a\u3044\u3088\u3046\u306b\u3059\u308b\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "obsolete"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-4925",
+    "sqKey": "S4925",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

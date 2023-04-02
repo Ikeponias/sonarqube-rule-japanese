@@ -1,0 +1,17 @@
+{
+    "title": "\"wait\"\u3001\"notify\"\u3001\"notifyAll \"\u306f\u3001\u660e\u3089\u304b\u306b\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u306b\u30ed\u30c3\u30af\u304c\u304b\u304b\u3063\u3066\u3044\u308b\u5834\u5408\u306b\u306e\u307f\u547c\u3073\u51fa\u3055\u308c\u308b\u3079\u304d\u3067\u3059\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [
+        "multi-threading"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2273",
+    "sqKey": "S2273",
+    "scope": "All",
+    "quickfix": "unknown"
+}

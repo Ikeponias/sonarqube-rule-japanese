@@ -1,0 +1,18 @@
+{
+    "title": "Guava\u3088\u308a\u3082Java\u306e\u6a5f\u80fd\u3092\u512a\u5148\u3055\u305b\u308b\u3079\u304d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "java9",
+        "java8"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-4738",
+    "sqKey": "S4738",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

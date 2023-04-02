@@ -1,0 +1,29 @@
+{
+    "title": "\"equals \"\u304c\u30aa\u30fc\u30d0\u30fc\u30e9\u30a4\u30c9\u3055\u308c\u308b\u5834\u5408\u3001\"==\"\u304a\u3088\u3073\"!=\"\u306f\u4f7f\u7528\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "cwe",
+        "cert",
+        "suspicious"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1698",
+    "sqKey": "S1698",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "EXP03-J.",
+            "EXP50-J."
+        ],
+        "CWE": [
+            595,
+            597
+        ]
+    },
+    "quickfix": "unknown"
+}

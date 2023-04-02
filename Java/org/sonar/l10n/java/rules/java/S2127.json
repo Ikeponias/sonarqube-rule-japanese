@@ -1,0 +1,15 @@
+{
+    "title": "\"Double.longBitsToDouble\" \u306f \"int\" \u306b\u306f\u4f7f\u7528\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2127",
+    "sqKey": "S2127",
+    "scope": "All",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,17 @@
+{
+    "title": "\u4e00\u822c\u7684\u306a\u30ef\u30a4\u30eb\u30c9\u30ab\u30fc\u30c9\u578b\u306f\u3001\u623b\u308a\u5024\u306e\u578b\u306b\u4f7f\u7528\u3057\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [
+        "pitfall"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-1452",
+    "sqKey": "S1452",
+    "scope": "All",
+    "quickfix": "unknown"
+}

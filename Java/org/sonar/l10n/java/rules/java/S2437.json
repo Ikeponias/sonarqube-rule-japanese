@@ -1,0 +1,17 @@
+{
+    "title": "\u611a\u304b\u306a\u30d3\u30c3\u30c8\u6f14\u7b97\u306f\u884c\u308f\u306a\u3044\u3067\u304f\u3060\u3055\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "suspicious"
+    ],
+    "defaultSeverity": "Blocker",
+    "ruleSpecification": "RSPEC-2437",
+    "sqKey": "S2437",
+    "scope": "All",
+    "quickfix": "unknown"
+}

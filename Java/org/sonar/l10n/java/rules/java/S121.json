@@ -1,0 +1,24 @@
+{
+    "title": "\u5236\u5fa1\u69cb\u9020\u306b\u306f\u4e2d\u62ec\u5f27\u3092\u4f7f\u7528\u3059\u308b",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "cert",
+        "pitfall"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-121",
+    "sqKey": "S121",
+    "scope": "All",
+    "quickfix": "unknown",
+    "securityStandards": {
+        "CERT": [
+            "EXP19-C.",
+            "EXP52-J."
+        ]
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "title": "\u672a\u4f7f\u7528\u306e\u30e1\u30bd\u30c3\u30c9\u30d1\u30e9\u30e1\u30fc\u30bf\u306f\u524a\u9664\u3059\u308b\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "cert",
+        "unused"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-1172",
+    "sqKey": "S1172",
+    "scope": "All",
+    "quickfix": "covered",
+    "securityStandards": {
+        "CERT": [
+            "MSC12-C."
+        ]
+    }
+}

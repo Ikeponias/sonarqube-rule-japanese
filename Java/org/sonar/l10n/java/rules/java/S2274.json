@@ -1,0 +1,23 @@
+{
+    "title": "\"Object.wait(...)\" \u3068 \"Condition.await(...)\" \u306f \"while\" \u30eb\u30fc\u30d7\u306e\u4e2d\u3067\u547c\u3073\u51fa\u3059\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [
+        "multi-threading",
+        "cert"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-2274",
+    "sqKey": "S2274",
+    "scope": "All",
+    "securityStandards": {
+        "CERT": [
+            "THI03-J."
+        ]
+    },
+    "quickfix": "unknown"
+}

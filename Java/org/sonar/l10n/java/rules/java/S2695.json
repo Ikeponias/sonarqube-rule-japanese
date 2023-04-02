@@ -1,0 +1,17 @@
+{
+    "title": "\u300cPreparedStatement\u300d\u300cResultSet\u300d\u30e1\u30bd\u30c3\u30c9\u306f\u3001\u6709\u52b9\u306a\u30a4\u30f3\u30c7\u30c3\u30af\u30b9\u3067\u547c\u3073\u51fa\u3059\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "sql"
+    ],
+    "defaultSeverity": "Blocker",
+    "ruleSpecification": "RSPEC-2695",
+    "sqKey": "S2695",
+    "scope": "All",
+    "quickfix": "unknown"
+}

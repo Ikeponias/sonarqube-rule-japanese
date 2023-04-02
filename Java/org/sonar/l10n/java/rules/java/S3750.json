@@ -1,0 +1,17 @@
+{
+    "title": "Spring\u306e\"@Controller \"\u30af\u30e9\u30b9\u306f\u3001\"@Scope \"\u3092\u4f7f\u7528\u3057\u306a\u3044\u3053\u3068\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "spring"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-3750",
+    "sqKey": "S3750",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

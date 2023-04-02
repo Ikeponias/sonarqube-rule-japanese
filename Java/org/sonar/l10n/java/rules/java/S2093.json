@@ -1,0 +1,24 @@
+{
+    "title": "\u30c8\u30e9\u30a4\u30a6\u30a3\u30ba\u30ea\u30bd\u30fc\u30b9\u3092\u4f7f\u7528\u3059\u308b\u5fc5\u8981\u304c\u3042\u308b",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "java8",
+        "cert",
+        "pitfall"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-2093",
+    "sqKey": "S2093",
+    "scope": "All",
+    "securityStandards": {
+        "CERT": [
+            "ERR54-J."
+        ]
+    },
+    "quickfix": "unknown"
+}

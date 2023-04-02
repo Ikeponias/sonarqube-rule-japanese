@@ -1,0 +1,22 @@
+{
+    "title": "\"BigDecimal(double) \"\u306f\u4f7f\u7528\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "cert"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2111",
+    "sqKey": "S2111",
+    "scope": "All",
+    "securityStandards": {
+        "CERT": [
+            "NUM10-J."
+        ]
+    },
+    "quickfix": "partial"
+}

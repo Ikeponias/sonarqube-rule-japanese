@@ -1,0 +1,46 @@
+{
+    "title": "POSIX\u30d5\u30a1\u30a4\u30eb\u306e\u30d1\u30fc\u30df\u30c3\u30b7\u30e7\u30f3\u3092\u7de9\u304f\u8a2d\u5b9a\u3059\u308b\u3053\u3068\u306f\u3001\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u306b\u5f71\u97ff\u3059\u308b",
+    "type": "SECURITY_HOTSPOT",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "cwe",
+        "cert",
+        "sans-top25-porous",
+        "owasp-a5"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2612",
+    "sqKey": "S2612",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "FIO01-J.",
+            "FIO06-C."
+        ],
+        "CWE": [
+            732,
+            266
+        ],
+        "OWASP": [
+            "A5"
+        ],
+        "OWASP Top 10 2021": [
+            "A1",
+            "A4"
+        ],
+        "PCI DSS 3.2": [
+            "6.5.8"
+        ],
+        "PCI DSS 4.0": [
+            "6.2.4"
+        ],
+        "ASVS 4.0": [
+            "4.3.3"
+        ]
+    },
+    "quickfix": "unknown"
+}

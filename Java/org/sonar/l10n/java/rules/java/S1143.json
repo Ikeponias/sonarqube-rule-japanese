@@ -1,0 +1,27 @@
+{
+    "title": "\u30b8\u30e3\u30f3\u30d7\u6587\u306f \"finally \"\u30d6\u30ed\u30c3\u30af\u306e\u4e2d\u306b\u5165\u308c\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "cwe",
+        "error-handling",
+        "cert"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-1143",
+    "sqKey": "S1143",
+    "scope": "All",
+    "securityStandards": {
+        "CERT": [
+            "ERR04-J."
+        ],
+        "CWE": [
+            584
+        ]
+    },
+    "quickfix": "unknown"
+}

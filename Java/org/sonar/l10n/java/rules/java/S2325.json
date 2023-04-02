@@ -1,0 +1,17 @@
+{
+    "title": "\u30a4\u30f3\u30b9\u30bf\u30f3\u30b9\u30c7\u30fc\u30bf\u306b\u30a2\u30af\u30bb\u30b9\u3057\u306a\u3044 \"private\" \u3068 \"final\" \u30e1\u30bd\u30c3\u30c9\u306f \"static\" \u3068\u3059\u308b\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "pitfall"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2325",
+    "sqKey": "S2325",
+    "scope": "All",
+    "quickfix": "covered"
+}

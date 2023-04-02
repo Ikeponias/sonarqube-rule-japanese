@@ -1,0 +1,24 @@
+{
+    "title": "\"Serializable \"\u30af\u30e9\u30b9\u306e \"Serializable \"\u30a4\u30f3\u30ca\u30fc\u30af\u30e9\u30b9\u306fstatic\u3067\u3042\u308b\u3079\u304d\u3060\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "serialization",
+        "cert",
+        "pitfall"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2059",
+    "sqKey": "S2059",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "SER05-J."
+        ]
+    },
+    "quickfix": "unknown"
+}

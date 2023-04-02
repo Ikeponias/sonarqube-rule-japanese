@@ -1,0 +1,17 @@
+{
+    "title": "\u30ed\u30fc\u30ab\u30eb\u5909\u6570\u578b\u63a8\u8ad6\u3092\u4f7f\u7528\u3059\u308b\u5fc5\u8981\u304c\u3042\u308b",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "0min"
+    },
+    "tags": [
+        "java10"
+    ],
+    "defaultSeverity": "Info",
+    "ruleSpecification": "RSPEC-6212",
+    "sqKey": "S6212",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

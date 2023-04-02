@@ -1,0 +1,17 @@
+{
+    "title": "\u6a5f\u80fd\u30a4\u30f3\u30bf\u30fc\u30d5\u30a7\u30a4\u30b9\u306f\u53ef\u80fd\u306a\u9650\u308a\u7279\u5316\u3055\u305b\u308b\u3079\u304d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "performance"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-4276",
+    "sqKey": "S4276",
+    "scope": "All",
+    "quickfix": "unknown"
+}

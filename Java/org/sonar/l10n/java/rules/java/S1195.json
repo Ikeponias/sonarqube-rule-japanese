@@ -1,0 +1,17 @@
+{
+    "title": "\u914d\u5217\u6307\u5b9a\u5b50\"[]\"\u306f\u3001\u30e1\u30bd\u30c3\u30c9\u30b7\u30b0\u30cd\u30c1\u30e3\u306e\u578b\u306e\u5f8c\u306b\u914d\u7f6e\u3059\u308b\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "convention"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1195",
+    "sqKey": "S1195",
+    "scope": "All",
+    "quickfix": "covered"
+}

@@ -1,0 +1,30 @@
+{
+    "title": "\u30df\u30e5\u30fc\u30bf\u30f3\u30c8\u30e1\u30f3\u30d0\u30fc\u3092\u76f4\u63a5\u683c\u7d0d\u3057\u305f\u308a\u3001\u8fd4\u3057\u305f\u308a\u3057\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "cwe",
+        "unpredictable",
+        "cert"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2384",
+    "sqKey": "S2384",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "OBJ05-J.",
+            "OBJ06-J.",
+            "OBJ13-J."
+        ],
+        "CWE": [
+            375,
+            374
+        ]
+    },
+    "quickfix": "unknown"
+}

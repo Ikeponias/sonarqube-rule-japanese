@@ -1,0 +1,17 @@
+{
+    "title": "\u62bd\u8c61\u300d\u30af\u30e9\u30b9\u306e\u30b3\u30f3\u30b9\u30c8\u30e9\u30af\u30bf\u306f\u3001\u300c\u516c\u958b\u300d\u5ba3\u8a00\u3057\u3066\u306f\u306a\u3089\u306a\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "design"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5993",
+    "sqKey": "S5993",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,15 @@
+{
+    "title": "\u30e1\u30bd\u30c3\u30c9\u30d1\u30e9\u30e1\u30fc\u30bf\u3001\u30ad\u30e3\u30c3\u30c1\u3057\u305f\u4f8b\u5916\u3001foreach\u5909\u6570\u306e\u521d\u671f\u5024\u3092\u7121\u8996\u3057\u3066\u306f\u306a\u3089\u306a\u3044\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1226",
+    "sqKey": "S1226",
+    "scope": "All",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,19 @@
+{
+    "title": "\u985e\u4f3c\u306e\u30c6\u30b9\u30c8\u306f\u30011\u3064\u306eParameterized\u30c6\u30b9\u30c8\u306b\u307e\u3068\u3081\u308b\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "tests",
+        "bad-practice",
+        "clumsy"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5976",
+    "sqKey": "S5976",
+    "scope": "Tests",
+    "quickfix": "unknown"
+}

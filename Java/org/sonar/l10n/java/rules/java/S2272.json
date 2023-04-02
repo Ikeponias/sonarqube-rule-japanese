@@ -1,0 +1,18 @@
+{
+    "title": "\"Iterator.next()\" \u30e1\u30bd\u30c3\u30c9\u306f \"NoSuchElementException\" \u3092\u30b9\u30ed\u30fc\u3059\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "error-handling",
+        "unpredictable"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2272",
+    "sqKey": "S2272",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

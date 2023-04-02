@@ -1,0 +1,17 @@
+{
+    "title": "\u30e1\u30bd\u30c3\u30c9\u540d\u306f\u547d\u540d\u898f\u5247\u306b\u5f93\u3046\u5fc5\u8981\u304c\u3042\u308b",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "convention"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-100",
+    "sqKey": "S100",
+    "scope": "All",
+    "quickfix": "unknown"
+}

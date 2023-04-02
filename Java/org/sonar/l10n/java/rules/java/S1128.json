@@ -1,0 +1,17 @@
+{
+    "title": "\u4e0d\u8981\u306a\u8f38\u5165\u54c1\u306f\u524a\u9664\u3059\u3079\u304d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "unused"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1128",
+    "sqKey": "S1128",
+    "scope": "All",
+    "quickfix": "covered"
+}

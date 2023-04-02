@@ -1,0 +1,31 @@
+{
+    "title": "\u9045\u3044\u6b63\u898f\u8868\u73fe\u306e\u4f7f\u7528\u306f\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u306b\u914d\u616e\u3057\u3066\u3044\u308b",
+    "type": "SECURITY_HOTSPOT",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "cwe",
+        "owasp-a1",
+        "regex"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-5852",
+    "sqKey": "S5852",
+    "scope": "All",
+    "securityStandards": {
+        "CWE": [
+            400,
+            1333
+        ],
+        "OWASP": [
+            "A1"
+        ],
+        "ASVS 4.0": [
+            "12.1.1"
+        ]
+    },
+    "quickfix": "unknown"
+}

@@ -1,0 +1,15 @@
+{
+    "title": "\u30de\u30c3\u30d7\u300ccomputeIfAbsent()\u300d\u3068\u300ccomputeIfPresent()\u300d\u306f\u3001\u300cnull\u300d\u5024\u3092\u8ffd\u52a0\u3059\u308b\u305f\u3081\u306b\u4f7f\u7528\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-6104",
+    "sqKey": "S6104",
+    "scope": "All",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,17 @@
+{
+    "title": "\u300cswitch\u6587\u306fcase\u3092\u591a\u7528\u3057\u306a\u3044\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "brain-overload"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-1479",
+    "sqKey": "S1479",
+    "scope": "All",
+    "quickfix": "unknown"
+}

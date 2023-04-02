@@ -1,0 +1,17 @@
+{
+    "title": "\u6b63\u898f\u8868\u73fe\u306e\u4ee3\u66ff\u8a9e\u306f\u3001\u30a2\u30f3\u30ab\u30fc\u3068\u4e00\u7dd2\u306b\u4f7f\u7528\u3059\u308b\u5834\u5408\u306f\u30b0\u30eb\u30fc\u30d7\u5316\u3059\u308b\u3053\u3068",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "regex"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5850",
+    "sqKey": "S5850",
+    "scope": "All",
+    "quickfix": "unknown"
+}

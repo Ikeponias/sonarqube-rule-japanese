@@ -1,0 +1,42 @@
+{
+    "title": "\u5b89\u5168\u306aHTTP\u30e1\u30bd\u30c3\u30c9\u3068\u5b89\u5168\u3067\u306a\u3044HTTP\u30e1\u30bd\u30c3\u30c9\u306e\u4e21\u65b9\u3092\u8a31\u53ef\u3059\u308b\u3053\u3068\u306f\u3001\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u306b\u914d\u616e\u3057\u305f\u3082\u306e\u3067\u3059\u3002",
+    "type": "SECURITY_HOTSPOT",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "cwe",
+        "spring",
+        "sans-top25-insecure",
+        "owasp-a5"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-3752",
+    "sqKey": "S3752",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            352
+        ],
+        "OWASP": [
+            "A5"
+        ],
+        "OWASP Top 10 2021": [
+            "A1",
+            "A4"
+        ],
+        "PCI DSS 3.2": [
+            "6.5.8"
+        ],
+        "PCI DSS 4.0": [
+            "6.2.4"
+        ],
+        "ASVS 4.0": [
+            "13.2.3",
+            "4.2.2"
+        ]
+    },
+    "quickfix": "unknown"
+}

@@ -1,0 +1,18 @@
+{
+    "title": "\u30af\u30e9\u30b9\u306e\u975e\u30d7\u30e9\u30a4\u30d9\u30fc\u30c8\u30e1\u30bd\u30c3\u30c9\u3092\u3059\u3079\u3066\u30e2\u30c3\u30af\u5316\u3059\u308b\u3053\u3068\u306f\u907f\u3051\u308b\u3079\u304d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "tests",
+        "mockito"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-5969",
+    "sqKey": "S5969",
+    "scope": "Tests",
+    "quickfix": "unknown"
+}

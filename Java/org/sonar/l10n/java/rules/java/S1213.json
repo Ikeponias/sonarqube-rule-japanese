@@ -1,0 +1,17 @@
+{
+    "title": "\u30a4\u30f3\u30bf\u30fc\u30d5\u30a7\u30a4\u30b9\u3084\u30af\u30e9\u30b9\u5ba3\u8a00\u306e\u30e1\u30f3\u30d0\u30fc\u306f\u3001\u3042\u3089\u304b\u3058\u3081\u6c7a\u3081\u3089\u308c\u305f\u9806\u5e8f\u3067\u8868\u793a\u3055\u308c\u306a\u3051\u308c\u3070\u306a\u3089\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "convention"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1213",
+    "sqKey": "S1213",
+    "scope": "All",
+    "quickfix": "unknown"
+}

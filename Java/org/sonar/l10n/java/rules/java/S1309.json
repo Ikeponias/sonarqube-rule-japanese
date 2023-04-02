@@ -1,0 +1,15 @@
+{
+    "title": "\u30a2\u30ce\u30c6\u30fc\u30b7\u30e7\u30f3\"@SuppressWarnings \"\u306e\u4f7f\u7528\u72b6\u6cc1\u3092\u78ba\u8a8d\u3059\u308b\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [],
+    "defaultSeverity": "Info",
+    "ruleSpecification": "RSPEC-1309",
+    "sqKey": "S1309",
+    "scope": "All",
+    "quickfix": "unknown"
+}

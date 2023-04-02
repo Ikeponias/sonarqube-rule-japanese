@@ -1,0 +1,17 @@
+{
+    "title": "\u5217\u6319\u306f\u5b9f\u88c5\u3059\u3079\u304d\u3067\u306f\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "obsolete"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-1150",
+    "sqKey": "S1150",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

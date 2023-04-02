@@ -1,0 +1,35 @@
+{
+    "title": "\u30ab\u30a6\u30f3\u30bf\u30fc\u30e2\u30fc\u30c9\u521d\u671f\u5316\u30d9\u30af\u30bf\u30fc\u306f\u518d\u5229\u7528\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002",
+    "type": "VULNERABILITY",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "cwe",
+        "owasp-a3"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-6432",
+    "sqKey": "S6432",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            323
+        ],
+        "OWASP": [
+            "A3"
+        ],
+        "OWASP Mobile": [
+            "M5"
+        ],
+        "MASVS": [
+            "MSTG-CRYPTO-6"
+        ],
+        "OWASP Top 10 2021": [
+            "A2"
+        ]
+    },
+    "quickfix": "unknown"
+}

@@ -1,0 +1,18 @@
+{
+    "title": "\u578b\u306f\u30e9\u30e0\u30c0\u3067\u4f7f\u3046\u3079\u304d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "convention",
+        "java8"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2211",
+    "sqKey": "S2211",
+    "scope": "All",
+    "quickfix": "unknown"
+}

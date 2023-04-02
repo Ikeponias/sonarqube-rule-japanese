@@ -1,0 +1,17 @@
+{
+    "title": "\u30d1\u30e9\u30e1\u30fc\u30bf\u306b \"Optional \"\u3092\u4f7f\u7528\u3057\u306a\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "clumsy"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-3553",
+    "sqKey": "S3553",
+    "scope": "All",
+    "quickfix": "unknown"
+}

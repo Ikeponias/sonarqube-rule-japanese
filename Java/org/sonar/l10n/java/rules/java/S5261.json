@@ -1,0 +1,17 @@
+{
+    "title": "\"else \"\u30b9\u30c6\u30fc\u30c8\u30e1\u30f3\u30c8\u306f\u3001\"if \"\u3068\u660e\u78ba\u306b\u4e00\u81f4\u3055\u305b\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "1min"
+    },
+    "tags": [
+        "confusing"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5261",
+    "sqKey": "S5261",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

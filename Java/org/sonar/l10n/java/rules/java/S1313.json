@@ -1,0 +1,29 @@
+{
+    "title": "\u30cf\u30fc\u30c9\u30b3\u30fc\u30c9\u3055\u308c\u305fIP\u30a2\u30c9\u30ec\u30b9\u306e\u4f7f\u7528\u306f\u3001\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u306b\u914d\u616e\u3057\u3066\u3044\u308b",
+    "type": "SECURITY_HOTSPOT",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "cert",
+        "owasp-a3"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1313",
+    "sqKey": "S1313",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "MSC03-J."
+        ],
+        "OWASP": [
+            "A3"
+        ],
+        "OWASP Top 10 2021": [
+            "A1"
+        ]
+    },
+    "quickfix": "unknown"
+}

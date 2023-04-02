@@ -1,0 +1,18 @@
+{
+    "title": "\"ThreadLocal \"\u5909\u6570\u306f\u3001\u4f7f\u7528\u3055\u308c\u306a\u304f\u306a\u3063\u305f\u3089\u30af\u30ea\u30fc\u30f3\u30a2\u30c3\u30d7\u3059\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "leak",
+        "performance"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5164",
+    "sqKey": "S5164",
+    "scope": "All",
+    "quickfix": "covered"
+}

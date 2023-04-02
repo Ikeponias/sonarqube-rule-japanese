@@ -1,0 +1,15 @@
+{
+    "title": "DateTimeFormatters\u306f\u3001\u4e0d\u4e00\u81f4\u306e\u5e74\u53f7\u3068\u9031\u756a\u53f7\u3092\u4f7f\u7528\u3057\u3066\u306f\u306a\u3089\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5917",
+    "sqKey": "S5917",
+    "scope": "All",
+    "quickfix": "unknown"
+}

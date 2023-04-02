@@ -1,0 +1,17 @@
+{
+    "title": "\u6587\u5b57\u5217\u30ea\u30c6\u30e9\u30eb\u306f\u3001\u7b49\u53f7\u30c1\u30a7\u30c3\u30af\u306e\u969b\u306b\u5de6\u5074\u306b\u914d\u7f6e\u3055\u308c\u308b",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "bad-practice"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1132",
+    "sqKey": "S1132",
+    "scope": "All",
+    "quickfix": "unknown"
+}

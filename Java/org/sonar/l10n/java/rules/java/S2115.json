@@ -1,0 +1,41 @@
+{
+    "title": "\u30c7\u30fc\u30bf\u30d9\u30fc\u30b9\u306b\u63a5\u7d9a\u3059\u308b\u969b\u306b\u306f\u3001\u5b89\u5168\u306a\u30d1\u30b9\u30ef\u30fc\u30c9\u3092\u4f7f\u7528\u3059\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "VULNERABILITY",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "45min"
+    },
+    "tags": [
+        "cwe",
+        "owasp-a2",
+        "owasp-a3"
+    ],
+    "defaultSeverity": "Blocker",
+    "ruleSpecification": "RSPEC-2115",
+    "sqKey": "S2115",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            521
+        ],
+        "OWASP": [
+            "A2",
+            "A3"
+        ],
+        "OWASP Top 10 2021": [
+            "A7"
+        ],
+        "PCI DSS 3.2": [
+            "6.5.10"
+        ],
+        "PCI DSS 4.0": [
+            "6.2.4"
+        ],
+        "ASVS 4.0": [
+            "9.2.2",
+            "9.2.3"
+        ]
+    },
+    "quickfix": "unknown"
+}

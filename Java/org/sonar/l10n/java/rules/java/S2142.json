@@ -1,0 +1,24 @@
+{
+    "title": "\"InterruptedException \"\u3092\u7121\u8996\u3057\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "cwe",
+        "error-handling",
+        "multi-threading"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2142",
+    "sqKey": "S2142",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            391
+        ]
+    },
+    "quickfix": "unknown"
+}

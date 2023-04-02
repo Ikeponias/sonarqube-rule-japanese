@@ -1,0 +1,22 @@
+{
+    "title": "FIXME \"\u30bf\u30b0\u306e\u4f7f\u7528\u72b6\u6cc1\u3092\u78ba\u8a8d\u3059\u308b\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "0min"
+    },
+    "tags": [
+        "cwe"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-1134",
+    "sqKey": "S1134",
+    "scope": "All",
+    "securityStandards": {
+        "CWE": [
+            546
+        ]
+    },
+    "quickfix": "unknown"
+}

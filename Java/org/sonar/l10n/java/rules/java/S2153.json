@@ -1,0 +1,17 @@
+{
+    "title": "\u30dc\u30af\u30b7\u30f3\u30b0\u3068\u30a2\u30f3\u30dc\u30af\u30b7\u30f3\u30b0\u3092\u5373\u5ea7\u306b\u9006\u8ee2\u3055\u305b\u3066\u306f\u306a\u3089\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "clumsy"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2153",
+    "sqKey": "S2153",
+    "scope": "All",
+    "quickfix": "covered"
+}

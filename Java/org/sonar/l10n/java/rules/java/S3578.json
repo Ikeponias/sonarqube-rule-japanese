@@ -1,0 +1,18 @@
+{
+    "title": "\u30c6\u30b9\u30c8\u30e1\u30bd\u30c3\u30c9\u306f\u547d\u540d\u898f\u5247\u306b\u5f93\u3046\u3079\u304d\u3067\u3042\u308b",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "convention",
+        "tests"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-3578",
+    "sqKey": "S3578",
+    "scope": "Tests",
+    "quickfix": "unknown"
+}

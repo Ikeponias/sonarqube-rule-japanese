@@ -1,0 +1,19 @@
+{
+    "title": "\u30af\u30e9\u30b9\u306e\u7d99\u627f\u30c4\u30ea\u30fc\u306f\u3042\u307e\u308a\u6df1\u304f\u306a\u3044\u307b\u3046\u304c\u3044\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Linear with offset",
+        "linearDesc": "Number of parents above the defined threshold",
+        "linearOffset": "4h",
+        "linearFactor": "30min"
+    },
+    "tags": [
+        "design"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-110",
+    "sqKey": "S110",
+    "scope": "All",
+    "quickfix": "unknown"
+}

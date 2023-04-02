@@ -1,0 +1,17 @@
+{
+    "title": "String.valueOf()\u3092String\u306b\u4ed8\u52a0\u3057\u3066\u306f\u3044\u3051\u306a\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "clumsy"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1153",
+    "sqKey": "S1153",
+    "scope": "All",
+    "quickfix": "unknown"
+}

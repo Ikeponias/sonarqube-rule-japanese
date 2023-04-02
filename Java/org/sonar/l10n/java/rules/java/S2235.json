@@ -1,0 +1,18 @@
+{
+    "title": "IllegalMonitorStateException \u3092\u6355\u6349\u3057\u3066\u306f\u306a\u3089\u306a\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [
+        "error-handling",
+        "multi-threading"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-2235",
+    "sqKey": "S2235",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

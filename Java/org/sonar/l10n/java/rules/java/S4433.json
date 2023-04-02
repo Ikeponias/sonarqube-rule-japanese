@@ -1,0 +1,39 @@
+{
+    "title": "LDAP\u63a5\u7d9a\u306f\u8a8d\u8a3c\u304c\u5fc5\u8981",
+    "type": "VULNERABILITY",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "cwe",
+        "owasp-a2"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-4433",
+    "sqKey": "S4433",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            521
+        ],
+        "OWASP": [
+            "A2"
+        ],
+        "OWASP Top 10 2021": [
+            "A7"
+        ],
+        "PCI DSS 3.2": [
+            "6.5.10"
+        ],
+        "PCI DSS 4.0": [
+            "6.2.4"
+        ],
+        "ASVS 4.0": [
+            "9.2.2",
+            "9.2.3"
+        ]
+    },
+    "quickfix": "unknown"
+}

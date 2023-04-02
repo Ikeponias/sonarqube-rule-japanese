@@ -1,0 +1,17 @@
+{
+    "title": "\u30b7\u30ea\u30a2\u30e9\u30a4\u30ba\u4e0d\u53ef\u80fd\u306a\u30af\u30e9\u30b9\u306f\u8a18\u8ff0\u3057\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "serialization"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2118",
+    "sqKey": "S2118",
+    "scope": "All",
+    "quickfix": "unknown"
+}

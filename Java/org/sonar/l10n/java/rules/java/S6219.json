@@ -1,0 +1,17 @@
+{
+    "title": "\u30ec\u30b3\u30fc\u30c9\u306e 'serialVersionUID' \u30d5\u30a3\u30fc\u30eb\u30c9\u306b '0L' \u304c\u8a2d\u5b9a\u3055\u308c\u3066\u306f\u306a\u3089\u306a\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "java16"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-6219",
+    "sqKey": "S6219",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

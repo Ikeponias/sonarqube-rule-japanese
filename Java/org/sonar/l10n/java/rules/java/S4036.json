@@ -1,0 +1,30 @@
+{
+    "title": "PATH\u3067OS\u306e\u30b3\u30de\u30f3\u30c9\u3092\u691c\u7d22\u3059\u308b\u306e\u306f\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u4e0a\u554f\u984c\u304c\u3042\u308b",
+    "type": "SECURITY_HOTSPOT",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "cwe",
+        "owasp-a1"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-4036",
+    "sqKey": "S4036",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            427,
+            426
+        ],
+        "OWASP": [
+            "A1"
+        ],
+        "OWASP Top 10 2021": [
+            "A8"
+        ]
+    },
+    "quickfix": "unknown"
+}

@@ -1,0 +1,23 @@
+{
+    "title": "\"@RequestMapping \"\u30e1\u30bd\u30c3\u30c9\u306f \"private \"\u306b\u3057\u3066\u306f\u3044\u3051\u306a\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "spring",
+        "owasp-a6"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-3751",
+    "sqKey": "S3751",
+    "scope": "Main",
+    "securityStandards": {
+        "OWASP": [
+            "A6"
+        ]
+    },
+    "quickfix": "unknown"
+}

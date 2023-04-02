@@ -1,0 +1,19 @@
+{
+    "title": "\u30c6\u30b9\u30c8\u304c\u5b89\u5b9a\u3057\u3066\u3044\u308b\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [
+        "tests",
+        "design",
+        "unpredictable"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5973",
+    "sqKey": "S5973",
+    "scope": "Tests",
+    "quickfix": "unknown"
+}

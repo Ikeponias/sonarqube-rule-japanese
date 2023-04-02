@@ -1,0 +1,15 @@
+{
+    "title": "\"+=\"\u306e\u4ee3\u308f\u308a\u306b\"=+\"\u3092\u4f7f\u3046\u3079\u304d\u3067\u306f\u306a\u3044\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2757",
+    "sqKey": "S2757",
+    "scope": "All",
+    "quickfix": "unknown"
+}

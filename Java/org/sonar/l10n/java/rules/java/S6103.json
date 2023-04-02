@@ -1,0 +1,17 @@
+{
+    "title": "Consumer \"\u5f15\u6570\u3092\u6301\u3064AssertJ\u30a2\u30b5\u30fc\u30b7\u30e7\u30f3\u306f\u3001Consumer\u5185\u90e8\u306e\u30a2\u30b5\u30fc\u30b7\u30e7\u30f3\u3092\u542b\u3080\u3079\u304d\u3067\u3042\u308b\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [
+        "tests"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-6103",
+    "sqKey": "S6103",
+    "scope": "Tests",
+    "quickfix": "unknown"
+}

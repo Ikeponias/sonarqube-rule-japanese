@@ -1,0 +1,39 @@
+{
+    "title": "\"SecureRandom \"\u30b7\u30fc\u30c9\u306f\u4e88\u6e2c\u53ef\u80fd\u3067\u3042\u3063\u3066\u306f\u306a\u3089\u306a\u3044",
+    "type": "VULNERABILITY",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "cwe",
+        "cert",
+        "owasp-a6",
+        "pitfall"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-4347",
+    "sqKey": "S4347",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            330,
+            332,
+            336,
+            337
+        ],
+        "OWASP": [
+            "A6"
+        ],
+        "OWASP Top 10 2021": [
+            "A2"
+        ],
+        "ASVS 4.0": [
+            "2.3.1",
+            "2.6.2",
+            "2.9.2"
+        ]
+    },
+    "quickfix": "unknown"
+}

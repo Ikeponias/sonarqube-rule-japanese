@@ -1,0 +1,18 @@
+{
+    "title": "\u30d5\u30a1\u30af\u30c8\u30ea\u30fc\u30e1\u30bd\u30c3\u30c9\u6ce8\u5165\u306f\u3001\"@Configuration \"\u30af\u30e9\u30b9\u3067\u4f7f\u7528\u3055\u308c\u308b\u3079\u304d\u3067\u3042\u308b",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "spring",
+        "performance"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-3305",
+    "sqKey": "S3305",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

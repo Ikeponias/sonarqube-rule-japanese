@@ -1,0 +1,17 @@
+{
+    "title": "\u30a4\u30f3\u30ca\u30fc\u30af\u30e9\u30b9\u306f\u30b3\u30fc\u30c9\u884c\u6570\u304c\u591a\u3059\u304e\u306a\u3044\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [
+        "brain-overload"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2972",
+    "sqKey": "S2972",
+    "scope": "All",
+    "quickfix": "unknown"
+}

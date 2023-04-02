@@ -1,0 +1,17 @@
+{
+    "title": "\u6b63\u898f\u8868\u73fe\u306f\u69cb\u6587\u7684\u306b\u6709\u52b9\u3067\u3042\u308b\u3079\u304d",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "regex"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-5856",
+    "sqKey": "S5856",
+    "scope": "All",
+    "quickfix": "unknown"
+}

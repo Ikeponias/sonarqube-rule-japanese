@@ -1,0 +1,17 @@
+{
+    "title": "\u6b63\u898f\u5316\u5bfe\u8c61\u306e\u6587\u5b57\u3092\u542b\u3080\u6b63\u898f\u8868\u73fe\u306f\u3001CANON_EQ\u30d5\u30e9\u30b0\u3092\u4f7f\u7528\u3057\u307e\u3059\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "3min"
+    },
+    "tags": [
+        "regex"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5854",
+    "sqKey": "S5854",
+    "scope": "All",
+    "quickfix": "unknown"
+}

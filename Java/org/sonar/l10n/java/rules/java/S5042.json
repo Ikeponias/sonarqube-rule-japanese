@@ -1,0 +1,39 @@
+{
+    "title": "\u30ea\u30bd\u30fc\u30b9\u306e\u6d88\u8cbb\u3092\u5236\u5fa1\u305b\u305a\u306b\u30a2\u30fc\u30ab\u30a4\u30d6\u30d5\u30a1\u30a4\u30eb\u3092\u62e1\u5f35\u3059\u308b\u3053\u3068\u306f\u3001\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u4e0a\u554f\u984c\u304c\u3042\u308b",
+    "type": "SECURITY_HOTSPOT",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "cwe",
+        "cert",
+        "owasp-a6",
+        "owasp-a5"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-5042",
+    "sqKey": "S5042",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "IDS04-J."
+        ],
+        "CWE": [
+            409
+        ],
+        "OWASP": [
+            "A5",
+            "A6"
+        ],
+        "OWASP Top 10 2021": [
+            "A1",
+            "A5"
+        ],
+        "ASVS 4.0": [
+            "12.1.2"
+        ]
+    },
+    "quickfix": "unknown"
+}

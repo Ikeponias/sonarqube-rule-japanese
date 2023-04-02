@@ -1,0 +1,17 @@
+{
+    "title": "\"writeObject \"\u306f\u3001\u30af\u30e9\u30b9\u5185\u3067\u552f\u4e00\u306e \"synchronized \"\u30b3\u30fc\u30c9\u3067\u3042\u308b\u3079\u304d\u3067\u306f\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [
+        "confusing"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-3042",
+    "sqKey": "S3042",
+    "scope": "All",
+    "quickfix": "unknown"
+}

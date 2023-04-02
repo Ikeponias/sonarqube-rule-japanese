@@ -1,0 +1,19 @@
+{
+    "title": "Spring\u30b3\u30f3\u30dd\u30fc\u30cd\u30f3\u30c8\u306f\u30b3\u30f3\u30b9\u30c8\u30e9\u30af\u30bf\u6ce8\u5165\u3092\u4f7f\u7528\u3059\u308b\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Linear",
+        "linearDesc": "2min by injected field",
+        "linearFactor": "2min"
+    },
+    "tags": [
+        "spring",
+        "design"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-4288",
+    "sqKey": "S4288",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

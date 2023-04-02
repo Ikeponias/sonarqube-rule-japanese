@@ -1,0 +1,18 @@
+{
+    "title": "JUnit4\u304b\u3089setUp()\u3068tearDown()\u30e1\u30bd\u30c3\u30c9\u304c\u6b63\u3057\u304f\u30a2\u30ce\u30c6\u30fc\u30b7\u30e7\u30f3\u3055\u308c\u308b\u3088\u3046\u306b\u306a\u308a\u307e\u3057\u305f\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "junit",
+        "tests"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-5826",
+    "sqKey": "S5826",
+    "scope": "All",
+    "quickfix": "unknown"
+}

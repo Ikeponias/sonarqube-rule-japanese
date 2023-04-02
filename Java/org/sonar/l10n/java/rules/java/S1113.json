@@ -1,0 +1,23 @@
+{
+    "title": "Object.finalize()\u30e1\u30bd\u30c3\u30c9\u306f\u30aa\u30fc\u30d0\u30fc\u30e9\u30a4\u30c9\u3057\u3066\u306f\u3044\u3051\u307e\u305b\u3093\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [
+        "unpredictable",
+        "cert"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-1113",
+    "sqKey": "S1113",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "MET12-J."
+        ]
+    },
+    "quickfix": "unknown"
+}

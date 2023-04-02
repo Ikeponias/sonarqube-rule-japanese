@@ -1,0 +1,17 @@
+{
+    "title": "\u4f59\u5206\u306a\u4e2d\u62ec\u5f27\u306e\u4ed8\u3044\u305f\u91cf\u5316\u5b50\u306f\u907f\u3051\u308b\u3079\u304d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "regex"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-6396",
+    "sqKey": "S6396",
+    "scope": "All",
+    "quickfix": "targeted"
+}

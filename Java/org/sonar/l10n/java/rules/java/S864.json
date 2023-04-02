@@ -1,0 +1,28 @@
+{
+    "title": "\u30aa\u30da\u30ec\u30fc\u30bf\u306e\u512a\u5148\u9806\u4f4d\u306b\u9650\u5b9a\u3057\u3066\u4f9d\u5b58\u3059\u308b\u5fc5\u8981\u304c\u3042\u308b",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "cwe",
+        "cert"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-864",
+    "sqKey": "S864",
+    "scope": "All",
+    "securityStandards": {
+        "CERT": [
+            "EXP00-C.",
+            "EXP00-CPP.",
+            "EXP53-J."
+        ],
+        "CWE": [
+            783
+        ]
+    },
+    "quickfix": "unknown"
+}

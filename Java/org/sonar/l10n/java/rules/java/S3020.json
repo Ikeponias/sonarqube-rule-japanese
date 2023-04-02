@@ -1,0 +1,15 @@
+{
+    "title": "\"toArray \"\u306b\u306f\u3001\u9069\u5207\u306a\u578b\u306e\u914d\u5217\u3092\u6e21\u3059\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-3020",
+    "sqKey": "S3020",
+    "scope": "All",
+    "quickfix": "covered"
+}

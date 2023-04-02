@@ -1,0 +1,17 @@
+{
+    "title": "\u6d6e\u52d5\u5c0f\u6570\u70b9\u5024\u3092\u8fd4\u3059 \"Random \"\u306e\u30e1\u30bd\u30c3\u30c9\u306f\u3001\u4e71\u6570\u751f\u6210\u306b\u4f7f\u7528\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "clumsy"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2140",
+    "sqKey": "S2140",
+    "scope": "All",
+    "quickfix": "unknown"
+}

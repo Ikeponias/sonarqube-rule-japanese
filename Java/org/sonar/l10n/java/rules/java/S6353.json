@@ -1,0 +1,17 @@
+{
+    "title": "\u6b63\u898f\u8868\u73fe\u306e\u91cf\u5316\u5b50\u3084\u6587\u5b57\u30af\u30e9\u30b9\u306f\u7c21\u6f54\u306b\u4f7f\u7528\u3059\u308b\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "regex"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-6353",
+    "sqKey": "S6353",
+    "scope": "Main",
+    "quickfix": "targeted"
+}

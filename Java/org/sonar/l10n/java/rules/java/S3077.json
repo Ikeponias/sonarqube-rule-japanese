@@ -1,0 +1,23 @@
+{
+    "title": "\u975e\u4e3b\u8981\u306a\u30d5\u30a3\u30fc\u30eb\u30c9\u306f \"\u63ee\u767a\u6027 \"\u3067\u3042\u3063\u3066\u306f\u306a\u3089\u306a\u3044\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [
+        "multi-threading",
+        "cert"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-3077",
+    "sqKey": "S3077",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "CON50-J."
+        ]
+    },
+    "quickfix": "unknown"
+}

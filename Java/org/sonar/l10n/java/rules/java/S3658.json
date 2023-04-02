@@ -1,0 +1,20 @@
+{
+    "title": "\u30e6\u30cb\u30c3\u30c8\u30c6\u30b9\u30c8\u306f\u4f8b\u5916\u3092\u6295\u3052\u308b\u3079\u304d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "error-handling",
+        "junit",
+        "tests",
+        "clumsy"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-3658",
+    "sqKey": "S3658",
+    "scope": "Tests",
+    "quickfix": "unknown"
+}

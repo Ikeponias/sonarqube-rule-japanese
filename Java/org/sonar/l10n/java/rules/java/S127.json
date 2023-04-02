@@ -1,0 +1,17 @@
+{
+    "title": "\u300cfor\u30eb\u30fc\u30d7\u306e\u505c\u6b62\u6761\u4ef6\u306f\u4e0d\u5909\u3067\u306a\u3051\u308c\u3070\u306a\u3089\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "pitfall"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-127",
+    "sqKey": "S127",
+    "scope": "All",
+    "quickfix": "unknown"
+}

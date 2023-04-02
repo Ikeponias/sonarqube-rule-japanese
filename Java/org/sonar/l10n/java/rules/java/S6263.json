@@ -1,0 +1,17 @@
+{
+    "title": "\u9577\u671f\u30a2\u30af\u30bb\u30b9\u30ad\u30fc\u306e\u4f7f\u7528\u306f\u3001\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u306b\u914d\u616e\u3057\u305f\u3082\u306e",
+    "type": "SECURITY_HOTSPOT",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "1h"
+    },
+    "tags": [
+        "aws"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-6263",
+    "sqKey": "S6263",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

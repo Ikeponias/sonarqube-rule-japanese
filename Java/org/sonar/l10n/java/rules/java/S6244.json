@@ -1,0 +1,17 @@
+{
+    "title": "\u30b3\u30f3\u30b7\u30e5\u30fc\u30de\u30fc\u30d3\u30eb\u30c0\u30fc\u3092\u4f7f\u7528\u3059\u308b\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "aws"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-6244",
+    "sqKey": "S6244",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,15 @@
+{
+    "title": "\u30e1\u30f3\u30d0\u5909\u6570\u306e\u53ef\u8996\u6027\u3092\u6307\u5b9a\u3059\u308b\u5fc5\u8981\u304c\u3042\u308b",
+    "type": "CODE_SMELL",
+    "status": "deprecated",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2039",
+    "sqKey": "S2039",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

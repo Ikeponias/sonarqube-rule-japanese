@@ -1,0 +1,18 @@
+{
+    "title": "\"java.nio.Files#delete \"\u3092\u512a\u5148\u3057\u3066\u304f\u3060\u3055\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "error-handling",
+        "api-design"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-4042",
+    "sqKey": "S4042",
+    "scope": "All",
+    "quickfix": "unknown"
+}

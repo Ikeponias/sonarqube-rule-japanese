@@ -1,0 +1,17 @@
+{
+    "title": "\u30a4\u30f3\u30bf\u30fc\u30d5\u30a7\u30fc\u30b9\u540d\u306f\u3001\u547d\u540d\u898f\u5247\u306b\u5f93\u3046\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "convention"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-114",
+    "sqKey": "S114",
+    "scope": "All",
+    "quickfix": "unknown"
+}

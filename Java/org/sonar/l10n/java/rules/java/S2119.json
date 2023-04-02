@@ -1,0 +1,22 @@
+{
+    "title": "\"\u30e9\u30f3\u30c0\u30e0 \"\u306a\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u306f\u518d\u5229\u7528\u3055\u308c\u308b\u3079\u304d",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "owasp-a6"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-2119",
+    "sqKey": "S2119",
+    "scope": "All",
+    "securityStandards": {
+        "OWASP": [
+            "A6"
+        ]
+    },
+    "quickfix": "unknown"
+}

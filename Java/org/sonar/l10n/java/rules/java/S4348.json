@@ -1,0 +1,17 @@
+{
+    "title": "\u300c\u30a4\u30c6\u30ec\u30fc\u30bf\u306f \"this \"\u3092\u8fd4\u3059\u3079\u304d\u3067\u306f\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "pitfall"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-4348",
+    "sqKey": "S4348",
+    "scope": "All",
+    "quickfix": "unknown"
+}

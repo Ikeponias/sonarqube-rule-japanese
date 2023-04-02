@@ -1,0 +1,19 @@
+{
+    "title": "JUnit\u306e\u30eb\u30fc\u30eb\u3092\u4f7f\u7528\u3059\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "junit",
+        "tests",
+        "unused"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2924",
+    "sqKey": "S2924",
+    "scope": "Tests",
+    "quickfix": "unknown"
+}

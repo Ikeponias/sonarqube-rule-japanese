@@ -1,0 +1,15 @@
+{
+    "title": "\"MIN_VALUE \"\u306b\u306a\u308a\u3046\u308b\u6570\u5024\u306b\u306f\u3001\"Math.abs \"\u3082\u5426\u5b9a\u3082\u4f7f\u3063\u3066\u306f\u3044\u3051\u306a\u3044\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2676",
+    "sqKey": "S2676",
+    "scope": "All",
+    "quickfix": "unknown"
+}

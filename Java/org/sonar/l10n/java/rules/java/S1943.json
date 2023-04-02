@@ -1,0 +1,25 @@
+{
+    "title": "\u30c7\u30d5\u30a9\u30eb\u30c8\u306e\u30b7\u30b9\u30c6\u30e0\u30a8\u30f3\u30b3\u30fc\u30c7\u30a3\u30f3\u30b0\u306b\u4f9d\u5b58\u3059\u308b\u30af\u30e9\u30b9\u3084\u30e1\u30bd\u30c3\u30c9\u306f\u4f7f\u7528\u3057\u306a\u3044\u65b9\u304c\u826f\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "unpredictable",
+        "cert",
+        "i18n"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1943",
+    "sqKey": "S1943",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "STR04-J.",
+            "STR50-J."
+        ]
+    },
+    "quickfix": "unknown"
+}

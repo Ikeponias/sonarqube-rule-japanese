@@ -1,0 +1,42 @@
+{
+    "title": "\u6697\u53f7\u9375\u306f\u5805\u7262\u3067\u3042\u308b\u3079\u304d",
+    "type": "VULNERABILITY",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "cwe",
+        "privacy",
+        "owasp-a6",
+        "rules",
+        "owasp-a3"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-4426",
+    "sqKey": "S4426",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            326
+        ],
+        "OWASP": [
+            "A3",
+            "A6"
+        ],
+        "OWASP Mobile": [
+            "M5"
+        ],
+        "MASVS": [
+            "MSTG-CRYPTO-3"
+        ],
+        "OWASP Top 10 2021": [
+            "A2"
+        ],
+        "ASVS 4.0": [
+            "6.2.3"
+        ]
+    },
+    "quickfix": "unknown"
+}

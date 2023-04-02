@@ -1,0 +1,17 @@
+{
+    "title": "\u30ab\u30b9\u30bf\u30e0\u30ea\u30bd\u30fc\u30b9\u306f\u9589\u3058\u308b\u3079\u304d",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "0min"
+    },
+    "tags": [
+        "denial-of-service"
+    ],
+    "defaultSeverity": "Blocker",
+    "ruleSpecification": "RSPEC-3546",
+    "sqKey": "S3546",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

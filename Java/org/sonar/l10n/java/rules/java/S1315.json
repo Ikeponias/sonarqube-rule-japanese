@@ -1,0 +1,17 @@
+{
+    "title": "CHECKSTYLE:OFF \"\u6291\u5236\u30b3\u30e1\u30f3\u30c8\u306e\u4f7f\u7528\u72b6\u6cc1\u306e\u78ba\u8a8d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "bad-practice"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1315",
+    "sqKey": "S1315",
+    "scope": "All",
+    "quickfix": "unknown"
+}

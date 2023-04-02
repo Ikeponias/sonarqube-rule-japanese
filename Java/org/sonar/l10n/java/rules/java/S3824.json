@@ -1,0 +1,17 @@
+{
+    "title": "\"Map.get \"\u3068\u5024\u306e\u30c6\u30b9\u30c8\u306f\u3001\u5358\u4e00\u306e\u30e1\u30bd\u30c3\u30c9\u547c\u3073\u51fa\u3057\u306b\u7f6e\u304d\u63db\u3048\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "java8"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-3824",
+    "sqKey": "S3824",
+    "scope": "All",
+    "quickfix": "unknown"
+}

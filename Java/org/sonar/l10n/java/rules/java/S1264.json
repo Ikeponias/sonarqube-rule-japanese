@@ -1,0 +1,17 @@
+{
+    "title": "for\u300d\u30eb\u30fc\u30d7\u306e\u4ee3\u308f\u308a\u306b\u300cwhile\u300d\u30eb\u30fc\u30d7\u3092\u4f7f\u7528\u3059\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "clumsy"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1264",
+    "sqKey": "S1264",
+    "scope": "All",
+    "quickfix": "unknown"
+}

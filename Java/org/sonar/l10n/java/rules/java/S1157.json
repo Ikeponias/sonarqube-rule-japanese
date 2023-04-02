@@ -1,0 +1,17 @@
+{
+    "title": "\u5927\u6587\u5b57\u3068\u5c0f\u6587\u5b57\u3092\u533a\u5225\u3057\u306a\u3044\u6587\u5b57\u5217\u306e\u6bd4\u8f03\u306f\u3001\u4e2d\u9593\u7684\u306a\u5927\u6587\u5b57\u3068\u5c0f\u6587\u5b57\u3092\u533a\u5225\u305b\u305a\u306b\u884c\u3046\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "clumsy"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1157",
+    "sqKey": "S1157",
+    "scope": "All",
+    "quickfix": "unknown"
+}

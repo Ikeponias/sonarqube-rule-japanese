@@ -1,0 +1,17 @@
+{
+    "title": "\u30af\u30e9\u30b9\u306f\u3042\u307e\u308a\u591a\u304f\u306e \"static \"\u30a4\u30f3\u30dd\u30fc\u30c8\u3092\u6301\u3064\u3079\u304d\u3067\u306a\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "brain-overload"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-3030",
+    "sqKey": "S3030",
+    "scope": "All",
+    "quickfix": "unknown"
+}

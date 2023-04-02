@@ -1,0 +1,23 @@
+{
+    "title": "\u30e2\u30b8\u30e5\u30e9\u30b9\u306e\u7d50\u679c\u304c\u76f4\u63a5\u7b49\u3057\u3044\u304b\u3069\u3046\u304b\u3092\u78ba\u8a8d\u3059\u308b\u3079\u304d\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "cert",
+        "suspicious"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-2197",
+    "sqKey": "S2197",
+    "scope": "All",
+    "quickfix": "unknown",
+    "securityStandards": {
+        "CERT": [
+            "NUM51-J."
+        ]
+    }
+}

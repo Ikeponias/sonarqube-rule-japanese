@@ -1,0 +1,27 @@
+{
+    "title": "\u30cc\u30eb\u30dd\u30a4\u30f3\u30bf\u306f\u518d\u53c2\u7167\u3057\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "cwe",
+        "cert"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2259",
+    "sqKey": "S2259",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "EXP34-C.",
+            "EXP01-J."
+        ],
+        "CWE": [
+            476
+        ]
+    },
+    "quickfix": "unknown"
+}

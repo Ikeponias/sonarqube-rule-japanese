@@ -1,0 +1,17 @@
+{
+    "title": "\".equals() \"\u306f\u3001\"Atomic \"\u30af\u30e9\u30b9\u306e\u5024\u3092\u30c6\u30b9\u30c8\u3059\u308b\u305f\u3081\u306b\u4f7f\u7528\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "multi-threading"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2204",
+    "sqKey": "S2204",
+    "scope": "All",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,17 @@
+{
+    "title": "\u300cswitch \u6587\u3068\u5f0f\u306f\u5165\u308c\u5b50\u306b\u3057\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "pitfall"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-1821",
+    "sqKey": "S1821",
+    "scope": "All",
+    "quickfix": "unknown"
+}

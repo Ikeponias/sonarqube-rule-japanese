@@ -1,0 +1,41 @@
+{
+    "title": "CSRF\u30d7\u30ed\u30c6\u30af\u30b7\u30e7\u30f3\u3092\u7121\u52b9\u306b\u3059\u308b\u3053\u3068\u306f\u3001\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u4e0a\u554f\u984c\u304c\u3042\u308b",
+    "type": "SECURITY_HOTSPOT",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "cwe",
+        "spring",
+        "sans-top25-insecure",
+        "owasp-a6"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-4502",
+    "sqKey": "S4502",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            352
+        ],
+        "OWASP": [
+            "A6"
+        ],
+        "OWASP Top 10 2021": [
+            "A1"
+        ],
+        "PCI DSS 3.2": [
+            "6.5.9"
+        ],
+        "PCI DSS 4.0": [
+            "6.2.4"
+        ],
+        "ASVS 4.0": [
+            "13.2.3",
+            "4.2.2"
+        ]
+    },
+    "quickfix": "unknown"
+}

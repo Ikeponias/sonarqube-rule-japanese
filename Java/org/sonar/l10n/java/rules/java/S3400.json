@@ -1,0 +1,17 @@
+{
+    "title": "\u30e1\u30bd\u30c3\u30c9\u306f\u5b9a\u6570\u3092\u8fd4\u3057\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "confusing"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-3400",
+    "sqKey": "S3400",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

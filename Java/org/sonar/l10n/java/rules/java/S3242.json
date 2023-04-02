@@ -1,0 +1,17 @@
+{
+    "title": "\u30e1\u30bd\u30c3\u30c9\u306e\u30d1\u30e9\u30e1\u30fc\u30bf\u306f\u57fa\u672c\u578b\u3068\u4e00\u7dd2\u306b\u5ba3\u8a00\u3059\u308b\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "api-design"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-3242",
+    "sqKey": "S3242",
+    "scope": "All",
+    "quickfix": "unknown"
+}

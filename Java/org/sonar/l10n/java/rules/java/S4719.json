@@ -1,0 +1,18 @@
+{
+    "title": "\"StandardCharsets \"\u5b9a\u6570\u3092\u512a\u5148\u3055\u305b\u308b\u3079\u304d\u3067\u3042\u308b\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "1min"
+    },
+    "tags": [
+        "java7",
+        "clumsy"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-4719",
+    "sqKey": "S4719",
+    "scope": "All",
+    "quickfix": "unknown"
+}

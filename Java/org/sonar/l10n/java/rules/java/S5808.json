@@ -1,0 +1,39 @@
+{
+    "title": "\u8a8d\u53ef\u306f\u5f37\u3044\u610f\u601d\u6c7a\u5b9a\u306b\u57fa\u3065\u304f\u3079\u304d",
+    "type": "VULNERABILITY",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "cwe",
+        "owasp-a5"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5808",
+    "sqKey": "S5808",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            285
+        ],
+        "OWASP": [
+            "A5"
+        ],
+        "OWASP Top 10 2021": [
+            "A1"
+        ],
+        "PCI DSS 3.2": [
+            "6.5.8"
+        ],
+        "PCI DSS 4.0": [
+            "6.2.4"
+        ],
+        "ASVS 4.0": [
+            "4.1.3",
+            "4.1.5"
+        ]
+    },
+    "quickfix": "unknown"
+}

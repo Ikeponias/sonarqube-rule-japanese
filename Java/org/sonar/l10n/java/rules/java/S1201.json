@@ -1,0 +1,17 @@
+{
+    "title": "\"equals \"\u30e1\u30bd\u30c3\u30c9\u306e\u30aa\u30fc\u30d0\u30fc\u30e9\u30a4\u30c9\u306f \"Object \"\u30d1\u30e9\u30e1\u30fc\u30bf\u3092\u53d7\u3051\u4ed8\u3051\u308b\u3079\u304d\u3067\u3042\u308b\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "suspicious"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-1201",
+    "sqKey": "S1201",
+    "scope": "All",
+    "quickfix": "unknown"
+}

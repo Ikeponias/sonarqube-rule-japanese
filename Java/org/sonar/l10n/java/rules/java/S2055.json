@@ -1,0 +1,17 @@
+{
+    "title": "Serializable \"\u30af\u30e9\u30b9\u306e\u975eSerializable\u30b9\u30fc\u30d1\u30fc\u30af\u30e9\u30b9\u306f\u3001\u5f15\u6570\u306a\u3057\u306e\u30b3\u30f3\u30b9\u30c8\u30e9\u30af\u30bf\u3092\u6301\u3064\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "serialization"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2055",
+    "sqKey": "S2055",
+    "scope": "All",
+    "quickfix": "unknown"
+}

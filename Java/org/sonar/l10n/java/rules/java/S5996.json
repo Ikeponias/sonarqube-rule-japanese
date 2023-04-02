@@ -1,0 +1,17 @@
+{
+    "title": "Regex\u306e\u5883\u754c\u306f\u3001\u7d76\u5bfe\u306b\u30de\u30c3\u30c1\u30f3\u30b0\u3057\u306a\u3044\u3088\u3046\u306b\u4f7f\u7528\u3059\u308b\u3053\u3068",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "regex"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-5996",
+    "sqKey": "S5996",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

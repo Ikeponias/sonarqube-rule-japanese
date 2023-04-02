@@ -1,0 +1,27 @@
+{
+    "title": "\u7d42\u4e86\u30e1\u30bd\u30c3\u30c9\u306f\u547c\u3070\u306a\u3044\u65b9\u304c\u3088\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "cwe",
+        "cert",
+        "suspicious"
+    ],
+    "defaultSeverity": "Blocker",
+    "ruleSpecification": "RSPEC-1147",
+    "sqKey": "S1147",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "ERR09-J."
+        ],
+        "CWE": [
+            382
+        ]
+    },
+    "quickfix": "unknown"
+}

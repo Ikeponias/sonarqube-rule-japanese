@@ -1,0 +1,15 @@
+{
+    "title": "\"Bean Validation\" (JSR 380)\u304c\u9069\u5207\u306b\u8a2d\u5b9a\u3055\u308c\u3066\u3044\u308b\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-5128",
+    "sqKey": "S5128",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,17 @@
+{
+    "title": "Unicode Grapheme Clusters\u306fregex\u6587\u5b57\u30af\u30e9\u30b9\u5185\u3067\u306f\u907f\u3051\u308b\u3079\u304d\u3067\u3059\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "regex"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5868",
+    "sqKey": "S5868",
+    "scope": "All",
+    "quickfix": "unknown"
+}

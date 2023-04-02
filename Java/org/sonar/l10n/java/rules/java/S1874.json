@@ -1,0 +1,30 @@
+{
+    "title": "\"@Deprecated \"\u30b3\u30fc\u30c9\u306f\u4f7f\u7528\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "cwe",
+        "obsolete",
+        "cert"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1874",
+    "sqKey": "S1874",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "MET02-J."
+        ],
+        "CWE": [
+            477
+        ],
+        "ASVS 4.0": [
+            "1.14.6"
+        ]
+    },
+    "quickfix": "unknown"
+}

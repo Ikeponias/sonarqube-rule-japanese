@@ -1,0 +1,23 @@
+{
+    "title": "\"getClass \"\u306f\u540c\u671f\u306b\u4f7f\u7528\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "multi-threading",
+        "cert"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-3067",
+    "sqKey": "S3067",
+    "scope": "All",
+    "securityStandards": {
+        "CERT": [
+            "LCK02-J."
+        ]
+    },
+    "quickfix": "unknown"
+}

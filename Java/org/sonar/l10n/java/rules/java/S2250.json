@@ -1,0 +1,17 @@
+{
+    "title": "O(n)\u306e\u6027\u80fd\u3092\u6301\u3064\u30b3\u30ec\u30af\u30b7\u30e7\u30f3\u30e1\u30bd\u30c3\u30c9\u306f\u614e\u91cd\u306b\u4f7f\u3046\u3079\u304d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "performance"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2250",
+    "sqKey": "S2250",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

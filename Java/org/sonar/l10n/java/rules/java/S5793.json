@@ -1,0 +1,18 @@
+{
+    "title": "JUnit4\u304b\u3089\u65b0\u3057\u3044JUnit5\u30a2\u30ce\u30c6\u30fc\u30b7\u30e7\u30f3\u306b\u30c6\u30b9\u30c8\u3092\u79fb\u884c\u3059\u308b\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "junit",
+        "tests"
+    ],
+    "defaultSeverity": "Info",
+    "ruleSpecification": "RSPEC-5793",
+    "sqKey": "S5793",
+    "scope": "Tests",
+    "quickfix": "unknown"
+}

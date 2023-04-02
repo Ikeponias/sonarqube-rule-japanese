@@ -1,0 +1,17 @@
+{
+    "title": "\"clone \"\u3092\u30aa\u30fc\u30d0\u30fc\u30e9\u30a4\u30c9\u3057\u3066\u306f\u306a\u3089\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "suspicious"
+    ],
+    "defaultSeverity": "Blocker",
+    "ruleSpecification": "RSPEC-2975",
+    "sqKey": "S2975",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,32 @@
+{
+    "title": "\"HttpSecurity \"\u306eURL\u30d1\u30bf\u30fc\u30f3\u3092\u6b63\u3057\u304f\u4e26\u3079\u308b\u3053\u3068",
+    "type": "VULNERABILITY",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "spring",
+        "owasp-a6"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-4601",
+    "sqKey": "S4601",
+    "scope": "Main",
+    "securityStandards": {
+        "OWASP": [
+            "A6"
+        ],
+        "OWASP Top 10 2021": [
+            "A1"
+        ],
+        "PCI DSS 3.2": [
+            "6.5.8"
+        ],
+        "PCI DSS 4.0": [
+            "6.2.4"
+        ]
+    },
+    "quickfix": "unknown"
+}

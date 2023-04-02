@@ -1,0 +1,17 @@
+{
+    "title": "Java 12\u306e \"switch \"\u8868\u73fe\u3092\u4f7f\u7528\u3059\u308b",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "java12"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-5194",
+    "sqKey": "S5194",
+    "scope": "All",
+    "quickfix": "unknown"
+}

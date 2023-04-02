@@ -1,0 +1,15 @@
+{
+    "title": "'List.remove()' \u306f\u3001\u6607\u9806\u306e 'for' \u30eb\u30fc\u30d7\u3067\u306f\u4f7f\u7528\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5413",
+    "sqKey": "S5413",
+    "scope": "All",
+    "quickfix": "unknown"
+}

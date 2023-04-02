@@ -1,0 +1,28 @@
+{
+    "title": "\u30b9\u30a4\u30c3\u30c1\u30b1\u30fc\u30b9\u306f\u3001\u7121\u6761\u4ef6\u306b\u300c\u6298\u308c\u308b\u300d\u767a\u8a00\u3067\u7d42\u308f\u3089\u305b\u308b\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "cwe",
+        "cert",
+        "suspicious"
+    ],
+    "defaultSeverity": "Blocker",
+    "ruleSpecification": "RSPEC-128",
+    "sqKey": "S128",
+    "scope": "All",
+    "securityStandards": {
+        "CERT": [
+            "MSC17-C.",
+            "MSC52-J."
+        ],
+        "CWE": [
+            484
+        ]
+    },
+    "quickfix": "unknown"
+}

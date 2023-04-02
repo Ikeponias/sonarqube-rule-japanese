@@ -1,0 +1,15 @@
+{
+    "title": "\u6f14\u7b97\u5b50 \"instanceof\" \u306f \"A.class.isInstance()\" \u306e\u4ee3\u308f\u308a\u306b\u4f7f\u7528\u3059\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-6202",
+    "sqKey": "S6202",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

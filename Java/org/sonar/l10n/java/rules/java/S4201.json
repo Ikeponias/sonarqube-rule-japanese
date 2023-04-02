@@ -1,0 +1,17 @@
+{
+    "title": "Null\u30c1\u30a7\u30c3\u30af\u306f \"instanceof \"\u3068\u4f75\u7528\u3057\u306a\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "redundant"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-4201",
+    "sqKey": "S4201",
+    "scope": "All",
+    "quickfix": "unknown"
+}

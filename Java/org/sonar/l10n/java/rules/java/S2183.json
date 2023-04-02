@@ -1,0 +1,15 @@
+{
+    "title": "Ints\u3068long\u306f\u3001\u305d\u306e\u30d3\u30c3\u30c8\u6570-1\u3088\u308a0\u4ee5\u4e0a\u30b7\u30d5\u30c8\u3057\u3066\u306f\u306a\u3089\u306a\u3044\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2183",
+    "sqKey": "S2183",
+    "scope": "All",
+    "quickfix": "unknown"
+}

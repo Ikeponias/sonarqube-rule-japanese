@@ -1,0 +1,17 @@
+{
+    "title": "\"write(byte[],int,int)\" \u3092\u30aa\u30fc\u30d0\u30fc\u30e9\u30a4\u30c9\u3059\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "performance"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-4349",
+    "sqKey": "S4349",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

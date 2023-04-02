@@ -1,0 +1,26 @@
+{
+    "title": "\u300cswitch \u6587\u306b\u306f default \u53e5\u304c\u5fc5\u8981\u3067\u3059\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "cwe",
+        "cert"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-131",
+    "sqKey": "S131",
+    "scope": "All",
+    "securityStandards": {
+        "CERT": [
+            "MSC01-C."
+        ],
+        "CWE": [
+            478
+        ]
+    },
+    "quickfix": "unknown"
+}

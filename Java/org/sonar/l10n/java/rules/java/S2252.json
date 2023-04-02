@@ -1,0 +1,15 @@
+{
+    "title": "\u30eb\u30fc\u30d7\u6761\u4ef6\u304c\u4e00\u5ea6\u3067\u3082\u771f\u3067\u3042\u308b\u3053\u3068",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2252",
+    "sqKey": "S2252",
+    "scope": "All",
+    "quickfix": "unknown"
+}

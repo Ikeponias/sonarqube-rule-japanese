@@ -1,0 +1,17 @@
+{
+    "title": "\u6587\u5b57\u30af\u30e9\u30b9\u306e\u30e6\u30cb\u30b3\u30fc\u30c9\u5bfe\u5fdc\u7248\u3092\u512a\u5148\u3059\u3079\u304d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "regex"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-5867",
+    "sqKey": "S5867",
+    "scope": "All",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,26 @@
+{
+    "title": "XML\u7f72\u540d\u306f\u5b89\u5168\u306b\u691c\u8a3c\u3059\u308b\u5fc5\u8981\u304c\u3042\u308b",
+    "type": "VULNERABILITY",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-6377",
+    "sqKey": "S6377",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            347
+        ],
+        "OWASP": [
+            "A3"
+        ],
+        "OWASP Top 10 2021": [
+            "A2"
+        ]
+    },
+    "quickfix": "infeasible"
+}

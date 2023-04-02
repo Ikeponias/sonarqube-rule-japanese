@@ -1,0 +1,17 @@
+{
+    "title": "\"readResolve \"\u30e1\u30bd\u30c3\u30c9\u3092\u7d99\u627f\u3059\u308b\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "pitfall"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-2062",
+    "sqKey": "S2062",
+    "scope": "All",
+    "quickfix": "unknown"
+}

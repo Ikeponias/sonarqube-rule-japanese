@@ -1,0 +1,17 @@
+{
+    "title": "Silly String\u306e\u64cd\u4f5c\u3092\u3057\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "clumsy"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2121",
+    "sqKey": "S2121",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

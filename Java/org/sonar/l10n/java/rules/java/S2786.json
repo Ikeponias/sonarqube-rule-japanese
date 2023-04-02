@@ -1,0 +1,17 @@
+{
+    "title": "\u30cd\u30b9\u30c8\u3055\u308c\u305fenum\u306fstatic\u306b\u5ba3\u8a00\u3057\u3066\u306f\u306a\u3089\u306a\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "clumsy"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2786",
+    "sqKey": "S2786",
+    "scope": "All",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,18 @@
+{
+    "title": "\u30eb\u30fc\u30d7\u306b\u306f\u30011\u3064\u4ee5\u4e0a\u306e \"break \"\u307e\u305f\u306f \"continue \"\u30b9\u30c6\u30fc\u30c8\u30e1\u30f3\u30c8\u3092\u542b\u3093\u3067\u306f\u306a\u3089\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Linear",
+        "linearDesc": "per extra [\"break\" or \"continue\"|\"CONTINUE\", \"EXIT\", \"CHECK\"] statement",
+        "linearFactor": "20min"
+    },
+    "tags": [
+        "brain-overload"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-135",
+    "sqKey": "S135",
+    "scope": "All",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,46 @@
+{
+    "title": "\u30af\u30ea\u30a2\u30c6\u30ad\u30b9\u30c8\u30d7\u30ed\u30c8\u30b3\u30eb\u306e\u4f7f\u7528\u306f\u3001\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u306b\u914d\u616e\u3057\u305f\u3082\u306e\u3067\u3042\u308b\u3053\u3068",
+    "type": "SECURITY_HOTSPOT",
+    "status": "ready",
+    "tags": [
+        "cwe",
+        "owasp-a3",
+        "owasp-m3"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-5332",
+    "sqKey": "S5332",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            200,
+            319
+        ],
+        "OWASP": [
+            "A3"
+        ],
+        "OWASP Mobile": [
+            "M3"
+        ],
+        "MASVS": [
+            "MSTG-NETWORK-1"
+        ],
+        "OWASP Top 10 2021": [
+            "A2"
+        ],
+        "PCI DSS 3.2": [
+            "4.1",
+            "6.5.4"
+        ],
+        "PCI DSS 4.0": [
+            "4.2.1",
+            "6.2.4"
+        ],
+        "ASVS 4.0": [
+            "1.9.1",
+            "9.1.1",
+            "9.2.2"
+        ]
+    },
+    "quickfix": "unknown"
+}

@@ -1,0 +1,23 @@
+{
+    "title": "\u300c\u3067\u306a\u3051\u308c\u3070\u306a\u3089\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "cert"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-126",
+    "sqKey": "S126",
+    "scope": "All",
+    "quickfix": "unknown",
+    "securityStandards": {
+        "CERT": [
+            "MSC01-C.",
+            "MSC57-J."
+        ]
+    }
+}

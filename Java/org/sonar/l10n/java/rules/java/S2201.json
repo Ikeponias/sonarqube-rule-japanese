@@ -1,0 +1,23 @@
+{
+    "title": "\u526f\u4f5c\u7528\u306e\u306a\u3044\u95a2\u6570\u306e\u623b\u308a\u5024\u306f\u7121\u8996\u3057\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "cert"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2201",
+    "sqKey": "S2201",
+    "scope": "Main",
+    "quickfix": "unknown",
+    "securityStandards": {
+        "CERT": [
+            "EXP12-C.",
+            "EXP00-J."
+        ]
+    }
+}

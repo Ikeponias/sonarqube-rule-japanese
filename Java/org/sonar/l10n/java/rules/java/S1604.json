@@ -1,0 +1,17 @@
+{
+    "title": "\u30e1\u30bd\u30c3\u30c9\u304c1\u3064\u3057\u304b\u306a\u3044\u533f\u540d\u30a4\u30f3\u30ca\u30fc\u30af\u30e9\u30b9\u306f\u30e9\u30e0\u30c0\u5316\u3059\u3079\u304d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "java8"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-1604",
+    "sqKey": "S1604",
+    "scope": "All",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,20 @@
+{
+    "title": "TestCases\u306b\u306f\u30c6\u30b9\u30c8\u304c\u542b\u307e\u308c\u3066\u3044\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "junit",
+        "tests",
+        "unused",
+        "confusing"
+    ],
+    "defaultSeverity": "Blocker",
+    "ruleSpecification": "RSPEC-2187",
+    "sqKey": "S2187",
+    "scope": "Tests",
+    "quickfix": "unknown"
+}

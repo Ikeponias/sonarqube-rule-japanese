@@ -1,0 +1,18 @@
+{
+    "title": "\"serialVersionUID \"\u306f\u3084\u307f\u304f\u3082\u306b\u5ba3\u8a00\u3057\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "serialization",
+        "pitfall"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-4926",
+    "sqKey": "S4926",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

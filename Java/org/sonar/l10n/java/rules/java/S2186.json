@@ -1,0 +1,18 @@
+{
+    "title": "JUnit\u306e\u30a2\u30b5\u30fc\u30b7\u30e7\u30f3\u306f \"run \"\u30e1\u30bd\u30c3\u30c9\u3067\u4f7f\u3046\u3079\u304d\u3067\u306f\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "junit",
+        "tests"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-2186",
+    "sqKey": "S2186",
+    "scope": "Tests",
+    "quickfix": "unknown"
+}

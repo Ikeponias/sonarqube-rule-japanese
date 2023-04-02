@@ -1,0 +1,26 @@
+{
+    "title": "\"@NonNull \"\u5024\u306fNULL\u306b\u8a2d\u5b9a\u3057\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "cwe",
+        "cert"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2637",
+    "sqKey": "S2637",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            476
+        ],
+        "CERT": [
+            "EXP01-J."
+        ]
+    },
+    "quickfix": "unknown"
+}

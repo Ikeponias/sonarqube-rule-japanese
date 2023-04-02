@@ -1,0 +1,15 @@
+{
+    "title": "\u5236\u9650\u3055\u308c\u305f\u8b58\u5225\u5b50\u3092\u8b58\u5225\u5b50\u3068\u3057\u3066\u4f7f\u7528\u3059\u308b\u3053\u3068\u306f\u3067\u304d\u307e\u305b\u3093\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-6213",
+    "sqKey": "S6213",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

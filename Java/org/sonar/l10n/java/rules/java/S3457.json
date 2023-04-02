@@ -1,0 +1,23 @@
+{
+    "title": "Printf\u30b9\u30bf\u30a4\u30eb\u306e\u30d5\u30a9\u30fc\u30de\u30c3\u30c8\u6587\u5b57\u5217\u304c\u6b63\u3057\u304f\u4f7f\u7528\u3055\u308c\u308b\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "cert",
+        "confusing"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-3457",
+    "sqKey": "S3457",
+    "scope": "All",
+    "quickfix": "unknown",
+    "securityStandards": {
+        "CERT": [
+            "FIO47-C."
+        ]
+    }
+}

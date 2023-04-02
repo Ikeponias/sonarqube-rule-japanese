@@ -1,0 +1,18 @@
+{
+    "title": "Java 8\u306e \"Files.exists \"\u306f\u4f7f\u7528\u3057\u306a\u3044\u65b9\u304c\u826f\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "performance",
+        "java8"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-3725",
+    "sqKey": "S3725",
+    "scope": "All",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,22 @@
+{
+    "title": "assert\u3067\u4f7f\u7528\u3059\u308b\u5f0f\u306f\u526f\u4f5c\u7528\u3092\u767a\u751f\u3055\u305b\u3066\u306f\u306a\u3089\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "cert"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-3346",
+    "sqKey": "S3346",
+    "scope": "Main",
+    "quickfix": "unknown",
+    "securityStandards": {
+        "CERT": [
+            "EXP06-J."
+        ]
+    }
+}

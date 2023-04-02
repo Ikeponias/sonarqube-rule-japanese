@@ -1,0 +1,15 @@
+{
+    "title": "\u30d7\u30ea\u30df\u30c6\u30a3\u30d6\u578b\u3067\u306f \"@CheckForNull\" \u307e\u305f\u306f \"@Nullable\" \u3092\u4f7f\u7528\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "1min"
+    },
+    "tags": [],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-4682",
+    "sqKey": "S4682",
+    "scope": "Main",
+    "quickfix": "covered"
+}

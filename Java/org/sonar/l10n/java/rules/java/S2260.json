@@ -1,0 +1,17 @@
+{
+    "title": "Java\u30d1\u30fc\u30b5\u30fc\u306e\u4e0d\u5177\u5408",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "suspicious"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2260",
+    "sqKey": "S2260",
+    "scope": "All",
+    "quickfix": "unknown"
+}

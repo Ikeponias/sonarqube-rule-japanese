@@ -1,0 +1,17 @@
+{
+    "title": "\u30d7\u30e9\u30a4\u30d9\u30fc\u30c8\u30e1\u30f3\u30d0\u30fc\u3092\u6301\u3064\u30af\u30e9\u30b9\u3084\u5217\u6319\u578b\u306f\u3001\u30b3\u30f3\u30b9\u30c8\u30e9\u30af\u30bf\u3092\u6301\u3064\u3079\u304d\u3067\u3042\u308b\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "pitfall"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-1258",
+    "sqKey": "S1258",
+    "scope": "All",
+    "quickfix": "unknown"
+}

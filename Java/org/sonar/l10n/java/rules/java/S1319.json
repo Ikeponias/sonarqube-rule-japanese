@@ -1,0 +1,17 @@
+{
+    "title": "\u5ba3\u8a00\u306f\u3001\"LinkedList \"\u306e\u3088\u3046\u306a\u7279\u5b9a\u306e\u5b9f\u88c5\u30af\u30e9\u30b9\u3067\u306f\u306a\u304f\u3001\"List \"\u306e\u3088\u3046\u306aJava\u30b3\u30ec\u30af\u30b7\u30e7\u30f3\u30a4\u30f3\u30bf\u30d5\u30a7\u30fc\u30b9\u3092\u4f7f\u7528\u3059\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "bad-practice"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1319",
+    "sqKey": "S1319",
+    "scope": "Main",
+    "quickfix": "covered"
+}

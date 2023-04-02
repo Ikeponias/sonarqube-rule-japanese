@@ -1,0 +1,18 @@
+{
+    "title": "JUnit\u306e@Test\u30a2\u30ce\u30c6\u30fc\u30b7\u30e7\u30f3\u306b\u3088\u308b\u4f8b\u5916\u30c6\u30b9\u30c8\u306f\u907f\u3051\u308b\u3079\u304d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "junit",
+        "tests"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-5777",
+    "sqKey": "S5777",
+    "scope": "Tests",
+    "quickfix": "unknown"
+}

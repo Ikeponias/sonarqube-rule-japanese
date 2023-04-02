@@ -1,0 +1,17 @@
+{
+    "title": "\u30ed\u30fc\u30ab\u30eb\u5909\u6570\u3092\u5ba3\u8a00\u3057\u3066\u3001\u3059\u3050\u306b\u623b\u3057\u305f\u308a\u6295\u3052\u305f\u308a\u3057\u3066\u306f\u306a\u3089\u306a\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "clumsy"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1488",
+    "sqKey": "S1488",
+    "scope": "All",
+    "quickfix": "covered"
+}

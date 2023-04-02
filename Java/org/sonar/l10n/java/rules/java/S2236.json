@@ -1,0 +1,17 @@
+{
+    "title": "\u30e1\u30bd\u30c3\u30c9 \"wait(...)\"\u3001\"notify()\"\u3001\"notifyAll() \"\u306fThread\u30a4\u30f3\u30b9\u30bf\u30f3\u30b9\u3067\u547c\u3073\u51fa\u3055\u308c\u308b\u3079\u304d\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "multi-threading"
+    ],
+    "defaultSeverity": "Blocker",
+    "ruleSpecification": "RSPEC-2236",
+    "sqKey": "S2236",
+    "scope": "All",
+    "quickfix": "unknown"
+}

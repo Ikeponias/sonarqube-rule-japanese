@@ -1,0 +1,17 @@
+{
+    "title": "\u30e9\u30e0\u30c0\u306f\u30e1\u30bd\u30c3\u30c9\u53c2\u7167\u306b\u7f6e\u304d\u63db\u3048\u308b\u3079\u304d",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "java8"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1612",
+    "sqKey": "S1612",
+    "scope": "All",
+    "quickfix": "covered"
+}

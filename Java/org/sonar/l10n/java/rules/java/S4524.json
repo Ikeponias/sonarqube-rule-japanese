@@ -1,0 +1,15 @@
+{
+    "title": "\u300c\u30c7\u30d5\u30a9\u30fc\u30eb\u30c8\u6761\u9805\u304c\u6700\u5f8c\u3067\u3042\u308b\u3053\u3068",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-4524",
+    "sqKey": "S4524",
+    "scope": "All",
+    "quickfix": "unknown"
+}

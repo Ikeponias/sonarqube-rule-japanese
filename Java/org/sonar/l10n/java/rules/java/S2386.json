@@ -1,0 +1,29 @@
+{
+    "title": "\u30df\u30e5\u30fc\u30bf\u30d6\u30eb\u30d5\u30a3\u30fc\u30eb\u30c9\u306f \"public static \"\u3067\u3042\u308b\u3079\u304d\u3067\u306f\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "cwe",
+        "unpredictable",
+        "cert"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-2386",
+    "sqKey": "S2386",
+    "scope": "Main",
+    "securityStandards": {
+        "CERT": [
+            "OBJ01-J.",
+            "OBJ13-J."
+        ],
+        "CWE": [
+            607,
+            582
+        ]
+    },
+    "quickfix": "unknown"
+}

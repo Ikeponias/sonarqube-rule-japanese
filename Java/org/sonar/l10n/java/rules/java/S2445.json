@@ -1,0 +1,28 @@
+{
+    "title": "\u30d6\u30ed\u30c3\u30af\u306f \"private final \"\u30d5\u30a3\u30fc\u30eb\u30c9\u3067\u540c\u671f\u3055\u305b\u308b\u3079\u304d",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [
+        "cwe",
+        "multi-threading",
+        "cert"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2445",
+    "sqKey": "S2445",
+    "scope": "All",
+    "securityStandards": {
+        "CERT": [
+            "LCK00-J."
+        ],
+        "CWE": [
+            412,
+            413
+        ]
+    },
+    "quickfix": "unknown"
+}

@@ -1,0 +1,17 @@
+{
+    "title": "\u30c6\u30b9\u30c8\u30e1\u30bd\u30c3\u30c9\u306f\u3001\u7af6\u5408\u3059\u308b\u30a2\u30ce\u30c6\u30fc\u30b7\u30e7\u30f3\u3092\u4ed8\u3051\u3066\u306f\u3044\u3051\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "tests"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5967",
+    "sqKey": "S5967",
+    "scope": "Tests",
+    "quickfix": "unknown"
+}

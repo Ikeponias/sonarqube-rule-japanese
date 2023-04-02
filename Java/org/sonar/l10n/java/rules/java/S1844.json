@@ -1,0 +1,17 @@
+{
+    "title": "\"java.util.concurrent.locks.Condition \"\u3092\u5b9f\u88c5\u3057\u305f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u3067\u306f\u3001\"Object.wait(...) \"\u306f\u6c7a\u3057\u3066\u547c\u3073\u51fa\u3055\u308c\u3066\u306f\u306a\u3089\u306a\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [
+        "suspicious"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-1844",
+    "sqKey": "S1844",
+    "scope": "All",
+    "quickfix": "unknown"
+}

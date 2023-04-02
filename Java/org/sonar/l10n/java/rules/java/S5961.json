@@ -1,0 +1,17 @@
+{
+    "title": "\u30c6\u30b9\u30c8\u30e1\u30bd\u30c3\u30c9\u306b\u306f\u3001\u3042\u307e\u308a\u591a\u304f\u306e\u30a2\u30b5\u30fc\u30b7\u30e7\u30f3\u3092\u542b\u3081\u308b\u3079\u304d\u3067\u306f\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [
+        "tests"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5961",
+    "sqKey": "S5961",
+    "scope": "Tests",
+    "quickfix": "unknown"
+}

@@ -1,0 +1,17 @@
+{
+    "title": "Regex \u306e\u4ee3\u66ff\u306f\u5197\u9577\u3067\u3042\u3063\u3066\u306f\u306a\u3089\u306a\u3044\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "regex"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-5855",
+    "sqKey": "S5855",
+    "scope": "All",
+    "quickfix": "unknown"
+}

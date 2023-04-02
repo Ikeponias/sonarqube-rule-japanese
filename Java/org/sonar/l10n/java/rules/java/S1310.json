@@ -1,0 +1,17 @@
+{
+    "title": "NOPMD \"\u6291\u5236\u30b3\u30e1\u30f3\u30c8\u306e\u4f7f\u7528\u72b6\u6cc1\u3092\u78ba\u8a8d\u3059\u308b\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "10min"
+    },
+    "tags": [
+        "bad-practice"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-1310",
+    "sqKey": "S1310",
+    "scope": "All",
+    "quickfix": "unknown"
+}

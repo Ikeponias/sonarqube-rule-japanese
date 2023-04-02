@@ -1,0 +1,15 @@
+{
+    "title": "\"Iterator.hasNext() \"\u306f \"Iterator.next() \"\u3092\u547c\u3073\u51fa\u3059\u3079\u304d\u3067\u306f\u3042\u308a\u307e\u305b\u3093\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-1849",
+    "sqKey": "S1849",
+    "scope": "All",
+    "quickfix": "unknown"
+}

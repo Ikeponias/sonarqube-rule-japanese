@@ -1,0 +1,15 @@
+{
+    "title": "\u914d\u5217\u30a4\u30f3\u30b9\u30bf\u30f3\u30b9\u306b\u5bfe\u3057\u3066 \"hashCode\" \u3068 \"toString\" \u3092\u547c\u3073\u51fa\u3057\u3066\u306f\u306a\u3089\u306a\u3044",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2116",
+    "sqKey": "S2116",
+    "scope": "All",
+    "quickfix": "unknown"
+}

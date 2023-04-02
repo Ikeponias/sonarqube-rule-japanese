@@ -1,0 +1,19 @@
+{
+    "title": "\u30e1\u30bd\u30c3\u30c9\u306e\u8a8d\u77e5\u7684\u306a\u8907\u96d1\u3055\u306f\u3001\u9ad8\u3059\u304e\u3066\u306f\u306a\u3089\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Linear with offset",
+        "linearDesc": "per complexity point over the threshold",
+        "linearOffset": "5min",
+        "linearFactor": "1min"
+    },
+    "tags": [
+        "brain-overload"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-3776",
+    "sqKey": "S3776",
+    "scope": "All",
+    "quickfix": "unknown"
+}

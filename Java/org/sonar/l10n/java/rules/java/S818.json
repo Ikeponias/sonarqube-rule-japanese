@@ -1,0 +1,25 @@
+{
+    "title": "\u6587\u5b57\u901a\u308a\u306e\u63a5\u5c3e\u8a9e\u306f\u5927\u6587\u5b57\u3068\u3059\u308b",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "convention",
+        "cert",
+        "pitfall"
+    ],
+    "defaultSeverity": "Minor",
+    "ruleSpecification": "RSPEC-818",
+    "sqKey": "S818",
+    "scope": "All",
+    "quickfix": "unknown",
+    "securityStandards": {
+        "CERT": [
+            "DCL16-C.",
+            "DCL50-J."
+        ]
+    }
+}

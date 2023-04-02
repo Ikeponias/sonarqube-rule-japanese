@@ -1,0 +1,18 @@
+{
+    "title": "\u30b3\u30f3\u30d1\u30ec\u30fc\u30bf\u306f \"Serializable \"\u3067\u306a\u3051\u308c\u3070\u306a\u3089\u306a\u3044\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "serialization",
+        "pitfall"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-2063",
+    "sqKey": "S2063",
+    "scope": "All",
+    "quickfix": "unknown"
+}

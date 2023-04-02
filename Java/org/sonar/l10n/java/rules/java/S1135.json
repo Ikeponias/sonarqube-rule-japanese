@@ -1,0 +1,22 @@
+{
+    "title": "TODO \"\u30bf\u30b0\u306e\u4f7f\u7528\u72b6\u6cc1\u3092\u78ba\u8a8d\u3059\u308b",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "0min"
+    },
+    "tags": [
+        "cwe"
+    ],
+    "defaultSeverity": "Info",
+    "ruleSpecification": "RSPEC-1135",
+    "sqKey": "S1135",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            546
+        ]
+    },
+    "quickfix": "unknown"
+}

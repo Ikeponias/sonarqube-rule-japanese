@@ -1,0 +1,26 @@
+{
+    "title": "\"Object.finalize() \"\u5b9f\u88c5\u306e\u6700\u5f8c\u306b \"super.finalize() \"\u3092\u547c\u3073\u51fa\u3059\u5fc5\u8981\u304c\u3042\u308b\u3002",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "cwe",
+        "cert"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-1114",
+    "sqKey": "S1114",
+    "scope": "All",
+    "securityStandards": {
+        "CWE": [
+            568
+        ],
+        "CERT": [
+            "MET12-J."
+        ]
+    },
+    "quickfix": "unknown"
+}

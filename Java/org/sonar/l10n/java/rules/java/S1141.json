@@ -1,0 +1,18 @@
+{
+    "title": "\u30c8\u30e9\u30a4\u30ad\u30e3\u30c3\u30c1\u30d6\u30ed\u30c3\u30af\u306f\u30cd\u30b9\u30c8\u3055\u305b\u308b\u3079\u304d\u3067\u306f\u306a\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "20min"
+    },
+    "tags": [
+        "error-handling",
+        "confusing"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-1141",
+    "sqKey": "S1141",
+    "scope": "All",
+    "quickfix": "unknown"
+}

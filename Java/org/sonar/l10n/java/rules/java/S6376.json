@@ -1,0 +1,26 @@
+{
+    "title": "XML\u30d1\u30fc\u30b5\u30fc\u306f\u3001DoS\u653b\u6483\u306b\u5bfe\u3057\u3066\u8106\u5f31\u3067\u3042\u3063\u3066\u306f\u306a\u3089\u306a\u3044",
+    "type": "VULNERABILITY",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "15min"
+    },
+    "tags": [],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-6376",
+    "sqKey": "S6376",
+    "scope": "Main",
+    "securityStandards": {
+        "CWE": [
+            776
+        ],
+        "OWASP": [
+            "A4"
+        ],
+        "OWASP Top 10 2021": [
+            "A5"
+        ]
+    },
+    "quickfix": "infeasible"
+}

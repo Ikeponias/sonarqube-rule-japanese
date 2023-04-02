@@ -1,0 +1,24 @@
+{
+    "title": "\"Serializable \"\u30af\u30e9\u30b9\u306f\u3001\"serialVersionUID \"\u3092\u6301\u3064\u3079\u304d\u3067\u3042\u308b\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "serialization",
+        "cert",
+        "pitfall"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-2057",
+    "sqKey": "S2057",
+    "scope": "All",
+    "securityStandards": {
+        "CERT": [
+            "SER00-J."
+        ]
+    },
+    "quickfix": "unknown"
+}

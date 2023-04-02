@@ -1,0 +1,17 @@
+{
+    "title": "\u4e09\u9805\u6f14\u7b97\u5b50\u306f\u4f7f\u7528\u3057\u306a\u3044\u3067\u304f\u3060\u3055\u3044",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "5min"
+    },
+    "tags": [
+        "brain-overload"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-1774",
+    "sqKey": "S1774",
+    "scope": "All",
+    "quickfix": "unknown"
+}

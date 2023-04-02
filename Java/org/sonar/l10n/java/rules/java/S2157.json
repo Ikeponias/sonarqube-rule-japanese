@@ -1,0 +1,18 @@
+{
+    "title": "\"Cloneables \"\u306f \"clone \"\u3092\u5b9f\u88c5\u3059\u308b\u5fc5\u8981\u304c\u3042\u308b\u3002",
+    "type": "CODE_SMELL",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "30min"
+    },
+    "tags": [
+        "convention",
+        "api-design"
+    ],
+    "defaultSeverity": "Critical",
+    "ruleSpecification": "RSPEC-2157",
+    "sqKey": "S2157",
+    "scope": "Main",
+    "quickfix": "unknown"
+}

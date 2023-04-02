@@ -1,0 +1,23 @@
+{
+    "title": "\"notifyAll \"\u3092\u4f7f\u7528\u3059\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059",
+    "type": "BUG",
+    "status": "ready",
+    "remediation": {
+        "func": "Constant/Issue",
+        "constantCost": "2min"
+    },
+    "tags": [
+        "multi-threading",
+        "cert"
+    ],
+    "defaultSeverity": "Major",
+    "ruleSpecification": "RSPEC-2446",
+    "sqKey": "S2446",
+    "scope": "All",
+    "securityStandards": {
+        "CERT": [
+            "THI02-J."
+        ]
+    },
+    "quickfix": "covered"
+}
