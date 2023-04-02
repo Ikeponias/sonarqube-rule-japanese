@@ -1,0 +1,51 @@
+<p>ダブルチェック・ロックは、<code translate="no">volatile</code> フィールドの遅延初期化に使用できますが、フィールドの割り当てが<code translate="no">synchronized</code> ブロックの最後のステップである場合に限られます。そうでない場合は、スレッドが半分初期化されたオブジェクトにアクセスする危険性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+
+  private volatile List&lt;String&gt; strings;
+
+  public List&lt;String&gt; getStrings() {
+    if (strings == null) {  // check#1
+      synchronized(MyClass.class) {
+        if (strings == null) {
+          strings = new ArrayList&lt;&gt;();  // Noncompliant
+          strings.add("Hello");  //When threadA gets here, threadB can skip the synchronized block because check#1 is false
+          strings.add("World");
+        }
+      }
+    }
+    return strings;
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClass {
+
+  private volatile List&lt;String&gt; strings;
+
+  public List&lt;String&gt; getStrings() {
+    if (strings == null) {  // check#1
+      synchronized(MyClass.class) {
+        if (strings == null) {
+          List&lt;String&gt; tmpList = new ArrayList&lt;&gt;();
+          tmpList.add("Hello");
+          tmpList.add("World");
+          strings = tmpList;
+        }
+      }
+    }
+    return strings;
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/6zdGBQ">CERT、LCK10-J。</a>- ダブルチェックされたロックの慣用句の正しい形を使う </li>
+</ul>
+<h3>こちらもご覧ください</h3>
+<ul>
+  <li>{rule:java:S2168} です。- ダブルチェックのロックは使用しないこと </li>
+</ul>
+

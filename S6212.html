@@ -1,0 +1,28 @@
+<p>Java 10では、<a href="https://openjdk.java.net/jeps/286">Local-Variable Type Inferenceが</a>導入されました。これは、<code translate="no">var</code> キーワードで宣言することで、変数の期待される型を省略することができる。</p>
+<p>この新しい変数宣言の方法を使うことが常に可能であり、きれいであるとは言えませんが、左側の型と右側の型が割り当てで同じである場合、<code translate="no">var</code> を使用すると、より簡潔なコードになります。</p>
+<p>このルールは、変数の期待される型が代入された式の返される型と同じで、その型が読者によって容易に推測できる場合（名前またはイニシャライザで型がすでに言及されている場合、または式が自明である場合）に問題を報告します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+MyClass myClass = new MyClass();
+
+int i = 10; // Type is self-explanatory
+
+MyClass something = MyClass.getMyClass(); // Type is already mentioned in the initializer
+
+MyClass myClass = get(); // Type is already mentioned in the name
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+var myClass = new MyClass();
+
+var i = 10;
+
+var something = MyClass.getMyClass();
+
+var myClass = get();
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://openjdk.java.net/jeps/286">JEP 286局所変数型推論</a></li>
+</ul>
+

@@ -1,0 +1,31 @@
+<p><code translate="no">Exception</code> を捕捉することは、起こりうる複数の例外を処理する効率的な方法のように思われます。しかし、残念ながら、チェックされた例外と実行時例外の両方を含むすべての例外タイプを捕捉するため、あまりにも広い網をかけることになります。実際、実行時例外も捕捉することが開発者の意図だったのだろうか？誤解を避けるために、チェックされた例外と実行時例外の両方を捕捉することが本当に期待されているならば、<code translate="no">catch</code> 節で明示的にリストアップする必要があります。</p>
+<p>このルールは、<code translate="no">Exception</code> が<code translate="no">try</code> ブロックのメソッドによって明示的にスローされていないときにキャッチされた場合に問題を発生させるものです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+try {
+  // do something that might throw an UnsupportedDataTypeException or UnsupportedEncodingException
+} catch (Exception e) { // Noncompliant
+  // log exception ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+try {
+  // do something
+} catch (UnsupportedEncodingException|UnsupportedDataTypeException|RuntimeException e) {
+  // log exception ...
+}
+</pre>
+<p>または、実行時例外を捕捉すべきでない場合：</p>
+<pre translate="no">
+try {
+  // do something
+} catch (UnsupportedEncodingException|UnsupportedDataTypeException e) {
+  // log exception ...
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/396">MITRE, CWE-396</a>- Generic Exceptionのキャッチ宣言。 </li>
+</ul>
+

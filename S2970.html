@@ -1,0 +1,53 @@
+<p>テストフレームワークを使用すると、不完全なアサーションを書くことが非常に簡単です。このルールは、以下のような場合に完全なアサーションを強制します：</p>
+<ul>
+  <li>Fest:<code translate="no">assertThat</code> の後にアサーション発動はありません。 </li>
+  <li>AssertJ:<code translate="no">assertThat</code> の後にアサーション呼び出しがない。 </li>
+  <li>Mockito:<code translate="no">verify</code> の後にメソッドを呼び出すことができません。 </li>
+  <li>真実：<code translate="no">assertXXX</code> の後にアサーション発動はない </li>
+</ul>
+<p>このような場合、テストのつもりが実際には何も検証できていないことになります</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+// Fest
+boolean result = performAction();
+// let's now check that result value is true
+assertThat(result); // Noncompliant; nothing is actually checked, the test passes whether "result" is true or false
+
+// Mockito
+List mockedList = Mockito.mock(List.class);
+mockedList.add("one");
+mockedList.clear();
+// let's check that "add" and "clear" methods are actually called
+Mockito.verify(mockedList); // Noncompliant; nothing is checked here, oups no call is chained to verify()
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+// Fest
+boolean result = performAction();
+// let's now check that result value is true
+assertThat(result).isTrue();
+
+// Mockito
+List mockedList = Mockito.mock(List.class);
+mockedList.add("one");
+mockedList.clear();
+// let's check that "add" and "clear" methods are actually called
+Mockito.verify(mockedList).add("one");
+Mockito.verify(mockedList).clear();
+</pre>
+<h2>例外あり</h2>
+<p>ヘルパーメソッドを使えるようにするため、変数の代入やreturn文は省略されます。</p>
+<pre translate="no">
+private BooleanAssert check(String filename, String key) {
+  String fileContent = readFileContent(filename);
+  performReplacements(fileContent);
+  return assertThat(fileContent.contains(key)); // No issue is raised here
+}
+
+@Test
+public void test() {
+  check("foo.txt", "key1").isTrue();
+  check("bar.txt", "key2").isTrue();
+}
+</pre>
+

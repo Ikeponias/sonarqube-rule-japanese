@@ -1,0 +1,48 @@
+<p><code translate="no">@Test</code> アノテーションで例外をテストする場合、そのテストメソッド内に追加のアサーションがあると、発生した例外の後のコードが実行されないため、問題が発生することがあります。例外が発生した後のプログラムの状態をテストすることができなくなり、最悪の場合、実行されていると誤解させることになります。</p>
+<p>可能であれば、アサーションを別のテストメソッドに移すか、代わりに<a href="https://github.com/junit-team/junit4/wiki/Exception-testing#using-assertthrows-method">org.junit.Assert.assertThrows</a>を使用することを検討すべきです。</p>
+<p>また、JUnitのバージョンが4.13未満の場合や、プロジェクトがラムダをサポートしていない場合は、<a href="https://github.com/junit-team/junit4/wiki/Exception-testing#trycatch-idiom">try-catchイディオムを</a>使用することができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Test(expected = IndexOutOfBoundsException.class)
+public void testShouldFail() {
+  get();
+  // This test pass since execution will never get past this line.
+  Assert.assertEquals(0, 1);
+}
+
+private Object get() {
+  throw new IndexOutOfBoundsException();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<ul>
+  <li>JUnit &gt;= 4.13 の場合、<a href="https://github.com/junit-team/junit4/wiki/Exception-testing#using-assertthrows-method">org.junit.Assert.assertThrows</a> を使用します： </li>
+</ul>
+<pre translate="no">
+// This test correctly fails.
+@Test
+public void testToString() {
+    Object obj = get();
+    Assert.assertThrows(IndexOutOfBoundsException.class, () -&gt; obj.toString());
+    Assert.assertEquals(0, 1);
+}
+</pre>
+<ul>
+  <li>JUnit &lt; 4.13 の場合、<a href="https://github.com/junit-team/junit4/wiki/Exception-testing#trycatch-idiom">try-catch イディオムを</a>使用します： </li>
+</ul>
+<pre translate="no">
+@Test
+public void testShouldFail() {
+    Object obj = get();
+    try {
+        obj.toString();
+        Assert.fail("Expected an IndexOutOfBoundsException to be thrown");
+    } catch (IndexOutOfBoundsException e) {}
+    Assert.assertEquals(0, 1); // Correctly fails.
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://github.com/junit-team/junit4/wiki/Exception-testing">JUnitの例外テストに関するドキュメント</a></li>
+</ul>
+

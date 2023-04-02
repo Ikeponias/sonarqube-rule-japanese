@@ -1,0 +1,53 @@
+<p><code translate="no">private</code> フィールドが宣言されているにもかかわらず、プログラム内で使用されていない場合、デッドコードと見なされる可能性があるため、削除する必要があります。このようにすれば、開発者がその変数が何に使われているのか疑問に思うことがなくなるので、保守性が向上する。</p>
+<p>このルールはリフレクションを考慮していないため、リフレクションAPIを使用してのみアクセスされる<code translate="no">private</code> フィールドに問題が発生することに注意してください。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+  private int foo = 42;
+
+  public int compute(int a) {
+    return a * 42;
+  }
+
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClass {
+  public int compute(int a) {
+    return a * 42;
+  }
+}
+</pre>
+<h2>例外あり</h2>
+<p>このルールには3つの例外が認められています：</p>
+<ul>
+  <li>シリアライズIDフィールド </li>
+  <li>アノテーションフィールド </li>
+  <li>ネイティブメソッドを持つクラスからのフィールド </li>
+</ul>
+<h3>シリアライズIDフィールド</h3>
+<p>Javaのシリアライズランタイムは、シリアライズ可能な各クラスに<code translate="no">serialVersionUID</code> と呼ばれるバージョン番号を関連付けます。これは、シリアライズされたオブジェクトの送信者と受信者が、シリアライズに関して互換性のあるオブジェクトのクラスをロードしたことを確認するために、デシリアライズ時に使用されます。</p>
+<p>シリアライズ可能なクラスは、<code translate="no">serialVersionUID</code> という名前のフィールドを宣言することで、それ自身の<code translate="no">serialVersionUID</code> を明示的に宣言することができます。これは static、final、long 型である必要があります。定義上、これらの<code translate="no">serialVersionUID</code> フィールドは、この規則によって報告されるべきではない：</p>
+<pre translate="no">
+public class MyClass implements java.io.Serializable {
+  private static final long serialVersionUID = 42L;
+}
+</pre>
+<h3>アノテーションフィールド</h3>
+<p>このクラスで未使用のフィールドは、アノテーションがあるため、ルールで報告されることはありません。</p>
+<pre translate="no">
+public class MyClass {
+  @SomeAnnotation
+  private int unused;
+}
+</pre>
+<h3>ネイティブメソッドを持つクラスからのフィールド</h3>
+<p>このクラスの未使用フィールドは、ネイティブコードで使用される可能性があるため、ルールで報告されることはない。</p>
+<pre translate="no">
+public class MyClass {
+  private int unused = 42;
+  private native static void doSomethingNative();
+}
+</pre>
+

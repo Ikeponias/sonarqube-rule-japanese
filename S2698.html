@@ -1,0 +1,22 @@
+<p>JUnit、FEST、AssertJのアサーションにメッセージを追加することは、将来の生産性への投資となります。今、数秒かけてメッセージを書いておけば、テストが失敗して問題を素早く診断する必要があるときや、テストをメンテナンスする必要があるときに、アサーション・メッセージが一種のドキュメントとして機能し、時間を大幅に節約することができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+assertEquals(4, list.size());  // Noncompliant
+
+try {
+  fail();  // Noncompliant
+} catch (Exception e) {
+  assertThat(list.get(0)).isEqualTo("pear");  // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+assertEquals("There should have been 4 Fruits in the list", 4, list.size());
+
+try {
+  fail("And exception is expected here");
+} catch (Exception e) {
+  assertThat(list.get(0)).as("check first element").overridingErrorMessage("The first element should be a pear, not a %s", list.get(0)).isEqualTo("pear");
+}
+</pre>
+

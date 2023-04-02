@@ -1,0 +1,19 @@
+<p>Lambdaから他のLambdaを同期的に呼び出すことは、スケーラビリティのアンチパターンである。Lambdaにはタイムアウトするまでの最大実行時間があります（2021年5月現在で15分）。他のLambdaが実行を終えるまで待たなければならないのは、タイムアウトにつながる可能性があります。</p>
+<p>より良い解決策は、他のLambdaが非同期で消費できるイベントを生成することです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>AWS SDKv1使用時</p>
+<pre translate="no">
+InvokeRequest invokeRequest = new InvokeRequest()
+         .withFunctionName("myFunction");
+
+AWSLambda awsLambda = AWSLambdaClientBuilder.standard()
+		.withCredentials(new ProfileCredentialsProvider())
+		.withRegion(Regions.US_WEST_2).build();
+
+awsLambda.invoke(invokeRequest); // Noncompliant
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html">AWS Lambdaファンクションと連携するためのベストプラクティス</a></li>
+</ul>
+

@@ -1,0 +1,20 @@
+<p>命名規則を共有することで、チームは効果的にコラボレーションを行うことができます。このルールでは、開いた中括弧がコードの行末に置かれていない場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if(condition)
+{
+  doSomething();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if(condition) {
+  doSomething();
+}
+</pre>
+<h2>例外あり</h2>
+<p>ブロックがインライン化（左右の中括弧が同じ行にある）されている場合、問題は発生しない。</p>
+<pre translate="no">
+if(condition) {doSomething();}
+</pre>
+

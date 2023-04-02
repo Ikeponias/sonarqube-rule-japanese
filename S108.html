@@ -1,0 +1,9 @@
+<p>多くの場合、コードのブロックは、コードの一部が本当に欠けているときに空っぽになります。そのため、このような空のブロックは、埋めるか削除する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+for (int i = 0; i &lt; 42; i++){}  // Empty on purpose or missing piece of code ?
+</pre>
+<h2>例外あり</h2>
+<p>ブロックにコメントが含まれている場合、<code translate="no">synchronized</code> のブロックでない限り、このブロックは空であるとはみなされません。<code translate="no">synchronized</code>
+ブロックがコメントを含んでいても、プログラムの流れに影響を与える可能性があるため、コメントはあっても空とみなされます。</p>
+

@@ -1,0 +1,25 @@
+<p><code translate="no">getClass</code><code translate="no">final</code> なぜなら、子クラスは親や互いに異なるオブジェクトで同期するため、 キーワードにもかかわらず、コードブロックに複数のスレッドを一度に入れることができるためです。<code translate="no">synchronized</code></p>
+<p>代わりに、同期させるクラスの名前をハードコードするか、そのクラスを<code translate="no">final</code> にします。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+  public void doSomethingSynchronized(){
+    synchronized (this.getClass()) {  // Noncompliant
+      // ...
+    }
+  }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClass {
+  public void doSomethingSynchronized(){
+    synchronized (MyClass.class) {
+      // ...
+    }
+  }
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/qTdGBQ">CERT、LCK02-J。</a>- getClass()で返されたクラスオブジェクトで同期を取らない。 </li>
+</ul>
+

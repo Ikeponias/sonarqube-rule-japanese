@@ -1,0 +1,23 @@
+<p>オブジェクトに対して<code translate="no">toString()</code> や<code translate="no">clone()</code> を呼び出すと、常に文字列かオブジェクトが返されるはずです。代わりに<code translate="no">null</code>を返すと、このメソッドの暗黙の契約に反することになります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public String toString () {
+  if (this.collection.isEmpty()) {
+    return null; // Noncompliant
+  } else {
+    // ...
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public String toString () {
+  if (this.collection.isEmpty()) {
+    return "";
+  } else {
+    // ...
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/476">MITRE, CWE-476</a>- NULLポインタのデリファレンス </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/aDdGBQ">CERT、EXP01-J。</a>- オブジェクトが必要な場合にNULLを使用しないでください </li>
+</ul>
+

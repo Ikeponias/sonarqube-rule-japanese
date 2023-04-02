@@ -1,0 +1,12 @@
+<p>ブーリアン比較の結果を反転させるのは、不必要に複雑です。代わりに反対の比較を行う必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if ( !(a == 2)) { ...}  // Noncompliant
+boolean b = !(i &lt; 10);  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (a != 2) { ...}
+boolean b = (i &gt;= 10);
+</pre>
+

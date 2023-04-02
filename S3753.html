@@ -1,0 +1,35 @@
+<p><code translate="no">@SessionAttributes</code> を使用する Spring<code translate="no">@Controller</code> は、ステートフル / マルチポストフォームを処理するように設計されています。このような<code translate="no">@Controller</code>は、リクエストの間にサーバーにデータを保存するために、指定された<code translate="no">@SessionAttributes</code> を使用します。そのデータはセッションが終了したときにクリーンアップされるべきですが、<code translate="no">@RequestMapping</code> メソッドから<code translate="no">SessionStatus</code> オブジェクトに対して<code translate="no">setComplete()</code> が呼び出されない限り、 Spring も JVM もそのタイミングを知ることはありません。<code translate="no">SessionStatus</code> オブジェクトは、パラメータとしてそのメソッドに渡されなければならないことに注意してください。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Controller
+@SessionAttributes("hello")  // Noncompliant; this doesn't get cleaned up
+public class HelloWorld {
+
+  @RequestMapping("/greet", method = GET)
+  public String greet(String greetee) {
+
+    return "Hello " + greetee;
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Controller
+@SessionAttributes("hello")
+public class HelloWorld {
+
+  @RequestMapping("/greet", method = GET)
+  public String greet(String greetee) {
+
+    return "Hello " + greetee;
+  }
+
+  @RequestMapping("/goodbye", method = POST)
+  public String goodbye(SessionStatus status) {
+    //...
+    status.setComplete();
+  }
+
+}
+</pre>
+

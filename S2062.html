@@ -1,0 +1,32 @@
+<p><code translate="no">readResolve()</code> メソッドは、デシリアライズの際にオブジェクトの状態を最終的に調整することができます。<code translate="no">readResolve()</code> を実装する非最終クラスは、その visibility を<code translate="no">private</code> に設定しないでください（子クラスが利用できなくなるため）。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Fruit implements Serializable {
+  private static final long serialVersionUID = 1;
+
+  private Object readResolve() throws ObjectStreamException  // Noncompliant
+  {...}
+
+  //...
+}
+
+public class Raspberry extends Fruit implements Serializable {  // No access to parent's readResolve() method
+  //...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Fruit implements Serializable {
+  private static final long serialVersionUID = 1;
+
+  protected Object readResolve() throws ObjectStreamException
+  {...}
+
+  //...
+}
+
+public class Raspberry extends Fruit implements Serializable {
+  //...
+}
+</pre>
+

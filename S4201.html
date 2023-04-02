@@ -1,0 +1,14 @@
+<p><code translate="no">instanceof</code> のテストと合わせてヌルテストをする必要はありません。<code translate="no">null</code> は<code translate="no">instanceof</code> の何かではありませんから、ヌルチェックは冗長です。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if (x != null &amp;&amp; x instanceof MyClass) { ... }  // Noncompliant
+
+if (x == null || ! x instanceof MyClass) { ... } // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (x instanceof MyClass) { ... }
+
+if (! x instanceof MyClass) { ... }
+</pre>
+

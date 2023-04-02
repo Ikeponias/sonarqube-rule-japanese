@@ -1,0 +1,37 @@
+<p>暗号化アルゴリズムは、データの機密性と完全性を保証するために、必要に応じて安全なモードとパディングスキームを使用する必要があります。</p>
+<ul>
+  <li>ブロック暗号の暗号化アルゴリズム（AESなど）の場合：    <ul>
+      <li>ECB（電子コードブック）暗号モードは、深刻なメッセージの機密性を提供しません：与えられた鍵の下で、与えられた平文ブロックは常に同じ暗号文ブロックに暗号化されます。このモードは決して使ってはいけません。 </li>
+      <li>CBC（Cipher Block Chaining）モードは、それ自体、データの機密性しか提供しません。この暗号モードは、パディングを使用した場合、<a href="https://en.wikipedia.org/wiki/Padding_oracle_attack">パディングオラクル攻撃にも</a>脆弱です。CBCをメッセージ認証コードと一緒に使えば、データの完全性を提供でき、そのような攻撃を防ぐことができるはずです。実際には、この実装には多くの落とし穴があり、パディングを伴うCBCを完全に避けることが推奨されます。 </li>
+      <li>GCM（ガロアカウンターモード）モードは、ゼロ/パディングなしで<a href="https://en.wikipedia.org/wiki/Galois/Counter_Mode#Mathematical_basis">内部的に</a>動作し、データの信頼性（完全性）と機密性の両方を提供するように設計されているので、推奨されます。 他の同様のモードはCCM、CWC、EAX、IAPMとOCBです。 </li>
+    </ul>  </li>
+  <li>RSA暗号化アルゴリズムでは、推奨されるパディング方式はOAEPです。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Cipher.getInstance("AES"); // Noncompliant: by default ECB mode is chosen
+Cipher.getInstance("AES/ECB/NoPadding"); // Noncompliant: ECB doesn't provide serious message confidentiality
+
+Cipher.getInstance("AES/CBC/PKCS5Padding"); // Noncompliant: Vulnerable to Padding Oracle attacks
+
+Cipher.getInstance("RSA/None/NoPadding"); // Noncompliant: RSA without OAEP padding scheme is not recommended
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Cipher.getInstance("AES/GCM/NoPadding");
+
+Cipher.getInstance("RSA/None/OAEPWITHSHA-256ANDMGF1PADDING");
+// or the ECB mode can be used for RSA when "None" is not available with the security provider used - in that case, ECB will be treated as "None" for RSA.
+Cipher.getInstance("RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING");
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/">OWASP Top 10 2021 カテゴリ A2</a>- 暗号の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+  <li><a href="https://mobile-security.gitbook.io/masvs/security-requirements/0x08-v3-cryptography_verification_requirements">Mobile AppSec検証基準</a>- 暗号化要件 </li>
+  <li><a href="https://owasp.org/www-project-mobile-top-10/2016-risks/m5-insufficient-cryptography">OWASP Mobile Top 10 2016 カテゴリーM5</a>- Insufficient Cryptography (不十分な暗号) </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/327">MITRE, CWE-327</a>- 壊れたまたは危険な暗号アルゴリズムの使用 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/hDdGBQ">CERT、MSC61-J。</a>- 安全でない、または弱い暗号アルゴリズムを使用しないこと </li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat3">SANS Top 25</a>- ポーラスディフェンス </li>
+</ul>
+

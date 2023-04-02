@@ -1,0 +1,30 @@
+<p>現在のスレッドがロックを保持しているときに<code translate="no">Thread.sleep(...)</code> を呼び出すと、パフォーマンスやスケーラビリティの問題が発生したり、ロックを保持しているスレッドの実行が凍結されてデッドロックになる可能性もあります。モニターオブジェクトの<code translate="no">wait(...)</code> を呼び出して一時的にロックを解除し、他のスレッドを実行できるようにする方がよいでしょう。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomething(){
+  synchronized(monitor) {
+    while(notReady()){
+      Thread.sleep(200);
+    }
+    process();
+  }
+  ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomething(){
+  synchronized(monitor) {
+    while(notReady()){
+      monitor.wait(200);
+    }
+    process();
+  }
+  ...
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/YTdGBQ">CERT、LCK09-J。</a>- ロックを保持したまま、ブロックする可能性のある操作を行わないこと </li>
+</ul>
+

@@ -1,0 +1,39 @@
+<p>浮動小数点演算が不正確なのは、そのような値を2進数表現で保存するのが難しいからです。さらに悪いことに、浮動小数点演算には連想性がありません。<code translate="no">float</code> や<code translate="no">double</code> を一連の単純な数学演算にかけると、各ステップで丸めが行われるため、その演算の順番によって答えが違ってきます。</p>
+<p>単純な浮動小数点演算の割り当てでも、単純ではありません：</p>
+<pre translate="no">
+float f = 0.1; // 0.100000001490116119384765625
+double d = 0.1; // 0.1000000000000000055511151231257827021181583404541015625
+</pre>
+<p>(結果は、コンパイラやコンパイラの設定によって異なります）；</p>
+<p>したがって、<code translate="no">float</code> や<code translate="no">double</code> の値に対して、等号 (<code translate="no">==</code>) や不等号 (<code translate="no">!=</code>) 演算子を使用すると、ほとんどの場合エラーになります。そのため、浮動小数点数の比較を完全に避けることが最良の方法です。それが不可能な場合は、浮動小数点比較を適切に処理できる<code translate="no">BigDecimal</code> のような Java の浮動小数点処理<code translate="no">Numbers</code> の使用を検討する必要があります。第三の選択肢は、等しいかどうかではなく、値が十分に近いかどうかを調べることです。つまり、保存された値と期待値との差の絶対値を、許容できる誤差の範囲内で比較するのです。これはすべてのケースをカバーするわけではないことに注意してください（例えば、<code translate="no">NaN</code> と<code translate="no">Infinity</code>）。</p>
+<p>このルールは、float と doubles に対して、直接および間接の等号/非等号テストの使用をチェックします。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+float myNumber = 3.146;
+if ( myNumber == 3.146f ) { //Noncompliant. Because of floating point imprecision, this will be false
+  // ...
+}
+if ( myNumber != 3.146f ) { //Noncompliant. Because of floating point imprecision, this will be true
+  // ...
+}
+
+if (myNumber &lt; 4 || myNumber &gt; 4) { // Noncompliant; indirect inequality test
+  // ...
+}
+
+float zeroFloat = 0.0f;
+if (zeroFloat == 0) {  // Noncompliant. Computations may end up with a value close but not equal to zero.
+}
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">NaN</code> はそれ自身と等しくないので、浮動小数点値をそれ自身に対してテストするという特定のケースは<code translate="no">NaN</code> に対して有効なテストであり、したがって無視されます。しかし、<code translate="no">Double.isNaN</code> メソッドを使用する方が、意図がより明確であるため、代わりに優先されるべきです。</p>
+<pre translate="no">
+float f;
+double d;
+if(f != f) { // Compliant; test for NaN value
+  System.out.println("f is NaN");
+} else if (f != d) { // Noncompliant
+  // ...
+}
+</pre>
+

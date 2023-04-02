@@ -1,0 +1,15 @@
+<p><code translate="no">String</code> に<code translate="no">String.valueOf()</code> を付けると、コードの可読性が低下する。</p>
+<p><code translate="no">String.valueOf()</code> に渡された引数は、代わりに直接付加されるべきものである。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void display(int i){
+  System.out.println("Output is " + String.valueOf(i));    // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void display(int i){
+  System.out.println("Output is " + i);                    // Compliant
+}
+</pre>
+

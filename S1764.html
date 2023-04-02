@@ -1,0 +1,42 @@
+<p>二項演算子の両側で同じ値を使うのは、ほとんどの場合、間違いです。論理演算子の場合、コピー＆ペーストのミスでバグになるか、単に無駄なコードなので簡略化されるべきです。ビット演算子やほとんどの二項演算子の場合、演算子の両側に同じ値を置くと、予測可能な結果が得られるので、簡略化すべきです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if ( a == a ) { // always true
+  doZ();
+}
+if ( a != a ) { // always false
+  doY();
+}
+if ( a == b &amp;&amp; a == b ) { // if the first one is true, the second one is too
+  doX();
+}
+if ( a == b || a == b ) { // if the first one is true, the second one is too
+  doW();
+}
+
+int j = 5 / 5; //always 1
+int k = 5 - 5; //always 0
+
+c.equals(c); //always true
+</pre>
+<h2>例外あり</h2>
+<ul>
+  <li>このルールは、<code translate="no">*</code> 、<code translate="no">+</code> 、<code translate="no">=</code> を無視する。 </li>
+  <li>浮動小数点値をそれ自身に対してテストするという具体的なケースは、<code translate="no">NaN</code> 、有効なテストであるため、無視されます。 </li>
+  <li>同様に、1 を 1 に左シフトすることは、ビットマスクの構築において一般的であり、無視される。 </li>
+</ul>
+<pre translate="no">
+float f;
+if(f != f) { //test for NaN value
+  System.out.println("f is NaN");
+}
+
+int i = 1 &lt;&lt; 1; // Compliant
+int j = a &lt;&lt; a; // Noncompliant
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/5dUxBQ">CERT、MSC12-C。</a>- 効果がない、または実行されないコードを検出して削除する  </li>
+  <li>{rule:java:S1656} です。-<code translate="no">=</code> のチェックを実装しています。 </li>
+</ul>
+

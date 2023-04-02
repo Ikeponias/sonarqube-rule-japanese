@@ -1,0 +1,42 @@
+<p>パブリッククラスの変数フィールドは、カプセル化の原則を尊重せず、主に3つのデメリットがあります：</p>
+<ul>
+  <li>バリデーションなどの動作を追加することはできません。 </li>
+  <li>内部表現が公開され、後から変更することはできません。 </li>
+  <li>メンバーの値は、コードのどこからでも変更可能であり、プログラマーの想定に沿わない場合があります。 </li>
+</ul>
+<p>プライベート属性とアクセサーメソッド（set、get）を使用することで、不正な改変を防止することができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+
+  public static final int SOME_CONSTANT = 0;     // Compliant - constants are not checked
+
+  public String firstName;                       // Noncompliant
+
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClass {
+
+  public static final int SOME_CONSTANT = 0;     // Compliant - constants are not checked
+
+  private String firstName;                      // Compliant
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+}
+</pre>
+<h2>例外あり</h2>
+<p>それらは変更不可能であるため、このルールは<code translate="no">public final</code> フィールドを無視する。また、注釈付きフィールドも、注釈が何であれ無視されます。注釈はインジェクションフレームワークによってしばしば使用され、その代わりに公開フィールドを持つことが要求されるからです。</p>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/493">MITRE、CWE-493</a>- 最終修飾子がない重要なパブリック変数 </li>
+</ul>
+

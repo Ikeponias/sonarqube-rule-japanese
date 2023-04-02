@@ -1,0 +1,29 @@
+<p>一時ディレクトリを作成する最初のステップとして<code translate="no">File.createTempFile</code> を使用すると、競合状態が発生し、本質的に信頼性が低く安全ではありません。代わりに、<code translate="no">Files.createTempDirectory</code> （Java 7+）を使用する必要があります。</p>
+<p>このルールは、以下の手順が即座に行われる場合に問題となる：</p>
+<ul>
+  <li><code translate="no">File.createTempFile</code> を呼び出す。 </li>
+  <li>結果ファイル削除 </li>
+  <li>File オブジェクトに対して<code translate="no">mkdir</code> を呼び出す。 </li>
+</ul>
+<p><strong>なお</strong>、このルールは、プロジェクトの<code translate="no">sonar.java.source</code> が<code translate="no">7</code> よりも低い場合、自動的に無効となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+File tempDir;
+tempDir = File.createTempFile("", ".");
+tempDir.delete();
+tempDir.mkdir();  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Path tempPath = Files.createTempDirectory("");
+File tempDir = tempPath.toFile();
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A01_2021-Broken_Access_Control/">OWASP Top 10 2021 カテゴリ A1</a>- 壊れたアクセス制御 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A9_2017-Using_Components_with_Known_Vulnerabilities">OWASP Top 10 2017 カテゴリーA9</a>「既知の脆弱性を持つコンポーネントを使用する」。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/377">MITRE, CWE-377</a>- 安全でない一時的なファイル </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/379">MITRE, CWE-379</a>- 不正なパーミッションでディレクトリに一時ファイルを作成する。  </li>
+  <li><a href="https://owasp.org/www-community/vulnerabilities/Insecure_Temporary_File">OWASP、安全でないテンポラリファイル</a></li>
+</ul>
+

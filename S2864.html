@@ -1,0 +1,21 @@
+<p>ループの中でマップのキーだけが必要な場合、<code translate="no">keySet</code> を繰り返し実行することは理にかなっています。しかし、キーと値の両方が必要な場合は、<code translate="no">entrySet</code> 、キーと値の両方にアクセスできるようにする方が効率的です。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomethingWithMap(Map&lt;String,Object&gt; map) {
+  for (String key : map.keySet()) {  // Noncompliant; for each key the value is retrieved
+    Object value = map.get(key);
+    // ...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomethingWithMap(Map&lt;String,Object&gt; map) {
+  for (Map.Entry&lt;String,Object&gt; entry : map.entrySet()) {
+    String key = entry.getKey();
+    Object value = entry.getValue();
+    // ...
+  }
+}
+</pre>
+

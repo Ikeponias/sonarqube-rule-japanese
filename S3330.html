@@ -1,0 +1,36 @@
+<p>クッキーが<code translate="no">HttpOnly</code> 属性を<em>真に</em>設定して構成されるとき、ブラウザはクライアント側のスクリプトがそれを読み取ることができないことを保証する。ほとんどの場合、クッキーが作成されると、<code translate="no">HttpOnly</code> のデフォルト値は<em>false</em>であり、クッキーの内容をクライアント側のスクリプトが読み取ることができるかどうかは開発者の判断に任されています。クロスサイト・スクリプティング（XSS）攻撃の大半は、セッション・クッキーの盗難をターゲットにしているため、<code translate="no">HttpOnly</code> 属性は、XSS の脆弱性を悪用してセッション・クッキーを盗むことができなくなるため、その影響を軽減することができます。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>クッキーが機密性の高いもので、ユーザーを認証するために使用さ<em>れます</em>。 </li>
+  <li><code translate="no">HttpOnly</code> 属性は、追加の保護を提供します（例えば、<em>XSRF-TOKEN Cookie</em>/ CSRF トークンの場合ではありません）。  </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<ul>
+  <li>デフォルトでは、<code translate="no">HttpOnly</code> フラグはほとんどのクッキーで<em>true</em>に設定されるべきで、セッション/センシティブセキュリティクッキーでは必須となります。 </li>
+</ul>
+<h2>センシティブコードの例</h2>
+<p>JAVAコードでセキュリティに配慮したCookieを作成した場合：</p>
+<pre translate="no">
+Cookie c = new Cookie(COOKIENAME, sensitivedata);
+c.setHttpOnly(false);  // Sensitive: this sensitive cookie is created with the httponly flag set to false and so it can be stolen easily in case of XSS vulnerability
+</pre>
+<p>デフォルトでは <a href="https://docs.oracle.com/javaee/6/api/javax/servlet/http/Cookie.html#setHttpOnly(boolean)"><code translate="no">HttpOnly</code></a>フラグが<em>false</em>に設定されます：</p>
+<pre translate="no">
+Cookie c = new Cookie(COOKIENAME, sensitivedata);  // Sensitive: this sensitive cookie is created with the httponly flag not defined (by default set to false) and so it can be stolen easily in case of XSS vulnerability
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Cookie c = new Cookie(COOKIENAME, sensitivedata);
+c.setHttpOnly(true); // Compliant: this sensitive cookie is protected against theft (HttpOnly=true)
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A05_2021-Security_Misconfiguration/">OWASP Top 10 2021 カテゴリ A5</a>- セキュリティの誤設定 </li>
+  <li><a href="https://owasp.org/www-community/HttpOnly">OWASP HttpOnly</a></li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)">OWASP Top 10 2017 カテゴリーA7</a>- クロスサイトスクリプティング(XSS) </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/1004">MITRE, CWE-1004</a>- 「HttpOnly」フラグがないセンシティブなクッキー。 </li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat1">SANS Top 25</a>- コンポーネント間の安全でない相互作用 </li>
+  <li>FindSecBugsルール<a href="https://find-sec-bugs.github.io/bugs.htm#HTTPONLY_COOKIE">HTTPONLY_COOKIEから</a>派生した。 </li>
+</ul>
+

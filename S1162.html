@@ -1,0 +1,16 @@
+<p>チェック付き例外の目的は、エラーを伝播させたり、処理したりすることで確実に対処することですが、このエラー処理/伝播のロジックをあちこちに広げることで、チェック付き例外がソースコードの可読性に悪影響を与えるという考え方もあります。</p>
+<p>このルールは、どのメソッドも新しいチェックされた例外をスローしないことを確認します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void myMethod1() throws CheckedException {
+  ...
+  throw new CheckedException(message);   // Noncompliant
+  ...
+  throw new IllegalArgumentException(message); // Compliant; IllegalArgumentException is unchecked
+}
+
+public void myMethod2() throws CheckedException {  // Compliant; propagation allowed
+  myMethod1();
+}
+</pre>
+

@@ -1,0 +1,22 @@
+<p>リストや数値の集合など、同じデータを複数回ループするメソッドがある場合、ループを1つの反復処理にまとめることで、より効率的なメソッドになる可能性が高い。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomethingToAList(List&lt;String&gt; strings) {
+  for (String str : strings) {
+    doStep1(str);
+  }
+  for (String str : strings) {  // Noncompliant
+    doStep2(str);
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomethingToAList(List&lt;String&gt; strings) {
+  for (String str : strings) {
+    doStep1(str);
+    doStep2(str);
+  }
+}
+</pre>
+

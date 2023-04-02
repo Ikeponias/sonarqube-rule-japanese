@@ -1,0 +1,26 @@
+<p><code translate="no">PreparedStatement</code> のパラメータのインデックスは 0 ではなく 1 から始まるので、<code translate="no">PreparedStatement</code>の「セット」メソッドで 1 未満の番号を使用するとバグになり、パラメータの数よりも大きいインデックスを使用するとバグになります。また、同じインデックススタイルが<code translate="no">ResultSet</code> にも適用されます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+PreparedStatement ps = con.prepareStatement("SELECT fname, lname FROM employees where hireDate &gt; ? and salary &lt; ?");
+ps.setDate(0, date);  // Noncompliant
+ps.setDouble(3, salary);  // Noncompliant
+
+ResultSet rs = ps.executeQuery();
+while (rs.next()) {
+  String fname = rs.getString(0);  // Noncompliant
+  // ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+PreparedStatement ps = con.prepareStatement("SELECT fname, lname FROM employees where hireDate &gt; ? and salary &lt; ?");
+ps.setDate(1, date);
+ps.setDouble(2, salary);
+
+ResultSet rs = ps.executeQuery();
+while (rs.next()) {
+  String fname = rs.getString(1);
+  // ...
+}
+</pre>
+

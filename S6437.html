@@ -1,0 +1,72 @@
+<p>あなたのコードにハードコードされた秘密が発見されました。この秘密が使われている場所を素早くリストアップし、それを失効させ、それを使っているすべてのシステムでそれを変更する必要があります。</p>
+<p>パスワード、シークレット、およびあらゆる種類のクレデンシャルは、単一のエンティティ（人またはシステム）を認証するためにのみ使用する必要があります。</p>
+<p>第三者が別のシステムまたは個人として認証することを許可すると、正当なIDになりすまし、組織内の信頼を損なう可能性があります。<br>いずれの場合も、認証されたエンティティが本人であると関係するシステムが誤認するため、システムに対する明らかな背信行為となります。<br>その結果、壊滅的な打撃を受ける可能性があります。</p>
+<p>コードベースに認証情報をプレーンテキストで保管することは、ソースコードやランタイムサーバーにアクセスできる人とそのパスワードを共有することに等しい。<br>したがって、これらの個人は他人になりすますことができるため、信頼に反することになります。</p>
+<p>秘密管理サービスは、クレデンシャルを保管し、それに関連するアイデンティティを保護するための最も効率的なツールである。<br>この目的のために、クラウドプロバイダーやオンプレミスサービスを利用することができます。</p>
+<p>シークレットデータ管理サービスにクレデンシャルを保存することが不可能な場合は、以下のガイドラインに従ってください：</p>
+<ul>
+  <li>過剰な数の人がアクセスできるファイルにクレデンシャルを保存しないこと。    <ul>
+      <li>例えば、コードの中、スプレッドシートの中、付箋の中、共有ドライブの中などに保管しない。 </li>
+    </ul>  </li>
+  <li>パスワードによるアクセス制御を保護するために、本番用オペレーティングシステムを使用します。    <ul>
+      <li>例えば、パーミッションが制限され、chmodとchownで保護されているファイルにおいて。 </li>
+    </ul>  </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+import org.h2.security.SHA256;
+
+String inputString = "s3cr37";
+byte[] key         = inputString.getBytes();
+
+SHA256.getHMAC(key, message);  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p><a href="https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/javav2/example_code/secretsmanager">AWS Secrets Managerを</a>使用する：</p>
+<pre translate="no">
+import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
+import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
+import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueResponse;
+import org.h2.security.SHA256;
+
+public static void doSomething(SecretsManagerClient secretsClient, String secretName) {
+  GetSecretValueRequest valueRequest = GetSecretValueRequest.builder()
+    .secretId(secretName)
+    .build();
+
+  GetSecretValueResponse valueResponse = secretsClient.getSecretValue(valueRequest);
+  String secret                        = valueResponse.secretString();
+
+  byte[] key = secret.getBytes();
+  SHA256.getHMAC(key, message);
+}
+</pre>
+<p><a href="https://docs.microsoft.com/en-us/azure/key-vault/secrets/quick-create-java?tabs=azure-cli">Azure Key Vault Secretを</a>使用する：</p>
+<pre translate="no">
+import com.azure.identity.DefaultAzureCredentialBuilder;
+import com.azure.security.keyvault.secrets.SecretClient;
+import com.azure.security.keyvault.secrets.SecretClientBuilder;
+import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
+import org.h2.security.SHA256;
+
+public static void doSomething(SecretClient secretClient, String secretName) {
+  KeyVaultSecret retrievedSecret = secretClient.getSecret(secretName);
+  String secret = retrievedSecret.getValue();
+
+  byte[] key = secret.getBytes();
+  SHA256.getHMAC(key, message);
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://aws.amazon.com/fr/secrets-manager/">AWS</a>- シークレットマネージャー </li>
+  <li><a href="https://azure.microsoft.com/fr-fr/services/key-vault/">Azure</a>- Key Vault </li>
+  <li><a href="https://cloud.google.com/secret-manager">GCP</a>- シークレットマネージャー </li>
+  <li><a href="https://www.vaultproject.io/">Hashicorp Vault</a>- シークレットマネジメント </li>
+  <li><a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">OWASP Top 10 2021 カテゴリ A7</a>- 識別と認証の失敗 </li>
+  <li><a href="https://www.owasp.org/index.php/Top_10-2017_A2-Broken_Authentication">OWASP Top 10 2017 カテゴリーA2</a>- Broken Authentication </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/798.html">MITRE、CWE-798</a>- ハードコード化されたクレデンシャルの使用 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/259.html">MITRE, CWE-259</a>- ハードコードされたパスワードの使用について </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/OjdGBQ">CERT、MSC03-J。</a>- 機密情報をハードコードしない </li>
+</ul>
+

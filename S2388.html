@@ -1,0 +1,40 @@
+<p>内部クラスが他のクラスを拡張し、その外部クラスと親クラスの両方が同じ名前のメソッドを持つ場合、そのメソッドへの呼び出しが混乱することがあります。コンパイラはスーパークラスのメソッドへの呼び出しを解決しますが、メンテナンス担当者は混乱する可能性があるので、スーパークラスのメソッドは<code translate="no">super.</code> を使用して明示的に呼び出す必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Parent {
+  public void foo() { ... }
+}
+
+public class Outer {
+
+  public void foo() { ... }
+
+  public class Inner extends Parent {
+
+    public void doTheThing() {
+      foo();  // Noncompliant; was Outer.this.foo() intended instead?
+      // ...
+    }
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Parent {
+  public void foo() { ... }
+}
+
+public class Outer {
+
+  public void foo() { ... }
+
+  public class Inner extends Parent {
+
+    public void doTheThing() {
+      super.foo();
+      // ...
+    }
+  }
+}
+</pre>
+

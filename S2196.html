@@ -1,0 +1,32 @@
+<p>Java 7以降、<code translate="no">String</code>sを<code translate="no">switch</code> 引数として使用することができるようになりました。そのため、1つの<code translate="no">String</code> が<code translate="no">if</code>/<code translate="no">else if</code> 構造の3つ以上の値に対してテストされる場合、可読性を高めるために、代わりにスイッチに変換されるべきです。</p>
+<p><strong>なお</strong>、このルールは、プロジェクトの<code translate="no">sonar.java.source</code> が<code translate="no">7</code> よりも低い場合、自動的に無効となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if ("red".equals(choice)) {  // Noncompliant
+  dispenseRed();
+} else if ("blue".equals(choice)) {
+  dispenseBlue();
+} else if ("yellow".equals(choice)) {
+  dispenseYellow();
+} else {
+  promptUser();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+switch(choice) {
+  case "Red":
+    dispenseRed();
+    break;
+  case "Blue":
+    dispenseBlue():
+    break;
+  case "Yellow":
+    dispenseYellow();
+    break;
+  default:
+    promptUser();
+    break;
+}
+</pre>
+

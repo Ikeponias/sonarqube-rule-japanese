@@ -1,0 +1,39 @@
+<p>Spring<code translate="no">@Controller</code>,<code translate="no">@Service</code>,<code translate="no">@Repository</code> の各クラスはデフォルトでシングルトンです。一般的にこのようなクラスは、ロガーのようないくつかの<code translate="no">static</code> メンバーを持つかもしれませんが、すべての非静的メンバーはSpringによって管理され、フィールド注入ではなく、コンストラクタ注入によって供給されるべきです。</p>
+<p>このルールは、Springコンポーネントの<code translate="no">static</code> 以外のメンバーに注入アノテーションがある場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Controller
+public class HelloWorld {
+
+  @Autowired
+  private String name = null; // Noncompliant
+
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>Spring 4.3時点</p>
+<pre translate="no">
+@Controller
+public class HelloWorld {
+
+  private String name = null;
+
+  HelloWorld(String name) {
+    this.name = name;
+  }
+}
+</pre>
+<p>スプリング4.3以前</p>
+<pre translate="no">
+@Controller
+public class HelloWorld {
+
+  private String name = null;
+
+  @Autowired
+  HelloWorld(String name) {
+    this.name = name;
+  }
+}
+</pre>
+

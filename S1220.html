@@ -1,0 +1,16 @@
+<p>Java Language Specificationによる：</p>
+<blockquote>
+  <p>無名パッケージは、主に小規模または一時的なアプリケーションを開発する際や、開発を始めたばかりの時に便利なように、Javaプラットフォームによって提供されます。</p>
+</blockquote>
+<p>このベストプラクティスを実施するために、Java 1.4以降、デフォルトパッケージにあるクラスは、名前付きパッケージからアクセスすることができなくなりました。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass { /* ... */ }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+package org.example;
+
+public class MyClass{ /* ... */ }
+</pre>
+

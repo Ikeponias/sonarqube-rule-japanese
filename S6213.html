@@ -1,0 +1,41 @@
+<p>技術的に可能であっても、<a href="https://docs.oracle.com/javase/specs/jls/se16/html/jls-3.html#jls-3.8">Restricted Identifiersを</a>識別子として使用するべきではありません。これは互換性のためにのみ可能であり、Javaコードで使用することは混乱を招くので避けるべきです。</p>
+<p>なお、将来の混乱を避けるため、これらの識別子がまだ制限されていないバージョンを含む、どのバージョンのJavaにも適用されます。</p>
+<p>このルールでは、識別子を制限した場合の問題が報告されています：</p>
+<ul>
+  <li>ヴァル </li>
+  <li>産する </li>
+  <li>書き記す </li>
+</ul>
+<p>は識別子として使用される。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+var var = "var"; // Noncompliant: compiles but this code is confusing
+var = "what is this?";
+
+int yield(int i) { // Noncompliant
+  return switch (i) {
+    case 1: yield(0); // This is a yield from switch expression, not a recursive call.
+    default: yield(i-1);
+  };
+}
+
+String record = "record"; // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+var myVariable = "var";
+
+int minusOne(int i) {
+  return switch (i) {
+    case 1: yield(0);
+    default: yield(i-1);
+  };
+}
+
+String myRecord = "record";
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/javase/specs/jls/se16/html/jls-3.html#jls-3.8">JLS16, 3.8: 識別子</a></li>
+</ul>
+

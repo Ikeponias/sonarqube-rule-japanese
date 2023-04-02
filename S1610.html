@@ -1,0 +1,23 @@
+<p>Java 8の「デフォルトメソッド」機能により、直接フィールドや継承フィールドを持たない抽象クラスは、インターフェースに変換されるはずです。しかし、ライブラリなど、クラスをAPIとして利用することを想定している用途では、この変更は適切でない場合があります。</p>
+<p><strong>なお</strong>、このルールは、プロジェクトの<code translate="no">sonar.java.source</code> が<code translate="no">8</code> よりも低い場合、自動的に無効となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public abstract class Car {
+  public abstract void start(Environment c);
+
+  public void stop(Environment c) {
+    c.freeze(this);
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public interface Car {
+  public void start(Environment c);
+
+  public default void stop(Environment c) {
+    c.freeze(this);
+  }
+}
+</pre>
+

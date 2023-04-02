@@ -1,0 +1,19 @@
+<p>Java 7のtry-with-resources構造では、<code translate="no">try</code> 自身が開いたリソースを閉じる処理が自動的に行われます。したがって、明示的な<code translate="no">close()</code> 呼び出しを追加することは冗長であり、混乱を招く可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+try (PrintWriter writer = new PrintWriter(process.getOutputStream())) {
+  String contents = file.contents();
+  writer.write(new Gson().toJson(new MyObject(contents)));
+  writer.flush();
+  writer.close();  // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+try (PrintWriter writer = new PrintWriter(process.getOutputStream())) {
+  String contents = file.contents();
+  writer.write(new Gson().toJson(new MyObject(contents)));
+  writer.flush();
+}
+</pre>
+

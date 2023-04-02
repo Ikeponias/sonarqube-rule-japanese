@@ -1,0 +1,19 @@
+<p><code translate="no">java.util.concurrent.locks.Lock</code> は、 ブロックで利用可能なものよりはるかに強力で柔軟なロック操作を提供します。そのため、 で同期をとることは、そのオブジェクトの力を捨ててしまうことになり、ただの愚かな行為です。代わりに、このようなオブジェクトは と を使ってロックとアンロックを行う必要があります。<code translate="no">synchronized</code> <code translate="no">Lock</code> <code translate="no">tryLock()</code> <code translate="no">unlock()</code></p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Lock lock = new MyLockImpl();
+synchronized(lock) {  // Noncompliant
+  //...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Lock lock = new MyLockImpl();
+lock.tryLock();
+//...
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/qjdGBQ">CERT、LCK03-J。</a>- 高位同時実行オブジェクトの固有ロックで同期をとらないこと </li>
+</ul>
+

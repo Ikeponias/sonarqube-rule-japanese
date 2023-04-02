@@ -1,0 +1,18 @@
+<p>抽象クラスは、パブリックコンストラクタを持つべきではありません。抽象クラスのコンストラクタは、そのサブクラスのコンストラクタの中でしか呼び出すことができません。ですから、コンストラクタをパブリックにする意味はありません。<code translate="no">protected</code> 修飾子で十分でしょう。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public abstract class AbstractClass1 {
+    public AbstractClass1 () { // Noncompliant, has public modifier
+        // do something here
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public abstract class AbstractClass2 {
+    protected AbstractClass2 () {
+        // do something here
+    }
+}
+</pre>
+

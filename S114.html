@@ -1,0 +1,11 @@
+<p>いくつかの命名規則を共有することは、チームが効率的にコラボレーションを行うための重要なポイントです。このルールでは、すべてのインターフェイス名が指定された正規表現に一致するかどうかを確認することができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルトの正規表現で<code translate="no">^[A-Z][a-zA-Z0-9]*$</code> ：</p>
+<pre translate="no">
+public interface myInterface {...} // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public interface MyInterface {...}
+</pre>
+

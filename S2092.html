@@ -1,0 +1,38 @@
+<p>クッキーが<code translate="no">secure</code> 属性を<em>trueに</em>設定して保護されている場合、暗号化されていないHTTPリクエストでブラウザから送信されないため、中間者攻撃で不正な人物に観察されることはありません。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>クッキーは、例えば<em>セッションクッキー</em>であり、HTTPS以外の通信で送信されることを想定していません。 </li>
+  <li>ウェブサイトが<a href="https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content">混合コンテンツを</a>含んでいるかどうかがわからない（つまり、HTTPSがいたるところにあるかどうか）。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<ul>
+  <li>どこでも<code translate="no">HTTPs</code> を使うことが推奨されているので、<code translate="no">secure</code> フラグを<em>true</em>に設定することが、クッキーを作成する際のデフォルトの動作になるはずです。 </li>
+  <li>session-cookie の<code translate="no">secure</code> フラグを<em>true</em>に設定します。 </li>
+</ul>
+<h2>センシティブコードの例</h2>
+<p>JAVAコードでセキュリティに配慮したCookieを作成した場合：</p>
+<pre translate="no">
+Cookie c = new Cookie(COOKIENAME, sensitivedata);
+c.setSecure(false);  // Sensitive: a security-ensitive cookie is created with the secure flag set to false
+</pre>
+<p>デフォルトでは <a href="https://docs.oracle.com/javaee/6/api/javax/servlet/http/Cookie.html#setSecure(boolean)"><code translate="no">secure</code></a>フラグが<em>false</em>に設定されます：</p>
+<pre translate="no">
+Cookie c = new Cookie(COOKIENAME, sensitivedata);  // Sensitive: a security-sensitive cookie is created with the secure flag not defined (by default set to false)
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Cookie c = new Cookie(COOKIENAME, sensitivedata);
+c.setSecure(true); // Compliant: the sensitive cookie will not be send during an unencrypted HTTP request thanks to the secure flag set to true
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A04_2021-Insecure_Design/">OWASP Top 10 2021 カテゴリ A4</a>- 安全でない設計 </li>
+  <li><a href="https://owasp.org/Top10/A05_2021-Security_Misconfiguration/">OWASP Top 10 2021 カテゴリ A5</a>- セキュリティの誤設定 </li>
+  <li><a href="https://www.owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/311">MITRE、CWE-311</a>- 機密データの暗号化の欠落について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/315">MITRE, CWE-315</a>- 機密情報のクッキーへの保存について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/614">MITRE, CWE-614</a>- 「Secure」属性がないHTTPSセッションで機密性の高いCookieを使用する。 </li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat3">SANS Top 25</a>- ポーラスディフェンス </li>
+</ul>
+

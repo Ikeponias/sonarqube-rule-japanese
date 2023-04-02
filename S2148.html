@@ -1,0 +1,47 @@
+<p>Java 7から、数値リテラルにアンダースコア（'_'）を付加して可読性を高めることができるようになりました。この方法によるアンダースコアの追加は、意味的な意味はありませんが、保守者がコードを理解しやすくするものです。</p>
+<p>このルールを発動するために必要な小数点の左側の桁数は、ベースによって異なります。</p>
+<table>
+  <colgroup>
+    <col style="width: 50%;" />
+    <col style="width: 50%;" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>ベース</th>
+      <th>最小桁数</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><p>バイナリ</p></td>
+      <td><p>9</p></td>
+    </tr>
+    <tr>
+      <td><p>八進数</p></td>
+      <td><p>9</p></td>
+    </tr>
+    <tr>
+      <td><p>10進数</p></td>
+      <td><p>6</p></td>
+    </tr>
+    <tr>
+      <td><p>十六進法</p></td>
+      <td><p>9</p></td>
+    </tr>
+  </tbody>
+</table>
+<p>このルールで精査されるのは、アンダースコアの有無だけで、その間隔ではありません。</p>
+<p><strong>なお</strong>、このルールは、プロジェクトの<code translate="no">sonar.java.source</code> が<code translate="no">7</code> よりも低い場合、自動的に無効となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int i = 10000000;  // Noncompliant; is this 10 million or 100 million?
+int  j = 0b01101001010011011110010101011110;  // Noncompliant
+long l = 0x7fffffffffffffffL;  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int i = 10_000_000;
+int  j = 0b01101001_01001101_11100101_01011110;
+long l = 0x7fff_ffff_ffff_ffffL;
+</pre>
+

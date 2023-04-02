@@ -1,0 +1,49 @@
+<p>Java 16でレコードが登場する以前は、クラスのプライベート・フィールドに対するゲッターを表現する一般的な方法がありました：大文字のフィールド名を持つ「get」という名前のメソッドです。例えば、"myField "という名前の<code translate="no">String</code> フィールドの場合、ゲッターメソッドのシグネチャは次のようになります：<code translate="no">public
+String getMyField()</code></p>
+<p>レコードでは、ゲッターの名前は異なります。デフォルトで作成されるゲッターには、"get "というプレフィックスが含まれません。つまり、レコードの<code translate="no">String</code> フィールド「myField」に対して、ゲッターメソッドは次のようになります：<code translate="no">public String myField()</code></p>
+<p>つまり、デフォルトのゲッターの動作をオーバーライドしたい場合は、新しいものを作成するのではなく、レコードが提供するメソッドを使用する方が良いということです。そうでなければ、2つのゲッターが利用可能になるため、レコードの利用者に混乱をもたらし、さらにデフォルトのものと動作が異なる場合はバグにつながる。</p>
+<p>このルールでは、大文字のフィールド名を持つ「get」という名前のゲッターがレコードに含まれていて、デフォルトのものと同じ動作をしていない場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+record Person(String name, int age) {
+    public String getName() { // Noncompliant
+        return name.toUpperCase(Locale.ROOT);
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+record Person(String name, int age) {
+    @Override
+    public String name() { // Compliant
+        return name.toUpperCase(Locale.ROOT);
+    }
+}
+
+record Person(String name, int age) {
+    public String getNameUpperCase() { // Compliant
+        return name.toUpperCase(Locale.ROOT);
+    }
+}
+record Person(String name, int age) {
+    public String getName() { // Compliant, is equivalent to 'name()'
+        return name;
+    }
+}
+record Person(String name, int age) {
+    @Override
+    public String name() { // Compliant
+        return name.toUpperCase(Locale.ROOT);
+    }
+    public String getName() { // Compliant, equal to 'name()'
+        return name.toUpperCase(Locale.ROOT);
+    }
+}
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">getMyField()</code> と<code translate="no">myField()</code> のメソッドの実装が同等である場合、これはおそらく以前の規約との互換性をサポートするために行われたものであるため、問題は発生しないはずです。</p>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/javase/specs/jls/se16/html/jls-8.html#jls-8.10">レコード仕様</a></li>
+</ul>
+

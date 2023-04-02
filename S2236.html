@@ -1,0 +1,12 @@
+<p><code translate="no">wait(...)</code> 、<code translate="no">notify()</code> 、<code translate="no">notifyAll()</code> のメソッドは<code translate="no">Thread</code> インスタンスで利用できますが、これはJavaのすべてのクラスが<code translate="no">Object</code> を拡張しているため、自動的にこれらのメソッドを継承しているからです。しかし、<code translate="no">Thread</code> でこれらのメソッドを呼び出さないことには、2つの非常に良い理由があります：</p>
+<ul>
+  <li>内部的には、JVMはスレッドの状態（<code translate="no">BLOCKED</code>,<code translate="no">WAITING</code>, ...）を変更するためにこれらのメソッドに依存しているため、これらを呼び出すとJVMの動作が壊れてしまいます。 </li>
+  <li>何が本当に期待されているのかが（おそらく元のコーダーにとっても）明確ではありません。例えば、スレッドの実行が中断されるのを待っているのか、それともオブジェクト・モニタの取得を待っているのか。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Thread myThread = new Thread(new RunnableJob());
+...
+myThread.wait(2000);
+</pre>
+

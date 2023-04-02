@@ -1,0 +1,15 @@
+<p>チームでの共同作業を効率的に行うためには、命名規則を共有することが重要なポイントになります。このルールでは、フィールド名が指定された正規表現に一致するかどうかをチェックすることができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルトの正規表現で<code translate="no">^[a-z][a-zA-Z0-9]*$</code> ：</p>
+<pre translate="no">
+class MyClass {
+   private int my_field;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class MyClass {
+   private int myField;
+}
+</pre>
+

@@ -1,0 +1,17 @@
+<p>命名規則を共有することで、チームは効率的にコラボレーションを行うことができます。このルールでは、テストメソッド名が指定された正規表現に一致しない場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルト値で：<code translate="no">^test[A-Z][a-zA-Z0-9]*$</code></p>
+<pre translate="no">
+@Test
+public void foo() {  // Noncompliant
+  //...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Test
+public void testFoo() {
+  // ...
+}
+</pre>
+

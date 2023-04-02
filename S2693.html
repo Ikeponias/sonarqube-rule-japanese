@@ -1,0 +1,19 @@
+<p>コンストラクタで<code translate="no">Thread.start()</code> を呼び出すことの問題点は、クラスが拡張された場合、混乱が生じることです。</p>
+<p>このルールは、<code translate="no">final</code> 以外のクラスのコンストラクタで<code translate="no">start</code> が呼び出された場合に、問題を生じさせます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+
+  Thread thread = null;
+
+  public MyClass(Runnable runnable) {
+    thread = new Thread(runnable);
+    thread.start(); // Noncompliant
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/FDdGBQ">CERT, TSM02-J.</a>- クラス初期化時にバックグラウンドスレッドを使用しない </li>
+</ul>
+

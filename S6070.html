@@ -1,0 +1,13 @@
+<p>正規表現では、エスケープシーケンス<code translate="no">\cX</code> 、Xは<code translate="no">@</code> 、ASCIIの大文字、<code translate="no">[</code> 、<code translate="no">\</code> 、<code translate="no">]</code> 、<code translate="no">^</code> 、<code translate="no">_</code> のいずれかの文字を表し、<code translate="no">\c</code> 、ASCIIエンコーディングで与えられた文字の64バイト前の文字に「対応」する制御文字を意味する。</p>
+<p>他のいくつかの正規表現エンジン（たとえばPerlのエンジン）では、このエスケープシーケンスは大文字小文字を区別せず、<code translate="no">\cd</code> は<code translate="no">\cD</code> と同じ制御文字を生成します。さらに、<code translate="no">@</code> 、ASCII文字、<code translate="no">[</code> 、<code translate="no">\</code> 、<code translate="no">]</code> 、<code translate="no">^</code> 、<code translate="no">_</code> のいずれでもない文字に<code translate="no">\c</code> を使用すると、これらのエンジンでは警告またはエラーが発生します。Javaではこのどちらも当てはまらず、この演算が意味を持つかどうかをチェックすることなく、文字の値は常に64とXORされます。これは、<code translate="no">@</code> から<code translate="no">_</code> の範囲外の文字に対しては賢明な結果をもたらさないので、そのような文字に<code translate="no">\c</code> を使用することは、ほぼ間違いなく間違いである。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Pattern.compile("\\ca"); // Noncompliant, 'a' is not an upper case letter
+Pattern.compile("\\c!"); // Noncompliant, '!' is outside of the '@'-'_' range
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Pattern.compile("\\cA"); // Compliant, this will match the "start of heading" control character
+Pattern.compile("\\c^"); // Compliant, this will match the "record separator" control character
+</pre>
+

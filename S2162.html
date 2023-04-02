@@ -1,0 +1,62 @@
+<p><code translate="no">equals</code> 契約の重要な点は、もし<code translate="no">a.equals(b)</code> ならば<code translate="no">b.equals(a)</code> 、つまり対称的な関係であることです。</p>
+<p>サブクラスが存在する場合、<code translate="no">instanceof</code> を使用すると契約が破棄されます。なぜなら、子は<code translate="no">instanceof</code> の親である一方、親は<code translate="no">instanceof</code> の子ではないためです。たとえば、<code translate="no">Raspberry extends Fruit</code> 、いくつかのフィールドを追加したとします（<code translate="no">equals</code> の新しい実装が必要です）：</p>
+<pre translate="no">
+Fruit fruit = new Fruit();
+Raspberry raspberry = new Raspberry();
+
+if (raspberry instanceof Fruit) { ... } // true
+if (fruit instanceof Raspberry) { ... } // false
+</pre>
+<p>クラスの<code translate="no">equals</code> 方式で同様の<code translate="no">instanceof</code> チェックが行われた場合、対称性の原則が崩れることになります：</p>
+<pre translate="no">
+raspberry.equals(fruit); // false
+fruit.equals(raspberry); //true
+</pre>
+<p>さらに、<code translate="no">final</code> 以外のクラスは、<code translate="no">equals</code> メソッドでハードコードされたクラス名を使用すべきではありません。そうすることで、サブクラス用のメソッドが壊れてしまうからです。その代わりに、比較をダイナミックに行うようにします。</p>
+<p>さらに、無関係なクラス型と比較すると、その無関係な型の契約が破棄されます。<code translate="no">thisClass.equals(unrelatedClass)</code> は真を返すことができますが、<code translate="no">unrelatedClass.equals(thisClass)</code> は真を返さないからです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Fruit extends Food {
+  private Season ripe;
+
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (Fruit.class == obj.getClass()) { // Noncompliant; broken for child classes
+      return ripe.equals(((Fruit)obj).getRipe());
+    }
+    if (obj instanceof Fruit ) {  // Noncompliant; broken for child classes
+      return ripe.equals(((Fruit)obj).getRipe());
+    }
+    else if (obj instanceof Season) { // Noncompliant; symmetry broken for Season class
+      // ...
+    }
+    //...
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Fruit extends Food {
+  private Season ripe;
+
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() == obj.getClass()) {
+      return ripe.equals(((Fruit)obj).getRipe());
+    }
+    return false;
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/AzZGBQ">CERT、MET08-J。</a>- equals()メソッドをオーバーライドする際に、等号契約を維持する。  </li>
+</ul>
+

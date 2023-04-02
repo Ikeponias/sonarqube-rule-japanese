@@ -1,0 +1,27 @@
+<p>Oracle Java API によると、<code translate="no">HttpServletRequest.getRequestedSessionId()</code> メソッドです：</p>
+<blockquote>
+  <p>クライアントが指定したセッションIDを返します。このIDは、このリクエストに対して現在有効なセッションのIDと同じでない場合がある。クライアントがセッションIDを指定しなかった場合、このメソッドはNULLを返します。</p>
+</blockquote>
+<p>このセッションIDは、クッキーまたはURLのパラメータとして送信されるため、定義上、エンドユーザーがHTTPリクエストでこのセッションIDの値を手動で更新することを妨げるものはない。</p>
+<p>以下は、更新されたHTTPヘッダーの例です：</p>
+<pre translate="no">
+GET /pageSomeWhere HTTP/1.1
+Host: webSite.com
+User-Agent: Mozilla/5.0
+Cookie: JSESSIONID=Hacked_Session_Value'''"&gt;
+</pre>
+<p>エンドユーザーが手動で値を変更できるため、リクエストのセッションIDは、サーブレットコンテナ（TomcatやJettyなど）が、その値が既存のセッションのIDと一致するかどうかを確認するためにのみ使用されるべきです。さらに、このセッションIDは、アクティブなセッションのハイジャックを防ぐために、一方向ハッシュを使用して、そのままでは決してログに記録されるべきではありません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if(isActiveSession(request.getRequestedSessionId()) ){
+  ...
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A04_2021-Insecure_Design/">OWASP Top 10 2021 カテゴリ A4</a>- 安全でない設計 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication">OWASP Top 10 2017 カテゴリーA2</a>- Broken Authentication  </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/807">MITRE, CWE-807</a>- セキュリティ上の判断における信頼されていない入力への信頼性 </li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat3">SANS Top 25</a>- ポーラスディフェンス </li>
+</ul>
+

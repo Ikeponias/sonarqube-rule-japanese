@@ -1,0 +1,30 @@
+<p>Oracle Javadocによると：</p>
+<blockquote>
+  <p><code translate="no">IllegalMonitorStateException</code> は、スレッドがオブジェクトのモニタで待機しようとしたとき、または指定されたモニタを所有せずにオブジェクトのモニタで待機している他のスレッドに通知しようとしたときにスローされます。</p>
+</blockquote>
+<p>つまり、モニタが保持されていないオブジェクトに対して、<code translate="no">Object.wait(...)</code> 、<code translate="no">Object.notify()</code> 、<code translate="no">Object.notifyAll()</code> のメソッドを呼び出してはならないので、この例外は設計が悪い場合にのみスローされる可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomething(){
+  ...
+  try {
+    ...
+    anObject.notify();
+    ...
+  } catch(IllegalMonitorStateException e) {
+    ...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomething(){
+  ...
+  synchronized(anObject) {
+    ...
+    anObject.notify();
+    ...
+  }
+}
+</pre>
+

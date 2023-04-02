@@ -1,0 +1,61 @@
+<p>もし、テストを書くためにクラスの非プライベートメソッドをすべてモックすることになったら、テストが複雑になりすぎているか、モックメカニズムの使い方を誤解している可能性が高くなります。</p>
+<p>テストコードを複数のユニットにリファクタリングするか、クラスそのものを直接インスタンス化するか、そのクラスを継承して期待される動作を持つ新しいクラスを作成することで、そのクラスの使用を検討する必要があります。</p>
+<p>このルールでは、与えられたクラスのすべてのメンバーがモックされる場合の問題を報告します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Test
+void test_requiring_MyClass() {
+  MyClass myClassMock = mock(MyClass.class); // Noncompliant
+  when(myClassMock.f()).thenReturn(1);
+  when(myClassMock.g()).thenReturn(2);
+  //...
+}
+
+abstract class MyClass {
+  abstract int f();
+  abstract int g();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Test
+void test_requiring_MyClass() {
+  MyClass myClass = new MyClassForTest();
+  //...
+}
+
+class MyClassForTest extends MyClass {
+
+  @Override
+  int f() {
+    return 1;
+  }
+
+  @Override
+  int g() {
+    return 2;
+  }
+}
+</pre>
+<p>または</p>
+<pre translate="no">
+@Test
+void test_requiring_f() {
+  MyClass myClassMock = mock(MyClass.class);
+  when(myClassMock.f()).thenReturn(1);
+  //...
+}
+
+@Test
+void test_requiring_g() {
+  MyClass myClassMock = mock(MyClass.class);
+  when(myClassMock.g()).thenReturn(2);
+  //...
+}
+
+abstract class MyClass {
+  abstract int f();
+  abstract int g();
+}
+</pre>
+

@@ -1,0 +1,50 @@
+<p>コードが例外を発生させることを検証する場合、テストされたコードの内部で複数のメソッド呼び出しが行われることを避け、何を正確にテストするかを明示することが良い習慣となる。</p>
+<p>2つのメソッドが同じ<strong>チェックされた</strong>例外を発生させることができる場合、何が本当にテストされているのかを知ることができないため、この良い習慣を尊重しないことはバグとなります。</p>
+<p>テストされたコードで、1つのメソッドだけが期待されるチェックされた例外を発生させることができることを確認する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Test
+public void testG() {
+  // Do you expect g() or f() throwing the exception?
+  assertThrows(IOException.class, () -&gt; g(f(1)) ); // Noncompliant
+}
+
+@Test
+public void testGTryCatchIdiom() {
+  try { // Noncompliant
+    g(f(1));
+    Assert.fail("Expected an IOException to be thrown");
+  } catch (IOException e) {
+    // Test exception message...
+  }
+}
+
+int f(int x) throws IOException {
+  // ...
+}
+
+int g(int x) throws IOException {
+  // ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Test
+public void testG() {
+  int y = f(1);
+  // It is explicit that we expect an exception from g() and not f()
+  assertThrows(IOException.class, () -&gt; g(y) );
+}
+
+@Test
+public void testGTryCatchIdiom() {
+  int y = f(1);
+  try {
+    g(y);
+    Assert.fail("Expected an IOException to be thrown");
+  } catch (IOException e) {
+    // Test exception message...
+  }
+}
+</pre>
+

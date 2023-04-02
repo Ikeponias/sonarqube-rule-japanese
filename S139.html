@@ -1,0 +1,11 @@
+<p>このルールは、一行コメントがコード行の末尾にないことを確認するものです。このルールの主な考え方は、本当に読みやすくするためには、末尾のコメントが適切に書かれ、フォーマットされていなければなりませんが（正しい配置、コードの視覚的構造を妨げない、長すぎて見えない）、ほとんどの場合、自動コードフォーマッタはこれを正しく処理できません。 コメントは、常に見え、適切にフォーマットされる、コードの前の空行に置く方がはるかに良いです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int a1 = b + c; // This is a trailing comment that can be very very long
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+// This very long comment is better placed before the line of code
+int a2 = b + c;
+</pre>
+

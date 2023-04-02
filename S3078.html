@@ -1,0 +1,32 @@
+<p>複合演算子やプリミティブフィールドのインクリメント、デクリメント（<code translate="no">boolean</code>の場合はトグル）はアトミックな操作ではありません。つまり、1つのステップで行われるわけではありません。例えば、<code translate="no">volatile</code> プリミティブフィールドをインクリメントまたはデクリメントする場合、更新のステップでスレッドが交錯すると、データが失われる危険性があります。その代わりに、<code translate="no">AtomicInteger</code> のようなアトミック保証のクラスを使用するか、アクセスを同期化します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+private volatile int count = 0;
+private volatile boolean boo = false;
+
+public void incrementCount() {
+  count++;  // Noncompliant
+}
+
+public void toggleBoo(){
+  boo = !boo;  // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+private AtomicInteger count = 0;
+private boolean boo = false;
+
+public void incrementCount() {
+  count.incrementAndGet();
+}
+
+public synchronized void toggleBoo() {
+  boo = !boo;
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/SjdGBQ">CERT、VNA02-J。</a>- 共有変数に対する複合演算がアトミックであることを確認する。  </li>
+</ul>
+

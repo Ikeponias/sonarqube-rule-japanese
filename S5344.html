@@ -1,0 +1,51 @@
+<p>ユーザーパスワードは決して平文で保存されるべきではなく、安全なアルゴリズムを用いてハッシュを生成する必要があります：</p>
+<ul>
+  <li>に弱い<code translate="no">brute force attacks</code> 。 </li>
+  <li><code translate="no">collision attacks</code> に脆弱でないこと（規則 S4790 を参照）。 </li>
+  <li>で、<code translate="no">rainbow table attacks</code> のリスクを下げるためにパスワードにソルトを追加する必要があります（規則 s2053 参照）。 </li>
+</ul>
+<p>このルールは、パスワードが平文で保存されている場合や、<code translate="no">bruce force attacks</code> に脆弱なハッシュアルゴリズムを使用している場合に問題となります。これらのアルゴリズムは、<code translate="no">md5</code> や<code translate="no">SHA-family</code> 関数のようにハッシュを計算するのが速いため、特に GPU、FPGA、ASIC などのハードウェアでは総当たり攻撃が可能です（すべてのパスワードの可能性を網羅することが容易になります）。<code translate="no">bcrypt</code> 、<code translate="no">PBKDF2</code> 、<code translate="no">argon2</code> のような最新のパスワードハッシュアルゴリズムを推奨します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Autowired
+public void configureGlobal(AuthenticationManagerBuilder auth, DataSource dataSource) throws Exception {
+  auth.jdbcAuthentication()
+    .dataSource(dataSource)
+    .usersByUsernameQuery("SELECT * FROM users WHERE username = ?")
+    .passwordEncoder(new StandardPasswordEncoder()); // Noncompliant
+
+  // OR
+  auth.jdbcAuthentication()
+    .dataSource(dataSource)
+    .usersByUsernameQuery("SELECT * FROM users WHERE username = ?"); // Noncompliant; default uses plain-text
+
+  // OR
+  auth.userDetailsService(...); // Noncompliant; default uses plain-text
+  // OR
+  auth.userDetailsService(...).passwordEncoder(new StandardPasswordEncoder()); // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Autowired
+public void configureGlobal(AuthenticationManagerBuilder auth, DataSource dataSource) throws Exception {
+  auth.jdbcAuthentication()
+    .dataSource(dataSource)
+    .usersByUsernameQuery("Select * from users where username=?")
+    .passwordEncoder(new BCryptPasswordEncoder());
+
+  // or
+  auth.userDetailsService(null).passwordEncoder(new BCryptPasswordEncoder());
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/">OWASP Top 10 2021 カテゴリ A2</a>- 暗号の失敗 </li>
+  <li><a href="https://owasp.org/Top10/A04_2021-Insecure_Design/">OWASP Top 10 2021 カテゴリ A4</a>- 安全でない設計 </li>
+  <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">OWASP CheatSheet</a>- パスワード保存のカンニングペーパー  </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/256">MITRE, CWE-256</a>- パスワードの平文保存について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/916">MITRE, CWE-916</a>- 不十分な計算努力によるパスワードハッシュの使用 </li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat3">SANS Top 25</a>- ポーラスディフェンス </li>
+</ul>
+

@@ -1,0 +1,47 @@
+<p>安全でないJacksonのデシリアライズ設定を使用することは、セキュリティ上重要なことです。過去に以下のような脆弱性につながったことがあります：</p>
+<ul>
+  <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-4995">CVE-2017-4995</a></li>
+  <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-19362">CVE-2018-19362</a></li>
+</ul>
+<p>JacksonがPolymorphic Type Handling (aka PTH) (以前はPolymorphic Deserializationとして知られていた) を許可するように設定されている場合、「デシリアライズガジェット」によって攻撃者がリモートコード実行を行うことができる場合があります。</p>
+<p>このルールは、以下のような場合に問題となる：</p>
+<ul>
+  <li><code translate="no">enableDefaultTyping()</code> は、<code translate="no">com.fasterxml.jackson.databind.ObjectMapper</code> または<code translate="no">org.codehaus.jackson.map.ObjectMapper</code> のインスタンスに対して呼び出されます。 </li>
+  <li>または、アノテーション<code translate="no">@JsonTypeInfo</code> がクラス、インターフェース、フィールドレベルで設定され、<code translate="no">use =
+  JsonTypeInfo.Id.CLASS</code> または<code translate="no">use = Id.MINIMAL_CLASS</code> で構成される場合。 </li>
+</ul>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>上記のようにJacksonのデシリアライザーを設定しましたね。 </li>
+  <li>シリアライズされたデータは、信頼できないソースから来るかもしれません。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<ul>
+  <li>既に発見されている「デシリアライズガジェット」をブロックする<code translate="no">jackson-databind</code> の最新パッチバージョンを使用します。 </li>
+  <li>デフォルトのタイピング設定を使用することは避けてください：<code translate="no">ObjectMapper.enableDefaultTyping()</code>. </li>
+  <li>可能であれば、<code translate="no">@JsonTypeInfo(use = Id.CLASS)</code> や<code translate="no">@JsonTypeInfo(use =
+  Id. MINIMAL_CLASS)</code> の代わりに<code translate="no">@JsonTypeInfo(use = Id.NAME)</code> を使用し、<code translate="no">@JsonTypeName</code> と<code translate="no">@JsonSubTypes</code> に依存するようにします。 </li>
+</ul>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+ObjectMapper mapper = new ObjectMapper();
+mapper.enableDefaultTyping(); // Sensitive
+</pre>
+<pre translate="no">
+@JsonTypeInfo(use = Id.CLASS) // Sensitive
+abstract class PhoneNumber {
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/">OWASP Top 10 2021 カテゴリ A8</a>- ソフトウェアとデータの整合性の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization">OWASP Top 10 2017 カテゴリーA8</a>「安全でないデシリアライゼーション </li>
+  <li>OWASP -<a href="https://owasp.org/www-community/vulnerabilities/Deserialization_of_untrusted_data">信頼されていないデータのデシリアライズ</a></li>
+  <li><a href="https://cwe.mitre.org/data/definitions/502">MITRE, CWE-502</a>- 信頼されていないデータのデシリアライズ </li>
+  <li><a href="https://medium.com/@cowtowncoder/on-jackson-cves-dont-panic-here-is-what-you-need-to-know-54cd0d6e8062">ジャクソンCVEについて：パニックにならない</a>ように </li>
+  <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2017-15095">CVE-2017-1509</a></li>
+  <li><a href="https://nvd.nist.gov/vuln/detail/CVE-2017-7525">CVE-2017-7525</a></li>
+  <li>FindSecBugs ルール<a href="https://find-sec-bugs.github.io/bugs.htm#JACKSON_UNSAFE_DESERIALIZATION">JACKSON_UNSAFE_DESERIALIZATION</a>から派生したものです。 </li>
+</ul>
+

@@ -1,0 +1,20 @@
+<p>デッドストアは、ローカル変数に値が代入され、その後の命令では読み取れない場合に発生します。計算や取得した値を上書きしたり捨てたりすることは、コードに重大なエラーがあることを意味します。そのため、計算された値はすべて使用する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+i = a + b; // Noncompliant; calculation result not used before value is overwritten
+i = compute();
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+i = a + b;
+i += compute();
+</pre>
+<h2>例外あり</h2>
+<p>このルールは、-1、0、1、<code translate="no">null</code> 、<code translate="no">true</code> 、<code translate="no">false</code> 、<code translate="no">""</code> の初期化を無視します。</p>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/563">MITRE, CWE-563</a>- 使用しない変数（'Unused Variable'）に割り当てる。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/39UxBQ">CERT、MSC13-C。</a>- 未使用値の検出と削除 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/9DZGBQ">CERT、MSC56-J。</a>- 余計なコードや値を検出して削除する </li>
+</ul>
+

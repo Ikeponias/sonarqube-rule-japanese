@@ -1,0 +1,37 @@
+<p>クラス・フィールドに同期させると、フィールドそのものではなく、フィールドに割り当てられたオブジェクトに同期されます。そのため、<code translate="no">final</code>以外のフィールドで同期を取ると、スレッドが古い値で同期されたブロックにいる間に、フィールドの値が変わることが可能になります。そうすると、新しい値に同期している2番目のスレッドが同時にブロックに入ることができる。</p>
+<p>メソッドを並行して実行する2つの異なるスレッドが、2つの異なるオブジェクトインスタンスをパラメータとしてメソッドに渡すことができ、同期が完全に損なわれてしまいます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+private String color = "red";
+
+private void doSomething(){
+  synchronized(color) {  // Noncompliant; lock is actually on object instance "red" referred to by the color variable
+    //...
+    color = "green"; // other threads now allowed into this block
+    // ...
+  }
+  synchronized(new Object()) { // Noncompliant this is a no-op.
+     // ...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+private String color = "red";
+private final Object lockObj = new Object();
+
+private void doSomething(){
+  synchronized(lockObj) {
+    //...
+    color = "green";
+    // ...
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/412">MITRE, CWE-412</a>- 外部からアクセス可能な無制限ロック </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/413">MITRE, CWE-413</a>- 不適切なリソースのロック </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/djdGBQ">CERT、LCK00-J。</a>- 信頼できないコードと相互作用する可能性のあるクラスを同期させるために、プライベートな最終ロックオブジェクトを使用する。 </li>
+</ul>
+

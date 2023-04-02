@@ -1,0 +1,47 @@
+<p><code translate="no">List.remove()</code> を呼び出すと、リストが縮小されます。この処理をすべての要素を反復する昇順ループの中で行うと、削除されたインデックスの後の要素をスキップすることになります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+void removeFrom(List&lt;String&gt; list) {
+  // expected: iterate over all the elements of the list
+  for (int i = 0; i &lt; list.size(); i++) {
+    if (list.get(i).isEmpty()) {
+      // actual: remaining elements are shifted, so the one immediately following will be skipped
+      list.remove(i); // Noncompliant
+    }
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>ループインデックスを調整して、リストの大きさの変化を考慮することもできます</p>
+<pre translate="no">
+static void removeFrom(List&lt;String&gt; list) {
+    // expected: iterate over all the elements of the list
+    for (int i = 0; i &lt; list.size(); i++) {
+      if (list.get(i).isEmpty()) {
+        // actual: remaining elements are shifted, so the one immediately following will be skipped
+        list.remove(i);
+        i--;
+      }
+    }
+  }
+</pre>
+<p>あるいは、できればJava 8の<code translate="no">removeIf</code> 方式に頼ったほうがいいかもしれません。</p>
+<pre translate="no">
+ static void removeFrom(List&lt;String&gt; list) {
+    list.removeIf(String::isEmpty);
+  }
+</pre>
+<p></p>
+<h2>例外あり</h2>
+<p>降順ループでは、インデックスが正しくなるため、この問題は発生しません</p>
+<pre translate="no">
+void removeFrom(List&lt;String&gt; list) {
+  for (int i = list.size() - 1; i &gt;= 0; i--) {
+    if (list.get(i).isEmpty()) {
+      list.remove(i);
+    }
+  }
+}
+</pre>
+<p></p>
+

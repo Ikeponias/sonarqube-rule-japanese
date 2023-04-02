@@ -1,0 +1,15 @@
+<p>「ボックス化」とは、プリミティブ値をプリミティブ・ラッパー・オブジェクトに入れることです。それが純粋にラッパー・クラスの<code translate="no">toString</code> メソッドを使うために行われる場合、それらのメソッドは<code translate="no">static</code> 、したがってクラス・インスタンスがなくても使えるので、メモリとサイクルの無駄遣いになっています。同様に、プリミティブ・ラッパークラスの<code translate="no">static</code> メソッド<code translate="no">valueOf</code> を、<code translate="no">String</code>以外の引数で使うことは避けるべきです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int myInt = 4;
+String myIntString = (new Integer(myInt)).toString(); // Noncompliant; creates &amp; discards an Integer object
+myIntString = Integer.valueOf(myInt).toString(); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int myInt = 4;
+String myIntString = Integer.toString(myInt);
+</pre>
+<h2>非推奨</h2>
+<p>このルールは非推奨です。代わりに {rule:java:S1158} を使用してください。</p>
+

@@ -1,0 +1,336 @@
+<p>AssertJには、一般的な型に特化したアサーション・メソッドが多数含まれています。どちらのバージョンも同じことをテストしますが、専用のものはより良いエラーメッセージを提供し、デバッグのプロセスを簡素化します。</p>
+<p>このルールは、アサーションが専用のものに簡略化できる場合の問題を報告するものです。</p>
+<p>以下の配列は、ルールによって報告されるアサーションの非網羅的なリストです。似たような動作をするコードや、否定を伴うコードも報告されます。</p>
+<table>
+  <colgroup>
+    <col style="width: 50%;" />
+    <col style="width: 50%;" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>オリジナル</th>
+      <th>専用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><p><strong>オブジェクトの関連</strong></p></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getObject()).isEqualTo(null)</code></p></td>
+      <td><p><code translate="no">assertThat(getObject()).isNull()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getBoolean()).isEqualTo(true)</code></p></td>
+      <td><p><code translate="no">assertThat(getBoolean()).isTrue()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getBoolean()).isEqualTo(false)</code></p></td>
+      <td><p><code translate="no">assertThat(getBoolean()).isFalse()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(x.equals(y)).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(x).isEqualTo(y)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(x == y).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(x).isSameAs(y)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(x == null).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(x).isNull()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(x.toString()).isEqualTo(y)</code></p></td>
+      <td><p><code translate="no">assertThat(x).hasToString(y)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(x.hashCode()).isEqualTo(y.hashCode())</code></p></td>
+      <td><p><code translate="no">assertThat(x).hasSameHashCodeAs(y)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getObject() instanceof MyClass).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getObject()).isInstanceOf(MyClass.class)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><strong>関連<code translate="no">Comparable</code></strong></p></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(x.compareTo(y)).isZero()</code></p></td>
+      <td><p><code translate="no">assertThat(x).isEqualByComparingTo(y)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(x &gt;= y).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(x).isGreaterThanOrEqualTo(y)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(x &gt; y).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(x).isGreaterThan(y)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(x &lt;= y).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(x).isLessThanOrEqualTo(y)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(x &lt; y).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(x).isLessThan(y)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><strong>関連<code translate="no">String</code></strong></p></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getString().isEmpty()).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getString()).isEmpty()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getString()).hasSize(0)</code></p></td>
+      <td><p><code translate="no">assertThat(getString()).isEmpty()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getString().equals(expected)).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getString()).isEqualTo(expected)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getString().equalsIgnoreCase(expected)).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getString()).isEqualToIgnoringCase(expected)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getString().contains(expected)).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getString()).contains(expected)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getString().startsWith(expected)).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getString()).startsWith(expected)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getString().endsWith(expected)).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getString()).endsWith(expected)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getString().matches(expected)).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getString()).matches(expected)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getString().trim()).isEmpty()</code></p></td>
+      <td><p><code translate="no">assertThat(getString()).isBlank()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getString().length()).isEqualTo(length)</code></p></td>
+      <td><p><code translate="no">assertThat(getString()).hasSize(length)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getString().length()).hasSize(expected.length())</code></p></td>
+      <td><p><code translate="no">assertThat(getString()).hasSameSizeAs(expected)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><strong> 関連<code translate="no">File</code></strong></p></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile()).hasSize(0)</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).isEmpty()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile().length()).isZero()</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).isEmpty()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile().length()).isEqualTo(length)</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).hasSize(length)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile().canRead()).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).canRead()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile().canWrite()).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).canWrite()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile().exists()).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).exists()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile().getName()).isEqualTo(name)</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).hasName(name)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile().getParent()).isEqualTo(pathname)</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).hasParent(pathname)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile().getParentFile()).isNull()</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).hasNoParent()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile().isAbsolute()).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).isAbsolute()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile().isAbsolute()).isFalse()</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).isRelative()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile().isDirectory()).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).isDirectory()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile().isFile()).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).isFile()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getFile().list()).isEmpty()</code></p></td>
+      <td><p><code translate="no">assertThat(getFile()).isEmptyDirectory()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><strong> 関連<code translate="no">Path</code></strong></p></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getPath().startsWith(path)).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getPath()).startsWithRaw(path)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getPath().endsWith(path)).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getPath()).endsWithRaw(path)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getPath().getParent()).isEqualTo(name)</code></p></td>
+      <td><p><code translate="no">assertThat(getPath()).hasParentRaw(name)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getPath().getParent()).isNull()</code></p></td>
+      <td><p><code translate="no">assertThat(getPath()).hasNoParentRaw()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getPath().isAbsolute()).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getPath()).isAbsolute()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getPath().isAbsolute()).isFalse()</code></p></td>
+      <td><p><code translate="no">assertThat(getPath()).isRelative()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><strong> 関連<code translate="no">Array</code></strong></p></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getArray().length).isZero()</code></p></td>
+      <td><p><code translate="no">assertThat(getArray()).isEmpty()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getArray().length).isEqualTo(length)</code></p></td>
+      <td><p><code translate="no">assertThat(getArray()).hasSize(length)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getArray().length).isEqualTo(anotherArray.length)</code></p></td>
+      <td><p><code translate="no">assertThat(getArray()).hasSameSizeAs(anotherArray)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getArray().length).isLessThanOrEqualTo(expression)</code></p></td>
+      <td><p><code translate="no">assertThat(getArray()).hasSizeLessThanOrEqualTo(expression)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getArray().length).isLessThan(expression)</code></p></td>
+      <td><p><code translate="no">assertThat(getArray()).hasSizeLessThan(expression)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getArray().length).isGreaterThan(expression)</code></p></td>
+      <td><p><code translate="no">assertThat(getArray()).hasSizeGreaterThan(expression)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getArray().length).isGreaterThanOrEqualTo(expression)</code></p></td>
+      <td><p><code translate="no">assertThat(getArray()).hasSizeGreaterThanOrEqualTo(expression)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><strong>関連<code translate="no">Collection</code></strong></p></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getCollection().isEmpty()).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getCollection()).isEmpty()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getCollection().size()).isZero()</code></p></td>
+      <td><p><code translate="no">assertThat(getCollection()).isEmpty()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getCollection().contains(something)).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getCollection()).contains(something)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getCollection().containsAll(otherCollection)).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getCollection()).containsAll(otherCollection)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><strong>関連<code translate="no">Map</code></strong></p></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getMap().size()).isEqualTo(otherMap().size()</code></p></td>
+      <td><p><code translate="no">assertThat(getMap()).hasSameSizeAs(otherMap())</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getMap().containsKey(key)).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getMap()).containsKey(key)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getMap().keySet()).contains(key)</code></p></td>
+      <td><p><code translate="no">assertThat(getMap()).containsKey(key)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getMap().keySet()).containsOnlyKey(key)</code></p></td>
+      <td><p><code translate="no">assertThat(getMap()).containsOnlyKey(key)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getMap().containsValue(value)).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getMap()).containsValue(value)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getMap().values()).contains(value)</code></p></td>
+      <td><p><code translate="no">assertThat(getMap()).containsValue(value)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getMap().get(key)).isEqualTo(value)</code></p></td>
+      <td><p><code translate="no">assertThat(getMap()).containsEntry(key, value)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><strong>関連<code translate="no">Optional</code></strong></p></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getOptional().isPresent()).isTrue()</code></p></td>
+      <td><p><code translate="no">assertThat(getOptional()).isPresent()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getOptional().get()).isEqualTo(something)</code></p></td>
+      <td><p><code translate="no">assertThat(getOptional()).contains(something)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">assertThat(getOptional().get()).isSameAs(something)</code></p></td>
+      <td><p><code translate="no">assertThat(getOptional()).containsSame(something)</code></p></td>
+    </tr>
+  </tbody>
+</table>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+assertThat(getObject()).isEqualTo(null); // Noncompliant
+assertThat(getObject()).isNotEqualTo(null); // Noncompliant - not listed above but also supported
+
+assertThat(getString().trim()).isEmpty();
+assertThat(getFile().canRead()).isTrue();
+assertThat(getPath().getParent()).isNull();
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+assertThat(getObject()).isNull();
+assertThat(getObject()).isNotNull();
+
+assertThat(getString()).isBlank();
+assertThat(getFile()).canRead();
+assertThat(getPath()).hasNoParentRaw();
+</pre>
+

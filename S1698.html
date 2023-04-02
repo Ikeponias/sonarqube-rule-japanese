@@ -1,0 +1,60 @@
+<p><code translate="no">Object</code> から継承された<code translate="no">equals</code>メソッドがオーバーライドされていない場合、等号<code translate="no">==</code> 演算子と<code translate="no">equals</code> メソッドを使用して 2 つのオブジェクトを比較することは等価である。この場合、両方のチェックがオブジェクトの参照を比較します。</p>
+<p>しかし、<code translate="no">equals</code> がオーバーライドされると、同じ参照を持たないが同じ値を持つ2つのオブジェクトが等しくなる可能性があります。このルールは、<code translate="no">equals</code> のメソッドがオーバーライドされたオブジェクトに対して、<code translate="no">==</code> と<code translate="no">!=</code> の演算子を使用する不審な点を検出します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String firstName = getFirstName(); // String overrides equals
+String lastName = getLastName();
+
+if (firstName == lastName) { ... }; // Non-compliant; false even if the strings have the same value
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String firstName = getFirstName();
+String lastName = getLastName();
+
+if (firstName != null &amp;&amp; firstName.equals(lastName)) { ... };
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">Class</code> オブジェクトの2つのインスタンスを比較しても、問題は生じません：</p>
+<pre translate="no">
+Class c;
+if(c == Integer.class) { // No issue raised
+}
+</pre>
+<p><code translate="no">Enum</code> を比較しても、問題は生じません：</p>
+<pre translate="no">
+public enum Fruit {
+   APPLE, BANANA, GRAPE
+}
+public boolean isFruitGrape(Fruit candidateFruit) {
+  return candidateFruit == Fruit.GRAPE; // it's recommended to activate S4551 to enforce comparison of Enums using ==
+}
+</pre>
+<p><code translate="no">final</code> リファレンスと比較しても、問題は生じません：</p>
+<pre translate="no">
+private static final Type DEFAULT = new Type();
+
+void foo(Type other) {
+  if (other == DEFAULT) { // Compliant
+  //...
+  }
+}
+</pre>
+<p><code translate="no">this</code> と比較しても、問題は生じないでしょう：</p>
+<pre translate="no">
+  public boolean equals(Object other) {
+    if (this == other) {  // Compliant
+      return false;
+    }
+ }
+</pre>
+<p><code translate="no">java.lang.String</code> と箱型<code translate="no">java.lang.Integer</code>,...との比較は問題ありません。</p>
+<h2>見る</h2>
+<ul>
+  <li>{rule:java:S4973}です。- 文字列型と箱型は "equals() "で比較する。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/595">MITRE, CWE-595</a>- オブジェクトの内容ではなく、オブジェクトの参照の比較。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/597">MITRE, CWE-597</a>- 文字列比較における誤った演算子の使用について </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/UjdGBQ">CERT、EXP03-J。</a>- ボックス型プリミティブの値を比較する際に、等号演算子を使用しないでください。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/yDdGBQ">CERT、EXP50-J。</a>- 抽象的なオブジェクトの等式と参照の等式を混同しないこと  </li>
+</ul>
+

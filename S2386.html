@@ -1,0 +1,25 @@
+<p><code translate="no">static</code> ミュータブルなオブジェクトを<code translate="no">public</code> (デフォルト)、<code translate="no">interface</code> のメンバーとして持つ正当な理由はありません。そのような変数はクラスに移し、その可視性を低くするべきです。</p>
+<p>同様に、ゲッターやセッターを通してではなく、直接アクセスされるクラスや列挙型のミュータブルメンバー（<code translate="no">static</code> ）は、可能な限り保護する必要があります。これは、適切であれば、可視性を下げるか、フィールドを<code translate="no">final</code> にすることによって行うことができます。</p>
+<p>なお、配列のようなミュータブルフィールドを<code translate="no">final</code> 、変数の再割り当てを行わないようにしますが、そうすることで配列の内部状態のミュータビリティに影響を与えることはありません（つまり、目的を達成することはできません）。</p>
+<p>このルールは、<code translate="no">public static</code> 配列、<code translate="no">Collection</code> 、<code translate="no">Date</code> 、<code translate="no">awt.Point</code> のメンバーにとって問題となるものです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public interface MyInterface {
+  public static String [] strings; // Noncompliant
+}
+
+public class A {
+  public static String [] strings1 = {"first","second"};  // Noncompliant
+  public static String [] strings2 = {"first","second"};  // Noncompliant
+  public static List&lt;String&gt; strings3 = new ArrayList&lt;&gt;();  // Noncompliant
+  // ...
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/582">MITRE, CWE-582</a>- 配列の公開、最終、静的な宣言 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/607">MITRE, CWE-607</a>- Public Static Final Field References Mutable Object. </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/LjdGBQ">CERT、OBJ01-J。</a>- フィールドのアクセシビリティを制限する </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/VzZGBQ">CERT、OBJ13-J。</a>- ミュータブルオブジェクトへの参照が公開されないようにすること </li>
+</ul>
+

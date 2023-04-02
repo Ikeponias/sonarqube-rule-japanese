@@ -1,0 +1,22 @@
+<p>コンパイラは、クラス・フィールドに初期化値を設定する前に、自動的にデフォルト値に初期化するので、明示的にフィールドにデフォルト値を設定する必要はない。さらに、よりきれいなコードはより良いコードであるという論理のもと、そうすることは貧しいスタイルであると考えられています。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+
+  int count = 0;  // Noncompliant
+  // ...
+
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClass {
+
+  int count;
+  // ...
+
+}
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">final</code> フィールドは無視される。</p>
+

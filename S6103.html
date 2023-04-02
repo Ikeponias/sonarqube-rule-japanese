@@ -1,0 +1,14 @@
+<p><code translate="no">Consumer</code> オブジェクトを引数に取る AssertJ アサーションには、"要求 "が含まれることが期待され、それ自体がアサーションとして表現される必要がある。これは次のメソッドに関係する：<a href="http://joel-costigliola.github.io/assertj/core-8/api/org/assertj/core/api/AbstractIterableAssert.html#allSatisfy-java.util.function.Consumer-">allSatisfy</a>,<a href="http://joel-costigliola.github.io/assertj/core-8/api/org/assertj/core/api/AbstractIterableAssert.html#anySatisfy-java.util.function.Consumer-">anySatisfy</a>,<a href="http://joel-costigliola.github.io/assertj/core-8/api/org/assertj/core/api/AbstractIterableAssert.html#hasOnlyOneElementSatisfying-java.util.function.Consumer-">hasOnlyOneElementSatisfying</a>,<a href="https://tinyurl.com/yxnzt6pj">isInstanceOfSatisfying</a>,<a href="http://joel-costigliola.github.io/assertj/core-8/api/org/assertj/core/api/AbstractIterableAssert.html#noneSatisfy-java.util.function.Consumer-">noneSatisfy</a>,<a href="http://joel-costigliola.github.io/assertj/core-8/api/org/assertj/core/api/AbstractAssert.html#satisfies-java.util.function.Consumer-">satisfies</a>,<a href="http://joel-costigliola.github.io/assertj/core-8/api/org/assertj/core/api/AbstractAssert.html#satisfiesAnyOf-java.util.function.Consumer-java.util.function.Consumer-">satisfiesAnyOf</a>,<a href="http://joel-costigliola.github.io/assertj/core-8/api/org/assertj/core/api/AbstractIterableAssert.html#zipSatisfy-java.lang.Iterable-java.util.function.BiConsumer-">zipSatisfy</a>.</p>
+<p>これらのメソッドは、<code translate="no">Consumer</code> が自らアサーションを行うことを想定しています。<code translate="no">Consumer</code> でアサーションを行わない場合、それはおそらく、うっかりしてオブジェクトを部分的にしかテストしていないことを意味します。</p>
+<p>このルールは、上記のいずれかのメソッドの<code translate="no">Consumer</code> の引数にアサーションが含まれていない場合に問題となる。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+assertThat(myObject).isInstanceOfSatisfying(String.class, s -&gt; "Hello".equals(s)); // Noncompliant - not testing the string value
+assertThat(myObject).satisfies("Hello"::equals); // Noncompliant - not testing the string value
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+assertThat(myObject).isInstanceOfSatisfying(String.class, s -&gt; assertThat(s).isEqualTo("Hello"));
+assertThat(myObject).satisfies(obj -&gt; assertThat(obj).isEqualTo("Hello"));
+</pre>
+

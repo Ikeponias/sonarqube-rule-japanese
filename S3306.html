@@ -1,0 +1,32 @@
+<p>フィールド・インジェクションは、クラスが仕事をするために必要なものを得るための整然とした方法のように見えますが、クラスのコンストラクタがすべて<code translate="no">private</code> でない限り、実際には<code translate="no">NullPointerException</code>が発生するのを待っている状態なのです。なぜなら、JSR-330に準拠した依存性注入フレームワーク（Spring、Guiceなど）によってインスタンス化されるのではなく、呼び出し元によって構築されるクラスインスタンスは、フィールド注入を実行する能力を持たないからです。</p>
+<p>代わりに<code translate="no">@Inject</code> をコンストラクタに移し、フィールドをコンストラクタのパラメータとして要求する必要があります。</p>
+<p>このルールは、<code translate="no">private</code> 以外のコンストラクタを持つクラス（デフォルトコンストラクタを含む）がフィールドインジェクションを使用する場合に問題となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class MyComponent {  // Anyone can call the default constructor
+
+  @Inject MyCollaborator collaborator;  // Noncompliant
+
+  public void myBusinessMethod() {
+    collaborator.doSomething();  // this will fail in classes new-ed by a caller
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class MyComponent {
+
+  private final MyCollaborator collaborator;
+
+  @Inject
+  public MyComponent(MyCollaborator collaborator) {
+    Assert.notNull(collaborator, "MyCollaborator must not be null!");
+    this.collaborator = collaborator;
+  }
+
+  public void myBusinessMethod() {
+    collaborator.doSomething();
+  }
+}
+</pre>
+

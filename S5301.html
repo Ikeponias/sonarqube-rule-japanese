@@ -1,0 +1,24 @@
+<p>ActiveMQは、JMS仕様に準拠したJMS Objectメッセージ（ActiveMQのコンテキストではObjectMessageという名前）を送受信できます。内部的には、ActiveMQはメッセージペイロードのマーシャリング/アンマーシャリングのためにJavaシリアライゼーション機構に依存しています。ユーザーから提供されたデータに基づいてシリアライズを解除すると、シリアライズされたデータの構造が変更され、シリアライズ解除されるオブジェクトの動作が変更されるため、リモートコード実行攻撃につながる可能性があります。</p>
+<p>ActiveMQ 5.12.2+では、このような攻撃の被害に遭うリスクを抑えるため、ObjectMessagesを使用して交換できるパッケージを明示的にホワイトリスト化するよう、開発者に強制しています。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+factory.setTrustAllPackages(true); // Noncompliant
+
+ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+// no call to factory.setTrustedPackages(...);
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+factory.setTrustedPackages(Arrays.asList("org.mypackage1", "org.mypackage2"));
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/">OWASP Top 10 2021 カテゴリ A8</a>- ソフトウェアとデータの整合性の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization">OWASP Top 10 2017 カテゴリーA8</a>「安全でないデシリアライゼーション </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/502">MITRE, CWE-502</a>- 信頼されていないデータのデシリアライズ </li>
+  <li><a href="https://activemq.apache.org/objectmessage.html">ActiveMQ ObjectMessageセキュリティアドバイザリー</a></li>
+  <li><a href="https://activemq.apache.org/security-advisories.data/CVE-2015-5254-announcement.txt">CVE-2015-5254</a></li>
+</ul>
+

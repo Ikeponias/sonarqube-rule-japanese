@@ -1,0 +1,10 @@
+<p>ストリーム操作は、中間操作と終端操作に分けられ、それらを組み合わせてストリームパイプラインを形成する。終端操作を行った後、ストリームパイプラインは消費されたとみなされ、再び使用することはできない。このような再利用は、予期せぬ結果をもたらすことになる。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Stream&lt;Widget&gt; pipeline = widgets.stream().filter(b -&gt; b.getColor() == RED);
+int sum1 = pipeline.sum();
+int sum2 = pipeline.mapToInt(b -&gt; b.getWeight()).sum(); // Noncompliant
+</pre>
+<h2>見る</h2>
+<p><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html#StreamOps">ストリームオペレーション</a></p>
+

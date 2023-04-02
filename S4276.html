@@ -1,0 +1,168 @@
+<p><code translate="no">java.util.function</code> パッケージは、ラムダ式やメソッド参照で使用する機能的なインターフェイスの定義を多数提供しています。一般に、オートボックス化を避けるために、より特殊な形式を使用することが推奨されます。例えば、<code translate="no">IntFunction&lt;Foo&gt;</code>は<code translate="no">Function&lt;Integer, Foo&gt;</code> よりも優先されるべきです。</p>
+<p>このルールは、以下のいずれかの置換が可能な場合に問題となる：</p>
+<table>
+  <colgroup>
+    <col style="width: 50%;" />
+    <col style="width: 50%;" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>現在のインターフェース</th>
+      <th>プリファードインターフェース</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><p><code translate="no">Function&lt;Integer, R&gt;</code></p></td>
+      <td><p><code translate="no">IntFunction&lt;R&gt;</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Function&lt;Long, R&gt;</code></p></td>
+      <td><p><code translate="no">LongFunction&lt;R&gt;</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Function&lt;Double, R&gt;</code></p></td>
+      <td><p><code translate="no">DoubleFunction&lt;R&gt;</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Function&lt;Double,Integer&gt;</code></p></td>
+      <td><p><code translate="no">DoubleToIntFunction</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Function&lt;Double,Long&gt;</code></p></td>
+      <td><p><code translate="no">DoubleToLongFunction</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Function&lt;Long,Double&gt;</code></p></td>
+      <td><p><code translate="no">LongToDoubleFunction</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Function&lt;Long,Integer&gt;</code></p></td>
+      <td><p><code translate="no">LongToIntFunction</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Function&lt;R,Integer&gt;</code></p></td>
+      <td><p><code translate="no">ToIntFunction&lt;R&gt;</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Function&lt;R,Long&gt;</code></p></td>
+      <td><p><code translate="no">ToLongFunction&lt;R&gt;</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Function&lt;R,Double&gt;</code></p></td>
+      <td><p><code translate="no">ToDoubleFunction&lt;R&gt;</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Function&lt;T,T&gt;</code></p></td>
+      <td><p><code translate="no">UnaryOperator&lt;T&gt;</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">BiFunction&lt;T,T,T&gt;</code></p></td>
+      <td><p><code translate="no">BinaryOperator&lt;T&gt;</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Consumer&lt;Integer&gt;</code></p></td>
+      <td><p><code translate="no">IntConsumer</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Consumer&lt;Double&gt;</code></p></td>
+      <td><p><code translate="no">DoubleConsumer</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Consumer&lt;Long&gt;</code></p></td>
+      <td><p><code translate="no">LongConsumer</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">BiConsumer&lt;T,Integer&gt;</code></p></td>
+      <td><p><code translate="no">ObjIntConsumer&lt;T&gt;</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">BiConsumer&lt;T,Long&gt;</code></p></td>
+      <td><p><code translate="no">ObjLongConsumer&lt;T&gt;</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">BiConsumer&lt;T,Double&gt;</code></p></td>
+      <td><p><code translate="no">ObjDoubleConsumer&lt;T&gt;</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Predicate&lt;Integer&gt;</code></p></td>
+      <td><p><code translate="no">IntPredicate</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Predicate&lt;Double&gt;</code></p></td>
+      <td><p><code translate="no">DoublePredicate</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Predicate&lt;Long&gt;</code></p></td>
+      <td><p><code translate="no">LongPredicate</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Supplier&lt;Integer&gt;</code></p></td>
+      <td><p><code translate="no">IntSupplier</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Supplier&lt;Double&gt;</code></p></td>
+      <td><p><code translate="no">DoubleSupplier</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Supplier&lt;Long&gt;</code></p></td>
+      <td><p><code translate="no">LongSupplier</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Supplier&lt;Boolean&gt;</code></p></td>
+      <td><p><code translate="no">BooleanSupplier</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">UnaryOperator&lt;Integer&gt;</code></p></td>
+      <td><p><code translate="no">IntUnaryOperator</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">UnaryOperator&lt;Double&gt;</code></p></td>
+      <td><p><code translate="no">DoubleUnaryOperator</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">UnaryOperator&lt;Long&gt;</code></p></td>
+      <td><p><code translate="no">LongUnaryOperator</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">BinaryOperator&lt;Integer&gt;</code></p></td>
+      <td><p><code translate="no">IntBinaryOperator</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">BinaryOperator&lt;Long&gt;</code></p></td>
+      <td><p><code translate="no">LongBinaryOperator</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">BinaryOperator&lt;Double&gt;</code></p></td>
+      <td><p><code translate="no">DoubleBinaryOperator</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">Function&lt;T, Boolean&gt;</code></p></td>
+      <td><p><code translate="no">Predicate&lt;T&gt;</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">BiFunction&lt;T,U,Boolean&gt;</code></p></td>
+      <td><p><code translate="no">BiPredicate&lt;T,U&gt;</code></p></td>
+    </tr>
+  </tbody>
+</table>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Foo implements Supplier&lt;Integer&gt; {  // Noncompliant
+    @Override
+    public Integer get() {
+      // ...
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Foo implements IntSupplier {
+
+  @Override
+  public int getAsInt() {
+    // ...
+  }
+}
+</pre>
+

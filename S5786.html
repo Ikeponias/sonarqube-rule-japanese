@@ -1,0 +1,31 @@
+<p>JUnit5 は、すべてを<code translate="no">public</code> にする必要があった JUnit4 よりも、Test クラスの可視性に関して寛容です。</p>
+<p>そのため、JUnit5 のテストクラスは<code translate="no">private</code> 以外の可視性を持つことができますが、コードの可読性を高めるために、デフォルトのパッケージ可視性を使用することが推奨されます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+import org.junit.jupiter.api.Test;
+
+public class MyClassTest { // Noncompliant - modifier can be removed
+  @Test
+  protected void test() { // Noncompliant - modifier can be removed
+    // ...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+import org.junit.jupiter.api.Test;
+
+class MyClassTest {
+  @Test
+  void test() {
+    // ...
+  }
+}
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">private</code> テストメソッドやクラスは、JUnit5 で適切な警告が表示されることなく体系的に無視されるため、このルールでは<code translate="no">private</code> の可視性については問題にはなりません。これは<code translate="no">Code Smell</code> ではなく、{rule:java:S5810} というルールで処理される<code translate="no">Bug</code> です。</p>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://junit.org/junit5/docs/current/user-guide/#writing-tests-classes-and-methods">JUnit 5 テストクラスとメソッド</a></li>
+</ul>
+

@@ -1,0 +1,31 @@
+<p>1行で複数の変数を宣言するのは読みにくいです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class MyClass {
+
+  private int a, b;
+
+  public void method(){
+    int c; int d;
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class MyClass {
+
+  private int a;
+  private int b;
+
+  public void method(){
+    int c;
+    int d;
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/YTZGBQ">CERT、DCL52-J。</a>- 1回の宣言で2つ以上の変数を宣言しない </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/EtcxBQ">CERT、DCL04-C。</a>- 1つの宣言で2つ以上の変数を宣言しない </li>
+</ul>
+

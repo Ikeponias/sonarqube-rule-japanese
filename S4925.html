@@ -1,0 +1,50 @@
+<p>以前は、<code translate="no">java.sql.Connection</code> を作成する前に JDBC ドライバをロードする必要がありました。現在では、JDBC 4.0 ドライバを使用する場合、クラスパスにある JDBC 4.0 (JDK 6) ドライバが自動的にロードされるので、この必要はなく、<code translate="no">Class.forName()</code> を安全に削除することができます。</p>
+<p>このルールは、<code translate="no">Class.forName()</code> が次のいずれかの値で使用された場合に問題が発生します：</p>
+<ul>
+  <li> <code translate="no">com.mysql.jdbc.Driver</code> </li>
+  <li> <code translate="no">oracle.jdbc.driver.OracleDriver</code> </li>
+  <li> <code translate="no">com.ibm.db2.jdbc.app.DB2Driver</code> </li>
+  <li> <code translate="no">com.ibm.db2.jdbc.net.DB2Driver</code> </li>
+  <li> <code translate="no">com.sybase.jdbc.SybDriver</code> </li>
+  <li> <code translate="no">com.sybase.jdbc2.jdbc.SybDriver</code> </li>
+  <li> <code translate="no">com.teradata.jdbc.TeraDriver</code> </li>
+  <li> <code translate="no">com.microsoft.sqlserver.jdbc.SQLServerDriver</code> </li>
+  <li> <code translate="no">org.postgresql.Driver</code> </li>
+  <li> <code translate="no">sun.jdbc.odbc.JdbcOdbcDriver</code> </li>
+  <li> <code translate="no">org.hsqldb.jdbc.JDBCDriver</code> </li>
+  <li> <code translate="no">org.h2.Driver</code> </li>
+  <li> <code translate="no">org.firebirdsql.jdbc.FBDriver</code> </li>
+  <li> <code translate="no">net.sourceforge.jtds.jdbc.Driver</code> </li>
+  <li> <code translate="no">com.ibm.db2.jcc.DB2Driver</code> </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class Demo {
+  private static final String DRIVER_CLASS_NAME = "org.postgresql.Driver";
+  private final Connection connection;
+
+  public Demo(String serverURI) throws SQLException, ClassNotFoundException {
+    Class.forName(DRIVER_CLASS_NAME); // Noncompliant; no longer required to load the JDBC Driver using Class.forName()
+    connection = DriverManager.getConnection(serverURI);
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class Demo {
+    private final Connection connection;
+
+    public Demo(String serverURI) throws SQLException {
+        connection = DriverManager.getConnection(serverURI);
+    }
+}
+</pre>
+

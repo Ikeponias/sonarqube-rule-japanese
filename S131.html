@@ -1,0 +1,61 @@
+<p>最終的な<code translate="no">default</code> 節の要件は、防御的なプログラミングです。この節は、適切な行動をとるか、なぜ行動をとらないかについての適切なコメントを含む必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+switch (param) {  //missing default clause
+  case 0:
+    doSomething();
+    break;
+  case 1:
+    doSomethingElse();
+    break;
+}
+
+switch (param) {
+  default: // default clause should be the last one
+    error();
+    break;
+  case 0:
+    doSomething();
+    break;
+  case 1:
+    doSomethingElse();
+    break;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+switch (param) {
+  case 0:
+    doSomething();
+    break;
+  case 1:
+    doSomethingElse();
+    break;
+  default:
+    error();
+    break;
+}
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">switch</code> パラメータが<code translate="no">Enum</code> であり、この enum のすべての定数が<code translate="no">case</code> ステートメントで使用される場合、<code translate="no">default</code> 節は期待されない。</p>
+<p>例</p>
+<pre translate="no">
+public enum Day {
+    SUNDAY, MONDAY
+}
+...
+switch(day) {
+  case SUNDAY:
+    doSomething();
+    break;
+  case MONDAY:
+    doSomethingElse();
+    break;
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/478">MITRE, CWE-478</a>- Switchステートメントにデフォルトケースがない。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/RtYxBQ">CERT、MSC01-C。</a>- 論理的な完全性を追求する </li>
+</ul>
+

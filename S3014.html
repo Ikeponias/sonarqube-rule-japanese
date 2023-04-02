@@ -1,0 +1,18 @@
+<p><code translate="no">ThreadGroup</code> クラスのメソッドを使用する正当な理由はほとんどありません。いくつかのメソッドは非推奨であり (<code translate="no">allowThreadSuspension()</code>,<code translate="no">resume()</code>,<code translate="no">stop()</code>,<code translate="no">suspend()</code>)、いくつかのメソッドは時代遅れであり、他のメソッドはスレッドセーフではなく、さらに他のメソッドは安全ではありません (<code translate="no">activeCount()</code>,<code translate="no">enumerate()</code>).これらの理由から、<code translate="no">ThreadGroup</code> の使用は疑わしいものであり、避けるべきです。</p>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+ThreadFactory threadFactory = Executors.defaultThreadFactory();
+ThreadPoolExecutor executorPool = new ThreadPoolExecutor(3, 10, 5, TimeUnit.SECONDS, new ArrayBlockingQueue&lt;Runnable&gt;(2), threadFactory);
+
+for (int i = 0; i &lt; 10; i++) {
+  executorPool.execute(new JobThread("Job: " + i));
+}
+
+System.out.println(executorPool.getActiveCount()); // Compliant
+executorPool.shutdown();
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/YzdGBQ">CERT、THI01-J。</a>- ThreadGroupのメソッドを呼び出さないでください </li>
+</ul>
+

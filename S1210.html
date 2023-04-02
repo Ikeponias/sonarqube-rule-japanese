@@ -1,0 +1,26 @@
+<p>Java<code translate="no">Comparable.compareTo(T o)</code> のドキュメントによると：</p>
+<blockquote>
+  <p><code translate="no">(x.compareTo(y)==0) == (x.equals(y))</code> の使用を強く推奨しますが、厳密には必須ではありません。</p>
+  <p>一般的に、Comparableインターフェースを実装したクラスで、この条件に違反するものは、その事実を明確に示す必要があります。</p>
+  <p>推奨文言は、"注意：このクラスは、イコールと矛盾する自然な順序を持つ "です。</p>
+</blockquote>
+<p>このルールに反すると、奇妙で予測不可能な障害が発生することがあります。</p>
+<p>例えば、Java 5 では<code translate="no">PriorityQueue.remove()</code> メソッドは<code translate="no">compareTo()</code> に依存していたが、Java 6 からは<code translate="no">equals()</code> に依存している。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Foo implements Comparable&lt;Foo&gt; {
+  @Override
+  public int compareTo(Foo foo) { /* ... */ }      // Noncompliant as the equals(Object obj) method is not overridden
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Foo implements Comparable&lt;Foo&gt; {
+  @Override
+  public int compareTo(Foo foo) { /* ... */ }      // Compliant
+
+  @Override
+  public boolean equals(Object obj) { /* ... */ }
+}
+</pre>
+

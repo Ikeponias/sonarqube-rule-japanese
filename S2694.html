@@ -1,0 +1,40 @@
+<p>非静的な内部クラスは、その外部クラスへの参照を持ち、外部クラスのフィールドとメソッドにアクセスすることができます。このクラス参照は内部クラスを大きくし、外部クラスのインスタンスが必要以上に長くメモリに存在する原因になる可能性があります。</p>
+<p>外側のクラスへの参照を使用しない場合は、内側のクラスを<code translate="no">static</code> （入れ子ともいう）にした方が効率的です。クラスコンストラクタでのみ参照を使用する場合は、コンストラクタにクラス参照を明示的に渡します。また、内部クラスが匿名である場合は、名前を付ける必要があります。</p>
+<p>しかし、ネストした/<code translate="no">static</code> クラスの方が効率的ですが、インナークラスとネストしたクラスには意味上の違いがあることに注意する必要があります：</p>
+<ul>
+  <li>内部クラスは、外部クラスのインスタンスのコンテキスト内でしかインスタンス化できない。 </li>
+  <li>ネストされた (<code translate="no">static</code>) クラスは、外側のクラスと独立してインスタンス化することができます。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Fruit {
+  // ...
+
+  public class Seed {  // Noncompliant; there's no use of the outer class reference so make it static
+    int germinationDays = 0;
+    public Seed(int germinationDays) {
+      this.germinationDays = germinationDays;
+    }
+    public int getGerminationDays() {
+      return germinationDays;
+    }
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Fruit {
+  // ...
+
+  public static class Seed {
+    int germinationDays = 0;
+    public Seed(int germinationDays) {
+      this.germinationDays = germinationDays;
+    }
+    public int getGerminationDays() {
+      return germinationDays;
+    }
+  }
+}
+</pre>
+

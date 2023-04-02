@@ -1,0 +1,18 @@
+<p>外部スコープで宣言された変数のオーバーライドやシャドウイングは、コードの可読性、ひいては保守性に強く影響します。さらに、ある変数を使用しているつもりが、実際には別の変数を使用していたために、保守者がバグを発生させる可能性もあります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class Foo {
+  public int myField;
+
+  public void doSomething() {
+    int myField = 0;
+    ...
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/display/c/DCL01-C.+Do+not+reuse+variable+names+in+subscopes">CERT、DCL01-C。</a>- サブスコープで変数名を再利用しない </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/display/java/DCL51-J.+Do+not+shadow+or+obscure+identifiers+in+subscopes">CERT、DCL51-J。</a>- サブスコープ内の識別子を影で隠したり、不明瞭にしないこと </li>
+</ul>
+

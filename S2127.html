@@ -1,0 +1,7 @@
+<p><code translate="no">Double.longBitsToDouble</code> は64ビット、 の引数を想定しています。 のような小さな値を渡すと、 への数学的変換は、まるで子供が大人の手袋を使おうとするように、ビットのレイアウトが誤って解釈されるため、期待通りに動作しない。<code translate="no">long</code> <code translate="no">int</code> <code translate="no">double</code> </p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int i = 42;
+double d = Double.longBitsToDouble(i);  // Noncompliant
+</pre>
+

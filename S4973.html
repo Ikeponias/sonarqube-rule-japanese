@@ -1,0 +1,23 @@
+<p><code translate="no">java.lang.String</code> や<code translate="no">java.lang.Integer</code> のようなボックス型の2つのインスタンスを参照等式<code translate="no">==</code> や<code translate="no">!=</code> を使って比較するのは、実際の値ではなくメモリ上の位置を比較することになるので、ほとんどの場合、間違いである。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String firstName = getFirstName(); // String overrides equals
+String lastName = getLastName();
+
+if (firstName == lastName) { ... }; // Non-compliant; false even if the strings have the same value
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String firstName = getFirstName();
+String lastName = getLastName();
+
+if (firstName != null &amp;&amp; firstName.equals(lastName)) { ... };
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/595">MITRE, CWE-595</a>- オブジェクトの内容ではなく、オブジェクトの参照の比較。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/597">MITRE, CWE-597</a>- 文字列比較における誤った演算子の使用について </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/UjdGBQ">CERT、EXP03-J。</a>- ボックス型プリミティブの値を比較する際に、等号演算子を使用しないでください。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/yDdGBQ">CERT、EXP50-J。</a>- 抽象的なオブジェクトの等式と参照の等式を混同しないこと  </li>
+</ul>
+

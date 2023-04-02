@@ -1,0 +1,14 @@
+<p>文字列リテラルは、<code translate="no">equals()</code> または<code translate="no">equalsIgnoreCase()</code> のメソッド呼び出しの左側に配置することが望ましい。</p>
+<p>文字列リテラルは定義上NULLになることはないため、NULLポインタ例外が発生するのを防ぐことができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String myString = null;
+
+System.out.println("Equal? " + myString.equals("foo"));                        // Noncompliant; will raise a NPE
+System.out.println("Equal? " + (myString != null &amp;&amp; myString.equals("foo")));  // Noncompliant; null check could be removed
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+System.out.println("Equal?" + "foo".equals(myString));                         // properly deals with the null case
+</pre>
+

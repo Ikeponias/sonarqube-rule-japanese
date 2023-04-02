@@ -1,0 +1,16 @@
+<p><code translate="no">readObject</code> メソッドは、<code translate="no">Serializable</code> オブジェクトがファイルから水分を補給するために特別な処理を必要とする場合に記述されます。<code translate="no">readObject</code> で生成されるオブジェクトは、このメソッドを呼び出したスレッドにしか見えないので、<code translate="no">synchronized</code> キーワードは不要であり、<code translate="no">synchronized</code> を使うのは混乱を招くだけである、ということになるはずです。もしそうでないなら、このメソッドをリファクタリングして、そうなるようにすべきです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+private synchronized void readObject(java.io.ObjectInputStream in)
+     throws IOException, ClassNotFoundException { // Noncompliant
+  //...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+private void readObject(java.io.ObjectInputStream in)
+     throws IOException, ClassNotFoundException { // Compliant
+  //...
+}
+</pre>
+

@@ -1,0 +1,45 @@
+<p>例外は、エラーが発生した時点のアプリケーションの状態を表すものである。</p>
+<p><code translate="no">Exception</code> クラスの全フィールドを<code translate="no">final</code> にすることで、この状態を確実にします：</p>
+<ul>
+  <li><code translate="no">Exception</code> がインスタンス化されると同時に完全に定義されます。 </li>
+  <li>疑わしいエラーハンドラによって更新されたり、破損したりしない。 </li>
+</ul>
+<p>これにより、開発者は何が問題だったのかを素早く理解することができるようになります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyException extends Exception {
+
+  private int status;                               // Noncompliant
+
+  public MyException(String message) {
+    super(message);
+  }
+
+  public int getStatus() {
+    return status;
+  }
+
+  public void setStatus(int status) {
+    this.status = status;
+  }
+
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyException extends Exception {
+
+  private final int status;
+
+  public MyException(String message, int status) {
+    super(message);
+    this.status = status;
+  }
+
+  public int getStatus() {
+    return status;
+  }
+
+}
+</pre>
+

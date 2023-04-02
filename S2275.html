@@ -1,0 +1,52 @@
+<p><code translate="no">printf</code>-styleフォーマット文字列は、Javaコンパイラによって検証されるのではなく、実行時に解釈されるため、予期せぬ動作や実行時エラーにつながるエラーが含まれることがあります。このルールは、<code translate="no">java.util.Formatter</code> 、<code translate="no">java.lang.String</code> 、<code translate="no">java.io.PrintStream</code> 、<code translate="no">MessageFormat</code> 、<code translate="no">java.io.PrintWriter</code> クラスの<code translate="no">format(...)</code> メソッドおよび<code translate="no">java.io.PrintStream</code>または<code translate="no">java.io.PrintWriter</code> クラスの<code translate="no">printf(...)</code> メソッドを呼び出す際に、<code translate="no">printf</code>- スタイルのフォーマットの良好な動作を静的に検証する。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String.format("The value of my integer is %d", "Hello World");  // Noncompliant; an 'int' is expected rather than a String
+String.format("Duke's Birthday year is %tX", c);  //Noncompliant; X is not a supported time conversion character
+String.format("Display %0$d and then %d", 1);   //Noncompliant; arguments are numbered starting from 1
+String.format("Not enough arguments %d and %d", 1);  //Noncompliant; the second argument is missing
+String.format("%&lt; is equals to %d", 2);   //Noncompliant; the argument index '&lt;' refers to the previous format specifier but there isn't one
+
+MessageFormat.format("Result {1}.", value); // Noncompliant; Not enough arguments. (first element is {0})
+MessageFormat.format("Result {{0}.", value); // Noncompliant; Unbalanced number of curly brace (single curly braces should be escaped)
+MessageFormat.format("Result ' {0}", value); // Noncompliant; Unbalanced number of quotes (single quote must be escaped)
+
+java.util.logging.Logger logger;
+logger.log(java.util.logging.Level.SEVERE, "Result {1}!", 14); // Noncompliant - Not enough arguments.
+
+org.slf4j.Logger slf4jLog;
+org.slf4j.Marker marker;
+
+slf4jLog.debug(marker, "message {}"); // Noncompliant - Not enough arguments.
+
+org.apache.logging.log4j.Logger log4jLog;
+log4jLog.debug("message {}"); // Noncompliant - Not enough arguments.
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String.format("The value of my integer is %d", 3);
+String.format("Duke's Birthday year is %tY", c);
+String.format("Display %1$d and then %d", 1);
+String.format("Not enough arguments %d and %d", 1, 2);
+String.format("%d is equals to %&lt;", 2);
+
+MessageFormat.format("Result {0}.", value);
+MessageFormat.format("Result {0} &amp; {1}.", value, value);
+MessageFormat.format("Result {0}.", myObject);
+
+java.util.logging.Logger logger;
+logger.log(java.util.logging.Level.SEVERE, "Result {1},{2}!", 14, 2);
+
+org.slf4j.Logger slf4jLog;
+org.slf4j.Marker marker;
+
+slf4jLog.debug(marker, "message {}", 1);
+
+org.apache.logging.log4j.Logger log4jLog;
+log4jLog.debug("message {}", 1);
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://www.securecoding.cert.org/confluence/x/wQA1">CERT、FIO47-C。</a>- 有効なフォーマット文字列を使用する </li>
+</ul>
+

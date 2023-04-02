@@ -1,0 +1,31 @@
+<p>命名規則を共有することで、チームは効果的にコラボレーションを行うことができます。このルールでは、ローカル変数や関数のパラメータ名が指定された正規表現に一致しない場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルトの正規表現で<code translate="no">^[a-z][a-zA-Z0-9]*$</code> ：</p>
+<pre translate="no">
+public void doSomething(int my_param) {
+  int LOCAL;
+  ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomething(int myParam) {
+  int local;
+  ...
+}
+</pre>
+<h2>例外あり</h2>
+<p>ループカウンターはこのルールでは無視されます。</p>
+<pre translate="no">
+for (int i_1 = 0; i_1 &lt; limit; i_1++) {  // Compliant
+  // ...
+}
+</pre>
+<p>のほか、1文字の<code translate="no">catch</code> 変数があります：</p>
+<pre translate="no">
+try {
+//...
+} catch (Exception e) { // Compliant
+}
+</pre>
+

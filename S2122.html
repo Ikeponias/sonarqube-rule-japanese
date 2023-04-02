@@ -1,0 +1,14 @@
+<p><code translate="no">java.util.concurrent.ScheduledThreadPoolExecutor</code>のプールは<code translate="no">corePoolSize</code> でサイズ調整されるので、<code translate="no">corePoolSize</code>をゼロに設定すると、実行者はスレッドを持たず、何も実行しないことになる。</p>
+<p>このルールは、<code translate="no">corePoolSize</code> がセッターまたはオブジェクトコンストラクタによってゼロに設定されるインスタンスを検出します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void do(){
+
+  ScheduledThreadPoolExecutor stpe1 = new ScheduledThreadPoolExecutor(0); // Noncompliant
+
+  ScheduledThreadPoolExecutor stpe2 = new ScheduledThreadPoolExecutor(POOL_SIZE);
+  stpe2.setCorePoolSize(0);  // Noncompliant
+
+  ...
+</pre>
+

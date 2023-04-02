@@ -1,0 +1,12 @@
+<p>正規表現に複数の空白があると、いくつの空白がマッチするのかがわかりにくくなることがあります。空白は1つだけにして、何個空白が入るかを量化子で示すと読みやすくなります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Pattern.compile("hello   world");
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Pattern.compile("hello {3}world");
+</pre>
+<h2>例外あり</h2>
+<p><a href="https://www.regular-expressions.info/freespacing.html">フリースペースモード</a>（<code translate="no">Pattern.COMMENTS</code> フラグ、またはフラグ埋め込み式<code translate="no">(?x)</code> ）では、空白は無視されます。この場合、空白は読みやすさを向上させるためのものである可能性があるため、問題は発生しないはずです。</p>
+

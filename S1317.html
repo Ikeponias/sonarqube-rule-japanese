@@ -1,0 +1,11 @@
+<p><code translate="no">StringBuilder</code> や<code translate="no">StringBuffer</code> を文字でインスタンス化するのは誤解を招きやすい。なぜなら、ほとんどのJava開発者は、文字が<code translate="no">StringBuffer</code> の初期値になることを期待するからだ。</p>
+<p>実際に起こるのは、文字のint表現を使って、<code translate="no">StringBuffer</code> の初期サイズを決定することです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+StringBuffer foo = new StringBuffer('x');   //equivalent to StringBuffer foo = new StringBuffer(120);
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+StringBuffer foo = new StringBuffer("x");
+</pre>
+

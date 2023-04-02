@@ -1,0 +1,13 @@
+<p>公式のjavadocドキュメントによると、このObject.finalize()は、ガベージコレクションがオブジェクトへの参照がもうないと判断したときに、オブジェクトに対してガベージコレクタが呼び出すものです。このメソッドを明示的に呼び出すと、この契約を破ることになるので、誤解を招きやすい。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void dispose() throws Throwable {
+  this.finalize();                       // Noncompliant
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/586">MITRE, CWE-586</a>- Finalize()の明示的な呼び出し。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/4jZGBQ">CERT、MET12-J。</a>- ファイナライザーを使用しない </li>
+</ul>
+

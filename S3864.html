@@ -1,0 +1,23 @@
+<p>JavaDocsによると、中間のStream操作<code translate="no">java.util.Stream.peek()</code> 「主にデバッグをサポートする」目的で存在します。</p>
+<p>他のStream中間処理との主な違いは、Stream実装が最適化のために<code translate="no">peek()</code> の呼び出しを自由にスキップできることです。このため、<code translate="no">peek()</code> が予期せずStream内の一部の要素に対してのみ呼び出されたり、あるいは全く呼び出されなかったりすることがあります。</p>
+<p>その結果、よく考えずに<code translate="no">peek()</code> に頼ると、エラーを起こしやすいコードになることがあります。</p>
+<p>このルールは、peek()を使用するたびに、それがプロダクションのデバッグ/ロギング目的のためのものであることをチームによってチャレンジされ、検証されることを確認するための問題を提起するものである。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Stream.of("one", "two", "three", "four")
+         .filter(e -&gt; e.length() &gt; 3)
+         .peek(e -&gt; System.out.println("Filtered value: " + e)); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Stream.of("one", "two", "three", "four")
+         .filter(e -&gt; e.length() &gt; 3)
+         .foreach(e -&gt; System.out.println("Filtered value: " + e));
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#peek-java.util.function.Consumer-">Java 8 API ドキュメント</a></li>
+  <li>4comprehensionです：<a href="https://4comprehension.com/idiomatic-peeking/">Java Stream APIを使った慣用的な覗き見について</a></li>
+  <li>データギークリー<a href="https://blog.jooq.org/2014/06/13/java-8-friday-10-subtle-mistakes-when-using-the-streams-api/">Streams APIを使用する際の10の微妙な間違い</a></li>
+</ul>
+

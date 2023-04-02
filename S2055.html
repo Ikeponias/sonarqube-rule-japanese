@@ -1,0 +1,46 @@
+<p><code translate="no">Serializable</code> オブジェクトの継承連鎖にシリアライズ不可能な祖先がある場合、オブジェクトのデシリアライズ（ファイルからのオブジェクトの再インスタンス）は、最初のシリアライズ不可能なクラスから始まり、後続の各子クラスのプロパティを追加しながら、最終オブジェクトがインスタンス化されるまで連鎖的に進みます。</p>
+<p>非シリアライズ可能な先祖を作成するために、その引数なしコンストラクタが呼び出される。したがって、<code translate="no">Serializable</code> クラスの非シリアライズ可能な祖先は、引数なしのコンストラクタを持つ必要があります。そうでなければ、そのクラスは<code translate="no">Serializable</code> であるが、デシリアライズ可能ではない。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Fruit {
+  private Season ripe;
+
+  public Fruit (Season ripe) {...}
+  public void setRipe(Season ripe) {...}
+  public Season getRipe() {...}
+}
+
+public class Raspberry extends Fruit
+        implements Serializable {  // Noncompliant; nonserializable ancestor doesn't have no-arg constructor
+  private static final long serialVersionUID = 1;
+
+  private String variety;
+
+  public Raspberry(Season ripe, String variety) { ...}
+  public void setVariety(String variety) {...}
+  public String getVarity() {...}
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Fruit {
+  private Season ripe;
+
+  public Fruit () {...};  // Compliant; no-arg constructor added to ancestor
+  public Fruit (Season ripe) {...}
+  public void setRipe(Season ripe) {...}
+  public Season getRipe() {...}
+}
+
+public class Raspberry extends Fruit
+        implements Serializable {
+  private static final long serialVersionUID = 1;
+
+  private String variety;
+
+  public Raspberry(Season ripe, String variety) {...}
+  public void setVariety(String variety) {...}
+  public String getVarity() {...}
+}
+</pre>
+

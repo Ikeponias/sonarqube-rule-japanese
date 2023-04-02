@@ -1,0 +1,41 @@
+<p>メソッドがメソッド本体を持たない理由はいくつかあります：</p>
+<ul>
+  <li>これは意図しない省略であり、本番での予期せぬ動作を防ぐために修正する必要があります。 </li>
+  <li>まだサポートされていない、あるいは今後もサポートされることはない。この場合、<code translate="no">UnsupportedOperationException</code> を投げる必要があります。 </li>
+  <li>このメソッドは、意図的に空白のオーバーライドを行うものです。この場合、ネストされたコメントで空白のオーバーライドの理由を説明する必要があります。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomething() {
+}
+
+public void doSomethingElse() {
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Override
+public void doSomething() {
+  // Do nothing because of X and Y.
+}
+
+@Override
+public void doSomethingElse() {
+  throw new UnsupportedOperationException();
+}
+</pre>
+<h2>例外あり</h2>
+<p>なお、以下の場合は問題ありません：</p>
+<ul>
+  <li>非公開のデフォルト（引数なし）コンストラクタ </li>
+  <li>クラス内に他のコンストラクタがある場合、デフォルト（引数なし）のコンストラクタを公開する。 </li>
+  <li>抽象クラスにおける空のメソッド </li>
+  <li><code translate="no">@org.aspectj.lang.annotation.Pointcut()</code> でアノテーションされたメソッド </li>
+</ul>
+<pre translate="no">
+public abstract class Animal {
+  void speak() {  // default implementation ignored
+  }
+}
+</pre>
+

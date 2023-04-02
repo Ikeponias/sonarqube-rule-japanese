@@ -1,0 +1,15 @@
+<p>非静的メソッドから<code translate="no">static</code> フィールドを正しく更新するのは難しいことで、複数のクラスインスタンスや複数のスレッドが存在する場合、簡単にバグにつながる可能性があります。理想的には、<code translate="no">static</code> フィールドは<code translate="no">synchronized static</code>メソッドからしか更新されません。</p>
+<p>このルールでは、<code translate="no">static</code> フィールドが非静的メソッドから更新されるたびに、問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+
+  private static int count = 0;
+
+  public void doSomething() {
+    //...
+    count++;  // Noncompliant
+  }
+}
+</pre>
+

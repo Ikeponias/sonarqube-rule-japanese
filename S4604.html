@@ -1,0 +1,57 @@
+<p>"@EnableAutoConfiguration" は、必要と思われるビーンズを推測してSpring Application Contextを構成しようとする便利な機能です。欠点は、アプリケーションが決して使用しないBeanをロードして構成する可能性があるため、本当に必要な以上のCPUとRAMを消費することです。<code translate="no">@EnableAutoConfiguration</code> 、アプリケーションが必要としないBeanをすべて除外するように構成する必要があります。また、<code translate="no">@EnableAutoConfiguration</code> の代わりに<code translate="no">@Import</code> アノテーションを使用して、有用な AutoConfiguration クラスを明示的にインポートすることもできます。</p>
+<p>このルールは、<code translate="no">@SpringBootApplication</code> も同様です。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@SpringBootApplication
+public class MyApplication {
+...
+}
+</pre>
+<pre translate="no">
+@Configuration
+@EnableAutoConfiguration
+public class MyApplication {
+...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@SpringBootApplication(exclude = {
+  MultipartAutoConfiguration.class,
+  JmxAutoConfiguration.class,
+})
+public class MyApplication {
+...
+}
+</pre>
+<pre translate="no">
+@Configuration
+@EnableAutoConfiguration(exclude = {
+  MultipartAutoConfiguration.class,
+  JmxAutoConfiguration.class,
+})
+public class MyApplication {
+...
+}
+</pre>
+<pre translate="no">
+@Configuration
+@Import({
+        DispatcherServletAutoConfiguration.class,
+        EmbeddedServletContainerAutoConfiguration.class,
+        ErrorMvcAutoConfiguration.class,
+        HttpEncodingAutoConfiguration.class,
+        HttpMessageConvertersAutoConfiguration.class,
+        JacksonAutoConfiguration.class,
+        ServerPropertiesAutoConfiguration.class,
+        PropertyPlaceholderAutoConfiguration.class,
+        ThymeleafAutoConfiguration.class,
+        WebMvcAutoConfiguration.class
+})
+public class MyApplication {
+...
+}
+</pre>
+<h2>非推奨</h2>
+<p>このルールは非推奨であり、いずれ削除される予定です。</p>
+

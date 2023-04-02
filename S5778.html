@@ -1,0 +1,45 @@
+<p>コードが実行時例外を発生させることを検証する場合、テストされたコード内に複数のメソッドコールが存在しないようにし、どのメソッドコールが例外を発生させるかを明示することが良い習慣となります。</p>
+<p>これにより、テストの明確性が増し、別のメソッドが実際に例外を発生させている場合の誤ったテストを回避することができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Test
+public void testToString() {
+  // Do you expect get() or toString() throwing the exception?
+  org.junit.Assert.assertThrows(IndexOutOfBoundsException.class, () -&gt; get().toString());
+}
+
+@Test
+public void testToStringTryCatchIdiom() {
+  try {
+    // Do you expect get() or toString() throwing the exception?
+    get().toString();
+    Assert.fail("Expected an IndexOutOfBoundsException to be thrown");
+  } catch (IndexOutOfBoundsException e) {
+    // Test exception message...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Test
+public void testToString() {
+   Object obj = get();
+   Assert.assertThrows(IndexOutOfBoundsException.class, () -&gt; obj.toString());
+}
+
+@Test
+public void testToStringTryCatchIdiom() {
+  Object obj = get();
+  try {
+    obj.toString();
+    Assert.fail("Expected an IndexOutOfBoundsException to be thrown");
+  } catch (IndexOutOfBoundsException e) {
+    // Test exception message...
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://github.com/junit-team/junit4/wiki/Exception-testing">JUnitの例外テストに関するドキュメント</a></li>
+</ul>
+

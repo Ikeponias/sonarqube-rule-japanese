@@ -1,0 +1,30 @@
+<p>ユニットテストに複数のテスト関連アノテーションを付けることは無駄なだけでなく、テストの失敗や不要な副作用など、予期せぬ動作を引き起こす可能性があります。</p>
+<p>このルールは、テストメソッドに以下の複数の競合アノテーションがある場合に問題を報告します：</p>
+<ul>
+  <li>アットテスト </li>
+  <li>@RepeatedTest </li>
+  <li>パラメタライズドテスト（@ParameterizedTest </li>
+  <li>テストファクトリー（@TestFactory </li>
+  <li>テストテンプレート（@TestTemplate </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Test
+@RepeatedTest(2) // Noncompliant, this test will be repeated 3 times
+void test() { }
+
+@ParameterizedTest
+@Test
+@MethodSource("methodSource")
+void test2(int argument) { } // Noncompliant, this test will fail with ParameterResolutionException
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@RepeatedTest(2)
+void test() { }
+
+@ParameterizedTest
+@MethodSource("methodSource")
+void test2(int argument) { }
+</pre>
+

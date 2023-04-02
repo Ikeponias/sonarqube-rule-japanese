@@ -1,0 +1,44 @@
+<p>無関係な2つのクラスで同じ名前の変数を持つことは問題ありませんが、クラス階層の中で同じことをすると、良くて混乱、悪くてカオスになってしまいます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Fruit {
+  protected Season ripe;
+  protected Color flesh;
+
+  // ...
+}
+
+public class Raspberry extends Fruit {
+  private boolean ripe;  // Noncompliant
+  private static Color FLESH; // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Fruit {
+  protected Season ripe;
+  protected Color flesh;
+
+  // ...
+}
+
+public class Raspberry extends Fruit {
+  private boolean ripened;
+  private static Color FLESH_COLOR;
+
+}
+</pre>
+<h2>例外あり</h2>
+<p>このルールは、親クラスと子クラスの両方に<code translate="no">static</code> がある同名フィールドを無視します。このルールは、<code translate="no">private</code> の親クラスフィールドを無視しますが、その他のすべてのそのようなケースでは、子クラスフィールドの名前を変更する必要があります。</p>
+<pre translate="no">
+public class Fruit {
+  private Season ripe;
+  // ...
+}
+
+public class Raspberry extends Fruit {
+  private Season ripe;  // Compliant as parent field 'ripe' is anyway not visible from Raspberry
+  // ...
+}
+</pre>
+

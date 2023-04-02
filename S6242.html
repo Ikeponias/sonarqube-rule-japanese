@@ -1,0 +1,26 @@
+<p><a href="https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/awscore/client/builder/AwsClientBuilder.html">AwsClientBuilderで</a>AwsClientを新規作成する際に、資格情報プロバイダが指定されていない場合、AWS SDKはそれを自動的に特定するためのロジックを実行します。</p>
+<p>おそらく正しいものが特定されるでしょうが、この余分なロジックは、すでにホットスポットであることが知られている起動時間を遅くします。</p>
+<p>そのため、資格情報プロバイダを設定するロジックは必ず自分で定義する必要があります。これは通常、Lambdaが提供する環境変数から取得することで行われます。</p>
+<p>これにより、コードがより明示的になり、初期化時間を節約することができます。</p>
+<p>このルールでは、AwsClientの作成時に資格情報プロバイダが設定されていない場合の問題を報告します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+S3Client.builder()
+    .region(Region.of(System.getenv(SdkSystemSetting.AWS_REGION.environmentVariable())))
+    .build();
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+S3Client.builder()
+    .region(Region.of(System.getenv(SdkSystemSetting.AWS_REGION.environmentVariable()))
+    .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
+    .build();
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://aws.amazon.com/fr/blogs/developer/tuning-the-aws-java-sdk-2-x-to-reduce-startup-time/">AWS Java SDK 2.xの起動時間短縮のためのチューニング</a></li>
+  <li><a href="https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/lambda-optimize-starttime.html">AWS Lambdaのコールドスタート性能の最適化</a></li>
+  <li><a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html">環境変数の設定</a></li>
+  <li><a href="https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html">デフォルトのクレデンシャルプロバイダーチェーン</a></li>
+</ul>
+

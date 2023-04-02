@@ -1,0 +1,21 @@
+<p><code translate="no">assert</code> なぜなら、アサーションはJVMの実行時に無効にすることができ、操作設定が悪いと意図したチェックを完全に排除してしまうからです。さらに、失敗した<code translate="no">assert</code>は、何らかの<code translate="no">Exception</code> を投げるのではなく、<code translate="no">AssertionError</code>を投げる。<code translate="no">Error</code>を投げることは、通常のプログラムにおいて期待される<code translate="no">catch</code>/<code translate="no">throw</code> の動作から完全に外れている。</p>
+<p>このルールは、<code translate="no">public</code> のメソッドが、1つ以上のパラメータを<code translate="no">assert</code>の s で使用する場合に問題となる。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+ public void setPrice(int price) {
+  assert price &gt;= 0 &amp;&amp; price &lt;= MAX_PRICE;
+  // Set the price
+ }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+ public void setPrice(int price) {
+  if (price &lt; 0 || price &gt; MAX_PRICE) {
+    throw new IllegalArgumentException("Invalid price: " + price);
+  }
+  // Set the price
+ }
+</pre>
+<h2>見る</h2>
+<p><a href="https://docs.oracle.com/javase/7/docs/technotes/guides/language/assert.html">アサーションを使ったプログラミング</a></p>
+

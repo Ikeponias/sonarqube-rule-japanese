@@ -1,0 +1,12 @@
+<p>正規表現では、<code translate="no">^</code> と<code translate="no">\A</code> は入力の先頭（<code translate="no">^</code> の場合は<code translate="no">MULTILINE</code> フラグとの組み合わせで行頭）、<code translate="no">$</code>,<code translate="no">\Z</code> と<code translate="no">\z</code>は末尾にのみマッチングできます。</p>
+<p>これらのパターンは、例えば、誤って<code translate="no">^</code> と<code translate="no">$</code> を切り替えて、絶対に一致しないパターンを作ってしまうなど、悪用される可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+// This can never match because $ and ^ have been switched around
+Pattern.compile("$[a-z]+^"); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Pattern.compile("^[a-z]+$");
+</pre>
+

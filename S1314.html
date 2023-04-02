@@ -1,0 +1,15 @@
+<p>ゼロで始まる整数リテラルは、10進数ではなく8進数です。8進数の使用は完全にサポートされていますが、ほとんどの開発者は8進数を使用した経験がありません。そのため、8進数を10進数として認識せず、10進数と勘違いしてしまうことがあります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int myNumber = 010; // Noncompliant. myNumber will hold 8, not 10 - was this really expected?
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int myNumber = 8;
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/atYxBQ">CERT、DCL18-C。</a>- 10進数指定時に整数定数を0から始めない </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/7DZGBQ">CERT、DCL50-J。</a>- 視覚的に区別できる識別子を使用する </li>
+</ul>
+

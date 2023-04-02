@@ -1,0 +1,28 @@
+<p>小さな数字の場合、<code translate="no">float</code> の演算は期待値を得るのに十分な精度がありますが、大きな数字の場合はそうではありません。<code translate="no">BigDecimal</code> が最良の選択肢ですが、プリミティブが必要な場合は<code translate="no">double</code> を使用します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+float a = 16777216.0f;
+float b = 1.0f;
+float c = a + b; // Noncompliant; yields 1.6777216E7 not 1.6777217E7
+
+double d = a + b; // Noncompliant; addition is still between 2 floats
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+float a = 16777216.0f;
+float b = 1.0f;
+BigDecimal c = BigDecimal.valueOf(a).add(BigDecimal.valueOf(b));
+
+double d = (double)a + (double)b;
+</pre>
+<h2>例外あり</h2>
+<p>このルールは、数式が文字列を構築するためにのみ使用される場合には、問題を生じない。</p>
+<pre translate="no">
+System.out.println("["+getName()+"] " +
+           "\n\tMax time to retrieve connection:"+(max/1000f/1000f)+" ms.");
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/CtcxBQ">CERT、FLP02-C。</a>- 精密な計算が必要な場合は浮動小数点数の使用を避けること </li>
+</ul>
+

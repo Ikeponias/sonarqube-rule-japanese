@@ -1,0 +1,103 @@
+<p>関数の呼び出しに副作用がない場合、その結果が無視されるのであれば、呼び出しを行う意味はあるのだろうか。このような場合、関数呼び出しは無駄なのでやめるか、ソースコードが期待通りに動作しないかのどちらかです。</p>
+<p>誤検出を防ぐため、このルールは、Java APIに含まれる以下の定義済みの不変クラスのリストに対してのみ問題をトリガーします：</p>
+<ul>
+  <li> <code translate="no">java.lang.String</code> </li>
+  <li> <code translate="no">java.lang.Boolean</code> </li>
+  <li> <code translate="no">java.lang.Integer</code> </li>
+  <li> <code translate="no">java.lang.Double</code> </li>
+  <li> <code translate="no">java.lang.Float</code> </li>
+  <li> <code translate="no">java.lang.Byte</code> </li>
+  <li> <code translate="no">java.lang.Character</code> </li>
+  <li> <code translate="no">java.lang.Short</code> </li>
+  <li> <code translate="no">java.lang.StackTraceElement</code> </li>
+  <li> <code translate="no">java.time.DayOfWeek</code> </li>
+  <li> <code translate="no">java.time.Duration</code> </li>
+  <li> <code translate="no">java.time.Instant</code> </li>
+  <li> <code translate="no">java.time.LocalDate</code> </li>
+  <li> <code translate="no">java.time.LocalDateTime</code> </li>
+  <li> <code translate="no">java.time.LocalTime</code> </li>
+  <li> <code translate="no">java.time.Month</code> </li>
+  <li> <code translate="no">java.time.MonthDay</code> </li>
+  <li> <code translate="no">java.time.OffsetDateTime</code> </li>
+  <li> <code translate="no">java.time.OffsetTime</code> </li>
+  <li> <code translate="no">java.time.Period</code> </li>
+  <li> <code translate="no">java.time.Year</code> </li>
+  <li> <code translate="no">java.time.YearMonth</code> </li>
+  <li> <code translate="no">java.time.ZonedDateTime</code> </li>
+  <li> <code translate="no">java.math.BigInteger</code> </li>
+  <li> <code translate="no">java.math.BigDecimal</code> </li>
+  <li> <code translate="no">java.util.Optional</code> </li>
+</ul>
+<p>また、以下のクラスのメソッドも同様です：</p>
+<ul>
+  <li><code translate="no">java.util.Collection</code>: <ul>
+      <li> <code translate="no">size()</code> </li>
+      <li> <code translate="no">isEmpty()</code> </li>
+      <li> <code translate="no">contains(...)</code> </li>
+      <li> <code translate="no">containsAll(...)</code> </li>
+      <li> <code translate="no">iterator()</code> </li>
+      <li> <code translate="no">toArray()</code> </li>
+    </ul>  </li>
+  <li><code translate="no">java.util.Map</code>: <ul>
+      <li> <code translate="no">size()</code> </li>
+      <li> <code translate="no">isEmpty()</code> </li>
+      <li> <code translate="no">containsKey(...)</code> </li>
+      <li> <code translate="no">containsValue(...)</code> </li>
+      <li> <code translate="no">get(...)</code> </li>
+      <li> <code translate="no">getOrDefault(...)</code> </li>
+      <li> <code translate="no">keySet()</code> </li>
+      <li> <code translate="no">entrySet()</code> </li>
+      <li> <code translate="no">values()</code> </li>
+    </ul>  </li>
+  <li> <code translate="no">java.util.stream.Stream</code>
+    <ul>
+      <li> <code translate="no">toArray</code> </li>
+      <li> <code translate="no">reduce</code> </li>
+      <li> <code translate="no">collect</code> </li>
+      <li> <code translate="no">min</code> </li>
+      <li> <code translate="no">max</code> </li>
+      <li> <code translate="no">count</code> </li>
+      <li> <code translate="no">anyMatch</code> </li>
+      <li> <code translate="no">allMatch</code> </li>
+      <li> <code translate="no">noneMatch</code> </li>
+      <li> <code translate="no">findFirst</code> </li>
+      <li> <code translate="no">findAny</code> </li>
+      <li> <code translate="no">toList</code> </li>
+    </ul>  </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void handle(String command){
+  command.toLowerCase(); // Noncompliant; result of method thrown away
+  ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void handle(String command){
+  String formattedCommand = command.toLowerCase();
+  ...
+}
+</pre>
+<h2>例外あり</h2>
+<p>この条件を両方満たしている場合、本ルールは問題を提起しない：</p>
+<ul>
+  <li>このメソッドコールは、関連する<code translate="no">catch</code> 節を持つ<code translate="no">try</code> ブロックにあります。 </li>
+  <li>メソッド名が "parse", "format", "decode", "valueOf" で始まるか、メソッドが<code translate="no">String.getBytes(Charset)</code> である。 </li>
+</ul>
+<pre translate="no">
+private boolean textIsInteger(String textToCheck) {
+
+    try {
+        Integer.parseInt(textToCheck, 10); // OK
+        return true;
+    } catch (NumberFormatException ignored) {
+        return false;
+    }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/xzdGBQ">CERT、EXP00-J。</a>- メソッドから返される値を無視しないでください。 </li>
+</ul>
+

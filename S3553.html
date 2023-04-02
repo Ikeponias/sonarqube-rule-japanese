@@ -1,0 +1,24 @@
+<p>Java言語の作者は、<code translate="no">Optional</code> 、メソッドが値を返すか返さないかを伝える方法として、戻り値型としてのみ使用することを意図していたことを、非常に率直に述べています。</p>
+<p>しかし、入力側で<code translate="no">Optional</code> を使用すると、メソッド内で行わなければならない作業が増え、価値を高めることができません。<code translate="no">Optional</code> パラメータでは、null と not-null の2つの入力が可能でしたが、null、non-null-without-value、non-null-with-value の3つが可能になります。さらに、いくつかのパラメータがオプションであることを伝えるためにオーバーロードが長い間利用可能であったという事実も加わり、<code translate="no">Optional</code> パラメータを持つ理由は本当にないのです。</p>
+<p>また、このルールは、JDK<code translate="no">Optional</code> のインスピレーションとなったGuavaの<code translate="no">Optional</code> についてもチェックされます。これは、いくつかの点（シリアライズ、コレクション要素としての使用が推奨されている）で異なっていますが、パラメータ型として使用すると、JDK<code translate="no">Optional</code> と全く同じ問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public String sayHello(Optional&lt;String&gt; name) {  // Noncompliant
+  if (name == null || !name.isPresent()) {
+    return "Hello World";
+  } else {
+    return "Hello " + name;
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public String sayHello(String name) {
+  if (name == null) {
+    return "Hello World";
+  } else {
+    return "Hello " + name;
+  }
+}
+</pre>
+

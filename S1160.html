@@ -1,0 +1,17 @@
+<p>チェックされた例外を使用すると、メソッド呼び出し元はエラーを伝播させるか、処理することによって、エラーに対処することを余儀なくされます。例外を投げることで、例外は完全にメソッドのAPIの一部となります。</p>
+<p>しかし、呼び出し側の複雑さを合理的に保つために、メソッドは複数の種類のチェックされた例外を投げないようにする必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void delete() throws IOException, SQLException {      // Noncompliant
+  /* ... */
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void delete() throws SomeApplicationLevelException {
+  /* ... */
+}
+</pre>
+<h2>例外あり</h2>
+<p>オーバーライドメソッドはこのルールではチェックされず、チェックされたいくつかの例外を投げることが許可されます。</p>
+

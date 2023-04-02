@@ -1,0 +1,16 @@
+<p><code translate="no">interface</code> で宣言されたメソッドは、デフォルトで<code translate="no">public</code> と<code translate="no">abstract</code> になります。変数は自動的に<code translate="no">public static final</code> となります．最後に、<code translate="no">class</code> と<code translate="no">interface</code> は自動的に<code translate="no">public static</code> となります。明示的に宣言する必要はありません．</p>
+<p>アノテーションは暗黙のうちにインターフェースであるため、アノテーションも同様である。</p>
+<p>同様に、<code translate="no">final</code> は<code translate="no">final</code> クラスのメソッド、<code translate="no">private</code> は<code translate="no">Enum</code> のコンストラクタ、<code translate="no">static</code> は<code translate="no">class</code> や<code translate="no">enum</code> にネストされた<code translate="no">interface</code> のメソッドで冗長となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public interface Vehicle {
+
+  public void go(int speed, Direction direction);  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public interface Vehicle {
+
+  void go(int speed, Direction direction);
+</pre>
+

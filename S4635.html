@@ -1,0 +1,20 @@
+<p>指定されたオフセットから始まる指定された部分文字列を探すことは、このようなコードで実現することができます：<code translate="no">str.substring(beginIndex).indexOf(char1)</code>これはうまくいきますが、<code translate="no">substring</code> メソッドを呼び出すたびに新しい<code translate="no">String</code> が作成されます。これがループの中で行われると、無駄に多くの<code translate="no">Strings</code> が作成されることになり、<code translate="no">str</code> が大きい場合にはパフォーマンスの問題につながることがあります。</p>
+<p>パフォーマンス上の問題を避けるため、<code translate="no">String.substring(beginIndex)</code> は以下の方法と連鎖させないでください：</p>
+<ul>
+  <li> <code translate="no">indexOf(int ch)</code> </li>
+  <li> <code translate="no">indexOf(String str)</code> </li>
+  <li> <code translate="no">lastIndexOf(int ch)</code> </li>
+  <li> <code translate="no">lastIndexOf(String str)</code> </li>
+  <li> <code translate="no">startsWith(String prefix)</code> </li>
+</ul>
+<p>これらのメソッドのそれぞれについて、オフセットを指定するための追加パラメータを持つ別のメソッドが用意されています。</p>
+<p>これらのメソッドを使用することで、追加の<code translate="no">String</code> インスタンスの作成を回避することができます。indexOfメソッドについては、同じ結果を得るために、部分文字列インデックスパラメータを減算して戻り値を調整する。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+str.substring(beginIndex).indexOf(char1); // Noncompliant; a new String is going to be created by "substring"
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+str.indexOf(char1, beginIndex) - beginIndex; // index for char1 not found is (-1-beginIndex)
+</pre>
+

@@ -1,0 +1,14 @@
+<p><code translate="no">Random</code>'の<code translate="no">nextDouble</code> メソッドの出力を乗算して乱数整数を得る必要はありません。代わりに<code translate="no">nextInt</code> メソッドを使用してください。</p>
+<p>このルールでは、浮動小数点値を返す<code translate="no">Random</code>'のメソッドの戻り値が整数に変換される場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Random r = new Random();
+int rand = (int)r.nextDouble() * 50;  // Noncompliant way to get a pseudo-random value between 0 and 50
+int rand2 = (int)r.nextFloat(); // Noncompliant; will always be 0;
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Random r = new Random();
+int rand = r.nextInt(50);  // returns pseudo-random value between 0 and 50
+</pre>
+

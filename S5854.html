@@ -1,0 +1,14 @@
+<p><code translate="no">'é'</code> のような文字は、単一のコードポイントとして、または文字<code translate="no">'e'</code> と結合アクセント記号のクラスターとして表現することができます。<code translate="no">CANON_EQ</code> フラグがない場合、正規表現は文字が同じように表現されている文字列にのみマッチします。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String s = "e\u0300";
+Pattern p = Pattern.compile("é|ë|è"); // Noncompliant
+System.out.println(p.matcher(s).replaceAll("e")); // print 'è'
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String s = "e\u0300";
+Pattern p = Pattern.compile("é|ë|è", Pattern.CANON_EQ);
+System.out.println(p.matcher(s).replaceAll("e")); // print 'e'
+</pre>
+

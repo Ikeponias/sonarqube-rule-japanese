@@ -1,0 +1,28 @@
+<p>ロバート・C・マーティンが著書「オブジェクト指向設計の原則」で紹介した「単一責任原則」によれば、クラスは1つの責任だけを持つべきとされています：</p>
+<blockquote>
+  <p>クラスが複数の責任を持つ場合、責任は結合されたものになる。</p>
+  <p>ある責任の変更により、他の責任を果たすクラスの能力が損なわれたり、阻害されたりすることがあります。</p>
+  <p>このような結合は、変更したときに予期せぬ方法で壊れる脆弱な設計につながります。</p>
+</blockquote>
+<p>他の多くのクラスに依存しているクラスは、多くの責任を集約する傾向があり、いくつかの小さなクラスに分割する必要があります。</p>
+<p>ネストしたクラスの依存関係は、外側のクラスの依存関係としてカウントされない。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>閾値を5とした場合：</p>
+<pre translate="no">
+class Foo {                        // Noncompliant - Foo depends on too many classes: T1, T2, T3, T4, T5, T6 and T7
+  T1 a1;                           // Foo is coupled to T1
+  T2 a2;                           // Foo is coupled to T2
+  T3 a3;                           // Foo is coupled to T3
+
+  public T4 compute(T5 a, T6 b) {  // Foo is coupled to T4, T5 and T6
+    T7 result = a.getResult(b);    // Foo is coupled to T7
+    return result;
+  }
+
+  public static class Bar {        // Compliant - Bar depends on 2 classes: T8 and T9
+    T8 a8;
+    T9 a9;
+  }
+}
+</pre>
+

@@ -1,0 +1,91 @@
+<p>ユーザー列挙とは、Webアプリケーションのデータベースにある既存のユーザー名を推測する機能のことです。例えば、ウェブサイトの「サインイン/サインオン/パスワード忘れ」機能を使用する際に発生することがあります。</p>
+<p>ユーザが不正なユーザ名やログイン名でウェブサイトに「サインイン」しようとした場合、ウェブアプリケーションは「このユーザ名は不正です」のようなメッセージでユーザ名が存在しないことを公表してはいけません。代わりに「悪い認証情報」のような汎用メッセージを使用すべきです。</p>
+<p>ユーザー管理機能がユーザー名の存在に関する情報を開示した場合、攻撃者はブルートフォース攻撃を使って有効なユーザー名を大量に取得することができ、対応するユーザーのプライバシーに影響を与え、他の攻撃（フィッシング、パスワード推測など...）を容易にすることができます。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>アプリケーションは、データベースにユーザー名が存在することを開示します。ほとんどの場合、ウェブサイトの「登録/サインオン」部分を除いて、この種の漏洩を回避することが可能です。 </li>
+  <li>ユーザー名を含むリクエストには、レート制限やCAPTCHAによる保護は行われていません。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<p>ユーザーがユーザー名を含むリクエストを実行する際、有効なユーザー名と不正なユーザー名の違いを見分けることはできないはずです：</p>
+<ul>
+  <li>エラーメッセージは一般的なもので、ユーザー名が有効かどうかを明らかにしないようにする。 </li>
+  <li>有効なユーザー名かどうか、応答時間が似ている必要があります。 </li>
+  <li>CAPTCHAなどのレート制限ソリューションを導入する必要がある。 </li>
+</ul>
+<h2>センシティブコードの例</h2>
+<p>Spring-securityのWebアプリケーションで、ユーザー名が漏れるのは以下の場合です：</p>
+<ul>
+  <li><a href="https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/core/userdetails/UserDetailsService.html">loadUserByUsername</a>メソッドの引数として使用した文字列が、例外メッセージに使用されます： </li>
+</ul>
+<pre translate="no">
+public String authenticate(String username, String password) {
+  // ....
+  MyUserDetailsService s1 = new MyUserDetailsService();
+  MyUserPrincipal u1 = s1.loadUserByUsername(username);
+
+  if(u1 == null) {
+    throw new BadCredentialsException(username+" doesn't exist in our database"); // Sensitive
+  }
+  // ....
+}
+</pre>
+<ul>
+  <li><a href="https://docs.spring.io/spring-security/site/docs/3.0.x/apidocs/org/springframework/security/core/userdetails/UsernameNotFoundException.html">UsernameNotFoundExceptionが</a>スローされます（loadUserByUsernameメソッド内の場合を除く）： </li>
+</ul>
+<pre translate="no">
+public String authenticate(String username, String password) {
+  // ....
+  if(user == null) {
+      throw new UsernameNotFoundException("user not found"); // Sensitive
+  }
+  // ....
+}
+</pre>
+<ul>
+  <li><a href="https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/authentication/dao/AbstractUserDetailsAuthenticationProvider.html#setHideUserNotFoundExceptions-boolean-">HideUserNotFoundExceptions</a>は false に設定されています： </li>
+</ul>
+<pre translate="no">
+DaoAuthenticationProvider daoauth = new DaoAuthenticationProvider();
+daoauth.setUserDetailsService(new MyUserDetailsService());
+daoauth.setPasswordEncoder(new BCryptPasswordEncoder());
+daoauth.setHideUserNotFoundExceptions(false); // Sensitive
+builder.authenticationProvider(daoauth);
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>Spring-securityのWebアプリケーションで：</p>
+<ul>
+  <li>のように、ユーザーやパスワードの間違いにかかわらず、同じメッセージを使用する必要があります： </li>
+</ul>
+<pre translate="no">
+public String authenticate(String username, String password) throws AuthenticationException {
+  Details user = null;
+  try {
+    user = loadUserByUsername(username);
+  } catch (UsernameNotFoundException | DataAccessException e) {
+    // Hide this exception reason to not disclose that the username doesn't exist
+  }
+  if (user == null || !user.isPasswordCorrect(password)) {
+     // User should not be able to guess if the bad credentials message is related to the username or the password
+    throw new BadCredentialsException("Bad credentials");
+  }
+}
+</pre>
+<ul>
+  <li><a href="https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/authentication/dao/AbstractUserDetailsAuthenticationProvider.html#setHideUserNotFoundExceptions-boolean-">HideUserNotFoundExceptions</a>は、true に設定する必要があります： </li>
+</ul>
+<pre translate="no">
+DaoAuthenticationProvider daoauth = new DaoAuthenticationProvider();
+daoauth.setUserDetailsService(new MyUserDetailsService());
+daoauth.setPasswordEncoder(new BCryptPasswordEncoder());
+daoauth.setHideUserNotFoundExceptions(true); // Compliant
+builder.authenticationProvider(daoauth);
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A01_2021-Broken_Access_Control/">OWASP Top 10 2021 カテゴリ A1</a>- 壊れたアクセス制御 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A2-Broken_Authentication">OWASP Top 10 2017 カテゴリーA2</a>- Broken Authentication </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/200">MITRE、CWE-200</a>「機密情報の不正な行為者への暴露について </li>
+</ul>
+

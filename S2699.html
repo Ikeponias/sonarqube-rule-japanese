@@ -1,0 +1,50 @@
+<p>アサーションのないテストケースは、例外がスローされないことだけを保証します。基本的な実行可能性を超えて、テスト対象のコードの動作については何も保証しません。</p>
+<p>このルールは、以下の既知のフレームワークからのアサーションがテスト内に見つからない場合に例外を発生させる：</p>
+<ul>
+  <li>アサートジェイ </li>
+  <li>待ち時間 </li>
+  <li>イージーモック </li>
+  <li>Eclipse Vert.x </li>
+  <li>フェスト1.xと2.x </li>
+  <li>ハンクレスト </li>
+  <li>ジェイモック </li>
+  <li>ジェイモックイット </li>
+  <li>ジュニト </li>
+  <li>モッキート </li>
+  <li>2.x、3.x、4.xに対応したRest-assuredを採用。 </li>
+  <li>RxJava 1.xおよび2.x </li>
+  <li>セレン化物 </li>
+  <li>春の<code translate="no">org.springframework.test.web.servlet.ResultActions.andExpect()</code> 、<code translate="no">org.springframework.test.web.servlet.ResultActions.andExpectAll()</code> </li>
+  <li>真理のフレームワーク </li>
+  <li>ワイヤーモック </li>
+</ul>
+<p>さらに、新しいアサーション・フレームワークやカスタム・アサーション・フレームワークが使用されることがあるため、このルールをパラメータ化して、アサーションとみなされる特定のメソッドを定義することができます。このようなメソッドがテストケースで見つかっても、問題は発生しない。パラメータ値は、次の形式でなければなりません。<code translate="no">&lt;FullyQualifiedClassName&gt;#&lt;MethodName&gt;</code> 、<code translate="no">MethodName</code> は、ワイルドカード文字で終わることができます。コンストラクターの場合、パターンは<code translate="no">&lt;FullyQualifiedClassName&gt;#&lt;init&gt;</code> となります。</p>
+<p>例）<code translate="no">com.company.CompareToTester#compare*,com.company.CustomAssert#customAssertMethod,com.company.CheckVerifier#&lt;init&gt;</code>.</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Test
+public void testDoSomething() {  // Noncompliant
+  MyClass myClass = new MyClass();
+  myClass.doSomething();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>ルールのパラメータとして<code translate="no">com.company.CompareToTester#compare*</code> を使用する場合の例。</p>
+<pre translate="no">
+import com.company.CompareToTester;
+
+@Test
+public void testDoSomething() {
+  MyClass myClass = new MyClass();
+  assertNull(myClass.doSomething());  // JUnit assertion
+  assertThat(myClass.doSomething()).isNull();  // Fest assertion
+}
+
+@Test
+public void testDoSomethingElse() {
+  MyClass myClass = new MyClass();
+  new CompareToTester().compareWith(myClass);  // Compliant - custom assertion method defined as rule parameter
+  CompareToTester.compareStatic(myClass);  // Compliant
+}
+</pre>
+

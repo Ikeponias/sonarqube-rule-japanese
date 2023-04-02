@@ -1,0 +1,33 @@
+<p><code translate="no">switch</code> は、制御フローに新しい分岐を明確に定義する場合にのみ使用されるべきです。<code translate="no">case</code>節に多くの文が含まれると、制御フロー文全体の可読性が非常に低下します。このような場合、<code translate="no">case</code> 節の内容は、専用のメソッドに抽出されるべきです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルトの閾値を5とした場合：</p>
+<pre translate="no">
+switch (myVariable) {
+  case 0: // Noncompliant: 6 lines till next case
+    methodCall1("");
+    methodCall2("");
+    methodCall3("");
+    methodCall4("");
+    break;
+  case 1:
+  ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+switch (myVariable) {
+  case 0:
+    doSomething()
+    break;
+  case 1:
+  ...
+}
+...
+private void doSomething(){
+    methodCall1("");
+    methodCall2("");
+    methodCall3("");
+    methodCall4("");
+}
+</pre>
+

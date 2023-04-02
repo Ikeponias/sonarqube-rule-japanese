@@ -1,0 +1,14 @@
+<p>推移的性質とは、<code translate="no">a == b</code> と<code translate="no">b == c</code> があれば、<code translate="no">a == c</code> 。このような場合、<code translate="no">a</code> を<code translate="no">c</code> に割り当てたり、その逆を行ったりしても、すでに等価であるため、意味がありません。</p>
+<p>このルールでは、代入先の変数がすべての実行経路ですでに値を保持しているため、代入が無駄になることが問題となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+a = b;
+c = a;
+b = c; // Noncompliant: c and b are already the same
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+a = b;
+c = a;
+</pre>
+

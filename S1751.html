@@ -1,0 +1,33 @@
+<p>最大1回の反復を伴うループは、<code translate="no">if</code> ステートメントを使用して1つのコードを条件付きで実行することと同じです。開発者は、このようなループ文の使い方を見つけることを期待していません。もし作者の最初の意図が本当に1つのコードを条件付きで実行することであったなら、代わりに<code translate="no">if</code> ステートメントを使用すべきです。</p>
+<p>最悪の場合、それは著者の最初の意図ではなかったので、ループの本体は、より適切な方法で入れ子の<code translate="no">return</code>,<code translate="no">break</code> または<code translate="no">throw</code> 文を使用するように修正する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+for (int i = 0; i &lt; 10; i++) { // noncompliant, loop only executes once
+  printf("i is %d", i);
+  break;
+}
+...
+for (int i = 0; i &lt; 10; i++) { // noncompliant, loop only executes once
+  if (i == x) {
+    break;
+  } else {
+    printf("i is %d", i);
+    return;
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+for (int i = 0; i &lt; 10; i++) {
+  printf("i is %d", i);
+}
+...
+for (int i = 0; i &lt; 10; i++) {
+  if (i == x) {
+    break;
+  } else {
+    printf("i is %d", i);
+  }
+}
+</pre>
+

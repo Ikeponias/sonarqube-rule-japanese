@@ -1,0 +1,18 @@
+<p><code translate="no">Throwable</code> <code translate="no">Error</code> は、Javaのすべてのエラーと例外のスーパークラスです。アプリケーションによって捕捉されることを意図していない、すべてのエラーのスーパークラスです。</p>
+<p><code translate="no">Throwable</code> と<code translate="no">Error</code> のいずれかをキャッチすると、<code translate="no">OutOfMemoryError</code> と<code translate="no">InternalError</code> もキャッチすることになり、アプリケーションはそこから回復しようとしない。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+try { /* ... */ } catch (Throwable t) { /* ... */ }
+try { /* ... */ } catch (Error e) { /* ... */ }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+try { /* ... */ } catch (RuntimeException e) { /* ... */ }
+try { /* ... */ } catch (MyException e) { /* ... */ }
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/396">MITRE, CWE-396</a>- Generic Exceptionのキャッチ宣言。 </li>
+  <li><a href="https://github.com/isocpp/CppCoreGuidelines/blob/036324/CppCoreGuidelines.md#Re-exception-types">C++ コア ガイドライン E.14</a>- 目的に応じて設計されたユーザー定義型を例外として使用する（組み込み型ではない </li>
+</ul>
+

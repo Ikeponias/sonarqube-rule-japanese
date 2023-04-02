@@ -1,0 +1,11 @@
+<p>配列の指定は、コードの可読性を高めるために、常に型に配置する必要があります。そうしないと、開発者は変数が配列であるかどうかを知るために、型と変数名の両方を見なければなりません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int matrix[][];   // Noncompliant
+int[] matrix[];   // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int[][] matrix;   // Compliant
+</pre>
+

@@ -1,0 +1,42 @@
+<p>同期の目的は、一度に1つのスレッドのみが所定のコードブロックを実行することを保証することです。<code translate="no">writeObject</code> <code translate="no">synchronized</code> をマークすることに実際の問題はありませんが、このシリアライズ関連のメソッドが<code translate="no">class</code> の中で唯一の<code translate="no">synchronized</code> コードである場合、非常に疑わしいと言えます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class RubberBall {
+
+  private Color color;
+  private int diameter;
+
+  public RubberBall(Color color, int diameter) {
+    // ...
+  }
+
+  public void bounce(float angle, float velocity) {
+    // ...
+  }
+
+  private synchronized void writeObject(ObjectOutputStream stream) throws IOException { // Noncompliant
+    // ...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class RubberBall {
+
+  private Color color;
+  private int diameter;
+
+   public RubberBall(Color color, int diameter) {
+    // ...
+  }
+
+  public void bounce(float angle, float velocity) {
+    // ...
+  }
+
+  private void writeObject(ObjectOutputStream stream) throws IOException {
+    // ...
+  }
+}
+</pre>
+

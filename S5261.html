@@ -1,0 +1,26 @@
+<p><code translate="no">else</code> のぶら下がり問題は、入れ子になった<code translate="no">if</code>/<code translate="no">else</code> の文が中括弧なしで書かれている場合に発生します。この場合、<code translate="no">else</code> は最も近い<code translate="no">if</code> に関連付けられますが、これは必ずしも明らかではなく、インデントが誤解を招くこともあります。</p>
+<p>このルールでは、<code translate="no">else</code> ステートメントが中括弧なしでネストされた<code translate="no">if</code> ステートメントの中にあるため、理解するのが困難であることを報告します。</p>
+<p>中括弧をつけると、一般的にコードが明確になります（ルール{rule:java:S121}参照）が、このダングリング<code translate="no">else</code> の状況では、コードの意図を本当に明確にすることができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+ if (a)
+   if (b)
+     d++;
+ else     // Noncompliant, is the "else" associated with "if(a)" or "if (b)"? (the answer is "if(b)")
+   e++;
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+ if (a) {
+   if (b) {
+     d++;
+   }
+ } else { // Compliant, there is no doubt the "else" is associated with "if(a)"
+   e++;
+ }
+</pre>
+<h2>見る</h2>
+<ul>
+  <li>h<a href="https://en.wikipedia.org/wiki/Dangling_else">ttps://en.wikipedia.org/wiki/Dangling_else</a></li>
+</ul>
+

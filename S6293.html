@@ -1,0 +1,35 @@
+<p>Androidには、鍵素材を保存するための安全なコンテナであるAndroid KeyStoreが搭載されています。ユーザーが生体認証情報を使って認証する際に、特定の鍵をロック解除するように定義することが可能です。これにより、たとえアプリケーションのプロセスが侵害されたとしても、認証されたユーザーの存在が必要であるため、攻撃者は鍵にアクセスすることができません。</p>
+<p>これらの鍵は、認証結果が改ざんされていないことを証明するために、暗号化、署名、メッセージ認証コード（MAC）の作成に使用することができます。この保護機能により、デバイスに物理的にアクセスできる攻撃者が、アプリケーションプロセスにフックして<code translate="no">onAuthenticationSucceeded</code> メソッドを直接呼び出そうとするシナリオを打ち破ることができます。そのため、攻撃者は機密データを取り出したり、バイオメトリクス認証によって保護された重要な操作を実行したりすることができなくなります。</p>
+<h2>ということを自問自答してください。</h2>
+<p>アプリケーションに含まれています：</p>
+<ul>
+  <li>生体認証で保護する必要がある暗号鍵／機密情報。 </li>
+</ul>
+<p>この質問に「はい」と答えた方は、リスクがあります。</p>
+<h2>推奨されるセキュアコーディングプラクティス</h2>
+<p>認証時に<code translate="no">CryptoObject</code> 、生体認証と暗号演算を結びつけることが推奨されます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>認証時に<code translate="no">CryptoObject</code> は使用しません：</p>
+<pre translate="no">
+// ...
+BiometricPrompt biometricPrompt = new BiometricPrompt(activity, executor, callback);
+// ...
+biometricPrompt.authenticate(promptInfo); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>認証時には<code translate="no">CryptoObject</code> が使用されます：</p>
+<pre translate="no">
+// ...
+BiometricPrompt biometricPrompt = new BiometricPrompt(activity, executor, callback);
+// ...
+biometricPrompt.authenticate(promptInfo, new BiometricPrompt.CryptoObject(cipher)); // Compliant
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">OWASP Top 10 2021 カテゴリ A7</a>- 識別と認証の失敗 </li>
+  <li><a href="https://developer.android.com/training/sign-in/biometric-auth">developer.android.com</a>- 認証に依存する暗号化ソリューションを使用する </li>
+  <li><a href="https://owasp.org/www-project-mobile-top-10/2016-risks/m4-insecure-authentication">OWASP Mobile Top 10 カテゴリーM4</a>- 安全でない認証 </li>
+  <li><a href="https://mobile-security.gitbook.io/masvs/security-requirements/0x09-v4-authentication_and_session_management_requirements">OWASP MASVS</a>- 認証とセッション管理の要件 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/287">MITRE, CWE-287</a>- 不適切な認証。 </li>
+</ul>
+

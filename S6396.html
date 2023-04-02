@@ -1,0 +1,18 @@
+<p>正規表現における中括弧の量化子は、その文字やその前に続く部分式が何回出現するかをより細かく制御するために使用することができます。<code translate="no">{n}</code> で正確にn回、<code translate="no">{n,m}</code> でn回からm回、<code translate="no">{n,}</code> で少なくともn回マッチさせることができる。場合によっては、このような量化子を使うことは正規表現の意味上不要であり、可読性を高めるために削除することができる。この規則では、次のような量化子に遭遇した場合に問題が発生する：</p>
+<ul>
+  <li><code translate="no">{1,1}</code> または<code translate="no">{1}</code>: これらは式に正確に一度だけマッチします。同じ動作は，量化子がなくても実現できる。 </li>
+  <li><code translate="no">{0,0}</code> または<code translate="no">{0}</code>: これらは式に0回マッチします。式を削除しても同じ動作が可能です。  </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+"ab{1,1}c"
+"ab{1}c"
+"ab{0,0}c"
+"ab{0}c"
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+"abc"
+"ac"
+</pre>
+

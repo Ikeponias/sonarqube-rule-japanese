@@ -1,0 +1,17 @@
+<p>ループ内の<code translate="no">break</code> と<code translate="no">continue</code> の文の数を制限することは、優れた構造化プログラミングのために行われます。</p>
+<p>最適なコーディングを容易にするため、ループ内では<code translate="no">break</code> または<code translate="no">continue</code> ステートメントを1つだけ使用することが可能です。複数ある場合は、可読性を高めるためにコードをリファクタリングする必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+for (int i = 1; i &lt;= 10; i++) {     // Noncompliant - 2 continue - one might be tempted to add some logic in between
+  if (i % 2 == 0) {
+    continue;
+  }
+
+  if (i % 3 == 0) {
+    continue;
+  }
+
+  System.out.println("i = " + i);
+}
+</pre>
+

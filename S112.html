@@ -1,0 +1,31 @@
+<p><code translate="no">Error</code>,<code translate="no">RuntimeException</code>,<code translate="no">Throwable</code>,<code translate="no">Exception</code> のような汎用例外を使用することで、呼び出しメソッドが、真のシステム生成例外を、アプリケーション生成エラーと異なる方法で処理することを防ぐことができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void foo(String bar) throws Throwable {  // Noncompliant
+  throw new RuntimeException("My Message");     // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void foo(String bar) {
+  throw new MyOwnRuntimeException("My Message");
+}
+</pre>
+<h2>例外あり</h2>
+<p>オーバーライドするメソッドは、スーパークラスのthrow宣言のシグネチャに従わなければならないため、オーバーライドするメソッドのシグネチャにある汎用例外は無視されます。この問題は、メソッドのスーパークラス宣言で提起されます（スーパークラスが解析の一部でない場合は、まったく提起されません）。</p>
+<pre translate="no">
+@Override
+public void myMethod() throws Exception {...}
+</pre>
+<p>また、ジェネリック例外を投げるメソッドを呼び出すメソッドのシグネチャでも、ジェネリック例外は無視されます。</p>
+<pre translate="no">
+public void myOtherMethod throws Exception {
+  doTheThing();  // this method throws Exception
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/397">MITRE, CWE-397</a>- Generic ExceptionのThrowsの宣言 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/_DdGBQ">CERT、ERR07-J。</a>- RuntimeException、Exception、Throwableを投げないでください。 </li>
+</ul>
+

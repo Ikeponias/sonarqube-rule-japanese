@@ -1,0 +1,19 @@
+<p>Java 8で導入された<code translate="no">ZonedDateTime</code> クラスを使用して日付を切り捨てると、Commons Langの<code translate="no">DateUtils</code>クラスよりも大幅に高速化することができます。</p>
+<p><strong>なお</strong>、このルールは、プロジェクトの<code translate="no">sonar.java.source</code> が<code translate="no">8</code> よりも低い場合、自動的に無効となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public Date trunc(Date date) {
+  return DateUtils.truncate(date, Calendar.SECOND);  // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public Date trunc(Date date) {
+  Instant instant = date.toInstant();
+  ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+  ZonedDateTime truncatedZonedDateTime = zonedDateTime.truncatedTo(ChronoUnit.SECONDS);
+  Instant truncatedInstant = truncatedZonedDateTime.toInstant();
+  return Date.from(truncatedInstant);
+}
+</pre>
+

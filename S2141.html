@@ -1,0 +1,36 @@
+<p><code translate="no">Object</code> は<code translate="no">hashCode</code> を実装しているので、どんなJavaクラスでもハッシュ構造に入れることができます。しかし、<code translate="no">equals(Object)</code> を定義し、<code translate="no">hashCode()</code> を定義しないクラスは、<code translate="no">equals</code> メソッドに従って等価なインスタンスが異なるハッシュを返すことができるため、真のハッシュ化可能とは言えません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Student {  // no hashCode() method; not hash-able
+  // ...
+
+  public boolean equals(Object o) {
+    // ...
+  }
+}
+
+public class School {
+  private Map&lt;Student, Integer&gt; studentBody = // okay so far
+          new HashTable&lt;Student, Integer&gt;(); // Noncompliant
+
+  // ...
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Student {  // has hashCode() method; hash-able
+  // ...
+
+  public boolean equals(Object o) {
+    // ...
+  }
+  public int hashCode() {
+    // ...
+  }
+}
+
+public class School {
+  private Map&lt;Student, Integer&gt; studentBody = new HashTable&lt;Student, Integer&gt;();
+
+  // ...
+</pre>
+

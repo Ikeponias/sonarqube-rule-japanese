@@ -1,0 +1,25 @@
+<p>乱数値が必要になるたびに新しい<code translate="no">Random</code> オブジェクトを作成するのは非効率的であり、JDK によっては乱数でない数値が生成される可能性があります。効率とランダム性を高めるには、<code translate="no">Random</code> を1つ作成し、それを保存して再利用します。</p>
+<p><code translate="no">Random()</code> のコンストラクタは、毎回、シードに明確な値を設定しようとします。しかし、シードがランダムであること、あるいは一様に分布していることは保証されません。JDKによっては、現在の時刻をシードとして使用し、生成される数値が全くランダムでなくなることがあります。</p>
+<p>このルールは、メソッドが呼び出されるたびに新しい<code translate="no">Random</code> が作成されるケースを検出します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomethingCommon() {
+  Random rand = new Random();  // Noncompliant; new instance created with each invocation
+  int rValue = rand.nextInt();
+  //...
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+private Random rand = SecureRandom.getInstanceStrong();  // SecureRandom is preferred to Random
+
+public void doSomethingCommon() {
+  int rValue = this.rand.nextInt();
+  //...
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">Random</code> をコンストラクタ内または静的な<code translate="no">main</code> 関数内で使用し、それ以外では使用しないクラスは、この規則により無視されます。</p>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+</ul>
+

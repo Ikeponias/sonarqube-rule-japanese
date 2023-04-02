@@ -1,0 +1,31 @@
+<p><code translate="no">TestRule</code> クラスの中には、テストから直接参照されなくても望ましい効果を発揮するものもありますが、そうでないものもありますし、使用しないのにファイルを散らかしたままにしておく理由はありません。</p>
+<p>このルールは、以下のタイプの<code translate="no">Test</code> クラスフィールドが、どのテストメソッドでも使用されていない場合に問題となります：<code translate="no">TemporaryFolder</code> 、および<code translate="no">TestName</code> 。</p>
+<p>このルールは、JUnit 5 の同等クラスにも適用されます：<code translate="no">TempDir</code>および<code translate="no">TestInfo</code> 。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class ProjectDefinitionTest {
+
+  @Rule
+  public TemporaryFolder temp = new TemporaryFolder();  // Noncompliant
+
+  @Test
+  public void shouldSetKey() {
+    ProjectDefinition def = ProjectDefinition.create();
+    def.setKey("mykey");
+    assertThat(def.getKey(), is("mykey"));
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class ProjectDefinitionTest {
+
+  @Test
+  public void shouldSetKey() {
+    ProjectDefinition def = ProjectDefinition.create();
+    def.setKey("mykey");
+    assertThat(def.getKey(), is("mykey"));
+  }
+}
+</pre>
+

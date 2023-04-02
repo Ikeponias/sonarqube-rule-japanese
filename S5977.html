@@ -1,0 +1,24 @@
+<p>テストは常に行う必要があります：</p>
+<ul>
+  <li>エッジケースを含め、プロダクションコードが期待通りに動作することを確認する。 </li>
+  <li>デバッグが容易であること、すなわち理解しやすく再現性があること。 </li>
+</ul>
+<p>テストにランダムな値を使うと、必ずしもエッジケースをチェックできないし、テストログも読みづらくなる。読みやすいハードコードされた値を使うほうがよいでしょう。もし、コードが大きくなるようなら、ヘルパー関数を使うことができます。</p>
+<p>テストにおけるランダムデータの有効な使用例として、すべての値をテストするとテストが非現実的に遅くなる場合があります。このような場合、長い目で見ればランダムですべての値をテストするのがベストです。しかし、失敗を再現できるように、ランダムな値は必ずログに残すようにしましょう。 これを簡単にするためのライブラリもいくつかあります。例えば、<a href="https://github.com/jlink/jqwik">jqwikの</a>ようなプロパティベースのテストライブラリを使うことができます。</p>
+<p>このルールは、テストコードで<code translate="no">new Random()</code> または<code translate="no">UUID.randomUUID()</code> が呼び出された場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int userAge = new Random().nextInt(42);  // Noncompliant
+UUID userID = UUID.randomUUID(); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int userAge = 31;
+UUID userID = UUID.fromString("00000000-000-0000-0000-000000000001");
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://phauer.com/2019/modern-best-practices-testing-java/#use-fixed-data-instead-of-randomized-data">Javaにおけるテストのための最新のベストプラクティス - Philipp Hauer</a></li>
+  <li><a href="https://jqwik.net/">Jqwikテストエンジン</a></li>
+</ul>
+

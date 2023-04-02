@@ -1,0 +1,36 @@
+<p><code translate="no">InterruptedExceptions</code> をコード内で無視してはいけません。この場合、例外をログに記録するだけでも「無視」とみなされます。 のスローは Thread の中断状態をクリアするので、例外が適切に処理されないと、スレッドが中断されたという情報が失われることになります。その代わりに、 を再投与するか（即座に、またはメソッドの状態をクリーンアップした後に）、 を呼び出してスレッドを再中断する必要があります（たとえこれがシングルスレッド・アプリケーションであると想定されていても）。それ以外の方法では、スレッドのシャットダウンを遅らせる危険があり、スレッドが中断されたという情報を失うことになります（おそらくタスクを終了することなく）。<code translate="no">InterruptedException</code> <code translate="no">InterruptedExceptions</code> <code translate="no">Thread.interrupt()</code> </p>
+<p>同様に、<code translate="no">ThreadDeath</code> の例外も伝播させる必要があります。そのJavaDocによると</p>
+<blockquote>
+  <p><code translate="no">ThreadDeath</code> がメソッドで捕捉された場合、実際にスレッドが死ぬように再スローされることが重要である。</p>
+</blockquote>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void run () {
+  try {
+    while (true) {
+      // do stuff
+    }
+  }catch (InterruptedException e) { // Noncompliant; logging is not enough
+    LOGGER.log(Level.WARN, "Interrupted!", e);
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void run () {
+  try {
+    while (true) {
+      // do stuff
+    }
+  }catch (InterruptedException e) {
+    LOGGER.log(Level.WARN, "Interrupted!", e);
+    // Restore interrupted state...
+    Thread.currentThread().interrupt();
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/391">MITRE, CWE-391</a>- Unchecked Error Condition（チェックされていないエラー状態 </li>
+</ul>
+

@@ -1,0 +1,22 @@
+<p>一般的な例外をキャッチして、その型についてテストするのではなく、適切な型の複数のキャッチブロックを使用する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+try {
+  /* ... */
+} catch (Exception e) {
+  if(e instanceof IOException) { /* ... */ }         // Noncompliant
+  if(e instanceof NullPointerException{ /* ... */ }  // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+try {
+  /* ... */
+} catch (IOException e) { /* ... */ }                // Compliant
+} catch (NullPointerException e) { /* ... */ }       // Compliant
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/display/java/ERR51-J.+Prefer+user-defined+exceptions+over+more+general+exception+types">CERT、ERR51-J。</a>- より一般的な例外タイプよりもユーザー定義の例外を優先する </li>
+</ul>
+

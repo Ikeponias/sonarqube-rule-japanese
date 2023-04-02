@@ -1,0 +1,18 @@
+<p>メソッド内にreturn文が多すぎると、return文に遭遇するたびに実行の流れが途切れてしまうため、メソッドの本質的な複雑さが増してしまいます。このため、メソッドのロジックを読んで理解することが難しくなります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルトの閾値は3です：</p>
+<pre translate="no">
+public boolean myMethod() { // Noncompliant; there are 4 return statements
+  if (condition1) {
+    return true;
+  } else {
+    if (condition2) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  return false;
+}
+</pre>
+

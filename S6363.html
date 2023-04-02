@@ -1,0 +1,34 @@
+<p>WebViewは、モバイルアプリケーションの一部として、Webコンテンツを表示するために使用することができます。コンテンツのレンダリングと表示には、ブラウザエンジンが使用されます。WebViewを使用するモバイルアプリケーションは、Webアプリケーションと同様に、信頼できないコードが表示された場合、クロスサイトスクリプティングの脆弱性を持つ可能性があります。</p>
+<p>ローカルファイルへのアクセスが有効な場合、WebView内の悪意のあるJavaScriptコードが実行されると、機密ファイルの内容が漏れる可能性があります。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>ウェブビューからローカルファイルにアクセスする必要はありません。 </li>
+  <li>WebViewには信頼できないデータが含まれており、レンダリング時に害を及ぼす可能性があります。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングプラクティス</h2>
+<p>必要な場合を除き、WebViewのローカルファイルへのアクセスを無効にすることをお勧めします。クロスサイトスクリプティングの脆弱性を利用した攻撃が成功した場合、ファイルを読み出すことができなければ、攻撃者の攻撃範囲は極端に狭くなります。</p>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+import android.webkit.WebView;
+
+WebView webView = (WebView) findViewById(R.id.webview);
+webView.getSettings().setAllowFileAccess(true); // Sensitive
+webView.getSettings().setAllowContentAccess(true); // Sensitive
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+import android.webkit.WebView;
+
+WebView webView = (WebView) findViewById(R.id.webview);
+webView.getSettings().setAllowFileAccess(false);
+webView.getSettings().setAllowContentAccess(false);
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A03_2021-Injection/">OWASP Top 10 2021 カテゴリ A3</a>- インジェクション </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration.html">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)">OWASP Top 10 2017 カテゴリーA7</a>- クロスサイトスクリプティング(XSS) </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/79">MITRE, CWE-79</a>- ウェブページ生成時の入力の不適切な中和（「クロスサイトスクリプティング」）。 </li>
+</ul>
+

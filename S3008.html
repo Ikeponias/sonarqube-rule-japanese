@@ -1,0 +1,15 @@
+<p>命名規則を共有することで、チームは効率的にコラボレーションを行うことができます。このルールは、静的な非終端フィールド名が指定された正規表現に一致するかどうかをチェックします。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルトの正規表現で<code translate="no">^[a-z][a-zA-Z0-9]*$</code> ：</p>
+<pre translate="no">
+public final class MyClass {
+   private static String foo_bar;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class MyClass {
+   private static String fooBar;
+}
+</pre>
+

@@ -1,0 +1,34 @@
+<p>空リストに対するAssertJアサーション<code translate="no">allMatch</code> と<code translate="no">doesNotContains</code> は、述語の内容がどうであれ、常に真を返します。正しいにもかかわらず、アサーションを呼び出すだけでなく、<code translate="no">isEmpty()</code>/<code translate="no">isNotEmpty()</code> を追加したり、リストの内容をさらにテストしたりすることで、空リストを期待しているかどうかを明確にする必要があります。それは、明確さを向上させたり、テストの信頼性を高めるために、役に立たない述語を正当化することになります。</p>
+<p>このルールは、リストが空であるかどうかのアサートや、内容のテストを行わずに、列挙された方法のいずれかを使用した場合に問題となるものである。</p>
+<p>対象となるメソッド</p>
+<ul>
+  <li> <code translate="no">allMatch</code> </li>
+  <li> <code translate="no">allSatisfy</code> </li>
+  <li> <code translate="no">doesNotContain</code> </li>
+  <li> <code translate="no">doesNotContainSequence</code> </li>
+  <li> <code translate="no">doesNotContainSubsequence</code> </li>
+  <li> <code translate="no">doesNotContainAnyElementsOf</code> </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+List&lt;String&gt; logs = getLogs();
+
+assertThat(logs).allMatch(e -&gt; e.contains(“error”)); // Noncompliant, this test pass if logs are empty!
+assertThat(logs).doesNotContain("error"); // Noncompliant, do you expect any log?
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+List&lt;String&gt; logs = getLogs();
+
+assertThat(logs).isNotEmpty().allMatch(e -&gt; e.contains(“error”));
+// Or
+assertThat(logs).hasSize(5).allMatch(e -&gt; e.contains(“error”));
+// Or
+assertThat(logs).isEmpty();
+
+// Despite being redundant, this is also acceptable since it explains why you expect an empty list
+assertThat(logs).doesNotContain("error").isEmpty();
+// or test the content of the list further
+assertThat(logs).contains("warning").doesNotContain("error");
+</pre>
+

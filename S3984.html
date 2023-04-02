@@ -1,0 +1,12 @@
+<p>実際に投げずに新しい<code translate="no">Throwable</code> を作成しても意味がなく、ミスによるものと思われます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if (x &lt; 0)
+  new IllegalArgumentException("x must be nonnegative");
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (x &lt; 0)
+  throw new IllegalArgumentException("x must be nonnegative");
+</pre>
+

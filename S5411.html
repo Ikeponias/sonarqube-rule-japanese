@@ -1,0 +1,32 @@
+<p>ボックス型<code translate="no">java.lang.Boolean</code> を制御フローを決定する式として使用する場合（<a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.2.5">Java 言語仕様書 §4.2.5 The<code translate="no">boolean</code> Type and boolean Values</a> に記載）、値が<code translate="no">null</code> の場合は<code translate="no">NullPointerException</code> を投げる（<a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-5.html#jls-5.1.8">Java 言語仕様書 §5.1.8 Unboxing Conversion</a> に記載）。</p>
+<p>このような変換は完全に避け、<code translate="no">null</code> の値を明示的に処理する方が安全です。</p>
+<p>ただし、すでにヌルチェックされているブーリアンについては、問題が発生しないことに注意してください。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Boolean b = getBoolean();
+if (b) {  // Noncompliant, it will throw NPE when b == null
+  foo();
+} else {
+  bar();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Boolean b = getBoolean();
+if (Boolean.TRUE.equals(b)) {
+  foo();
+} else {
+  bar();  // will be invoked for both b == false and b == null
+}
+
+
+Boolean b = getBoolean();
+if(b != null){
+  String test = b ? "test" : "";
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-5.html#jls-5.1.8">Java言語仕様書§5.1.8 アンボックス化変換</a></li>
+</ul>
+

@@ -1,0 +1,45 @@
+<p>マップはキーのハッシュを利用して、データを格納するバケットを選択します。ハッシュが同じ値のオブジェクトは、同じバケットに追加されます。</p>
+<p>ハッシュ関数の分布が悪いと、バケットのサイズが非常に大きくなることがあります。デフォルトでは、バケット内のキーのマッチングは直線的な複雑さを持つため、これはルックアップのパフォーマンスに悪影響を及ぼす可能性があります。</p>
+<p>また、実行時にデフォルトのhashCode関数を選択できるため、期待される性能を維持することができない。</p>
+<p>Comparableを実装することで、同じ値にハッシュするオブジェクトの性能問題を緩和することができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class MyKeyType {
+    // ...
+}
+
+class Program {
+    Map&lt;MyKeyType, MyValueType&gt; data = new HashMap&lt;&gt;(); // Noncompliant
+
+    Map&lt;MyKeyType, MyValueType&gt; buildMap() { // Noncompliant
+        //...
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class MyKeyType implements Comparable&lt;MyKeyType&gt; {
+    // ...
+}
+
+class MyChildKeyType extends MyKeyType {
+    // ...
+}
+
+class Program {
+    Map&lt;MyKeyType, MyValueType&gt; data = new HashMap&lt;&gt;();
+    Map&lt;MyChildKeyType, MyValueType&gt; data = new HashMap&lt;&gt;();
+
+    Map&lt;MyKeyType, MyValueType&gt; buildMap() {
+        //...
+    }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li>h<a href="https://www.kb.cert.org/vuls/id/903934">ttps://www.kb.cert.org/vuls/id/903934</a></li>
+  <li>h<a href="https://dzone.com/articles/java-8-hashmaps-keys-and-the-comparable-interface">ttps://dzone.com/articles/java-8-hashmaps-keys-and-the-comparable-interface</a></li>
+  <li>h<a href="https://github.com/openjdk/jdk/blob/4927ee426aedbeea0f4119bac0a342c6d3576762/src/hotspot/share/runtime/synchronizer.cpp#L760-L798">ttps://github.com/openjdk/jdk/blob/4927ee426aedbeea0f4119bac0a342c6d3576762/src/hotspot/share/runtime/synchronizer.cpp#L760-L798</a></li>
+  <li>h<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Comparable.html">ttps://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Comparable.html</a></li>
+</ul>
+

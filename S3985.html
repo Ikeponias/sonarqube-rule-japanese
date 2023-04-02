@@ -1,0 +1,10 @@
+<p><code translate="no">private</code> 使われないクラスはデッドコードと呼ばれ、不要で動作しないコードであり、削除されるべきものです。デッドコードを削除することで、維持されているコードベースのサイズが小さくなり、プログラムの理解が容易になり、バグの発生を防ぐことができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Foo
+{
+  ...
+  private class MyUnusedPrivateClass {...} // Noncompliant
+}
+</pre>
+

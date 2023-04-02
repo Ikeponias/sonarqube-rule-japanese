@@ -1,0 +1,42 @@
+<p>常に<code translate="no">true</code> や<code translate="no">false</code> となるような条件式は、デッドコードになりかねません。このようなコードは常にバギーであり、実運用では決して使用してはいけません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+a = false;
+if (a) { // Noncompliant
+  doSomething(); // never executed
+}
+
+if (!a || b) { // Noncompliant; "!a" is always "true", "b" is never evaluated
+  doSomething();
+} else {
+  doSomethingElse(); // never executed
+}
+</pre>
+<h2>例外あり</h2>
+<p>このルールは、どちらのケースでも問題になることはありません：</p>
+<ul>
+  <li>条件がシングル<code translate="no">final boolean</code> の場合 </li>
+</ul>
+<pre translate="no">
+final boolean debug = false;
+//...
+if (debug) {
+  // Print something
+}
+</pre>
+<ul>
+  <li>文字通り、<code translate="no">true</code> 、<code translate="no">false</code> の状態のとき。 </li>
+</ul>
+<pre translate="no">
+if (true) {
+  // do something
+}
+</pre>
+<p>このような場合、コードが意図したとおりになっていることは明らかです。</p>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/570">MITRE, CWE-570</a>- 式は常に偽である。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/571">MITRE, CWE-571</a>- 式は常に真である。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/5dUxBQ">CERT、MSC12-C。</a>- 効果がない、または実行されないコードを検出して削除する  </li>
+</ul>
+

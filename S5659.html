@@ -1,0 +1,55 @@
+<p>JSON Web Token（JWT）が強力な暗号アルゴリズムで署名されていない（または全く署名されていない）場合、攻撃者はそれを偽造してユーザーIDをなりすますことができます。</p>
+<ul>
+  <li>トークンの署名や有効性の確認に<code translate="no">none</code> アルゴリズムを使用しないでください。 </li>
+  <li>事前に署名を確認せずにトークンを使用しないこと。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<p><a href="https://github.com/jwtk/jjwt">jwtk/Java JWT</a>ライブラリの使用（（JWSを含む）署名付きトークンの検証には、<code translate="no">parse</code> メソッドを使用しないでください。符号なしトークンが提供されても例外をスローしないため）：</p>
+<pre translate="no">
+// Signing:
+io.jsonwebtoken.Jwts.builder() // Noncompliant, token is not signed.
+  .setSubject(USER_LOGIN)
+  .compact();
+// Verifying:
+io.jsonwebtoken.Jwts.parser().setSigningKey(SECRET_KEY).parse(token).getBody(); // Noncompliant
+</pre>
+<p><a href="https://github.com/auth0/java-jwt">auth0/Java JWT</a>ライブラリを使用しています：</p>
+<pre translate="no">
+// Signing:
+com.auth0.jwt.JWT.create()
+  .withSubject(SUBJECT)
+  .sign(Algorithm.none()); // Noncompliant, use only strong cipher algorithms when signing this JWT.
+// Verifying:
+JWTVerifier nonCompliantVerifier = com.auth0.jwt.JWT.require(Algorithm.none()) // Noncompliant
+  .withSubject(LOGIN)
+  .build();
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p><a href="https://github.com/jwtk/jjwt">Java JWT</a>ライブラリを使用する（（JWSを含む）署名付きトークンを検証するには、<code translate="no">parseClaimsJws</code>。署名なしトークンが提供された場合は、例外がスローされます）：</p>
+<pre translate="no">
+// Signing:
+Jwts.builder() // Compliant
+  .setSubject(USER_LOGIN)
+  .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+  .compact();
+// Verifying:
+Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody(); // Compliant
+</pre>
+<p><a href="https://github.com/auth0/java-jwt">auth0/Java JWT</a>ライブラリを使用しています。I</p>
+<pre translate="no">
+// Signing:
+JWT.create()
+  .withSubject(SUBJECT)
+  .sign(Algorithm.HMAC256(SECRET_KEY)); // Compliant
+// Verifying:
+JWTVerifier nonCompliantVerifier = JWT.require(Algorithm.HMAC256(SECRET_KEY)) // Compliant
+  .withSubject(LOGIN)
+  .build();
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/">OWASP Top 10 2021 カテゴリ A2</a>- 暗号の失敗 </li>
+  <li><a href="https://www.owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/347">MITRE, CWE-347</a>- 暗号化された署名の不適切な検証 </li>
+</ul>
+

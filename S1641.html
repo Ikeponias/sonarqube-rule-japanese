@@ -1,0 +1,30 @@
+<p>Setのすべての要素が同じenumの値である場合、SetはEnumSetに置き換えることができ、基礎となるデータ構造が単純なビットマップであるため、他のSetよりもはるかに効率的である。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+
+  public enum COLOR {
+    RED, GREEN, BLUE, ORANGE;
+  }
+
+  public void doSomething() {
+    Set&lt;COLOR&gt; warm = new HashSet&lt;COLOR&gt;();
+    warm.add(COLOR.RED);
+    warm.add(COLOR.ORANGE);
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClass {
+
+  public enum COLOR {
+    RED, GREEN, BLUE, ORANGE;
+  }
+
+  public void doSomething() {
+    Set&lt;COLOR&gt; warm = EnumSet.of(COLOR.RED, COLOR.ORANGE);
+  }
+}
+</pre>
+

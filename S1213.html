@@ -1,0 +1,26 @@
+<p>Oracle社が定義したJava Code Conventionsによると、クラスまたはインターフェイス宣言のメンバーは、ソースファイル内で以下の順序で表示される必要があります：</p>
+<ul>
+  <li>クラス変数 </li>
+  <li>インスタンス変数 </li>
+  <li>コンストラクタ </li>
+  <li>メソッド </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Foo{
+   private int field = 0;
+   public boolean isTrue() {...}
+   public Foo() {...}                         // Noncompliant, constructor defined after methods
+   public static final int OPEN = 4;  //Noncompliant, variable defined after constructors and methods
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Foo{
+   public static final int OPEN = 4;
+   private int field = 0;
+   public Foo() {...}
+   public boolean isTrue() {...}
+}
+</pre>
+

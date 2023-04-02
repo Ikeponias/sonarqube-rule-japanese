@@ -1,0 +1,33 @@
+<p><code translate="no">Math.min()</code> 、<code translate="no">Math.max()</code> を併用して境界チェックを行う場合、それぞれのメソッドに正しいオペランドを与えることが重要です。<code translate="no">Math.min()</code> はチェックする範囲の<strong>上端</strong>、<code translate="no">Math.max()</code> は範囲の<strong>下端で</strong>使用する必要があります。これを逆にすると、結果は常に同じ範囲の端になります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+  private static final int UPPER = 20;
+  private static final int LOWER = 0;
+
+  public int doRangeCheck(int num) {    // Let's say num = 12
+    int result = Math.min(LOWER, num);  // result = 0
+    return Math.max(UPPER, result);     // Noncompliant; result is now 20: even though 12 was in the range
+  }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>パラメータを変更することなく、メソッド<code translate="no">min()</code> と<code translate="no">max()</code> の起動を入れ替えることができます。</p>
+<pre translate="no">
+  private static final int UPPER = 20;
+  private static final int LOWER = 0;
+
+  public int doRangeCheck(int num) {    // Let's say num = 12
+    int result = Math.max(LOWER, num);  // result = 12
+    return Math.min(UPPER, result);     // Compliant; result is still 12
+  }
+</pre>
+<p>または、呼び出されたメソッドを変更することなく、パラメータとして使用される境界<code translate="no">UPPER</code> と<code translate="no">LOWER</code> を入れ替えることができます。</p>
+<pre translate="no">
+  private static final int UPPER = 20;
+  private static final int LOWER = 0;
+
+  public int doRangeCheck(int num) {    // Let's say num = 12
+    int result = Math.min(UPPER, num);  // result = 12
+    return Math.max(LOWER, result);     // Compliant; result is still 12
+  }
+</pre>
+

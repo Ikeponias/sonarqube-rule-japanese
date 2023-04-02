@@ -1,0 +1,19 @@
+<p>このルールは、非推奨とマークされたコードを追跡する方法として使用することを意図しています。非推奨のコードは、最終的に削除されるべきです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class Foo {
+  /**
+   * @deprecated
+   */
+  public void foo() {    // Noncompliant
+  }
+
+  @Deprecated            // Noncompliant
+  public void bar() {
+  }
+
+  public void baz() {    // Compliant
+  }
+}
+</pre>
+

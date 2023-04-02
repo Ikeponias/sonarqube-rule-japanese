@@ -1,0 +1,37 @@
+<p>非推奨になったクラスやインターフェース、およびそのメンバーは、使用したり継承したり拡張したりするのではなく、避けるべきものです。非推奨とは、そのクラスやインターフェースが取って代わられ、いずれ削除されることを示す警告です。非推奨期間を設けることで、老朽化し、もうすぐ引退する技術からスムーズに移行することができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+/**
+ * @deprecated  As of release 1.3, replaced by {@link #Fee}
+ */
+@Deprecated
+public class Fum { ... }
+
+public class Foo {
+  /**
+   * @deprecated  As of release 1.7, replaced by {@link #doTheThingBetter()}
+   */
+  @Deprecated
+  public void doTheThing() { ... }
+
+  public void doTheThingBetter() { ... }
+}
+
+public class Bar extends Foo {
+  public void doTheThing() { ... } // Noncompliant; don't override a deprecated method or explicitly mark it as @Deprecated
+}
+
+public class Bar extends Fum {  // Noncompliant; Fum is deprecated
+
+  public void myMethod() {
+    Foo foo = new Foo();  // okay; the class isn't deprecated
+    foo.doTheThing();  // Noncompliant; doTheThing method is deprecated
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/477">MITRE, CWE-477</a>- 廃止された機能の使用について </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/6TdGBQ">CERT、MET02-J。</a>- 非推奨または廃止されたクラスやメソッドを使用しないこと </li>
+</ul>
+

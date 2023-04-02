@@ -1,0 +1,14 @@
+<p>引数がない場合、<code translate="no">Collections.toArray</code> メソッドは<code translate="no">Object []</code> を返します。これを適切なクラスの配列にキャストしようとすると、実行時に<code translate="no">ClassCastException</code> が発生します。代わりに、正しい型の配列を呼び出しに渡します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public String [] getStringArray(List&lt;String&gt; strings) {
+  return (String []) strings.toArray();  // Noncompliant; ClassCastException thrown
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public String [] getStringArray(List&lt;String&gt; strings) {
+  return strings.toArray(new String[0]);
+}
+</pre>
+

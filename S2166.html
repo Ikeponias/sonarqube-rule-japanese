@@ -1,0 +1,28 @@
+<p>コードでは、明確で分かりやすい命名が重要です。<code translate="no">Exception</code> 、またはそのサブクラスの1つを継承していないクラスの名前に「exception」を使うのは、クラスの名前がそれが何であるか、または何をするかを示すという期待に明らかに背くものである。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class FruitException {  // Noncompliant; this has nothing to do with Exception
+  private Fruit expected;
+  private String unusualCharacteristics;
+  private boolean appropriateForCommercialExploitation;
+  // ...
+}
+
+public class CarException {  // Noncompliant; the extends clause was forgotten?
+  public CarException(String message, Throwable cause) {
+  // ...
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class FruitSport {
+  private Fruit expected;
+  private String unusualCharacteristics;
+  private boolean appropriateForCommercialExploitation;
+  // ...
+}
+
+public class CarException extends Exception {
+  public CarException(String message, Throwable cause) {
+  // ...
+</pre>
+

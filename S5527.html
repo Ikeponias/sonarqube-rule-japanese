@@ -1,0 +1,85 @@
+<p>中間者攻撃を受けないSSL/TLS接続を確立するためには、サーバーが正しい証明書を提示していることを確認することが重要です。</p>
+<p>証明書のホスト名固有データは、サーバーのホスト名と一致する必要があります。</p>
+<p>カスタムホスト名検証を実装して車輪を再発明することは推奨されません。</p>
+<p>TLS/SSL ライブラリには、ホスト名検証機能が内蔵されているので、それを利用するのが望ましい。</p>
+<p>このルールは、以下のような場合に問題となる：</p>
+<ul>
+  <li><code translate="no">HostnameVerifier.verify()</code> メソッドは常に<code translate="no">true</code> を返します。 </li>
+  <li>JavaMail の<code translate="no">javax.mail.Session</code> は、<code translate="no">mail.smtp.ssl.checkserveridentity</code> を持たない<code translate="no">Properties</code> オブジェクト、または<code translate="no">mail.smtps.ssl.checkserveridentity</code> が<code translate="no">true</code> に設定されていない状態で作成されます。 </li>
+  <li>a Apache Common Emails の<code translate="no">org.apache.commons.mail.SimpleEmail</code> が<code translate="no">setSSLOnConnect(true)</code> または<code translate="no">setStartTLSEnabled(true)</code> または<code translate="no">setStartTLSRequired(true)</code> と共に使用され、<code translate="no">setSSLCheckServerIdentity(true)</code> を呼び出すことなく使用された場合。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+URL url = new URL("https://example.org/");
+HttpsURLConnection urlConnection = (HttpsURLConnection)url.openConnection();
+urlConnection.setHostnameVerifier(new HostnameVerifier() {
+  @Override
+  public boolean verify(String requestedHost, SSLSession remoteServerSession) {
+    return true;  // Noncompliant
+  }
+});
+InputStream in = urlConnection.getInputStream();
+</pre>
+<p>SimpleEmailの例です：</p>
+<pre translate="no">
+Email email = new SimpleEmail();
+email.setSmtpPort(465);
+email.setAuthenticator(new DefaultAuthenticator(username, password));
+email.setSSLOnConnect(true); // Noncompliant; setSSLCheckServerIdentity(true) should also be called before sending the email
+email.send();
+</pre>
+<p>JavaMailの例です：</p>
+<pre translate="no">
+Properties props = new Properties();
+props.put("mail.smtp.host", "smtp.gmail.com");
+props.put("mail.smtp.socketFactory.port", "465");
+props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); // Noncompliant; Session is created without having "mail.smtp.ssl.checkserveridentity" set to true
+props.put("mail.smtp.auth", "true");
+props.put("mail.smtp.port", "465");
+Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+  protected PasswordAuthentication getPasswordAuthentication() {
+    return new PasswordAuthentication("username@gmail.com", "password");
+  }
+});
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+URL url = new URL("https://example.org/");
+HttpsURLConnection urlConnection = (HttpsURLConnection)url.openConnection();
+// Compliant; Use the default HostnameVerifier
+InputStream in = urlConnection.getInputStream();
+</pre>
+<p>SimpleEmailの例です：</p>
+<pre translate="no">
+Email email = new SimpleEmail();
+email.setSmtpPort(465);
+email.setAuthenticator(new DefaultAuthenticator(username, password));
+email.setSSLOnConnect(true);
+email.setSSLCheckServerIdentity(true); // Compliant
+email.send();
+</pre>
+<p>JavaMailの例です：</p>
+<pre translate="no">
+Properties props = new Properties();
+props.put("mail.smtp.host", "smtp.gmail.com");
+props.put("mail.smtp.socketFactory.port", "465");
+props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+props.put("mail.smtp.auth", "true");
+props.put("mail.smtp.port", "465");
+props.put("mail.smtp.ssl.checkserveridentity", true); // Compliant
+Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+  protected PasswordAuthentication getPasswordAuthentication() {
+    return new PasswordAuthentication("username@gmail.com", "password");
+  }
+});
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/">OWASP Top 10 2021 カテゴリ A2</a>- 暗号の失敗 </li>
+  <li><a href="https://owasp.org/Top10/A05_2021-Security_Misconfiguration/">OWASP Top 10 2021 カテゴリ A5</a>- セキュリティの誤設定 </li>
+  <li><a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">OWASP Top 10 2021 カテゴリ A7</a>- 識別と認証の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/295">MITRE、CWE-295</a>- 不適切な証明書のバリデーション </li>
+  <li>FindSecBugs ルール<a href="https://find-sec-bugs.github.io/bugs.htm#WEAK_HOSTNAME_VERIFIER">WEAK_HOSTNAME_VERIFIER</a>から派生したものです。 </li>
+</ul>
+

@@ -1,0 +1,26 @@
+<p>コードをわかりやすくするために、<code translate="no">base</code> クラスの<code translate="no">static</code> メンバには、派生型の名前を使用してアクセスしてはいけません。そうすると混乱し、2 つの異なる静的メンバが存在するように錯覚してしまう可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class Parent {
+  public static int counter;
+}
+
+class Child extends Parent {
+  public Child() {
+    Child.counter++;  // Noncompliant
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class Parent {
+  public static int counter;
+}
+
+class Child extends Parent {
+  public Child() {
+    Parent.counter++;
+  }
+}
+</pre>
+

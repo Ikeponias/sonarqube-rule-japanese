@@ -1,0 +1,83 @@
+<p><code translate="no">Closeable</code> インターフェースまたはそのスーパーインターフェースである<code translate="no">AutoCloseable</code> を実装するコネクション、ストリーム、ファイル、その他のクラスは、使用後に閉じる必要があります。さらに、<code translate="no">close</code> の呼び出しは、<code translate="no">finally</code> ブロック内で行わなければならない。そうでなければ、例外によって呼び出しが行われない可能性がある。好ましくは、クラスが<code translate="no">AutoCloseable</code> を実装する場合、リソースは "try-with-resources" パターンで作成され、自動的にクローズされるようにします。</p>
+<p>リソースを適切に閉じないと、リソースリークが発生し、アプリケーションはもちろん、アプリケーションの入っているボックスも膝を打つ可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+private void readTheFile() throws IOException {
+  Path path = Paths.get(this.fileName);
+  BufferedReader reader = Files.newBufferedReader(path, this.charset);
+  // ...
+  reader.close();  // Noncompliant
+  // ...
+  Files.lines("input.txt").forEach(System.out::println); // Noncompliant: The stream needs to be closed
+}
+
+private void doSomething() {
+  OutputStream stream = null;
+  try {
+    for (String property : propertyList) {
+      stream = new FileOutputStream("myfile.txt");  // Noncompliant
+      // ...
+    }
+  } catch (Exception e) {
+    // ...
+  } finally {
+    stream.close();  // Multiple streams were opened. Only the last is closed.
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+private void readTheFile(String fileName) throws IOException {
+    Path path = Paths.get(fileName);
+    try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+      reader.readLine();
+      // ...
+    }
+    // ..
+    try (Stream&lt;String&gt; input = Files.lines("input.txt"))  {
+      input.forEach(System.out::println);
+    }
+}
+
+private void doSomething() {
+  OutputStream stream = null;
+  try {
+    stream = new FileOutputStream("myfile.txt");
+    for (String property : propertyList) {
+      // ...
+    }
+  } catch (Exception e) {
+    // ...
+  } finally {
+    stream.close();
+  }
+}
+</pre>
+<h2>例外あり</h2>
+<p>以下のクラスのインスタンスは、<code translate="no">close</code> の効果がないため、このルールでは無視されます：</p>
+<ul>
+  <li> <code translate="no">java.io.ByteArrayOutputStream</code> </li>
+  <li> <code translate="no">java.io.ByteArrayInputStream</code> </li>
+  <li> <code translate="no">java.io.CharArrayReader</code> </li>
+  <li> <code translate="no">java.io.CharArrayWriter</code> </li>
+  <li> <code translate="no">java.io.StringReader</code> </li>
+  <li> <code translate="no">java.io.StringWriter</code> </li>
+</ul>
+<p>Java 7では、try-with-resources文が導入され、暗黙のうちに<code translate="no">Closeables</code> を閉じます。try-with-resources文の中で開かれたすべてのリソースは、このルールでは無視されます。</p>
+<pre translate="no">
+try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+  //...
+}
+catch ( ... ) {
+  //...
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/459">MITRE、CWE-459</a>- 不完全なクリーンアップ </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/772">MITRE, CWE-772</a>- 有効期限を過ぎたリソースのリリースを見逃す </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/vjdGBQ">CERT、FIO04-J。</a>- 不要になったリソースを解放する </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/QtUxBQ">CERT、FIO42-C。</a>- 不要になったファイルを閉じる </li>
+  <li><a href="https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html">リソースで試す</a></li>
+</ul>
+

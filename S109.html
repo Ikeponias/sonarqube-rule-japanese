@@ -1,0 +1,24 @@
+<p>マジックナンバーとは、どこからともなく出てくる数字で、文の中で直接使われるものです。マジックナンバーは、例えばループの反復回数を制限したり、プロパティの値をテストしたりするためによく使われます。</p>
+<p>マジックナンバーの使用は、コードを書いているときには明白でわかりやすいと思われるかもしれませんが、デバッグのときにはもっと明白でわかりにくくなります。</p>
+<p>そのため、マジックナンバーは、まず明確に名付けられた変数に割り当てられてから使用されるなど、神秘的なものでなければなりません。</p>
+<p>-1、0、1 はマジックナンバーとみなされません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public static void doSomething() {
+	for(int i = 0; i &lt; 4; i++){                 // Noncompliant, 4 is a magic number
+		...
+	}
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public static final int NUMBER_OF_CYCLES = 4;
+public static void doSomething() {
+  for(int i = 0; i &lt; NUMBER_OF_CYCLES ; i++){
+    ...
+  }
+}
+</pre>
+<h2>例外あり</h2>
+<p>このルールでは、<code translate="no">hashCode</code> 方式は無視されます。</p>
+

@@ -1,0 +1,52 @@
+<p>ボクシングとは、原始的な値を類似のオブジェクトに入れるプロセスであり、例えば<code translate="no">int</code>の値を保持するために<code translate="no">Integer</code> を作成することである。アンボクシングとは、そのようなオブジェクトからプリミティブな値を取り出すプロセスである。</p>
+<p>ボックス化、アンボックス化しても元の値は変わらないので、不要なときはどちらも行う意味はありません。これは、オートボックスやオートアンボックス（Javaが暗黙のうちにプリミティブ/オブジェクトの移行を処理してくれること）にも当てはまります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void examineInt(int a) {
+  //...
+}
+
+public void examineInteger(Integer a) {
+  // ...
+}
+
+public void func() {
+  int i = 0;
+  Integer iger1 = Integer.valueOf(0);
+  double d = 1.0;
+
+  int dIntValue = new Double(d).intValue(); // Noncompliant
+
+  examineInt(new Integer(i).intValue()); // Noncompliant; explicit box/unbox
+  examineInt(Integer.valueOf(i));  // Noncompliant; boxed int will be auto-unboxed
+
+  examineInteger(i); // Compliant; value is boxed but not then unboxed
+  examineInteger(iger1.intValue()); // Noncompliant; unboxed int will be autoboxed
+
+  Integer iger2 = new Integer(iger1); // Noncompliant; unnecessary unboxing, value can be reused
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void examineInt(int a) {
+  //...
+}
+
+public void examineInteger(Integer a) {
+  // ...
+}
+
+public void func() {
+  int i = 0;
+  Integer iger1 = Integer.valueOf(0);
+  double d = 1.0;
+
+  int dIntValue = (int) d;
+
+  examineInt(i);
+
+  examineInteger(i);
+  examineInteger(iger1);
+}
+</pre>
+

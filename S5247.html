@@ -1,0 +1,46 @@
+<p>クロスサイトスクリプティング攻撃のリスクを軽減するために、<code translate="no">Twig</code>,<code translate="no">Django</code>,<code translate="no">Smarty</code>,<code translate="no">Groovy's template engine</code> などのテンプレートシステムでは、テンプレートのレンダリング前に変数の自動エスケープを設定することができます。エスケープが行われると、ブラウザにとって意味のある文字（例：&lt;a&gt;）は、エスケープ/サニタイズされた値（例：&amp; lt;a&amp; gt; ）に変換/置換されます。</p>
+<p>例えば、「html自動エスケープ」戦略（html文字を<a href="https://developer.mozilla.org/en-US/docs/Glossary/Entity">htmlエンティティに</a>変換するのみ）は、<a href="https://en.wikipedia.org/wiki/HTML_attribute">html属性で</a>変数を使用する場合、「<code translate="no">:</code> 」文字がエスケープされないため、以下のような攻撃が可能であり、関係ありません<a href="https://twig.symfony.com/doc/3.x/filters/escape.html">：</a></p>
+<pre translate="no">
+&lt;a href="{{ myLink }}"&gt;link&lt;/a&gt; // myLink = javascript:alert(document.cookie)
+&lt;a href="javascript:alert(document.cookie)"&gt;link&lt;/a&gt; // JS injection (XSS attack)
+</pre>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>テンプレートは、ウェブコンテンツをレンダリングするために使用され    <ul>
+      <li>テンプレート内の動的変数が信頼できない場所にある、またはユーザーが制御する入力である。 </li>
+      <li>入力のサニタイズやバリデーションを行うためのローカルなメカニズムが存在しない。 </li>
+    </ul>  </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<p>自動エスケープをデフォルトで有効にし、選択された自動エスケープ戦略が正しいものであることを確認するために、入力の使用を継続的に見直す。</p>
+<h2>センシティブコードの例</h2>
+<p><a href="https://github.com/samskivert/jmustache">samskivertによるJMustache</a>付き：</p>
+<pre translate="no">
+Mustache.compiler().escapeHTML(false).compile(template).execute(context); // Sensitive
+Mustache.compiler().withEscaper(Escapers.NONE).compile(template).execute(context); // Sensitive
+</pre>
+<p><a href="https://freemarker.apache.org/">フリーマーカーと</a>：</p>
+<pre translate="no">
+freemarker.template.Configuration configuration = new freemarker.template.Configuration();
+configuration.setAutoEscapingPolicy(DISABLE_AUTO_ESCAPING_POLICY); // Sensitive
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p><a href="https://github.com/samskivert/jmustache">samskivertによるJMustache</a>付き：</p>
+<pre translate="no">
+Mustache.compiler().compile(template).execute(context); // Compliant, auto-escaping is enabled by default
+Mustache.compiler().escapeHTML(true).compile(template).execute(context); // Compliant
+</pre>
+<p><a href="https://freemarker.apache.org/">Freemarkerを</a>使用した場合。詳細は<a href="https://freemarker.apache.org/docs/api/freemarker/template/Configuration.html#setAutoEscapingPolicy-int-">"setAutoEscapingPolicy "のドキュメントを</a>参照してください。</p>
+<pre translate="no">
+freemarker.template.Configuration configuration = new freemarker.template.Configuration();
+configuration.setAutoEscapingPolicy(ENABLE_IF_DEFAULT_AUTO_ESCAPING_POLICY); // Compliant
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A03_2021-Injection/">OWASP Top 10 2021 カテゴリ A3</a>- インジェクション </li>
+  <li><a href="https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.md">OWASPチートシート</a>- XSS対策チートシート </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS)">OWASP Top 10 2017 カテゴリーA7</a>「クロスサイトスクリプティング（XSS）」。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/79">MITRE, CWE-79</a>- ウェブページ生成時の入力の不適切な中和（「クロスサイトスクリプティング」）。 </li>
+</ul>
+

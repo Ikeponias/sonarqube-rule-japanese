@@ -1,0 +1,39 @@
+<p>Javaの進化の過程で、キーワードが追加されました。これらの単語を識別子として使用するコードは、古いバージョンのJavaではコンパイル可能ですが、最新のバージョンではコンパイルできません。</p>
+<p>以下のキーワードは、無効な識別子としてマークされます。</p>
+<table>
+  <colgroup>
+    <col style="width: 50%;" />
+    <col style="width: 50%;" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>キーワード</th>
+      <th>追加</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><p><code translate="no">_</code></p></td>
+      <td><p>9</p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">enum</code></p></td>
+      <td><p>5.0</p></td>
+    </tr>
+  </tbody>
+</table>
+<p><code translate="no">assert</code> や も有効な識別子の一例で、後のバージョンでキーワードとなったが、このルールではサポートされない。<code translate="no">strictfp</code> </p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomething() {
+  int enum = 42;            // Noncompliant
+  String _ = "";   // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomething() {
+  int magic = 42;
+}
+</pre>
+

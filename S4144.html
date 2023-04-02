@@ -1,0 +1,31 @@
+<p>2つのメソッドが同じ実装を持つ場合、それは間違いであり、何か別のことを意図していたのか、あるいは重複は意図的なものだが、メンテナにとって混乱する可能性があるかのどちらかです。後者の場合、一方の実装が他方の実装を呼び出すようにします。数値や文字列のリテラルは考慮されない。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+private final static String CODE = "bounteous";
+
+public String calculateCode() {
+  doTheThing();
+  return CODE;
+}
+
+public String getName() {  // Noncompliant
+  doTheThing();
+  return CODE;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+private final static String CODE = "bounteous";
+
+public String getCode() {
+  doTheThing();
+  return CODE;
+}
+
+public String getName() {
+  return getCode();
+}
+</pre>
+<h2>例外あり</h2>
+<p>アクセサー（ゲッター、セッター）でないメソッドで、ステートメントが2つ以下のものは無視されます。</p>
+

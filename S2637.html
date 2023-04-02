@@ -1,0 +1,31 @@
+<p><code translate="no">@NotNull</code> 、<code translate="no">@NonNull</code> 、<code translate="no">@Nonnull</code> と表示されたフィールド、パラメータ、戻り値は、非 NULL 値であると想定され、通常、使用前に NULL チェックが行われません。したがって、これらの値を<code translate="no">null</code> に設定したり、コンストラクタでこのようなクラスフィールドを設定しなかったりすると、実行時に<code translate="no">NullPointerException</code>が発生する可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MainClass {
+
+  @Nonnull
+  private String primary;
+  private String secondary;
+
+  public MainClass(String color) {
+    if (color != null) {
+      secondary = null;
+    }
+    primary = color;  // Noncompliant; "primary" is Nonnull but could be set to null here
+  }
+
+  public MainClass() { // Noncompliant; "primary" is Nonnull but is not initialized
+  }
+
+  @Nonnull
+  public String indirectMix() {
+    String mix = null;
+    return mix;  // Noncompliant; return value is Nonnull, but null is returned.
+  }
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/476">MITRE, CWE-476</a>- NULLポインタのデリファレンス </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/aDdGBQ">CERT、EXP01-J。</a>- オブジェクトが必要な場合にNULLを使用しないでください </li>
+</ul>
+

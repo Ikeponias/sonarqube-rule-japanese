@@ -1,0 +1,27 @@
+<p>このルールは、<code translate="no">if</code> の記述の後に、1つ以上の<code translate="no">else if</code> の記述がある場合に適用されます。最後の<code translate="no">else if</code>の後には、<code translate="no">else</code> の記述が必要です。</p>
+<p>最終的に<code translate="no">else</code> の記載が必要なのは、守備範囲の広いプログラミングです。</p>
+<p><code translate="no">else</code> ステートメントは、適切な行動をとるか、なぜ行動をとらないかについての適切なコメントを含むべきである。これは、<code translate="no">switch</code> ステートメントに最終的な<code translate="no">default</code> 節を設けるという要求と一致する。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if (x == 0) {
+  doSomething();
+} else if (x == 1) {
+  doSomethingElse();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (x == 0) {
+  doSomething();
+} else if (x == 1) {
+  doSomethingElse();
+} else {
+  throw new IllegalStateException();
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/RtYxBQ">CERT、MSC01-C。</a>- 論理的な完全性を追求する </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/jzZGBQ">CERT、MSC57-J。</a>- 論理的な完全性を追求する </li>
+</ul>
+

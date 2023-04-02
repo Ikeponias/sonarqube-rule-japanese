@@ -1,0 +1,29 @@
+<p>単体テストでテスト対象のコードが例外を投げる場合、テスト自体が失敗します。したがって、失敗を検出するために、テスト対象のコードを<code translate="no">try</code>-<code translate="no">catch</code> の構造で囲む必要はない。その代わりに、例外の種類をメソッドのシグネチャに移すだけでよいのです。</p>
+<p>このルールでは、<code translate="no">catch</code> ブロックの中に fail アサーションがある場合に問題が発生します。</p>
+<p>対応するフレームワーク</p>
+<ul>
+  <li>ジュウニットスリー </li>
+  <li>ジュウニットフォー </li>
+  <li>ジュウニットファイブ </li>
+  <li>フェストアサート </li>
+  <li>アサートジェイ </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Test
+public void testMethod() {
+  try {
+            // Some code
+  } catch (MyException e) {
+    Assert.fail(e.getMessage());  // Noncompliant
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Test
+public void testMethod() throws MyException {
+    // Some code
+}
+</pre>
+

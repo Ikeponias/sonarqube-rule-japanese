@@ -1,0 +1,38 @@
+<p>可変アリティメソッドに単一の<code translate="no">null</code> やプリミティブ配列の引数を渡すと、期待通りに動作しないことがあります。<code translate="no">null</code> の場合，単一要素の配列として渡されるのではなく，引数自体が<code translate="no">null</code> となります． プリミティブ配列の場合，形式パラメータが<code translate="no">Object...</code> の場合，単一要素の配列として渡されます．このようなコーナーケースに慣れていない人にはわからないかもしれませんが、明示的に引数を希望する型にキャストすることで、このような曖昧さを回避する方がよいでしょう。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class A {
+  public static void main(String[] args) {
+    vararg(null);  // Noncompliant, prints "null"
+    int[] arr = {1,2,3};
+    vararg(arr);  // Noncompliant, prints "length: 1"
+  }
+
+  static void vararg(Object... s) {
+    if (s == null) {
+      System.out.println("null");
+    } else {
+      System.out.println("length: " + s.length);
+    }
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class A {
+  public static void main(String[] args) {
+    vararg((Object) null); // prints 1
+    Object[] arr = {1,2,3};
+    vararg(arr); // prints 3
+  }
+
+  static void vararg(Object... s) {
+    if (s == null) {
+      System.out.println("null"); // not reached
+    } else {
+      System.out.println("length: " + s.length);
+    }
+  }
+}
+</pre>
+

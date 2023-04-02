@@ -1,0 +1,27 @@
+<p><code translate="no">Object.clone()</code> をオーバーライドせずに<code translate="no">Cloneable</code> を実装しても、そのクラスがクローン化されるとは限りません。<code translate="no">Cloneable</code> インターフェースには<code translate="no">clone</code> メソッドが含まれていませんが、これは慣習上必要であり、真のクローン化可能性を保証するものです。そうでない場合は、デフォルトの JVM<code translate="no">clone</code> が使用され、プリミティブ値とオブジェクト参照がソースからターゲットにコピーされます。つまり、<code translate="no">clone</code> をオーバーライドしないと、クローン化されたインスタンスは、ソース・インスタンスとメンバーを共有する可能性があります。</p>
+<p><code translate="no">Cloneable</code> の実装を削除し、優れたコピーコンストラクタを提供することも、クラスをコピーできるようにする有効な方法です（望ましいとする意見もあります）。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class Team implements Cloneable {  // Noncompliant
+  private Person coach;
+  private List&lt;Person&gt; players;
+  public void addPlayer(Person p) {...}
+  public Person getCoach() {...}
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class Team implements Cloneable {
+  private Person coach;
+  private List&lt;Person&gt; players;
+  public void addPlayer(Person p) { ... }
+  public Person getCoach() { ... }
+
+  @Override
+  public Object clone() {
+    Team clone = (Team) super.clone();
+    //...
+  }
+}
+</pre>
+

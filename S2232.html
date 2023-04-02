@@ -1,0 +1,17 @@
+<p><code translate="no">ResultSet.isLast()</code> を避けるべき理由はいくつかある。第一に、このメソッドのサポートは、<code translate="no">TYPE_FORWARD_ONLY</code>結果セットではオプションである。第二に、このメソッドにはコストがかかる可能性があります（ドライバは質問に答えるために次の行をフェッチする必要があるかもしれません）。最後に、<code translate="no">ResultSet</code> が空の場合に何を返すべきかについて、仕様が明確でないため、ドライバによっては期待されるものと逆のものを返す可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+stmt.executeQuery("SELECT name, address FROM PERSON");
+ResultSet rs = stmt.getResultSet();
+while (! rs.isLast()) { // Noncompliant
+  // process row
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+ResultSet rs = stmt.executeQuery("SELECT name, address FROM PERSON");
+while (rs.next()) {
+  // process row
+}
+</pre>
+

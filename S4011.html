@@ -1,0 +1,13 @@
+<p>特定のコンストラクタの使用を禁止することができるルールです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>与えられたパラメータ：</p>
+<ul>
+  <li>className: java.util.Date </li>
+  <li>argumentTypes: java.lang.String。 </li>
+</ul>
+<pre translate="no">
+Date birthday;
+birthday = new Date("Sat Sep 27 05:42:21 EDT 1986");  // Noncompliant
+birthday = new Date(528176541000L); // Compliant
+</pre>
+

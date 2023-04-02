@@ -1,0 +1,20 @@
+<p>デフォルトでは、大文字と小文字の区別はASCIIの範囲にある文字にのみ適用されます。これは、<code translate="no">Pattern.compile</code> の引数に<code translate="no">Pattern.UNICODE_CASE</code> または<code translate="no">Pattern.UNICODE_CHARACTER_CLASS</code> を渡すか、正規表現に<code translate="no">(?u)</code> または<code translate="no">(?U)</code> を使用することで変更可能です。</p>
+<p>そうしないと、非ASCII文字を含む正規表現は、それらの文字を大文字と小文字を区別して扱うことになります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Pattern.compile("söme pättern", Pattern.CASE_INSENSITIVE);
+str.matches("(?i)söme pättern");
+str.matches("(?i:söme) pättern");
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Pattern.compile("söme pättern", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+str.matches("(?iu)söme pättern");
+str.matches("(?iu:söme) pättern");
+
+// UNICODE_CHARACTER_CLASS implies UNICODE_CASE
+Pattern.compile("söme pättern", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CHARACTER_CLASS);
+str.matches("(?iU)söme pättern");
+str.matches("(?iU:söme) pättern");
+</pre>
+

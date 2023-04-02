@@ -1,0 +1,11 @@
+<p>Unicodeエスケープシーケンスの使用は、印刷不可能な文字など、そうでなければ曖昧になるような文字のために予約されるべきです。</p>
+<p>このルールは、完全にUnicode文字で構成されたシーケンスを無視しますが、それ以外の場合は、印刷可能な文字を表す各Unicode文字について問題を発生させます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String prefix = "n\u00E9e"; // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String prefix = "née";
+</pre>
+

@@ -1,0 +1,19 @@
+<p>正規表現では、アンカー（<code translate="no">^</code>,<code translate="no">$</code>,<code translate="no">\A</code>,<code translate="no">\Z</code>,<code translate="no">\z</code> ）は、<code translate="no">|</code> 演算子よりも優先順位が高くなります。したがって、<code translate="no">^alt1|alt2|alt3$</code> のような正規表現では、<code translate="no">alt1</code> は先頭に、<code translate="no">alt3</code> は末尾に、<code translate="no">alt2</code> はまったく固定されないことになります。通常、意図された動作は、すべての選択肢が両端に固定されることです。これを実現するためには、選択肢の周囲に捕捉しないグループを使用する必要があります。</p>
+<p>アンカーが1つの選択肢にのみ適用されることを意図している場合、アンカーとその適用部分の周囲に（捕捉しない）グループを追加することで、どの部分がアンカーであるかを明示し、読者が優先順位を誤解したり、優先順位が意図されていないと誤解して変更することを防ぐことができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+^a|b|c$
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+^(?:a|b|c)$
+</pre>
+<p>または</p>
+<pre translate="no">
+^a$|^b$|^c$
+</pre>
+<p>または、アンカーをそれぞれ<code translate="no">a</code> と<code translate="no">c</code> にのみ適用するようにしたい場合：</p>
+<pre translate="no">
+(?:^a)|b|(?:c$)
+</pre>
+

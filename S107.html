@@ -1,0 +1,27 @@
+<p>長いパラメータリストは、多数のパラメータをラップするために新しい構造を作成する必要があるか、関数があまりにも多くのことを行っていることを示すことができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>最大4つのパラメータを持つ：</p>
+<pre translate="no">
+public void doSomething(int param1, int param2, int param3, String param4, long param5) {
+...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomething(int param1, int param2, int param3, String param4) {
+...
+}
+</pre>
+<h2>例外あり</h2>
+<p>で注釈されたメソッド：</p>
+<ul>
+  <li>春の<code translate="no">@RequestMapping</code> (および<code translate="no">@GetRequest</code> のような関連するショートカットアノテーション) </li>
+  <li>JAX-RS APIアノテーション（<code translate="no">@javax.ws.rs.GET</code> のようなものです。） </li>
+  <li><code translate="no">@org.springframework.beans.factory.annotation.Autowired</code> による Bean コンストラクタ注入 </li>
+  <li><code translate="no">@javax.inject.Inject</code> による CDI コンストラクタ注入 </li>
+  <li> <code translate="no">@com.fasterxml.jackson.annotation.JsonCreator</code> </li>
+  <li>マイクロノート社のアノテーション（<code translate="no">@io.micronaut.http.annotation.Get</code> のようなものです。） </li>
+</ul>
+<p>は、多くのパラメータを持ち、カプセル化が可能である。そのようなメソッドは無視されます。</p>
+<p>また、Springコンポーネントとしてアノテーションされたクラス（<code translate="no">@org.springframework.stereotype.Component</code> ）に単一のコンストラクタがある場合、そのコンストラクタは<code translate="no">@Autowired</code> とみなされ、ルール上無視されます。</p>
+

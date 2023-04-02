@@ -1,0 +1,39 @@
+<p>JUnit3からJUnit4やJUnit5に移行する際に同じ動作を維持するために、<code translate="no">setUp()</code> と<code translate="no">tearDown()</code> メソッド（各テストの前後にコードのブロックを実行するためにJUnit3で最初に導入されました）は、同等のアノテーションを正しく付与する必要があります。</p>
+<p>このルールにより、テストクラスでアノテーションされていない<code translate="no">setUp()</code> と<code translate="no">tearDown()</code> のメソッドに問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<ul>
+  <li>JUnit4です： </li>
+</ul>
+<pre translate="no">
+public void setUp() { ... } // Noncompliant; should be annotated with @Before
+public void tearDown() { ... }  // Noncompliant; should be annotated with @After
+</pre>
+<ul>
+  <li>JUnit5です： </li>
+</ul>
+<pre translate="no">
+public void setUp() { ... } // Noncompliant; should be annotated with @BeforeEach
+public void tearDown() { ... }  // Noncompliant; should be annotated with @AfterEach
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<ul>
+  <li>JUnit4です： </li>
+</ul>
+<pre translate="no">
+@Before
+public void setUp() { ... }
+
+@After
+public void tearDown() { ... }
+</pre>
+<ul>
+  <li>JUnit5です： </li>
+</ul>
+<pre translate="no">
+@BeforeEach
+void setUp() { ... }
+
+@AfterEach
+void tearDown() { ... }
+</pre>
+

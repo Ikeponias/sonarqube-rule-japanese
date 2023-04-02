@@ -1,0 +1,51 @@
+<p>キャッチした例外を再スローするだけの<code translate="no">catch</code> 節は、<code translate="no">catch</code> を完全に省略して自動的にバブルアップさせるのと同じ効果がありますが、コードが増え、さらにメンテナが頭を悩ませるという不利益があります。</p>
+<p>このような条項は、削除するか、適切なロジックを入力する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public String readFile(File f) {
+  StringBuilder sb = new StringBuilder();
+  try {
+    FileReader fileReader = new FileReader(fileName);
+    BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+    while((line = bufferedReader.readLine()) != null) {
+      //...
+  }
+  catch (IOException e) {  // Noncompliant
+    throw e;
+  }
+  return sb.toString();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public String readFile(File f) {
+  StringBuilder sb = new StringBuilder();
+  try {
+    FileReader fileReader = new FileReader(fileName);
+    BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+    while((line = bufferedReader.readLine()) != null) {
+      //...
+  }
+  catch (IOException e) {
+    logger.LogError(e);
+    throw e;
+  }
+  return sb.toString();
+}
+</pre>
+<p>または</p>
+<pre translate="no">
+public String readFile(File f) throws IOException {
+  StringBuilder sb = new StringBuilder();
+  FileReader fileReader = new FileReader(fileName);
+  BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+  while((line = bufferedReader.readLine()) != null) {
+    //...
+
+  return sb.toString();
+}
+</pre>
+

@@ -1,0 +1,14 @@
+<p>三項演算子はコンパクトで良いのですが、使用するとコードが読みにくくなることがあります。そのため、三項演算子の使用は避け、より冗長な<code translate="no">if</code>/<code translate="no">else</code> 構造を使用することをお勧めします。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+System.out.println(i&gt;10?"yes":"no");
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (i &gt; 10) {
+  System.out.println(("yes");
+} else {
+  System.out.println("no");
+}
+</pre>
+

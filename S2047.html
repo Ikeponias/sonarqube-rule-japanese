@@ -1,0 +1,38 @@
+<p>関数の名前が適切であれば、コードの利用者は、ドキュメントを読む前に、その関数に何を期待すればよいかを一目で理解することができます。そのため、ブール値を返すメソッドには、「get」ではなく「is」または「has」で始まる名前を付ける必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public boolean getFoo() { // Noncompliant
+  // ...
+}
+
+public boolean getBar(Bar c) { // Noncompliant
+  // ...
+}
+
+public boolean testForBar(Bar c) { // Compliant - The method does not start by 'get'.
+  // ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public boolean isFoo() {
+  // ...
+}
+
+public boolean hasBar(Bar c) {
+  // ...
+}
+
+public boolean testForBar(Bar c) {
+  // ...
+}
+</pre>
+<h2>例外あり</h2>
+<p>オーバーライドメソッドは除きます。</p>
+<pre translate="no">
+@Override
+public boolean getFoo(){
+  // ...
+}
+</pre>
+

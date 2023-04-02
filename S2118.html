@@ -1,0 +1,34 @@
+<p>シリアライズできないクラスは、何もファイルに書き出されません。このようなクラスをシリアライズしようとすると、例外がスローされます。<code translate="no">implements Serializable</code> 、このようなクラスを拡張したクラスだけが、シリアライズ（またはデシリアライズ）に成功します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Vegetable {  // neither implements Serializable nor extends a class that does
+  //...
+}
+
+public class Menu {
+  public void meal() throws IOException {
+    Vegetable veg;
+    //...
+    FileOutputStream fout = new FileOutputStream(veg.getName());
+    ObjectOutputStream oos = new ObjectOutputStream(fout);
+    oos.writeObject(veg);  // Noncompliant. Nothing will be written
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Vegetable implements Serializable {  // can now be serialized
+  //...
+}
+
+public class Menu {
+  public void meal() throws IOException {
+    Vegetable veg;
+    //...
+    FileOutputStream fout = new FileOutputStream(veg.getName());
+    ObjectOutputStream oos = new ObjectOutputStream(fout);
+    oos.writeObject(veg);
+  }
+}
+</pre>
+

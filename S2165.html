@@ -1,0 +1,13 @@
+<p>ファイナライザでクラスフィールドを<code translate="no">null</code> に設定することに意味はありません。もしこれがガベージコレクタへのヒントになるのであれば、それは不要です-オブジェクトはどのみちガベージコレクションされます-そして、そうすることは実際にガベージコレクタのために余分な仕事を引き起こすかもしれません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Foo {
+  private String name;
+
+  @Override
+  void finalize() {
+    name = null;  // Noncompliant; completely unnecessary
+  }
+}
+</pre>
+

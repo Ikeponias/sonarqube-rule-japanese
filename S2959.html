@@ -1,0 +1,18 @@
+<p>よりきれいなコードはより良いコードであるとの理由から、try-with-resources構文の最後のセミコロンは省略可能であるため、省略する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+try (ByteArrayInputStream b = new ByteArrayInputStream(new byte[10]);  // ignored; this one's required
+      Reader r = new InputStreamReader(b);)   // Noncompliant
+{
+   //do stuff
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+try (ByteArrayInputStream b = new ByteArrayInputStream(new byte[10]);
+      Reader r = new InputStreamReader(b))
+{
+   //do stuff
+}
+</pre>
+

@@ -1,0 +1,31 @@
+<p><code translate="no">static</code> でない内部クラスをシリアライズすると、外部クラスも同様にシリアライズしようとします。外側のクラスが実際にシリアライズ可能である場合、シリアライズは成功しますが、意図したよりもはるかに多くのデータを書き出す可能性があります。</p>
+<p>内部クラスを<code translate="no">static</code> （つまり「入れ子」）にすることでこの問題を回避できるため、内部クラスは可能な限り<code translate="no">static</code> 。ただし、内部クラスと入れ子の間には意味上の違いがあることを認識しておく必要がある：</p>
+<ul>
+  <li>内部クラスは、外部クラスのインスタンスのコンテキスト内でしかインスタンス化できない。 </li>
+  <li>ネストされた (<code translate="no">static</code>) クラスは、外側のクラスと独立してインスタンス化することができます。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Raspberry implements Serializable {
+  // ...
+
+  public class Drupelet implements Serializable {  // Noncompliant; output may be too large
+    // ...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Raspberry implements Serializable {
+  // ...
+
+  public static class Drupelet implements Serializable {
+    // ...
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/ZTdGBQ">CERT, SER05-J.</a>- 内部クラスのインスタンスをシリアライズしない </li>
+</ul>
+

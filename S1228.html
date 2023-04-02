@@ -1,0 +1,10 @@
+<p>Javaプロジェクト内の各パッケージには、<code translate="no">package-info.java</code> ファイルを含める必要があります。このファイルの目的は、javadocを使用してJavaパッケージを文書化し、パッケージ注釈を宣言することです。</p>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+/**
+* This package has non null parameters and is documented.
+**/
+@ParametersAreNonnullByDefault
+package org.foo.bar;
+</pre>
+

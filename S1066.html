@@ -1,0 +1,20 @@
+<p>折りたたみ可能な<code translate="no">if</code> ステートメントをマージすることで、コードの可読性を高めています。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if (file != null) {
+  if (file.isFile() || file.isDirectory()) {
+    /* ... */
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (file != null &amp;&amp; isFileOrDirectory(file)) {
+  /* ... */
+}
+
+private static boolean isFileOrDirectory(File file) {
+  return file.isFile() || file.isDirectory();
+}
+</pre>
+

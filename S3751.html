@@ -1,0 +1,18 @@
+<p><code translate="no">@Controller</code> でアノテーションされたクラスの<code translate="no">@RequestMapping</code> アノテーションを持つメソッド（直接またはメタアノテーションを通じて間接的に - Spring Boot の<code translate="no">@RestController</code> が良い例です）は、一致する Web リクエストを処理するために呼ばれることになります。これはメソッドが<code translate="no">private</code> であっても起こることで、Springは可視性をチェックすることなく、リフレクションによってそのようなメソッドを呼び出すからです。</p>
+<p>そのため、機密性の高いメソッドを<code translate="no">private</code> にマークすることは、そのようなコードがどのように呼び出されるかを制御する良い方法のように思えるかもしれません。残念ながら、すべてのSpringフレームワークがこの方法で可視性を無視するわけではありません。例えば、機密性の高い<code translate="no">private</code>,<code translate="no">@RequestMapping</code> メソッドへのウェブアクセスを制御するために、<code translate="no">@Secured</code>...とマークした場合、ユーザーがアクセスする権限があるかどうかに関わらず、呼び出されることに変わりはありません。これは、AOPプロキシがプライベートメソッドには適用されないからです。</p>
+<p><code translate="no">@RequestMapping</code> に加えて、このルールは Spring Framework 4.3 で導入されたアノテーションも考慮します：<code translate="no">@GetMapping</code><code translate="no">@PostMapping</code>,<code translate="no">@PutMapping</code>,<code translate="no">@DeleteMapping</code>,<code translate="no">@PatchMapping</code> 。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@RequestMapping("/greet", method = GET)
+private String greet(String greetee) {  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@RequestMapping("/greet", method = GET)
+public String greet(String greetee) {
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+</ul>
+

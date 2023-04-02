@@ -1,0 +1,54 @@
+<p><code translate="no">java.io.OutputStream</code> や<code translate="no">java.io.FilterOutputStream</code> を直接サブクラス化する場合、唯一の要件は<code translate="no">write(int)</code> メソッドを実装することです。しかし、このようなストリームのほとんどの用途では、一度に1バイトも書き込まないため、<code translate="no">write(byte[],int,int)</code> のデフォルトの実装では、配列内の1バイトごとに<code translate="no">write(int)</code> を呼び出すことになり、多くのオーバーヘッドが発生し、まったく非効率的です。したがって、サブクラスは<code translate="no">write(byte[],int,int)</code> の効率的な実装を提供することを強くお勧めします。</p>
+<p>このルールは、<code translate="no">java.io.OutputStream</code> または<code translate="no">java.io.FilterOutputStream</code> の直接のサブクラスが、<code translate="no">write(byte[],int,int)</code> のオーバーライドを提供しない場合に問題となる。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyStream extends OutputStream { // Noncompliant
+    private FileOutputStream fout;
+
+    public MyStream(File file) throws IOException {
+        fout = new FileOutputStream(file);
+    }
+
+    @Override
+    public void write(int b) throws IOException {
+        fout.write(b);
+    }
+
+    @Override
+    public void close() throws IOException {
+        fout.write("\n\n".getBytes());
+        fout.close();
+        super.close();
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyStream extends OutputStream {
+    private FileOutputStream fout;
+
+    public MyStream(File file) throws IOException {
+        fout = new FileOutputStream(file);
+    }
+
+    @Override
+    public void write(int b) throws IOException {
+        fout.write(b);
+    }
+
+    @Override
+    public void write(byte[] b, int off, int len) throws IOException {
+        fout.write(b, off, len);
+    }
+
+    @Override
+    public void close() throws IOException {
+        fout.write("\n\n".getBytes());
+        fout.close();
+        super.close();
+    }
+}
+</pre>
+<h2>例外あり</h2>
+<p>このルールは、クラスが<code translate="no">abstract</code> で宣言されている場合には問題にはなりません。</p>
+

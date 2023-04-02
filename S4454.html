@@ -1,0 +1,19 @@
+<p>契約上、<code translate="no">java.lang.Object</code> の<code translate="no">equals(Object)</code> メソッドは、<code translate="no">null</code> の引数を受け入れる必要があります。他のすべてのケースの中で、<code translate="no">null</code> のケースは、<code translate="no">Object.equals(...)</code> の Javadoc で、<em>"For any non-null reference value x, x.equals(null) should return false"</em>と明記され、明示的に詳しく説明されています。</p>
+<p><code translate="no">equals</code> の引数が常に非 NULL であると仮定し、その仮定をアノテーションで強制することは、<code translate="no">equals</code> の契約に根本的に反するだけでなく、将来、このクラスの使い方が時代とともに進化する際に問題を引き起こす可能性があります。</p>
+<p>このルールは、<code translate="no">equals</code> メソッドがオーバーライドされ、そのパラメータに何らかの<code translate="no">@Nonnull</code>アノテーションが付けられた場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public boolean equals(@javax.annotation.Nonnull Object obj) { // Noncompliant
+  // ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public boolean equals(Object obj) {
+  if (obj == null) {
+    return false;
+  }
+  // ...
+}
+</pre>
+

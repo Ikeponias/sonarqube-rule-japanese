@@ -1,0 +1,36 @@
+<p>空行をテストする1つの方法として、正規表現<code translate="no">"^$"</code> を使用します。これは、例えばStringのコレクションから空行をフィルタリングするときに非常に便利です。これに関して、<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html">パターン（Line Terminators</a>）のJavadocには以下のように記載されています：</p>
+<blockquote>
+  <p>デフォルトでは、正規表現 ^ と<code translate="no">$</code> は行末を無視し、それぞれ入力シーケンス全体の先頭と末尾にのみ マッチする。<code translate="no">MULTILINE</code> モードが有効な場合、^は入力の最初と、<strong>入力の終わりを除く</strong>あらゆる行終端文字の後にマッチする。<code translate="no">MULTILINE</code> モードの場合、<code translate="no">$</code> は、行末の直前か入力シーケンスの終端にマッチする。</p>
+</blockquote>
+<p>このように、^は入力の終わりにはマッチしないので、入力の終わりは必然的に空文字列に含まれることになり、このような正規表現を使う最初の理由であるはずの空行が完全に欠けてしまう可能性があります。</p>
+<p>したがって、複数行の正規表現で空行を検索する場合は、その文字列が空かどうかも確認する必要があります。</p>
+<p>このルールは、空文字列にマッチするパターンを<code translate="no">MULTILINE</code> フラグで使用し、文字列に対して<code translate="no">isEmpty()</code> を呼び出さずに使用するたびに問題を発生させます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+static final Pattern p = Pattern.compile("^$", Pattern.MULTILINE); // Noncompliant
+
+// Alternatively
+static final Pattern p = Pattern.compile("(?m)^$"); // Noncompliant
+
+
+boolean containsEmptyLines(String str) {
+    return p.matcher(str).find();
+}
+
+// ...
+System.out.println(containsEmptyLines("a\n\nb")); // correctly prints 'true'
+System.out.println(containsEmptyLines("")); // incorrectly prints 'false'
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+static final Pattern p = Pattern.compile("^$", Pattern.MULTILINE);
+
+boolean containsEmptyLines(String str) {
+    return p.matcher(str).find() || str.isEmpty();
+}
+
+// ...
+System.out.println(containsEmptyLines("a\n\nb")); // correctly prints 'true'
+System.out.println(containsEmptyLines("")); // also correctly prints 'true'
+</pre>
+

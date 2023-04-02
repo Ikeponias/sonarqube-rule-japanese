@@ -1,0 +1,68 @@
+<p>なぜ名前付きグループを使っておきながら、コードの後半では一切使わないのか？</p>
+<p>このルールは、名前付きグループがあるたびに問題が発生する：</p>
+<ul>
+  <li>を定義しているが、その名前を通してコード内のどこにも呼び出されることはない； </li>
+  <li>が定義されているが、コード内の他の場所では代わりにその番号で呼ばれている； </li>
+  <li>定義されていない状態で参照される。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String date = "01/02";
+
+Pattern datePattern = Pattern.compile("(?&lt;month&gt;[0-9]{2})/(?&lt;year&gt;[0-9]{2})");
+Matcher dateMatcher = datePattern.matcher(date);
+
+if (dateMatcher.matches()) {
+  checkValidity(dateMatcher.group(1), dateMatcher.group(2));  // Noncompliant - numbers instead of names of groups are used
+  checkValidity(dateMatcher.group("day")); // Noncompliant - there is no group called "day"
+}
+
+// ...
+
+String score = "14:1";
+
+Pattern scorePattern = Pattern.compile("(?&lt;player1&gt;[0-9]+):(?&lt;player2&gt;[0-9]+)"); // Noncompliant - named groups are never used
+Matcher scoreMatcher = scorePattern.matcher(score);
+
+if (scoreMatcher.matches()) {
+  checkScore(score);
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String date = "01/02";
+
+Pattern datePattern = Pattern.compile("(?&lt;month&gt;[0-9]{2})/(?&lt;year&gt;[0-9]{2})");
+Matcher dateMatcher = datePattern.matcher(date);
+
+if (dateMatcher.matches()) {
+  checkValidity(dateMatcher.group("month"), dateMatcher.group("year"));
+}
+
+// ...
+
+String score = "14:1";
+
+Pattern scorePattern = Pattern.compile("(?&lt;player1&gt;[0-9]+):(?&lt;player2&gt;[0-9]+)");
+Matcher scoreMatcher = scorePattern.matcher(score);
+
+if (scoreMatcher.matches()) {
+  checkScore(scoreMatcher.group("player1"));
+  checkScore(scoreMatcher.group("player2"));
+}
+</pre>
+<p>あるいは、グループ名ではなく、専用の変数を使用する：</p>
+<pre translate="no">
+String score = "14:1";
+
+String player = "([0-9]+)";
+String gameScore = player + ":" + player;
+
+Pattern scorePattern = Pattern.compile(gameScore);
+Matcher scoreMatcher = scorePattern.matcher(score);
+
+if (scoreMatcher.matches()) {
+  checkScore(score);
+}
+</pre>
+

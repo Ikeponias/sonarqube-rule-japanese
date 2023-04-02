@@ -1,0 +1,57 @@
+<p>コンテンツが長いリクエストを拒否することは、DoS攻撃を防ぐために、ネットワークのトラフィック強度とリソース消費を制御するための良い習慣です。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>Webアプリケーションの異なるリソースに対して、サイズ制限が定義されていない。 </li>
+  <li>Webアプリケーションは、<a href="https://en.wikipedia.org/wiki/Rate_limiting">レート制限</a>機能で保護されていません。 </li>
+  <li>Webアプリケーションのインフラは、リソースが限られています。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<ul>
+  <li>アプリケーションのほとんどの機能では、リクエストのサイズを制限することが推奨されています：    <ul>
+      <li>ファイルアップロードの場合、8mb以下。 </li>
+      <li>その他のリクエストは、2mb以下に制限することをお勧めします。 </li>
+    </ul>  </li>
+</ul>
+<p>Webアプリケーションに対応した制限値でルールをカスタマイズすることを推奨します。</p>
+<h2>センシティブコードの例</h2>
+<p>デフォルトの制限値8388608（8MB）の場合。</p>
+<p>100MBのファイルをアップロードすることが可能です：</p>
+<pre translate="no">
+@Bean(name = "multipartResolver")
+public CommonsMultipartResolver multipartResolver() {
+  CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+  multipartResolver.setMaxUploadSize(104857600); // Sensitive (100MB)
+  return multipartResolver;
+}
+
+@Bean(name = "multipartResolver")
+public CommonsMultipartResolver multipartResolver() {
+  CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(); // Sensitive, by default if maxUploadSize property is not defined, there is no limit and thus it's insecure
+  return multipartResolver;
+}
+
+@Bean
+public MultipartConfigElement multipartConfigElement() {
+  MultipartConfigFactory factory = new MultipartConfigFactory(); // Sensitive, no limit by default
+  return factory.createMultipartConfig();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>ファイルのアップロード容量は8MBまでです：</p>
+<pre translate="no">
+@Bean(name = "multipartResolver")
+public CommonsMultipartResolver multipartResolver() {
+  multipartResolver.setMaxUploadSize(8388608); // Compliant (8 MB)
+  return multipartResolver;
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A05_2021-Security_Misconfiguration/">OWASP Top 10 2021 カテゴリ A5</a>- セキュリティの誤設定 </li>
+  <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html">Owaspチートシート</a>- Owasp Denial of Serviceチートシート </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/770">MITRE, CWE-770</a>- 制限やスロットリングのないリソースの割り当て </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/400">MITRE、CWE-400</a>- リソース消費の制御ができない。 </li>
+</ul>
+

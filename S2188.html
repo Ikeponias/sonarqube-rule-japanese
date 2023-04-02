@@ -1,0 +1,23 @@
+<p>親クラスのメソッドをオーバーライドすると、オーバーライドするメソッド内で明示的に<code translate="no">super</code> を呼び出さない限り、そのメソッドが呼び出されることはありません。場合によっては、<code translate="no">super</code> メソッドを呼び出さないことが許容されますが、JUnit 3<code translate="no">TestCase</code> の<code translate="no">setUp</code> と<code translate="no">tearDown</code> の場合はそうではありません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClassTest extends MyAbstractTestCase {
+
+  private MyClass myClass;
+    @Override
+    protected void setUp() throws Exception {  // Noncompliant
+      myClass = new MyClass();
+    }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClassTest extends MyAbstractTestCase {
+
+  private MyClass myClass;
+    @Override
+    protected void setUp() throws Exception {
+      super.setUp();
+      myClass = new MyClass();
+    }
+</pre>
+

@@ -1,0 +1,27 @@
+<p>ラベルはJavaではあまり使われておらず、多くの開発者がその仕組みを理解していません。さらに、ラベルを使うと制御の流れがわかりにくくなるため、コードの可読性が低下します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int matrix[][] = {
+  {1, 2, 3},
+  {4, 5, 6},
+  {7, 8, 9}
+};
+
+outer: for (int row = 0; row &lt; matrix.length; row++) {   // Non-Compliant
+  for (int col = 0; col &lt; matrix[row].length; col++) {
+    if (col == row) {
+      continue outer;
+    }
+    System.out.println(matrix[row][col]);                // Prints the elements under the diagonal, i.e. 4, 7 and 8
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+for (int row = 1; row &lt; matrix.length; row++) {          // Compliant
+  for (int col = 0; col &lt; row; col++) {
+    System.out.println(matrix[row][col]);                // Also prints 4, 7 and 8
+  }
+}
+</pre>
+

@@ -1,0 +1,31 @@
+<p><code translate="no">MD2</code>,<code translate="no">MD4</code>,<code translate="no">MD5</code>,<code translate="no">MD6</code>,<code translate="no">HAVAL-128</code>,<code translate="no">HMAC-MD5</code>,<code translate="no">DSA</code> (which uses<code translate="no">SHA-1</code>),<code translate="no">RIPEMD</code>,<code translate="no">RIPEMD-128</code>,<code translate="no">RIPEMD-160</code>,<code translate="no">HMACRIPEMD160</code>,<code translate="no">SHA-1</code> などの暗号ハッシュアルゴリズムは、<code translate="no">collisions</code> （同じハッシュを生成する二つ以上の異なる入力を見つけるには、少しの計算努力で十分）可能なので、もはや安全とはみなされない。</p>
+<h2>ということを自問自答してください。</h2>
+<p>のようなセキュリティコンテキストでハッシュ化された値が使用されます：</p>
+<ul>
+  <li>ユーザーパスワードの保存。 </li>
+  <li>セキュリティトークン生成（ウェブサイト登録時のメール確認、パスワードのリセットなどに使用されます。） </li>
+  <li>あるメッセージの整合性を計算すること。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングプラクティス</h2>
+<p><code translate="no">SHA-256</code>,<code translate="no">SHA-512</code>,<code translate="no">SHA-3</code> のような安全な代替手段をお勧めします。パスワードのハッシュ化には、<code translate="no">bcrypt</code>,<code translate="no">scrypt</code>,<code translate="no">argon2</code>,<code translate="no">pbkdf2</code>のように、あまり「速く」計算しないアルゴリズムを使用すると、<code translate="no">brute force attacks</code> の速度が落ちるのでさらによいです。</p>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+MessageDigest md1 = MessageDigest.getInstance("SHA");  // Sensitive:  SHA is not a standard name, for most security providers it's an alias of SHA-1
+MessageDigest md2 = MessageDigest.getInstance("SHA1");  // Sensitive
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+MessageDigest md1 = MessageDigest.getInstance("SHA-512"); // Compliant
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/">OWASP Top 10 2021 カテゴリ A2</a>- 暗号の失敗 </li>
+  <li><a href="https://www.owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+  <li><a href="https://mobile-security.gitbook.io/masvs/security-requirements/0x08-v3-cryptography_verification_requirements">Mobile AppSec検証基準</a>- 暗号化要件 </li>
+  <li><a href="https://owasp.org/www-project-mobile-top-10/2016-risks/m5-insufficient-cryptography">OWASP Mobile Top 10 2016 カテゴリー M5</a>- Insufficient Cryptography (不十分な暗号) </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/1240">MITRE, CWE-1240</a>- リスクの高い暗号プリミティブの使用について </li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat3">SANS Top 25</a>- ポーラスディフェンス </li>
+</ul>
+

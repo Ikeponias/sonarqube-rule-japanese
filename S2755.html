@@ -1,0 +1,101 @@
+<p>XML標準では、文書のDOCTYPEで宣言されたエンティティを使用することができ、<a href="https://www.w3.org/TR/xml/#sec-internal-ent">内部</a>または<a href="https://www.w3.org/TR/xml/#sec-external-ent">外部の</a>エンティティを使用することができます。</p>
+<p>XMLファイルを解析する際、ファイルシステムやネットワークなどの外部ストレージから外部エンティティの内容を取得するため、制限を設けない場合、任意のファイルの開示や<a href="https://owasp.org/www-community/attacks/Server_Side_Request_Forgery">SSRF（Server-Side Request Forgery）の</a>脆弱性につながる恐れがあります。</p>
+<p>これらのソリューションのいずれかを使用して、外部エンティティの解決を制限することが推奨されます：</p>
+<ul>
+  <li>DOCTYPEが不要な場合は、すべてのDOCTYPE宣言を完全に無効にしてください。 </li>
+  <li>外部エンティティが不要な場合は、その宣言を完全に無効化する。 </li>
+  <li>外部エンティティが必要な場合は、以下のようにする：    <ul>
+      <li>XML プロセッサの機能を利用し、必要なプロトコル（例：https）だけを認可する。 </li>
+      <li>また、エンティティ・リゾルバ（およびオプションでXMLカタログ）を使用して、信頼できるエンティティのみを解決します。 </li>
+    </ul>  </li>
+</ul>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/parsers/DocumentBuilderFactory.html">DocumentBuilder</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/parsers/SAXParserFactory.html">SAXParser</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/stream/XMLInputFactory.html">XMLInput</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/transform/TransformerFactory.html">Transformer</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/validation/SchemaFactory.html">Schema</a>JAPXファクトリー用です：</p>
+<pre translate="no">
+DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); // Noncompliant
+
+SAXParserFactory factory = SAXParserFactory.newInstance(); // Noncompliant
+
+XMLInputFactory factory = XMLInputFactory.newInstance(); // Noncompliant
+
+TransformerFactory factory = javax.xml.transform.TransformerFactory.newInstance();  // Noncompliant
+
+SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);  // Noncompliant
+</pre>
+<p><a href="https://dom4j.github.io/">Dom4j</a>ライブラリ用：</p>
+<pre translate="no">
+SAXReader xmlReader = new SAXReader(); // Noncompliant
+</pre>
+<p><a href="http://www.jdom.org/">Jdom2</a>ライブラリ用：</p>
+<pre translate="no">
+SAXBuilder builder = new SAXBuilder(); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/parsers/DocumentBuilderFactory.html">DocumentBuilder</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/parsers/SAXParserFactory.html">SAXParser</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/stream/XMLInputFactory.html">XMLInput</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/transform/TransformerFactory.html">Transformer</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/validation/SchemaFactory.html">Schema</a>JAPXファクトリー用：</p>
+<pre translate="no">
+DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+// to be compliant, completely disable DOCTYPE declaration:
+factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+// or completely disable external entities declarations:
+factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+// or prohibit the use of all protocols by external entities:
+factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+// or disable entity expansion but keep in mind that this doesn't prevent fetching external entities
+// and this solution is not correct for OpenJDK &lt; 13 due to a bug: https://bugs.openjdk.java.net/browse/JDK-8206132
+factory.setExpandEntityReferences(false);
+
+
+SAXParserFactory factory = SAXParserFactory.newInstance();
+// to be compliant, completely disable DOCTYPE declaration:
+factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+// or completely disable external entities declarations:
+factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+// or prohibit the use of all protocols by external entities:
+SAXParser parser = factory.newSAXParser(); // Noncompliant
+parser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+parser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+
+XMLInputFactory factory = XMLInputFactory.newInstance();
+// to be compliant, completely disable DOCTYPE declaration:
+factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+// or completely disable external entities declarations:
+factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
+// or prohibit the use of all protocols by external entities:
+factory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+factory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+
+TransformerFactory factory = javax.xml.transform.TransformerFactory.newInstance();
+// to be compliant, prohibit the use of all protocols by external entities:
+factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+
+SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+// to be compliant, completely disable DOCTYPE declaration:
+factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+// or prohibit the use of all protocols by external entities:
+factory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+factory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+</pre>
+<p><a href="https://dom4j.github.io/">Dom4j</a>ライブラリ用：</p>
+<pre translate="no">
+SAXReader xmlReader = new SAXReader();
+xmlReader.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+</pre>
+<p><a href="http://www.jdom.org/">Jdom2</a>ライブラリ用：</p>
+<pre translate="no">
+SAXBuilder builder = new SAXBuilder();
+builder.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+builder.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A05_2021-Security_Misconfiguration/">OWASP Top 10 2021 カテゴリ A5</a>- セキュリティの誤設定 </li>
+  <li><a href="https://docs.oracle.com/en/java/javase/13/security/java-api-xml-processing-jaxp-security-guide.html#GUID-8CD65EF5-D113-4D5C-A564-B875C8625FAC">Oracle Javaドキュメント</a>- XML External Entity Injection攻撃 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A4_2017-XML_External_Entities_(XXE)">OWASP Top 10 2017 カテゴリーA4</a>- XML External Entities (XXE) </li>
+  <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html#java">OWASP XXE防止チートシート</a></li>
+  <li><a href="https://cwe.mitre.org/data/definitions/611">MITRE, CWE-611</a>- XML外部エンティティ参照による情報公開について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/827">MITRE, CWE-827</a>- ドキュメントタイプ定義の不適切なコントロール </li>
+</ul>
+

@@ -1,0 +1,25 @@
+<p>テキストブロックでは、エスケープシーケンスの使用はほとんど不要です。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p><code translate="no">\n</code> は，単に改行を導入することで置き換えることができます。 ，最初のqouteだけをエスケープすればよいのです。<code translate="no">\"\"\"</code> </p>
+<pre translate="no">
+String textBlock = """
+        \"\"\" this \nis
+        text  block!
+        !!!!
+      """;
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String textBlock = """
+        \""" this
+        is
+        text  block!
+        !!!!
+      """;
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://openjdk.java.net/jeps/378">JEP 378：テキストブロック</a></li>
+  <li><a href="https://cr.openjdk.java.net/~jlaskey/Strings/TextBlocksGuide_v9.html">プログラマーズ・ガイド・トゥ・テキスト・ブロック</a>」ジム・ラスキー、スチュアート・マークス著 </li>
+</ul>
+

@@ -1,0 +1,34 @@
+<p>テストに<code translate="no">Thread.sleep</code> を使用するのは、一般的に良くないアイデアです。環境（「私のマシンではパスしました！」）や負荷によって予測できない失敗をする可能性がある、もろいテストを作成することになります。タイミングに頼らず（モックを使いましょう）、<code translate="no">Awaitility</code> のようなライブラリを非同期テストに使いましょう。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Test
+public void testDoTheThing(){
+
+  MyClass myClass = new MyClass();
+  myClass.doTheThing();
+
+  Thread.sleep(500);  // Noncompliant
+  // assertions...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Test
+public void testDoTheThing(){
+
+  MyClass myClass = new MyClass();
+  myClass.doTheThing();
+
+  await().atMost(2, Duration.SECONDS).until(didTheThing());  // Compliant
+  // assertions...
+}
+
+private Callable&lt;Boolean&gt; didTheThing() {
+  return new Callable&lt;Boolean&gt;() {
+    public Boolean call() throws Exception {
+      // check the condition that must be fulfilled...
+    }
+  };
+}
+</pre>
+

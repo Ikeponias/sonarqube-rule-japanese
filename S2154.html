@@ -1,0 +1,14 @@
+<p>ラップされたプリミティブ値（例：<code translate="no">Integers</code> と<code translate="no">Floats</code> ）を三項演算子（例：<code translate="no">a?b:c</code> ）で使用する場合、両方の値はボックスから外れて共通の型に強制されるため、予期せぬ結果につながる可能性があります。これを避けるには、互換性のある型への明示的なキャストを追加します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Integer i = 123456789;
+Float f = 1.0f;
+Number n = condition ? i : f;  // Noncompliant; i is coerced to float. n = 1.23456792E8
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Integer i = 123456789;
+Float f = 1.0f;
+Number n = condition ? (Number) i : f;  // n = 123456789
+</pre>
+

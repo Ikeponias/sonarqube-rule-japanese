@@ -1,0 +1,100 @@
+<p>ある種の数学の演算は、結果が予測できるため、ただ愚かで、実行すべきではない。</p>
+<p>特に、<code translate="no">anyValue % 1</code> は常に0を返すので愚かです。</p>
+<p>浮動小数点でない値を浮動小数点にキャストして<code translate="no">Math.round</code>,<code translate="no">Math.ceil</code>,<code translate="no">Math.floor</code> に渡すと、結果は常に元の値になるため、愚かな行為です。</p>
+<p>これらの演算は、任意の定数値でバカにできない：<code translate="no">Math.abs</code>,<code translate="no">Math.ceil</code>,<code translate="no">Math.floor</code>,<code translate="no">Math.rint</code>,<code translate="no">Math.round</code>.</p>
+<p>そして、これらの演算は、ある一定の定数値を持つ愚かなものです：</p>
+<table>
+  <colgroup>
+    <col style="width: 50%;" />
+    <col style="width: 50%;" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>操作方法</th>
+      <th>価値観</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><p>エイコス</p></td>
+      <td><p>0.0または1.0</p></td>
+    </tr>
+    <tr>
+      <td><p>アシン</p></td>
+      <td><p>0.0または1.0</p></td>
+    </tr>
+    <tr>
+      <td><p>阿柑</p></td>
+      <td><p>0.0または1.0</p></td>
+    </tr>
+    <tr>
+      <td><p>アタン2</p></td>
+      <td><p>0.0</p></td>
+    </tr>
+    <tr>
+      <td><p>クリップト</p></td>
+      <td><p>0.0または1.0</p></td>
+    </tr>
+    <tr>
+      <td><p>コサイン</p></td>
+      <td><p>0.0</p></td>
+    </tr>
+    <tr>
+      <td><p>コシ</p></td>
+      <td><p>0.0</p></td>
+    </tr>
+    <tr>
+      <td><p>経験値</p></td>
+      <td><p>0.0または1.0</p></td>
+    </tr>
+    <tr>
+      <td><p>エキスパムワン</p></td>
+      <td><p>0.0</p></td>
+    </tr>
+    <tr>
+      <td><p>ログ</p></td>
+      <td><p>0.0または1.0</p></td>
+    </tr>
+    <tr>
+      <td><p>ログ10</p></td>
+      <td><p>0.0または1.0</p></td>
+    </tr>
+    <tr>
+      <td><p>罪</p></td>
+      <td><p>0.0</p></td>
+    </tr>
+    <tr>
+      <td><p>シン</p></td>
+      <td><p>0.0</p></td>
+    </tr>
+    <tr>
+      <td><p>自乗</p></td>
+      <td><p>0.0または1.0</p></td>
+    </tr>
+    <tr>
+      <td><p>罐</p></td>
+      <td><p>0.0</p></td>
+    </tr>
+    <tr>
+      <td><p>タン</p></td>
+      <td><p>0.0</p></td>
+    </tr>
+    <tr>
+      <td><p>トゥディグリーズ</p></td>
+      <td><p>0.0または1.0</p></td>
+    </tr>
+    <tr>
+      <td><p>トゥラジアン</p></td>
+      <td><p>0.0</p></td>
+    </tr>
+  </tbody>
+</table>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doMath(int a) {
+  double floor = Math.floor((double)a); // Noncompliant
+  double ceiling = Math.ceil(4.2);  // Noncompliant
+  double arcTan = Math.atan(0.0);  // Noncompliant
+}
+</pre>
+

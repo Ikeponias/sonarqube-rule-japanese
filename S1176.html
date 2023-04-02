@@ -1,0 +1,119 @@
+<p>Javadocなしで標準的なJava API (Collections, JDBC, IO, ...) を使うことを想像してみてください。JavadocはAPIの契約内容を理解する唯一の方法なのですから、それは悪夢でしょう。JavadocでAPIを文書化することは、APIを利用する開発者の生産性を向上させます。</p>
+<p>公開APIの各メンバーの主記述に加え、以下のJavadoc要素の記載が必要です：</p>
+<ul>
+  <li>パラメータ、<code translate="no">@param parameterName</code> を使用しています。 </li>
+  <li>例外の発生、<code translate="no">@throws exceptionName</code> を使用。 </li>
+  <li>メソッドの戻り値（<code translate="no">@return</code> を使用）。 </li>
+  <li>汎用型、<code translate="no">@param &lt;T&gt;</code> を使用。 </li>
+</ul>
+<p>さらに、以下のガイドラインを遵守する必要があります：</p>
+<ul>
+  <li>最低1行の説明文。 </li>
+  <li>すべてのパラメータは<code translate="no">@param</code> で文書化され、名前は一致している必要があります。 </li>
+  <li>チェックされたすべての例外は、<code translate="no">@throws</code> で文書化されます。 </li>
+  <li><code translate="no">@return</code> を提示し、<code translate="no">void</code> 以外は文書化される。 </li>
+  <li><code translate="no">"TODO"</code>,<code translate="no">"FIXME"</code>,<code translate="no">"..."</code> のようなプレースホルダーは避けるべきです。 </li>
+</ul>
+<p>以下のパブリックメソッドおよびコンストラクタは、本ルールでは考慮されません：</p>
+<ul>
+  <li>ゲッターとセッターです。 </li>
+  <li>他のメソッドをオーバーライドするメソッド（通常、<code translate="no">@Override</code> で装飾されます）。 </li>
+  <li>空のコンストラクタ。 </li>
+  <li>静的定数。 </li>
+</ul>
+<p>ルールのパラメータについては、以下のルールが適用されます：</p>
+<ul>
+  <li><code translate="no">?</code> は1つの文字にマッチします </li>
+  <li><code translate="no">*</code> は0文字以上と一致する </li>
+  <li><code translate="no">**</code> は、0個以上のパッケージと一致します。 </li>
+</ul>
+<p>例を挙げます：</p>
+<ul>
+  <li><code translate="no">java.internal.InternalClass</code> は、<code translate="no">InternalClass</code> クラスのみにマッチします。 </li>
+  <li><code translate="no">java.internal.*</code> は、<code translate="no">java.internal</code> パッケージのどのメンバーにもマッチします。 </li>
+  <li><code translate="no">java.internal.**</code> 同上、ただしサブパッケージは含む。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+/**
+  * This is a Javadoc comment
+  */
+public class MyClass&lt;T&gt; implements Runnable {    // Noncompliant - missing '@param &lt;T&gt;'
+
+  public static final DEFAULT_STATUS = 0;    // Compliant - static constant
+  private int status;                           // Compliant - not public
+
+  public String message;                  // Noncompliant
+
+  public MyClass() {                         // Noncompliant - missing documentation
+    this.status = DEFAULT_STATUS;
+  }
+
+  public void setStatus(int status) {  // Compliant - setter
+    this.status = status;
+  }
+
+  @Override
+  public void run() {                          // Compliant - has @Override annotation
+  }
+
+  protected void doSomething() {    // Compliant - not public
+  }
+
+  public void doSomething2(int value) {  // Noncompliant
+  }
+
+  public int doSomething3(int value) {  // Noncompliant
+    return value;
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+/**
+  * This is a Javadoc comment
+  * @param &lt;T&gt; the parameter of the class
+  */
+public class MyClass&lt;T&gt; implements Runnable {
+
+  public static final DEFAULT_STATUS = 0;
+  private int status;
+
+  /**
+    * This is a Javadoc comment
+    */
+  public String message;
+
+  /**
+   * Class comment...
+   */
+  public MyClass() {
+    this.status = DEFAULT_STATUS;
+  }
+
+  public void setStatus(int status) {
+    this.status = status;
+  }
+
+  @Override
+  public void run() {
+  }
+
+  protected void doSomething() {
+  }
+
+  /**
+    * Will do something.
+    * @param value the value to be used
+    */
+  public void doSomething(int value) {
+
+  /**
+    *  {@inheritDoc}
+    */
+  public int doSomething(int value) {
+    return value;
+  }
+}
+</pre>
+

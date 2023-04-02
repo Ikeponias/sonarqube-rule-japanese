@@ -1,0 +1,14 @@
+<p>Spring<code translate="no">@Controller</code>,<code translate="no">@Service</code>,<code translate="no">@Repository</code>は、デフォルトで<code translate="no">singleton</code> のスコープを持っています。つまり、アプリケーションでインスタンス化されるのは、このクラスの1インスタンスだけです。これらのクラスタイプに他のスコープを定義すると、新しいインスタンスが作成されたり破棄されたりして、無駄な動作が発生することになります。多忙なWebアプリケーションでは、サーバーに無用な追加負荷がかかる可能性があります。</p>
+<p>このルールは、<code translate="no">@Scope</code> のアノテーションが、<code translate="no">@Controller</code> 、<code translate="no">@Service</code> 、<code translate="no">@Repository</code> のうち、「singleton」以外の値に適用された場合に問題となります。<code translate="no">@Scope("singleton")</code> は冗長ですが、無視します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Scope("prototype")  // Noncompliant
+@Controller
+public class HelloWorld {
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Controller
+public class HelloWorld {
+</pre>
+

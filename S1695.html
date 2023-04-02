@@ -1,0 +1,15 @@
+<p><code translate="no">NullPointerException</code> は、<code translate="no">null</code> の値が予期せず発生したことを示す必要があります。良いプログラミングの実践では、NPEを回避するためにコードを構造化することを指示します。</p>
+<p>明示的に<code translate="no">NullPointerException</code> を投げることは、それを避けるためのコーディングではなく、メソッドの呼び出し元が明示的にそれをキャッチすることを強制します。さらに、予期せず発生した<code translate="no">null</code> の値と、メソッドが意図的に NPE をスローする原因となる条件とを区別することが難しくなります。</p>
+<p>メソッドのパラメータがNULLであってはならないことを示すNPEが投げられる場合、代わりに<code translate="no">@NotNull</code> アノテーションを使用してください。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomething (String aString) throws NullPointerException {
+     throw new NullPointerException();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomething (@NotNull String aString) {
+}
+</pre>
+

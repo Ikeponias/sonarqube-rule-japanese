@@ -1,0 +1,21 @@
+<p>Mapの<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html#computeIfAbsent-K-java.util.function.Function-">computeIfAbsent</a>メソッドや<a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html#computeIfPresent-K-java.util.function.BiFunction-">computeIfPresent</a>メソッドは、キーが存在するかどうかをチェックし、その後エントリーを追加するという面倒な処理を避けることができる便利なメソッドです。しかし，値を計算する関数が<code translate="no">null</code> を返す場合，エントリ<code translate="no">key-&gt;null</code> は Map に追加されない．さらに、<code translate="no">computeIfPresent</code> の場合、キーが存在すれば、エントリーは削除される。したがって、これらのメソッドは、NULL値を持つエントリを条件付きで追加するために使用するべきではありません。代わりに、従来の方法を使用する必要があります。</p>
+<p>このルールは、<code translate="no">computeIfAbsent</code> または<code translate="no">computeIfPresent</code> が常に null を返すラムダで使用される場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+map.computeIfAbsent(key, k -&gt; null); // Noncompliant, the map will not contain an entry key-&gt;null.
+map.computeIfPresent(key, (k, oldValue) -&gt; null); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (!map.containsKey(key)) {
+    map.put(key, null);
+}
+if (map.containsKey(key)) {
+    map.put(key, null);
+}
+</pre>
+<h2>こちらもご覧ください</h2>
+<ul>
+  <li>{rule:java:S3824} です。- "Map.get "と値のテストは、単一のメソッド呼び出しに置き換えられるべきである </li>
+</ul>
+

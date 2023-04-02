@@ -1,0 +1,52 @@
+<p>Java 9では、<code translate="no">@Deprecated</code> アノテーションにフラグが導入され、非推奨コードがある時点で削除される予定かどうかを明示的に示すことができるようになりました。これは、<code translate="no">forRemoval=true</code> をアノテーション・パラメーターとして使用することで実現されます。このアノテーションのjavadocには、次のようなことが明示的に書かれています：</p>
+<blockquote>
+  <p>true の場合、この API 要素は将来のリリースで削除される予定であることを意味します。</p>
+  <p>false の場合、その API 要素は非推奨ですが、将来のリリースで削除する意図は今のところありません。</p>
+</blockquote>
+<p>通常、非推奨のクラス、インターフェース、およびそれらの非推奨のメンバは、使用、継承、拡張するよりも避けるべきですが、すでに削除のマークがついているものは、あなたのコードにすぐに問題を引き起こす可能性がより高くなります。そのため、そのような非推奨のコードの使用は避けるか、削除する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+/**
+ * @deprecated As of release 1.3, replaced by {@link #Fee}. Will be dropped with release 1.4.
+ */
+@Deprecated(forRemoval=true)
+public class Foo { ... }
+
+public class Bar {
+  /**
+   * @deprecated  As of release 1.7, replaced by {@link #doTheThingBetter()}
+   */
+  @Deprecated(forRemoval=true)
+  public void doTheThing() { ... }
+
+  public void doTheThingBetter() { ... }
+
+  /**
+   * @deprecated As of release 1.14 due to poor performances.
+   */
+  @Deprecated(forRemoval=false)
+  public void doTheOtherThing() { ... }
+}
+
+public class Qix extends Bar {
+  @Override
+  public void doTheThing() { ... } // Noncompliant; don't override a deprecated method marked for removal
+}
+
+public class Bar extends Foo {  // Noncompliant; Foo is deprecated and will be removed
+
+  public void myMethod() {
+    Bar bar = new Bar();  // okay; the class isn't deprecated
+    bar.doTheThing();  // Noncompliant; doTheThing method is deprecated and will be removed
+
+    bar.doTheOtherThing(); // Okay; deprecated, but not marked for removal
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/477">MITRE, CWE-477</a>- 廃止された機能の使用について </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/6TdGBQ">CERT、MET02-J。</a>- 非推奨または廃止されたクラスやメソッドを使用しないこと </li>
+  <li>RSPEC-1874 標準的な非推奨の使用について </li>
+</ul>
+

@@ -1,0 +1,58 @@
+<p><a href="https://en.wikipedia.org/wiki/Strong_cryptography">強暗号</a>アルゴリズムは、暗号解読に強い暗号システムであり、例えばブルートフォースアタックのようなよく知られた攻撃には弱くありません。</p>
+<p>一般的に推奨されるのは、暗号コミュニティによって集中的にテストされ、促進された暗号アルゴリズムのみを使用することです。</p>
+<p>特にブロック暗号の場合、ブロックサイズが128ビットより小さいアルゴリズムを使用することは推奨されません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+import javax.crypto.Cipher;
+import java.security.NoSuchAlgorithmException;
+import javax.crypto.NoSuchPaddingException;
+
+public class test {
+
+    public static void main(String[] args) {
+      try
+      {
+        Cipher c1 = Cipher.getInstance("DES"); // Noncompliant: DES works with 56-bit keys allow attacks via exhaustive search
+        Cipher c7 = Cipher.getInstance("DESede"); // Noncompliant: Triple DES is vulnerable to meet-in-the-middle attack
+        Cipher c13 = Cipher.getInstance("RC2"); // Noncompliant: RC2 is vulnerable to a related-key attack
+        Cipher c19 = Cipher.getInstance("RC4"); // Noncompliant: vulnerable to several attacks (see https://en.wikipedia.org/wiki/RC4#Security)
+        Cipher c25 = Cipher.getInstance("Blowfish"); // Noncompliant: Blowfish use a 64-bit block size makes it vulnerable to birthday attacks
+
+        NullCipher nc = new NullCipher(); // Noncompliant: the NullCipher class provides an "identity cipher" one that does not transform or encrypt the plaintext in any way.
+      }
+      catch(NoSuchAlgorithmException|NoSuchPaddingException e)
+      {
+      }
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+import javax.crypto.Cipher;
+import java.security.NoSuchAlgorithmException;
+import javax.crypto.NoSuchPaddingException;
+
+public class test {
+
+    public static void main(String[] args) {
+      try
+      {
+        Cipher c31 = Cipher.getInstance("AES/GCM/NoPadding"); // Compliant
+      }
+      catch(NoSuchAlgorithmException|NoSuchPaddingException e)
+      {
+      }
+    }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/">OWASP Top 10 2021 カテゴリ A2</a>- 暗号の失敗 </li>
+  <li><a href="https://www.owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://mobile-security.gitbook.io/masvs/security-requirements/0x08-v3-cryptography_verification_requirements">Mobile AppSec検証基準</a>- 暗号化要件 </li>
+  <li><a href="https://owasp.org/www-project-mobile-top-10/2016-risks/m5-insufficient-cryptography">OWASP Mobile Top 10 2016 カテゴリーM5</a>- Insufficient Cryptography (不十分な暗号) </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/327">MITRE, CWE-327</a>- 壊れたまたは危険な暗号アルゴリズムの使用 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/hDdGBQ">CERT、MSC61-J。</a>- 安全でない、または弱い暗号アルゴリズムを使用しないこと </li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat3">SANS Top 25</a>- ポーラスディフェンス </li>
+</ul>
+

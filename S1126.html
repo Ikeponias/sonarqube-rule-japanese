@@ -1,0 +1,27 @@
+<p><code translate="no">if-then-else</code> に包まれた boolean リテラル文の返却を簡略化する必要があります。</p>
+<p>同様に、ブーリアンリテラルのみが異なる<code translate="no">if-then-else</code> に包まれたメソッド起動は、単一の起動に簡略化されるべきである。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+boolean foo(Object param) {
+  if (expression) { // Noncompliant
+    bar(param, true, "qix");
+  } else {
+    bar(param, false, "qix");
+  }
+
+  if (expression) {  // Noncompliant
+    return true;
+  } else {
+    return false;
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+boolean foo(Object param) {
+  bar(param, expression, "qix");
+
+  return expression;
+}
+</pre>
+

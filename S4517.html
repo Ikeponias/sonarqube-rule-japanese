@@ -1,0 +1,23 @@
+<p>Javaのドキュメントによると、<code translate="no">InputSteam.read()</code> メソッドの実装は、入力ストリームから次のバイトのデータを読み取ることになっています。値バイトは、0から255の範囲内の<code translate="no">int</code> でなければなりません。ストリームの終端に達したために利用可能なバイトがない場合、値-1が返されます。</p>
+<p>しかし、Javaでは、<code translate="no">byte</code> プリミティブデータタイプは、8ビット符号付き2の補数整数です。最小値は-128、最大値は127です。したがって、契約上、<code translate="no">InputSteam.read()</code> メソッドの実装は、<code translate="no">byte</code>プリミティブデータ型を直接返してはならない。符号なしバイトへの変換は、ビットマスクを適用することで事前に行わなければならない。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Override
+public int read() throws IOException {
+  if (pos == buffer.length()) {
+    return -1;
+  }
+  return buffer.getByte(pos++); // Noncompliant, a signed byte value is returned
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Override
+public int read() throws IOException {
+  if (pos == buffer.length()) {
+    return -1;
+  }
+  return buffer.getByte(pos++) &amp; 0xFF; // The 0xFF bitmask is applied
+}
+</pre>
+

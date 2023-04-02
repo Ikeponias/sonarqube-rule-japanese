@@ -1,0 +1,37 @@
+<p>すべての<code translate="no">Serializable</code> クラスにおいて、<code translate="no">serialVersionUID</code> フィールドを設けることが強く推奨されます。もし提供しない場合、コンパイラによって計算されます。明示的に値を選択しないことの危険性は、クラスが変更されたときに、コンパイラがまったく新しいidを生成し、クラスの前のバージョンでシリアライズされたオブジェクトを突然デシリアライズ（ファイルから読む）することができなくなることです。</p>
+<p><code translate="no">serialVersionUID</code>'sは、これらのすべての修飾子を付けて宣言する必要があります：<code translate="no">static final long</code>.</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Raspberry extends Fruit  // Noncompliant; no serialVersionUID.
+        implements Serializable {
+  private String variety;
+
+  public Raspberry(Season ripe, String variety) { ...}
+  public void setVariety(String variety) {...}
+  public String getVarity() {...}
+}
+
+public class Raspberry extends Fruit
+        implements Serializable {
+  private final int serialVersionUID = 1; // Noncompliant; not static &amp; int rather than long
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Raspberry extends Fruit
+        implements Serializable {
+  private static final long serialVersionUID = 1;
+  private String variety;
+
+  public Raspberry(Season ripe, String variety) { ...}
+  public void setVariety(String variety) {...}
+  public String getVarity() {...}
+}
+</pre>
+<h2>例外あり</h2>
+<p>レコード、SwingおよびAWTクラス、<code translate="no">abstract</code> クラス、<code translate="no">Throwable</code> およびそのサブクラス（<code translate="no">Exception</code>sおよび<code translate="no">Error</code>s）、および<code translate="no">@SuppressWarnings("serial")</code> のマークが付いたクラスは無視されます。</p>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/ajdGBQ">CERT、SER00-J。</a>- クラス進化時のシリアライズ互換性を実現する </li>
+  <li><a href="https://docs.oracle.com/en/java/javase/16/docs/specs/serialization/serial-arch.html#serialization-of-records">レコードのシリアル化</a>- レコードのシリアル化 </li>
+</ul>
+

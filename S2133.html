@@ -1,0 +1,11 @@
+<p><code translate="no">getClass</code> を呼び出すためだけにオブジェクトを作成するのは、メモリとサイクルの無駄遣いです。代わりに、単にクラスの<code translate="no">.class</code> プロパティを使用します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+MyObject myOb = new MyObject();  // Noncompliant
+Class c = myOb.getClass();
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Class c = MyObject.class;
+</pre>
+

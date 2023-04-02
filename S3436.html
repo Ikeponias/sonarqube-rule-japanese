@@ -1,0 +1,27 @@
+<p>ドキュメントによると</p>
+<blockquote>
+  <p>プログラムでは、値ベースのクラスの等しい値への2つの参照を区別しようとすると、直接的には参照の等価性によって、間接的には同期へのアピールによって、予測不可能な結果が生じることがあります...。</p>
+</blockquote>
+<p>これは、値ベースのクラスが、Javaの将来のバージョンで登場するプリミティブなデータの集まり（他の言語の<code translate="no">struct</code>に似ている）である値タイプのラッパーであることを意図しているためです。</p>
+<blockquote>
+  <p>価値観の違うクラスのインスタンス ...</p>
+  <ul>
+    <li>はアクセス可能なコンストラクタを持たず、代わりにファクトリーメソッドでインスタンスを生成し、返されたインスタンスのアイデンティティを約束することはありません； </li>
+  </ul>
+</blockquote>
+<p>つまり、バリューベースのクラスのインスタンスをロックしようとしているのが自分だけとは限らないので、コードが競合やデッドロックの問題にさらされる可能性があるのです。</p>
+<p>Java 8ではこのルールを破っても実際にコードが壊れることはないかもしれませんが、それ以上の動作は保証されていません。</p>
+<p>このルールは、既知の値ベースのクラスが同期に使用される場合に問題が発生します。これには、<code translate="no">Clock</code> を除く<code translate="no">java.time</code>パッケージのすべてのクラス、代替カレンダーの日付クラス、<code translate="no">HijrahDate</code> 、<code translate="no">JapaneseDate</code> 、<code translate="no">MinguoDate</code> 、<code translate="no">ThaiBuddhistDate</code> 、およびオプションクラスが含まれます：<code translate="no">Optional</code> <code translate="no">OptionalDouble</code>,<code translate="no">OptionalLong</code>,<code translate="no">OptionalInt</code> 。</p>
+<p><strong>なお</strong>、このルールは、プロジェクトの<code translate="no">sonar.java.source</code> が<code translate="no">8</code> よりも低い場合、自動的に無効となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Optional&lt;Foo&gt; fOpt = doSomething();
+synchronized (fOpt) {  // Noncompliant
+  // ...
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/doc-files/ValueBased.html">バリュー系クラス</a></li>
+</ul>
+

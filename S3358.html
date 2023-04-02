@@ -1,0 +1,18 @@
+<p><em>できる</em>ことだからといって、そうすべきとは限らないのが、三項演算の入れ子です。三項演算子をネストさせると、書いたときは明快でも、6ヶ月後にはメンテナ（あるいはもっと悪いことに、未来のあなた）が頭をかきむしりながら罵るようなコードになります。</p>
+<p>その代わり、分かりやすさを重視して、入れ子になっている操作を別の文として表現するために、もう一行使ってください。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public String getReadableStatus(Job j) {
+  return j.isRunning() ? "Running" : j.hasErrors() ? "Failed" : "Succeeded";  // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public String getReadableStatus(Job j) {
+  if (j.isRunning()) {
+    return "Running";
+  }
+  return j.hasErrors() ? "Failed" : "Succeeded";
+}
+</pre>
+

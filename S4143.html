@@ -1,0 +1,10 @@
+<p>キーやインデックスに値が保存された後、無条件に上書きされるのは非常に疑わしいことです。このような置き換えは、エラーの可能性が高い。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+letters.put("a", "Apple");
+letters.put("a", "Boy");  // Noncompliant
+
+towns[i] = "London";
+towns[i] = "Chicago";  // Noncompliant
+</pre>
+

@@ -1,0 +1,46 @@
+<p>アプリケーションのソースコードやバイナリから文字列を抽出することは容易であるため、パスワードはハードコーディングされるべきではない。これは、配布されるアプリケーションやオープンソースのアプリケーションに特に当てはまります。</p>
+<p>過去には、以下のような脆弱性につながっています：</p>
+<ul>
+  <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-13466">CVE-2019-13466</a></li>
+  <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15389">CVE-2018-15389</a></li>
+</ul>
+<p>パスワードはコードの外で、設定ファイル、データベース、パスワード管理サービスなどに保存する必要があります。</p>
+<p>このルールは、データベースおよびLDAP接続で使用されるハードコードされたパスワードのインスタンスにフラグを立てます。接続文字列にハードコードされたパスワードが含まれているか、また、変数名が指定されたリストのパターンのいずれかに一致するかどうかを調べます。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>パスワードは、データベース、ファイルストレージ、API、またはサービスのような機密性の高いコンポーネントへのアクセスを可能にします。 </li>
+  <li>パスワードは、本番環境で使用します。 </li>
+  <li>パスワード更新の前にアプリケーションの再配布が必要です。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた場合、リスクが発生します。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<ul>
+  <li>コードリポジトリにプッシュされない設定ファイルに認証情報を保存します。 </li>
+  <li>認証情報をデータベースに保存する。 </li>
+  <li>秘密管理には、クラウド事業者のサービスをご利用ください。 </li>
+  <li>ソースコードからパスワードが公開されている場合：変更する。 </li>
+</ul>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+String username = "steve";
+String password = "blue";
+Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test?" +
+                  "user=" + uname + "&amp;password=" + password); // Sensitive
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String username = getEncryptedUser();
+String password = getEncryptedPassword();
+Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/test?" +
+                  "user=" + uname + "&amp;password=" + password);
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">OWASP Top 10 2021 カテゴリ A7</a>- 識別と認証の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication">OWASP Top 10 2017 カテゴリーA2</a>- Broken Authentication  </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/798">MITRE、CWE-798</a>- ハードコード化されたクレデンシャルの使用 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/259">MITRE, CWE-259</a>- ハードコードされたパスワードの使用について </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/OjdGBQ">CERT、MSC03-J。</a>- 機密情報をハードコードしない </li>
+  <li>FindSecBugsルールから派生した<a href="https://h3xstream.github.io/find-sec-bugs/bugs.htm#HARD_CODE_PASSWORD">ハードコードされたパスワード</a></li>
+</ul>
+

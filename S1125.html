@@ -1,0 +1,30 @@
+<p>読みやすさを向上させるため、冗長なブールリテラルを式から削除する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if (booleanMethod() == true) { /* ... */ }
+if (booleanMethod() == false) { /* ... */ }
+if (booleanMethod() || false) { /* ... */ }
+doSomething(!false);
+doSomething(booleanMethod() == true);
+
+booleanVariable = booleanMethod() ? true : false;
+booleanVariable = booleanMethod() ? true : exp;
+booleanVariable = booleanMethod() ? false : exp;
+booleanVariable = booleanMethod() ? exp : true;
+booleanVariable = booleanMethod() ? exp : false;
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (booleanMethod()) { /* ... */ }
+if (!booleanMethod()) { /* ... */ }
+if (booleanMethod()) { /* ... */ }
+doSomething(true);
+doSomething(booleanMethod());
+
+booleanVariable = booleanMethod();
+booleanVariable = booleanMethod() || exp;
+booleanVariable = !booleanMethod() &amp;&amp; exp;
+booleanVariable = !booleanMethod() || exp;
+booleanVariable = booleanMethod() &amp;&amp; exp;
+</pre>
+

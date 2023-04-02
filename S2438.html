@@ -1,0 +1,29 @@
+<p>技術的には、<code translate="no">Runnable</code> が求められているところに<code translate="no">Thread</code> を使用することは正しいのですが、2つのオブジェクトのセマンティクスは異なっており、これらを混在させることは、将来的に頭痛の種になる可能性の高い悪い習慣です。</p>
+<p>問題の核心は、<code translate="no">Thread</code> は<code translate="no">Runnable</code> よりも大きな概念であるということです。<code translate="no">Runnable</code> は、その実行が管理されるべきオブジェクトです。<code translate="no">Thread</code> は、自分自身や他の<code translate="no">Runnables</code> の動作が管理されることを期待する。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+	public static void main(String[] args) {
+		Thread r =new Thread() {
+			int p;
+			@Override
+			public void run() {
+				while(true)
+					System.out.println("a");
+			}
+		};
+		new Thread(r).start();  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+	public static void main(String[] args) {
+		Runnable r =new Runnable() {
+			int p;
+			@Override
+			public void run() {
+				while(true)
+					System.out.println("a");
+			}
+		};
+		new Thread(r).start();
+</pre>
+

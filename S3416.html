@@ -1,0 +1,15 @@
+<p>各クラスのロガーには、そのクラス自身の名前を付けるのが慣例です。そうすることで、明確でコミュニケーション可能なロガー設定を設定することができます。また、複数のクラスのロガーに同じクラス名を使用すると、各クラスのロガーの詳細な設定を行うことができなくなります。SLF4J などの一部のライブラリは、この点について警告を発していますが、すべてのライブラリではありません。</p>
+<p>このルールでは、ロガーがその包含するクラスの名前を持たない場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+  private final static Logger LOG = LoggerFactory.getLogger(WrongClass.class);  // Noncompliant; multiple classes using same logger
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClass {
+  private final static Logger LOG = LoggerFactory.getLogger(MyClass.class);
+}
+</pre>
+

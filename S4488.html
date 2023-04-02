@@ -1,0 +1,16 @@
+<p>Spring framework 4.3では、アノテーションされたメソッドのセマンティクスをよりよく表現するために、<code translate="no">@RequestMapping</code> アノテーションのバリエーションを導入しました。<code translate="no">@GetMapping</code>,<code translate="no">@PostMapping</code>,<code translate="no">@PutMapping</code>,<code translate="no">@PatchMapping</code> and<code translate="no">@DeleteMapping</code>の使用は、生の<code translate="no">@RequestMapping(method = RequestMethod.XYZ)</code> の使用よりも優先されるべきです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@RequestMapping(path = "/greeting", method = RequestMethod.GET) // Noncompliant
+public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@GetMapping(path = "/greeting") // Compliant
+public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+...
+}
+</pre>
+

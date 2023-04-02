@@ -1,0 +1,29 @@
+<p>技術の指紋を開示することで、攻撃者はウェブアプリケーションの開発に使用された技術に関する情報を収集し、関連するセキュリティ評価（既知の脆弱なコンポーネントの特定など）をより迅速に実行することができます。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>アプリケーションでは、<code translate="no">x-powered-by</code> HTTPヘッダーなどが使用されます。 </li>
+  <li>アプリケーションで使用される技術は機密事項であり、容易に推測できないようにする必要があります。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<p>例えば、<code translate="no">x-powered-by</code> HTTPヘッダーなどで、ウェブサイトで使用されている技術を開示しないことが推奨されます。</p>
+<p>また、このHTTPヘッダーはランダムな値を設定するのではなく、完全に無効化する方がよい。</p>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+public ResponseEntity&lt;String&gt; testResponseEntity() {
+  HttpHeaders responseHeaders = new HttpHeaders();
+  responseHeaders.set("x-powered-by", "myproduct"); // Sensitive
+
+  return new ResponseEntity&lt;String&gt;("foo", responseHeaders, HttpStatus.CREATED);
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p><code translate="no">x-powered-by</code> や<code translate="no">Server</code> HTTPヘッダーなど、アプリケーションのフィンガープリントを開示するような手段は使わないでください。</p>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A05_2021-Security_Misconfiguration/">OWASP Top 10 2021 カテゴリ A5</a>- セキュリティの誤設定 </li>
+  <li><a href="https://owasp.org/www-project-web-security-testing-guide/stable/4-Web_Application_Security_Testing/01-Information_Gathering/08-Fingerprint_Web_Application_Framework.html">OWASP テストガイド - OTG-INFO-008</a>- Fingerprint Web アプリケーションフレームワーク </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/200">MITRE、CWE-200</a>- 情報の露出度 </li>
+</ul>
+

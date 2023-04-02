@@ -1,0 +1,26 @@
+<p>Basic認証の唯一の難読化手段は、Base64エンコーディングです。Base64エンコーディングは簡単に認識され、元に戻すことができるため、ユーザーを保護するための最も薄いベールに過ぎないので、使用するべきではありません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+// Using HttpPost from Apache HttpClient
+String encoding = Base64Encoder.encode ("login:passwd");
+org.apache.http.client.methods.HttpPost httppost = new HttpPost(url);
+httppost.setHeader("Authorization", "Basic " + encoding);  // Noncompliant
+
+or
+
+// Using HttpURLConnection
+String encoding = Base64.getEncoder().encodeToString(("login:passwd").getBytes(‌"UTF‌​-8"​));
+HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+conn.setRequestMethod("POST");
+conn.setDoOutput(true);
+conn.setRequestProperty("Authorization", "Basic " + encoding); // Noncompliant
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A04_2021-Insecure_Design/">OWASP Top 10 2021 カテゴリ A4</a>- 安全でない設計 </li>
+  <li><a href="https://www.owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Web_Service_Security_Cheat_Sheet.html#user-authentication">OWASP Webサービスセキュリティチートシート</a></li>
+  <li><a href="https://cwe.mitre.org/data/definitions/522">MITRE、CWE-522</a>- 不十分な保護が施されたクレデンシャル </li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat3">SANS Top 25</a>- ポーラスディフェンス </li>
+</ul>
+

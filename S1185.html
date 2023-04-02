@@ -1,0 +1,26 @@
+<p>他の動作を行わず、スーパークラスから同じメソッドを呼び出すためだけにメソッドをオーバーライドすることは、無駄であり誤解を招きます。これが正当化されるのは、<code translate="no">final</code> メソッドをオーバーライドする場合だけで、その効果は親クラスの動作を固定化することです。このルールでは、<code translate="no">equals</code> 、<code translate="no">hashCode</code> 、<code translate="no">toString</code> のようなオーバーライドは無視されます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomething() {
+  super.doSomething();
+}
+
+@Override
+public boolean isLegal(Action action) {
+  return super.isLegal(action);
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Override
+public boolean isLegal(Action action) {         // Compliant - not simply forwarding the call
+  return super.isLegal(new Action(/* ... */));
+}
+
+@Id
+@Override
+public int getId() {                            // Compliant - there is annotation different from @Override
+  return super.getId();
+}
+</pre>
+

@@ -1,0 +1,42 @@
+<p><code translate="no">synchronized</code> メソッドの<code translate="no">@Overrides</code> がそれ自身<code translate="no">synchronized</code> でない場合、呼び出し側が親クラスが約束するスレッドセーフに依存するため、結果として不適切な同期が発生することがあります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Parent {
+
+  synchronized void foo() {
+    //...
+  }
+}
+
+public class Child extends Parent {
+
+ @Override
+  public void foo () {  // Noncompliant
+    // ...
+    super.foo();
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Parent {
+
+  synchronized void foo() {
+    //...
+  }
+}
+
+public class Child extends Parent {
+
+  @Override
+  synchronized void foo () {
+    // ...
+    super.foo();
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/gzdGBQ">CERT, TSM00-J</a>- スレッドセーフでないメソッドでスレッドセーフメソッドをオーバーライドしないでください。 </li>
+</ul>
+

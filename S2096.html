@@ -1,0 +1,20 @@
+<p><code translate="no">main</code> のメソッドが<code translate="no">throw</code> になる理由は何もない。結局のところ、何がそれを捕らえるのでしょうか？</p>
+<p>その代わり、メソッド自身が、バブルアップする可能性のある例外を優雅に処理し、可能な限り多くのコンテキスト情報を添付し、必要なロギングやユーザーコミュニケーションを実行し、必要に応じてゼロ以外の（すなわち成功しない）終了コードで<code translate="no">exit</code> を実行する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public static void main(String args[]) throws Exception { // Noncompliant
+  doSomething();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public static void main(String args[]) {
+ try {
+    doSomething();
+  } catch (Throwable t) {
+    log.error(t);
+    System.exit(1);  // Default exit code, 0, indicates success. Non-zero value means failure.
+  }
+}
+</pre>
+

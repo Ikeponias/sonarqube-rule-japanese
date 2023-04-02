@@ -1,0 +1,29 @@
+<p>Mockitoは、メソッド呼び出しのスタブ化や検証を柔軟に行うための<em>引数マッチャーを</em>提供します。</p>
+<p><code translate="no">Mockito.verify()</code>,<code translate="no">Mockito.when()</code>,<code translate="no">Stubber.when()</code>,<code translate="no">BDDMockito.given()</code> それぞれに、引数マッチャーの有無に関わらずオーバーロードがあります。</p>
+<p>ただし，デフォルトのマッチング動作（すなわち，引数マッチャーなし）では，<code translate="no">equals()</code> を使用します．マッチャー<code translate="no">org.mockito.ArgumentMatchers.eq()</code> のみを使用する場合、その呼び出しはマッチャーなしの呼び出しと同等です。つまり、<code translate="no">eq()</code> は必要ないので省略することができます。その結果、コードが短くなり、読みやすくなります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Test
+public void myTest() {
+  given(foo.bar(eq(v1), eq(v2), eq(v3))).willReturn(null);   // Noncompliant
+  when(foo.baz(eq(v4), eq(v5))).thenReturn("foo");   // Noncompliant
+  doThrow(new RuntimeException()).when(foo).quux(eq(42));    // Noncompliant
+  verify(foo).bar(eq(v1), eq(v2), eq(v3));   // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Test
+public void myTest() {
+  given(foo.bar(v1, v2, v3)).willReturn(null);
+  when(foo.baz(v4, v5)).thenReturn("foo");
+  doThrow(new RuntimeException()).when(foo).quux(42);
+  verify(foo).bar(v1, v2, v3);
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#argument_matchers">Mockitoのドキュメント</a>- 引数マッチャー </li>
+  <li>{rule:java:S6073} です。- Mockitoの引数マッチャーは、すべてのパラメータで使用する必要があります。 </li>
+</ul>
+

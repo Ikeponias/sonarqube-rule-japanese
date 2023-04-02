@@ -1,0 +1,17 @@
+<p><code translate="no">java.io.File#delete</code> が失敗した場合、この<code translate="no">boolean</code> メソッドは、原因を示すことなく、単に<code translate="no">false</code> を返します。一方、<code translate="no">java.nio.file.Files#delete</code> が失敗した場合、この<code translate="no">void</code> メソッドは、失敗の原因をよりよく示すために、一連の例外タイプのうちの 1 つを返します。また、デバッグの場面では一般に情報が多い方が良いので、<code translate="no">java.nio.file.Files#delete</code> が好ましい選択肢となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void cleanUp(Path path) {
+  File file = new File(path);
+  if (!file.delete()) {  // Noncompliant
+    //...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void cleanUp(Path path) throws NoSuchFileException, DirectoryNotEmptyException, IOException {
+  Files.delete(path);
+}
+</pre>
+

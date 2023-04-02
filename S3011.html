@@ -1,0 +1,17 @@
+<p>このルールは、リフレクションがクラス、メソッド、またはフィールドの可視性を変更するために使用される場合、およびフィールドの値を直接更新するために使用される場合に問題を提起するものである。クラス、メソッド、またはフィールドのアクセシビリティを変更または回避することは、カプセル化の原則に違反し、実行時エラーにつながる可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void makeItPublic(String methodName) throws NoSuchMethodException {
+
+  this.getClass().getMethod(methodName).setAccessible(true); // Noncompliant
+}
+
+public void setItAnyway(String fieldName, int value) {
+  this.getClass().getDeclaredField(fieldName).setInt(this, value); // Noncompliant; bypasses controls in setter
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/_jZGBQ">CERT、SEC05-J。</a>- クラス、メソッド、フィールドのアクセシビリティを高めるためにリフレクションを使用しないこと </li>
+</ul>
+

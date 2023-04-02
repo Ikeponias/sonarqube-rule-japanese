@@ -1,0 +1,12 @@
+<p>メソッド本体からパラメータに代入することは技術的には正しいのですが、パラメータの値を読み取る前に代入することはバグである可能性が高いです。 代わりに、パラメータの初期値、キャッチした例外、foreachパラメータは<code translate="no">final</code> として扱わないまでも、少なくとも再代入前に読み取る必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doTheThing(String str, int i, List&lt;String&gt; strings) {
+  str = Integer.toString(i); // Noncompliant
+
+  for (String s : strings) {
+    s = "hello world"; // Noncompliant
+  }
+}
+</pre>
+

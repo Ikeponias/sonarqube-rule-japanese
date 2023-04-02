@@ -1,0 +1,53 @@
+<p><code translate="no">Bean Validation</code> JSR 380で定義されているように、プログラムによってトリガーすることも、 プロバイダによって実行することも可能です。しかし、 プロバイダーに対して、ある変数がバリデーションされなければならないことを伝える必要があります。そうでなければ、バリデーションは行われません。これは、 で変数に注釈を付けることで実現できます。残念なことに、複雑なBeanではこの注釈を付けるのを忘れがちです。<code translate="no">Bean Validation</code> <code translate="no">Bean Validation</code> <code translate="no">javax.validation.Valid</code> </p>
+<p>変数に<code translate="no">@Valid</code> のアノテーションを付けないことは、この変数に対して<code translate="no">Bean Validation</code> がトリガーされないことを意味するが、読者はこの省略を見落とし、変数が検証されるものと思い込むかもしれない。</p>
+<p>このルールは、デフォルトですべての<code translate="no">Class</code>'esで実行されるため、多くのノイズを発生させる可能性があります。このルールは、特定のレイヤーのみで実行されるように制限する必要があります。このため、「コーディングルールの範囲を制限する」機能を使用して、アプリケーションの一部のパッケージでのみ<code translate="no">@Valid</code> のアノテーションの欠落をチェックする必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+public class User {
+  @NotNull
+  private String name;
+}
+
+public class Group {
+  @NotNull
+  private List&lt;User&gt; users; // Noncompliant; User instances are not validated
+}
+
+public class MyService {
+  public void login(User user) { // Noncompliant; parameter "user" is not validated
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+public class User {
+  @NotNull
+  private String name;
+}
+
+public class Group {
+  @Valid
+  @NotNull
+  private List&lt;User&gt; users; // Compliant; User instances are validated
+
+  @NotNull
+  // preferred style as of Bean Validation 2.0
+  private List&lt;@Valid User&gt; users2; // Compliant; User instances are validated
+}
+
+public class MyService {
+  public void login(@Valid User user) { // Compliant
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://beanvalidation.org/2.0/spec/">Bean Validation 2.0 (JSR 380</a>) </li>
+</ul>
+

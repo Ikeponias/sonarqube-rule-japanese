@@ -1,0 +1,45 @@
+<p><code translate="no">Stream</code> APIを使用する場合、コールチェーンはできる限り簡略化する必要があります。コードが読みやすくなるだけでなく、不要なテンポラリ・オブジェクトを作成することも避けられます。</p>
+<p>このルールは、以下のいずれかの置換が可能な場合に問題となる：</p>
+<table>
+  <colgroup>
+    <col style="width: 50%;" />
+    <col style="width: 50%;" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>オリジナル</th>
+      <th>プリファード</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><p><code translate="no">stream.filter(predicate).findFirst().isPresent()</code></p></td>
+      <td><p><code translate="no">stream.anyMatch(predicate)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">stream.filter(predicate).findAny().isPresent()</code></p></td>
+      <td><p><code translate="no">stream.anyMatch(predicate)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">!stream.anyMatch(predicate)</code></p></td>
+      <td><p><code translate="no">stream.noneMatch(predicate)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">!stream.anyMatch(x -&gt; !(...))</code></p></td>
+      <td><p><code translate="no">stream.allMatch(...)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">stream.map(mapper).anyMatch(Boolean::booleanValue)</code></p></td>
+      <td><p><code translate="no">stream.anyMatch(predicate)</code></p></td>
+    </tr>
+  </tbody>
+</table>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+boolean hasRed = widgets.stream().filter(w -&gt; w.getColor() == RED).findFirst().isPresent(); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+boolean hasRed = widgets.stream().anyMatch(w -&gt; w.getColor() == RED);
+</pre>
+

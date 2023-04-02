@@ -1,0 +1,38 @@
+<p>このルールは、安全でないTLSプロトコルバージョン（「TLSv1.2」「TLSv1.3」「DTLSv1.2」「DTLSv1.3」と異なるプロトコル）を使用または許可した場合に問題が発生するものです。</p>
+<p>TLS 1.2を最小限のプロトコルバージョンとして強制し、TLS 1.0などの古いバージョンを許可しないことが推奨されています。接続を傍受することができる悪意のある行為者は、要求されたプロトコルバージョンを変更し、より安全でないバージョンにダウングレードすることができるからです。</p>
+<p>ほとんどの場合、デフォルトのシステム構成を使用することは、コンプライアンス上問題があります。実際、アプリケーションは様々な構成のシステムで展開されるかもしれません。最新のシステムではシステムのデフォルト値を使用することが安全かもしれませんが、古いシステムではそうではないかもしれません。したがって、すべてのケースで安全な設定を明示的に設定することをお勧めします。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p><code translate="no">javax.net.ssl.SSLContext</code> のライブラリーがあります：</p>
+<pre translate="no">
+context = SSLContext.getInstance("TLSv1.1"); // Noncompliant
+</pre>
+<p><a href="https://square.github.io/okhttp/">okhttp</a>ライブラリ：</p>
+<pre translate="no">
+ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+      .tlsVersions(TlsVersion.TLS_1_1) // Noncompliant
+      .build();
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p><code translate="no">javax.net.ssl.SSLContext</code> のライブラリーがあります：</p>
+<pre translate="no">
+context = SSLContext.getInstance("TLSv1.2"); // Compliant
+</pre>
+<p><a href="https://square.github.io/okhttp/">okhttp</a>ライブラリ：</p>
+<pre translate="no">
+ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+      .tlsVersions(TlsVersion.TLS_1_2) // Compliant
+      .build();
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/">OWASP Top 10 2021 カテゴリ A2</a>- 暗号の失敗 </li>
+  <li><a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">OWASP Top 10 2021 カテゴリ A7</a>- 識別と認証の失敗 </li>
+  <li><a href="https://www.owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/326">MITRE, CWE-327</a>- Inadequate Encryption Strength（不十分な暗号化強度 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/327">MITRE, CWE-326</a>- 壊れたまたは危険な暗号アルゴリズムの使用 </li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat3">SANS Top 25</a>- ポーラスディフェンス </li>
+  <li><a href="https://blogs.oracle.com/java-platform-group/diagnosing-tls,-ssl,-and-https">TLS、SSL、HTTPSを診断する</a></li>
+  <li><a href="https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices#22-use-secure-protocols">SSLとTLSの導入のベストプラクティス - 安全なプロトコルを使用</a>する。 </li>
+</ul>
+

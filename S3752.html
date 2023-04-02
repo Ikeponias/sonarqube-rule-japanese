@@ -1,0 +1,47 @@
+<p>HTTPメソッドは、情報を取得するような読み取り専用の操作を行うために使用される場合は安全です。一方、安全でないHTTPメソッドは、例えばWebアプリケーションでユーザーのプロファイルを更新するなど、アプリケーションの状態を変更するために使用されます。</p>
+<p>一般的な安全なHTTPメソッドは、GET、HEAD、またはOPTIONSです。</p>
+<p>一般的な安全でないHTTPメソッドは、POST、PUT、DELETEです。</p>
+<p>例えば、CSRF対策は、安全でないHTTPメソッドによって実行される操作のみを保護することがほとんどであるため、安全なHTTPメソッドと安全でないHTTPメソッドの両方がWebアプリケーション上で特定の操作を実行できるようにすると、そのセキュリティに影響を与えることがあります。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>アプリケーションのルート/コントローラに対して、HTTPメソッドが全く定義されていない。 </li>
+  <li>アプリケーションの状態を変更できるルート/コントローラに対して、安全なHTTPメソッドを定義して使用する。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<p>アプリケーションのすべてのルート/コントローラについて、認可されたHTTPメソッドを明示的に定義し、安全なHTTPメソッドは読み取り専用の操作にのみ使用する必要があります。</p>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+@RequestMapping("/delete_user")  // Sensitive: by default all HTTP methods are allowed
+public String delete1(String username) {
+// state of the application will be changed here
+}
+
+@RequestMapping(path = "/delete_user", method = {RequestMethod.GET, RequestMethod.POST}) // Sensitive: both safe and unsafe methods are allowed
+String delete2(@RequestParam("id") String id) {
+// state of the application will be changed here
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@RequestMapping("/delete_user", method = RequestMethod.POST)  // Compliant
+public String delete1(String username) {
+// state of the application will be changed here
+}
+
+@RequestMapping(path = "/delete_user", method = RequestMethod.POST) // Compliant
+String delete2(@RequestParam("id") String id) {
+// state of the application will be changed here
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A01_2021-Broken_Access_Control/">OWASP Top 10 2021 カテゴリ A1</a>- 壊れたアクセス制御 </li>
+  <li><a href="https://owasp.org/Top10/A04_2021-Insecure_Design/">OWASP Top 10 2021 カテゴリ A4</a>- 安全でない設計 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A5-Broken_Access_Control">OWASP Top 10 2017 カテゴリーA5</a>「壊れたアクセスコントロール </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/352">MITRE, CWE-352</a>- クロスサイトリクエストフォージェリ(CSRF) </li>
+  <li><a href="https://owasp.org/www-community/attacks/csrf">OWASPクロスサイトリクエストフォージェリ</a></li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat1">SANS Top 25</a>- コンポーネント間の安全でない相互作用 </li>
+  <li><a href="https://docs.spring.io/spring-security/site/docs/5.0.x/reference/html/csrf.html#csrf-use-proper-verbs">Spring Securityの公式ドキュメントです：適切な HTTP 動詞を使用する（CSRF 対策）</a></li>
+</ul>
+

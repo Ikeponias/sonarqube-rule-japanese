@@ -1,0 +1,13 @@
+<p><code translate="no">String</code> 変換や、<code translate="no">compareTo</code> メソッドの使用のためだけに、一時的にプリミティブラッパーオブジェクトを作成するのは非効率的です。</p>
+<p>代わりに、プリミティブラッパークラスのstatic<code translate="no">toString</code> または<code translate="no">compare</code> メソッドを使用する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+new Integer(myInteger).toString();   // Noncompliant
+Integer.valueOf(myInt).compareTo(0); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Integer.toString(myInteger);        // Compliant
+Integer.compare(myInteger, 0);      // Compliant
+</pre>
+

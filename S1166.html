@@ -1,0 +1,73 @@
+<p>捕捉された例外を処理する場合、元の例外のメッセージとスタックトレースはログに記録されるか、前方に渡されるべきである。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+try {
+  /* ... */
+} catch (Exception e) {   // Noncompliant - exception is lost
+  LOGGER.info("context");
+}
+
+try {
+  /* ... */
+} catch (Exception e) {  // Noncompliant - exception is lost (only message is preserved)
+  LOGGER.info(e.getMessage());
+}
+
+try {
+  /* ... */
+} catch (Exception e) {  // Noncompliant - original exception is lost
+  throw new RuntimeException("context");
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+try {
+  /* ... */
+} catch (Exception e) {
+  LOGGER.info(e);  // exception is logged
+}
+
+try {
+  /* ... */
+} catch (Exception e) {
+  throw new RuntimeException(e);   // exception stack trace is propagated
+}
+
+try {
+  /* ... */
+} catch (RuntimeException e) {
+  doSomething();
+  throw e;  // original exception passed forward
+} catch (Exception e) {
+  throw new RuntimeException(e);  // Conversion into unchecked exception is also allowed
+}
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">InterruptedException</code>,<code translate="no">NumberFormatException</code>,<code translate="no">DateTimeParseException</code>,<code translate="no">ParseException</code> and<code translate="no">MalformedURLException</code> 例外は、例外でない結果を示すために使われるのが論外です。同様に、JavaのリフレクションAPIを扱う場合にも、<code translate="no">NoSuchMethodException</code> の扱いが必要になることが多い。</p>
+<p>これらはJavaの一部であるため、開発者はこれらを扱う以外の選択肢はない。この規則は、それらの特定の例外が正しく処理されることを検証するものではありません。</p>
+<pre translate="no">
+int myInteger;
+try {
+  myInteger = Integer.parseInt(myString);
+} catch (NumberFormatException e) {
+  // It is perfectly acceptable to not handle "e" here
+  myInteger = 0;
+}
+</pre>
+<p>さらに、例外メッセージに追加情報が記録されていれば、開発者がエラーメッセージに何らかのコンテキストを追加したことを示すため、問題は発生しません。</p>
+<pre translate="no">
+try {
+  /* ... */
+} catch (Exception e) {
+  String message = "Exception raised while authenticating user: " + e.getMessage();
+  LOGGER.warn(message); // Compliant - exception message logged with some contextual information
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/">OWASP Top 10 2021 Category A9</a>- セキュリティログとモニタリングの失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%2526Monitoring">OWASP Top 10 2017 カテゴリー A10</a>- Insufficient Logging &amp; Monitoring（不十分なログとモニタリング </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/xDdGBQ">CERT、ERR00-J。</a>- チェックされた例外を抑制したり無視したりしないこと </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/778">MITRE, CWE-778</a>- 不十分なロギング </li>
+</ul>
+

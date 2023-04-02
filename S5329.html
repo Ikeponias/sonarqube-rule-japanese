@@ -1,0 +1,12 @@
+<p>コレクションコンストラクタの参照を引数として渡すことは非常に一般的です。例えば、<code translate="no">Collectors.toCollection(ArrayList::new)</code> は<code translate="no">ArrayList::new</code> のコンストラクタを受け取ります。メソッドが<code translate="no">java.util.function.Supplier</code> を期待する場合、それはまったく問題ありません。しかし、メソッドの引数タイプが<code translate="no">java.util.function.Function</code> の場合、コンストラクタに引数が渡されることを意味します。</p>
+<p>Collectionsコンストラクタの第1引数は通常、その「初期容量」を表す整数値です。これは一般的に開発者が期待するものではありませんが、メモリ割り当てが一見してわからないようになっています。</p>
+<p>このルールでは、コレクションコンストラクタが<code translate="no">java.util.function.Function</code> の引数として参照渡しされる場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Arrays.asList(1, 2, 54000).stream().collect(Collectors.toMap(Function.identity(), ArrayList::new)); // Noncompliant, "ArrayList::new" unintentionally refers to "ArrayList(int initialCapacity)" instead of "ArrayList()"
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Arrays.asList(1, 2, 54000).stream().collect(Collectors.toMap(Function.identity(), id -&gt; new ArrayList&lt;&gt;())); // Compliant, explicitly show the usage of "id -&gt; new ArrayList&lt;&gt;()" or "id -&gt; new ArrayList&lt;&gt;(id)"
+</pre>
+

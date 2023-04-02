@@ -1,0 +1,54 @@
+<p><code translate="no">switch</code> ステートメントに2つの<code translate="no">cases</code> があったり、<code translate="no">if</code> チェーンに同じ実装で2つのブランチがあったりするのは、よく言えば重複したコード、悪く言えばコーディング・エラーとなります。もし本当に同じロジックが両方のインスタンスに必要であれば、<code translate="no">if</code> チェーンではそれらを組み合わせ、<code translate="no">switch</code> では、一方がもう一方にフォールスルーされるべきです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+switch (i) {
+  case 1:
+    doFirstThing();
+    doSomething();
+    break;
+  case 2:
+    doSomethingDifferent();
+    break;
+  case 3:  // Noncompliant; duplicates case 1's implementation
+    doFirstThing();
+    doSomething();
+    break;
+  default:
+    doTheRest();
+}
+
+if (a &gt;= 0 &amp;&amp; a &lt; 10) {
+  doFirstThing();
+  doTheThing();
+}
+else if (a &gt;= 10 &amp;&amp; a &lt; 20) {
+  doTheOtherThing();
+}
+else if (a &gt;= 20 &amp;&amp; a &lt; 50) {
+  doFirstThing();
+  doTheThing();  // Noncompliant; duplicates first condition
+}
+else {
+  doTheRest();
+}
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">if</code> チェーンのブロックのうち、1行のコードを含むものは無視されます。また、<code translate="no">switch</code> ステートメントのブロックのうち、1行のコードを含むものは、次の<code translate="no">break</code> の有無にかかわらず無視されます。</p>
+<pre translate="no">
+if (a == 1) {
+  doSomething();  //no issue, usually this is done on purpose to increase the readability
+} else if (a == 2) {
+  doSomethingElse();
+} else {
+  doSomething();
+}
+</pre>
+<p>しかし、この例外は、<code translate="no">else</code>-sのない<code translate="no">if</code> チェーンや、すべてのブランチが同じ1行のコードを持つ、デフォルト条項のない<code translate="no">switch</code>-esには適用されない。<code translate="no">else</code>-sを持つ<code translate="no">if</code> チェーンや、デフォルト句を持つ<code translate="no">switch</code>-esの場合、ルール{rule:java:S3923}はバグを発生させる。</p>
+<pre translate="no">
+if (a == 1) {
+  doSomething();  //Noncompliant, this might have been done on purpose but probably not
+} else if (a == 2) {
+  doSomething();
+}
+</pre>
+

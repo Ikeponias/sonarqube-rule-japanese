@@ -1,0 +1,19 @@
+<p>データベース接続にパスワード認証モードを使用する場合、安全なパスワードを選択する必要があります。</p>
+<p>このルールでは、空のパスワードが使用された場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Connection conn = DriverManager.getConnection("jdbc:derby:memory:myDB;create=true", "login", "");
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String password = System.getProperty("database.password");
+Connection conn = DriverManager.getConnection("jdbc:derby:memory:myDB;create=true", "login", password);
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">OWASP Top 10 2021 カテゴリ A7</a>- 識別と認証の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication.html">OWASP Top 10 2017 カテゴリーA2</a>- Broken Authentication </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/521">MITRE, CWE-521</a>- 弱いパスワードの要件 </li>
+</ul>
+

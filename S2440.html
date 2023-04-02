@@ -1,0 +1,46 @@
+<p><code translate="no">static</code> メソッドは、囲むクラスのインスタンスがなくてもアクセスできるため、 のメソッドしか持たないクラスをインスタンス化する理由はありません。<code translate="no">static</code> </p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class TextUtils {
+  public static String stripHtml(String source) {
+    return source.replaceAll("&lt;[^&gt;]+&gt;", "");
+  }
+}
+
+public class TextManipulator {
+
+  // ...
+
+  public void cleanText(String source) {
+    TextUtils textUtils = new TextUtils(); // Noncompliant
+
+    String stripped = textUtils.stripHtml(source);
+
+    //...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class TextUtils {
+  public static String stripHtml(String source) {
+    return source.replaceAll("&lt;[^&gt;]+&gt;", "");
+  }
+}
+
+public class TextManipulator {
+
+  // ...
+
+  public void cleanText(String source) {
+    String stripped = TextUtils.stripHtml(source);
+
+    //...
+  }
+}
+</pre>
+<h2>こちらもご覧ください</h2>
+<ul>
+  <li>{rule:java:S1118} - ユーティリティクラスはパブリックコンストラクタを持つべきではありません。 </li>
+</ul>
+

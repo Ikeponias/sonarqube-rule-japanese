@@ -1,0 +1,14 @@
+<p>同じオブジェクトを対象とするAssertJのアサーションメソッドは、複数の<code translate="no">assertThat</code> を使用する代わりに、連鎖させることができます。重複を避け、コードの明瞭度を高めることができます。</p>
+<p>このルールは、複数の<code translate="no">assertThat</code> が同じテスト値を対象とする場合に問題となる。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+assertThat(someList).hasSize(3);
+assertThat(someList).contains("something");
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+assertThat(someList)
+  .hasSize(3)
+  .contains("something");
+</pre>
+

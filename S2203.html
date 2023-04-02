@@ -1,0 +1,15 @@
+<p><code translate="no">forEach(list::add)</code> または<code translate="no">collect</code> を<code translate="no">Stream</code> で使用することもできますが、自動的にスレッドセーフでパラレリゼーションが可能な<code translate="no">collect</code> の方が断然優れています。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+List&lt;String&gt; bookNames = new ArrayList&lt;&gt;();
+books.stream().filter(book -&gt; book.getIsbn().startsWith("0"))
+                .map(Book::getTitle)
+                .forEach(bookNames::add);  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+List&lt;String&gt; bookNames = books.stream().filter(book -&gt; book.getIsbn().startsWith("0"))
+                .map(Book::getTitle)
+                .collect(Collectors.toList());
+</pre>
+

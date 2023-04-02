@@ -1,0 +1,29 @@
+<p>インフラストラクチャの問題などでテストが失敗した場合、一時的に無視したいことがあるかもしれません。しかし、なぜそのテストが無視されるのかについて何らかの表記がなければ、決して再稼働させることはできないかもしれません。このようなテストは、プロジェクトの包括的な知識がないと対処が難しく、結局はそのプロジェクトを汚染してしまいます。</p>
+<p>このルールでは、なぜスキップされるのかについてのコメントがない、無視される各テストについて問題が発生します。</p>
+<ul>
+  <li>Junit4では、このルールは@Ignoreアノテーションを対象としています。 </li>
+  <li>Junit5では、このルールは@Disabledアノテーションを対象としています。 </li>
+  <li>assumeTrue(false)やassumeFalse(true)を使ってテストをスキップしているケースも対象となります。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Ignore  // Noncompliant
+@Test
+public void testDoTheThing() {
+  // ...
+</pre>
+<p>または</p>
+<pre translate="no">
+@Test
+public void testDoTheThing() {
+  Assume.assumeFalse(true); // Noncompliant
+  // ...
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Test
+@Ignore("See Ticket #1234")
+public void testDoTheThing() {
+  // ...
+</pre>
+

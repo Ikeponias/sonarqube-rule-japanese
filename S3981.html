@@ -1,0 +1,18 @@
+<p>コレクションのサイズと配列の長さは、常に0以上です。したがって、サイズや長さがゼロ以上であるかどうかをテストしても、結果は常に<code translate="no">true</code> であるため、意味がない。同様に、ゼロより小さいかどうかのテストは、常に<code translate="no">false</code> を返します。おそらく、コレクションや配列が空でないことをチェックするのが目的だったのでしょう。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if (myList.size() &gt;= 0) { ... }
+
+if (myList.size() &lt; 0) { ... }
+
+boolean result = myArray.length &gt;= 0;
+
+if (0 &gt; myArray.length) { ... }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (!myList.isEmpty()) { ... }
+
+if (myArray.length &gt;= 42) { ... }
+</pre>
+

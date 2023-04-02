@@ -1,0 +1,84 @@
+<p>Zip爆弾攻撃が成功すると、アプリケーションが信頼できないアーカイブファイルを、展開されたデータのサイズを制御せずに展開し、サービス拒否につながる可能性があります。Zip爆弾は通常、数キロバイトの圧縮データがギガバイトの非圧縮データになっている悪意のあるアーカイブファイルです。この極端な<a href="https://en.wikipedia.org/wiki/Data_compression_ratio">圧縮率を</a>達成するために、攻撃者は無関係なデータ（例：繰り返される長いバイト列）を圧縮する。</p>
+<h2>ということを自問自答してください。</h2>
+<p>展開するアーカイブは信頼できないし：</p>
+<ul>
+  <li>アーカイブのエントリー数の検証は行っていません。 </li>
+  <li>非圧縮データの総容量についての検証はありません。 </li>
+  <li>圧縮されたアーカイブエントリーと非圧縮のアーカイブエントリーの比率の検証は行われていません。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングプラクティス</h2>
+<ul>
+  <li>圧縮データと非圧縮データの比率を定義し、制御します。一般的に、多くのレジットアーカイブのデータ圧縮比率は1～3です。 </li>
+  <li>非圧縮データの最大合計サイズの閾値を定義し、制御します。 </li>
+  <li>アーカイブから抽出されたファイルエントリーの数をカウントし、その数が事前に定義された閾値よりも大きい場合は抽出を中止します。特に、アーカイブを再帰的に展開することはお勧めしません（アーカイブのエントリーはアーカイブでもあります）。 </li>
+</ul>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+File f = new File("ZipBomb.zip");
+ZipFile zipFile = new ZipFile(f);
+Enumeration&lt;? extends ZipEntry&gt; entries = zipFile.entries(); // Sensitive
+
+while(entries.hasMoreElements()) {
+  ZipEntry ze = entries.nextElement();
+  File out = new File("./output_onlyfortesting.txt");
+  Files.copy(zipFile.getInputStream(ze), out.toPath(), StandardCopyOption.REPLACE_EXISTING);
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>このメソッドは、攻撃者によって偽造される可能性のあるアーカイブヘッダーで定義されたものを返すので、圧縮されていないエントリーのサイズを取得するために<a href="https://docs.oracle.com/javase/7/docs/api/java/util/zip/ZipEntry.html#getSize()">getsizeに</a>依存しないでください：</p>
+<pre translate="no">
+File f = new File("ZipBomb.zip");
+ZipFile zipFile = new ZipFile(f);
+Enumeration&lt;? extends ZipEntry&gt; entries = zipFile.entries();
+
+int THRESHOLD_ENTRIES = 10000;
+int THRESHOLD_SIZE = 1000000000; // 1 GB
+double THRESHOLD_RATIO = 10;
+int totalSizeArchive = 0;
+int totalEntryArchive = 0;
+
+while(entries.hasMoreElements()) {
+  ZipEntry ze = entries.nextElement();
+  InputStream in = new BufferedInputStream(zipFile.getInputStream(ze));
+  OutputStream out = new BufferedOutputStream(new FileOutputStream("./output_onlyfortesting.txt"));
+
+  totalEntryArchive ++;
+
+  int nBytes = -1;
+  byte[] buffer = new byte[2048];
+  int totalSizeEntry = 0;
+
+  while((nBytes = in.read(buffer)) &gt; 0) { // Compliant
+      out.write(buffer, 0, nBytes);
+      totalSizeEntry += nBytes;
+      totalSizeArchive += nBytes;
+
+      double compressionRatio = totalSizeEntry / ze.getCompressedSize();
+      if(compressionRatio &gt; THRESHOLD_RATIO) {
+        // ratio between compressed and uncompressed data is highly suspicious, looks like a Zip Bomb Attack
+        break;
+      }
+  }
+
+  if(totalSizeArchive &gt; THRESHOLD_SIZE) {
+      // the uncompressed data size is too much for the application resource capacity
+      break;
+  }
+
+  if(totalEntryArchive &gt; THRESHOLD_ENTRIES) {
+      // too much entries in this archive, can lead to inodes exhaustion of the system
+      break;
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A01_2021-Broken_Access_Control/">OWASP Top 10 2021 カテゴリ A1</a>- 壊れたアクセス制御 </li>
+  <li><a href="https://owasp.org/Top10/A05_2021-Security_Misconfiguration/">OWASP Top 10 2021 カテゴリ A5</a>- セキュリティの誤設定 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A6-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/409">MITRE, CWE-409</a>- 高圧縮データ（データ増幅）の不適切な取り扱いについて  </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/display/java/IDS04-J.+Safely+extract+files+from+ZipInputStream">CERT、IDS04-J。</a>- ZipInputStreamから安全にファイルを抽出する。 </li>
+  <li><a href="https://www.bamsoftware.com/hacks/zipbomb/">bamsoftware.com</a>- より良いZip爆弾 </li>
+</ul>
+

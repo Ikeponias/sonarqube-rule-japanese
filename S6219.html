@@ -1,0 +1,24 @@
+<p>レコードのシリアライズは、通常のシリアライズ可能なクラスや外部化可能なクラスと同じ方法では行われません。レコードのシリアライゼーションは、<code translate="no">serialVersionUID</code> フィールドに依存しません。なぜなら、このフィールドが等しいという要件は、レコードクラスでは免除されているからです。デフォルトでは、すべてのレコードはこのフィールドが<code translate="no">0L</code> に等しく、このフィールドを<code translate="no">0L</code> 値で指定する必要はありません。また、通常のクラスを含むシリアライズ/デシリアライズをサポートするために、何らかのカスタム値で指定することが可能です。</p>
+<p>このルールは、レコードクラスに<code translate="no">0L</code> に設定されている<code translate="no">private static final long serialVersionUID</code> フィールドがある場合に問題となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+record Person(String name, int age) implements Serializable {
+@Serial
+  private static final long serialVersionUID = 0L; // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+record Person(String name, int age) implements Serializable {} // Compliant
+
+record Person(String name, int age) implements Serializable {
+@Serial
+  private static final long serialVersionUID = 42L; // Compliant
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/javase/specs/jls/se16/html/jls-8.html#jls-8.10">レコード仕様</a></li>
+  <li><a href="https://docs.oracle.com/en/java/javase/16/docs/specs/serialization/serial-arch.html#serialization-of-records">レコードのシリアル化</a></li>
+</ul>
+

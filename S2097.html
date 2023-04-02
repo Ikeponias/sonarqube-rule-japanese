@@ -1,0 +1,22 @@
+<p><code translate="no">equals</code> メソッドは、一般的な<code translate="no">Object</code> をパラメータとして受け取るため、どのようなタイプのオブジェクトでも渡すことができます。メソッドは、そのクラスの型のオブジェクトをテストするためにのみ使用されると仮定してはいけません。その代わりに、パラメータの型をチェックする必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public boolean equals(Object obj) { // Noncompliant
+  MyClass mc = (MyClass)obj;
+  // ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public boolean equals(Object obj) {
+  if (obj == null)
+    return false;
+
+  if (this.getClass() != obj.getClass())
+    return false;
+
+  MyClass mc = (MyClass)obj;
+  // ...
+}
+</pre>
+

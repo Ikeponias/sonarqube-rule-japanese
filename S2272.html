@@ -1,0 +1,26 @@
+<p>契約上、<code translate="no">java.util.Iterator.next()</code> メソッドの実装は、イテレーションの要素がなくなったときに<code translate="no">NoSuchElementException</code> 例外を投げる必要があります。イテレーションが終了したときの他の動作は、この<code translate="no">Iterator</code> のユーザーにとって予期せぬ動作につながる可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyIterator implements Iterator&lt;String&gt;{
+  ...
+  public String next(){
+    if(!hasNext()){
+      return null;
+    }
+    ...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyIterator implements Iterator&lt;String&gt;{
+  ...
+  public String next(){
+    if(!hasNext()){
+      throw new NoSuchElementException();
+    }
+    ...
+  }
+}
+</pre>
+

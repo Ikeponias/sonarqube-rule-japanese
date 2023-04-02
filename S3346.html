@@ -1,0 +1,15 @@
+<p><code translate="no">assert</code> はデフォルトでは実行されないので（JVMフラグで有効にする必要がある）、開発者は、プログラムの正しい機能に必要なロジックの評価を、その実行に依存してはならない。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+assert myList.remove(myList.get(0));  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+boolean removed = myList.remove(myList.get(0));
+assert removed;
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/mjdGBQ">CERT、EXP06-J。</a>- アサーションで使用する式は、副作用を発生させてはならない </li>
+</ul>
+

@@ -1,0 +1,22 @@
+<p>パッケージ内のすべてのクラスをやみくもにインポートすると、クラスの名前空間が乱れ、異なるパッケージ内の同じ名前のクラス間で衝突が起こる可能性があります。一方、必要なクラスを具体的にリストアップすることで、そのような問題を回避し、どのバージョンが求められていたかを明確にすることができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+import java.sql.*; // Noncompliant
+import java.util.*; // Noncompliant
+
+private Date date; // Date class exists in java.sql and java.util. Which one is this?
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+import java.sql.Date;
+import java.util.List;
+import java.util.ArrayList;
+
+private Date date;
+</pre>
+<h2>例外あり</h2>
+<p>静的インポートはこのルールで無視されます。E.G.</p>
+<pre translate="no">
+import static java.lang.Math.*;
+</pre>
+

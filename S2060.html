@@ -1,0 +1,17 @@
+<p><code translate="no">Externalizable</code> クラスは、それ自身の<code translate="no">Serialization</code> とデシリアライズを処理するものである。デシリアライズの際、プロセスの最初のステップは、クラスの引数なしコンストラクタを使用したデフォルトのインスタンス化です。したがって、引数なしコンストラクタを持たない<code translate="no">Externalizable</code> クラスは、デシリアライズすることができません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Tomato implements Externalizable {  // Noncompliant; no no-arg constructor
+
+  public Tomato (String color, int weight) { ... }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Tomato implements Externalizable {
+
+  public Tomato() { ... }
+  public Tomato (String color, int weight) { ... }
+}
+</pre>
+

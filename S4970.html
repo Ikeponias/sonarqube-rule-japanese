@@ -1,0 +1,49 @@
+<p>チェックされた例外 "E "の<code translate="no">catch</code> ブロックは、対応する<code translate="no">try</code> ブロックが E に由来する例外のみを投げるため、非表示にすることができます。</p>
+<p>これらの派生例外は、基本例外Eの<code translate="no">catch</code> ブロックの前に、専用の<code translate="no">catch</code> ブロックで処理されます。</p>
+<p>Eの<code translate="no">catch</code> ブロックは到達不能であり、デッドコードとみなすべきである。削除するか、try-catch構造全体をリファクタリングする必要があります。</p>
+<p>また、複数のキャッチブロックの中の1つの例外型が隠されていて、キャッチブロック自体はまだ到達可能であることもあり得ます。この場合、隠された例外型を削除するか、別の型に置き換えるだけで十分です。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class HiddenCatchBlock {
+
+  public static class CustomException extends Exception {
+  }
+
+  public static class CustomDerivedException extends CustomException {
+  }
+
+  public static void main(String[] args) {
+    try {
+      throwCustomDerivedException();
+    } catch(CustomDerivedException e) {
+      // ...
+    } catch(CustomException e) { // Noncompliant; this code is unreachable
+      // ...
+    }
+  }
+
+  private static void throwCustomDerivedException() throws CustomDerivedException {
+    throw new CustomDerivedException();
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class HiddenCatchBlock {
+
+  public static class CustomException extends Exception {
+  }
+
+  public static class CustomDerivedException extends CustomException {
+  }
+
+  public static void main(String[] args) {
+    try {
+      throwCustomDerivedException();
+    } catch(CustomDerivedException e) { // Compliant; try-catch block is "catching" only the Exception that can be thrown in the "try"
+      //...
+    }
+  }
+}
+</pre>
+

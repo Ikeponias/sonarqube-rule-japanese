@@ -1,0 +1,25 @@
+<p>浮動小数点の不正確さのため、<code translate="no">BigDecimal(double)</code> コンストラクタから期待する値を得ることはまずありません。</p>
+<p><a href="http://docs.oracle.com/javase/7/docs/api/java/math/BigDecimal.html#BigDecimal(double)">JavaDocsより</a>：</p>
+<blockquote>
+  <p>このコンストラクタの結果は、やや予測できないことがあります。Java で new BigDecimal(0.1) と書くと 0.1 に等しい BigDecimal ができると思うかもしれませんが、実際は 0.1000000000055511151231257827021181583404541015625 に等しくなってしまいます。これは、0.1がdoubleとして（あるいは、有限の長さを持つ2進数として）正確に表現できないからです。したがって、コンストラクタに渡される値は、見かけによらず、0.1に正確に等しいわけではありません。</p>
+</blockquote>
+<p>代わりに、浮動小数点の丸め誤差をなくすために文字列を隠蔽して使用する<code translate="no">BigDecimal.valueOf</code> や、<code translate="no">String</code> の引数を取るコンストラクタを使用する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+double d = 1.1;
+
+BigDecimal bd1 = new BigDecimal(d); // Noncompliant; see comment above
+BigDecimal bd2 = new BigDecimal(1.1); // Noncompliant; same result
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+double d = 1.1;
+
+BigDecimal bd1 = BigDecimal.valueOf(d);
+BigDecimal bd2 = new BigDecimal("1.1"); // using String constructor will result in precise value
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/kzdGBQ">CERT、NUM10-J。</a>- 浮動小数点リテラルからBigDecimalオブジェクトを構築しないでください。  </li>
+</ul>
+

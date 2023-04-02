@@ -1,0 +1,14 @@
+<p>例外をテストする同様のAssertJメソッド（<code translate="no">assertThatCode()</code>,<code translate="no">assertThatExceptionOfType()</code>, ...）とは異なり、<code translate="no">assertThatThrownBy()</code> メソッドは単独で使用でき、コードが例外を発生しなかった場合は失敗します。</p>
+<p>それでも、例外が発生したことをテストするだけでは、それが期待されたものであることを保証するのには不十分であり、さらに例外の種類や内容をテストする必要があります。また、副作用に頼らず、何を期待しているのかを明示することができるようになります。</p>
+<p>このルールは、例外をさらにテストすることなく、<code translate="no">assertThatThrownBy</code> 、問題を発生させます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+assertThatThrownBy(() -&gt; shouldThrow()); // Noncompliant, is it really the exception you expected?
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+assertThatThrownBy(() -&gt; shouldThrow()).isInstanceOf(IOException.class);
+//or
+assertThatThrownBy(() -&gt; shouldThrow()).hasMessage("My exception");
+</pre>
+

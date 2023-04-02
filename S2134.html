@@ -1,0 +1,24 @@
+<p>Java APIドキュメントによると：</p>
+<blockquote>
+  <p>新しい実行スレッドを作るには、2つの方法があります。ひとつは、Threadのサブクラスとなるクラスを宣言することです。このサブクラスは、クラスThreadのrunメソッドをオーバーライドする必要があります。そして、そのサブクラスのインスタンスを割り当てて起動することができます。</p>
+  <p>スレッドを作成するもう一つの方法は、Runnableインターフェイスを実装したクラスを宣言することです。そのクラスはrunメソッドを実装しています。そして、そのクラスのインスタンスを確保し、Threadの生成時に引数として渡し、起動することができます。</p>
+</blockquote>
+<p>定義上、<code translate="no">run</code> メソッドをオーバーライドせずに Thread クラスを拡張することは意味がなく、<code translate="no">Thread</code> クラスの契約がよく理解されていないことを意味する。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyRunner extends Thread { // Noncompliant; run method not overridden
+
+  public void doSometing() {...}
+}
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">Thread</code> を継承するクラスで<code translate="no">run()</code> がオーバーライドされていない場合、スレッドを開始すると実際に<code translate="no">Thread.run()</code> を呼び出すことになります。しかし、<code translate="no">Thread.run()</code> は、ターゲットである<code translate="no">Runnable</code> が与えられていない場合、何もしません。このルールでは、<code translate="no">Thread</code> を拡張するクラスが、そのコンストラクタで<code translate="no">super(...)</code> コンストラクタを適切な<code translate="no">Runnable</code> ターゲットで呼び出している場合、結果として無視されます。</p>
+<pre translate="no">
+class MyThread extends Thread { // Compliant - calling super constructor with a Runnable
+  MyThread(Runnable target) {
+    super(target); // calling super constructor with a Runnable, which will be used for when Thread.run() is executed
+    // ...
+  }
+}
+</pre>
+

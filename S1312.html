@@ -1,0 +1,18 @@
+<p>使用するロギングフレームワーク（logback、log4j、commons-logging、java.util.logging、...）に関係なく、ロガーはあるべきです：</p>
+<ul>
+  <li><code translate="no">private</code>親クラスの外からは決してアクセスできません。他のクラスが何かを記録する必要がある場合は、そのクラス自身のロガーをインスタンス化する必要があります。 </li>
+  <li><code translate="no">static</code>: クラスのインスタンス（オブジェクト）に依存しないようにします。ロギングを行う場合、もちろんメッセージの中にコンテキスト情報を提供することは可能ですが、オブジェクトごとにロガーを作成することを避けるため、ロガーはクラスレベルで作成する必要があります。 </li>
+  <li><code translate="no">final</code>は、1クラスにつき1回のみ作成可能です。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルトの正規表現が<code translate="no">LOG(?:GER)?</code> の場合：</p>
+<pre translate="no">
+public Logger logger = LoggerFactory.getLogger(Foo.class);  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+private static final Logger LOGGER = LoggerFactory.getLogger(Foo.class);
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">org.apache.maven.plugin.logging.Log</code> 型の変数は無視されます。</p>
+

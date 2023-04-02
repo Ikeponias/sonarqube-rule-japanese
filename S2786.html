@@ -1,0 +1,26 @@
+<p><a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-8.html#jls-8.9">Java Language Specification-8.9に</a>よる：</p>
+<blockquote>
+  <p>ネストしたenum型は暗黙のうちに<code translate="no">static</code> 。</p>
+</blockquote>
+<p>だから、<code translate="no">static</code> 明示的に宣言する必要はない。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Flower {
+  static enum Color { // Noncompliant; static is redundant here
+    RED, YELLOW, BLUE, ORANGE
+  }
+
+  // ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Flower {
+  enum Color { // Compliant
+    RED, YELLOW, BLUE, ORANGE
+  }
+
+  // ...
+}
+</pre>
+

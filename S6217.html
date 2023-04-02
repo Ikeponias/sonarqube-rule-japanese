@@ -1,0 +1,24 @@
+<p><code translate="no">sealed</code> クラスは、Java 17で導入されました。この機能は、厳密な階層を定義し、クラスを拡張する可能性を制限する必要がある場合に、非常に便利です。許可されたすべてのサブクラスについて言及するために、キーワード があり、これにサブクラスの名前を続ける必要があります。<code translate="no">permits</code></p>
+<p>この表記は、ある<code translate="no">sealed</code> クラスのサブクラスが、異なるファイル、パッケージ、あるいはモジュールに存在する場合に非常に便利です。すべてのサブクラスが同じファイルで宣言されている場合、明示的に記述する必要はなく、宣言の<code translate="no">permits</code> の部分を省略することができます。</p>
+<p>このルールは、<code translate="no">sealed</code> クラスのすべてのサブクラスが、そのスーパークラスと同じファイルで宣言されている場合の問題を報告します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+sealed class A permits B, C, D, E {} // Noncompliant
+final class B extends A {}
+final class C extends A {}
+final class D extends A {}
+final class E extends A {}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+sealed class A {} // Compliant
+final class B extends A {}
+final class C extends A {}
+final class D extends A {}
+final class E extends A {}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/javase/specs/jls/se17/html/jls-8.html#jls-8.1.1.2">密閉型クラス仕様</a></li>
+</ul>
+

@@ -1,0 +1,15 @@
+<p>アノテーションの作成者は、アノテーションに対して3つの保持ポリシーのいずれかを設定することができます：</p>
+<ul>
+  <li><code translate="no">RetentionPolicy.SOURCE</code> - これらのアノテーションは、コンパイル時に削除されます（例：<code translate="no">@Override</code>,<code translate="no">@SuppressWarnings</code>. </li>
+  <li><code translate="no">RetentionPolicy.CLASS</code> - これらのアノテーションは、コンパイルされたクラスには存在しますが、実行時にJVMにロードされることはありません。これはデフォルトです。 </li>
+  <li><code translate="no">RetentionPolicy.RUNTIME</code> - これらのアノテーションは、クラスファイルに存在し、JVMにロードされます。 </li>
+</ul>
+<p><code translate="no">RUNTIME</code> の保持ポリシーが与えられたアノテーションだけが、リフレクションに利用できるようになります。他の保持ポリシーを持つアノテーションのテストは、テストが常にfalseを返すので、単にエラーになります。</p>
+<p>このルールは、<code translate="no">RUNTIME</code> 保持していないアノテーションを検出するためにリフレクションが使用されないことをチェックします。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Method m = String.class.getMethod("getBytes", new Class[] {int.class,
+int.class, byte[].class, int.class});
+if (m.isAnnotationPresent(Override.class)) {  // Noncompliant; test will always return false, even when @Override is present in the code
+</pre>
+

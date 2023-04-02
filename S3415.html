@@ -1,0 +1,19 @@
+<p><code translate="no">org.junit.Assert.assertEquals</code> 、<code translate="no">org.junit.Assert.assertSame</code> などの標準的なアサーション・ライブラリ・メソッドは、第1引数を期待値、第2引数を実際の値と想定しています。AssertJの場合はその逆で、<code translate="no">org.assertj.core.api.Assertions.assertThat</code> の引数が実際の値で、それ以降の呼び出しに期待値が含まれます。これらを入れ替えても、テストは同じ結果（成功/失敗を繰り返す）になりますが、エラーメッセージは混乱することになります。</p>
+<p>このルールは、アサーション・ライブラリ・メソッドの実際の引数がハードコードされた値で、期待される引数がそうでない場合に問題となる。</p>
+<p>対応するフレームワーク</p>
+<ul>
+  <li>ジュウニットフォー </li>
+  <li>ジュウニットファイブ </li>
+  <li><a href="https://assertj.github.io/doc/">アサートジェイ</a></li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+org.junit.Assert.assertEquals(runner.exitCode(), 0, "Unexpected exit code");  // Noncompliant; Yields error message like: Expected:&lt;-1&gt;. Actual:&lt;0&gt;.
+org.assertj.core.api.Assertions.assertThat(0).isEqualTo(runner.exitCode()); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+org.junit.Assert.assertEquals(0, runner.exitCode(), "Unexpected exit code");
+org.assertj.core.api.Assertions.assertThat(runner.exitCode()).isEqualTo(0);
+</pre>
+

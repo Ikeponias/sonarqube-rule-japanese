@@ -1,0 +1,16 @@
+<p>定義上、プリミティブ型はObjectsではないので、<code translate="no">null</code> にすることはできません。プリミティブ型に<code translate="no">@CheckForNull</code> や<code translate="no">@Nullable</code>をつけると、混乱が生じ、意味がありません。</p>
+<p>このルールは、プリミティブ型（byte, short, int, long, float, double, boolean, char）を返すメソッドに<code translate="no">@CheckForNull</code> または<code translate="no">@Nullable</code> を設定した場合に問題が発生するものです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@CheckForNull
+boolean isFoo() {
+ ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+boolean isFoo() {
+ ...
+}
+</pre>
+

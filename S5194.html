@@ -1,0 +1,48 @@
+<p>既存のswitch文の多くは、基本的にswitch式のシミュレーションであり、各アームは共通のターゲット変数に代入するか、値を返すかのいずれかである。これをステートメントとして表現すると、回りくどく、繰り返しで、エラーが発生しやすい。</p>
+<p>Java 12では、switch式のサポートが追加されました。switch式は、switchをより簡潔に、よりエラーになりにくくしたものです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+void day_of_week(DoW day) {
+    int numLetters;
+    switch (day) {  // Noncompliant
+      case MONDAY:
+      case FRIDAY:
+      case SUNDAY:
+        numLetters = 6;
+        break;
+      case TUESDAY:
+        numLetters = 7;
+        break;
+      case THURSDAY:
+      case SATURDAY:
+        numLetters = 8;
+        break;
+      case WEDNESDAY:
+        numLetters = 9;
+        break;
+      default:
+        throw new IllegalStateException("Wat: " + day);
+    }
+}
+
+int return_switch(int x) {
+    switch (x) { // Noncompliant
+      case 1:
+        return 1;
+      case 2:
+        return 2;
+      default:
+        throw new IllegalStateException();
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int numLetters = switch (day) {
+    case MONDAY, FRIDAY, SUNDAY -&gt; 6;
+    case TUESDAY                -&gt; 7;
+    case THURSDAY, SATURDAY     -&gt; 8;
+    case WEDNESDAY              -&gt; 9;
+};
+</pre>
+

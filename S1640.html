@@ -1,0 +1,28 @@
+<p>Mapのすべてのキーが同じenumからの値である場合、<code translate="no">Map</code> は、<code translate="no">EnumMap</code> に置き換えることができます。これは、基礎となるデータ構造が単純な配列であるため、他のセットよりもはるかに効率的です。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+
+  public enum COLOR {
+    RED, GREEN, BLUE, ORANGE;
+  }
+
+  public void mapMood() {
+    Map&lt;COLOR, String&gt; moodMap = new HashMap&lt;COLOR, String&gt; ();
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClass {
+
+  public enum COLOR {
+    RED, GREEN, BLUE, ORANGE;
+  }
+
+  public void mapMood() {
+    EnumMap&lt;COLOR, String&gt; moodMap = new EnumMap&lt;&gt; (COLOR.class);
+  }
+}
+</pre>
+

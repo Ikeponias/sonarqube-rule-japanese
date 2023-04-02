@@ -1,0 +1,17 @@
+<p>大文字小文字を区別しない比較を行うために<code translate="no">toLowerCase()</code> や<code translate="no">toUpperCase()</code> を使用することは、一時的な中間<code translate="no">String</code> オブジェクトを作成する必要があるため非効率的です。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+boolean result1 = foo.toUpperCase().equals(bar);             // Noncompliant
+boolean result2 = foo.equals(bar.toUpperCase());             // Noncompliant
+boolean result3 = foo.toLowerCase().equals(bar.LowerCase()); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+boolean result = foo.equalsIgnoreCase(bar);                  // Compliant
+</pre>
+<h2>例外あり</h2>
+<p>ロケールを指定した場合、"equalsIgnoreCase "と異なる結果になる可能性があるため、問題は発生しない。(例：トルコ語のロケールを使用する場合）。</p>
+<pre translate="no">
+boolean result1 = foo.toUpperCase(locale).equals(bar);             // Compliant
+</pre>
+

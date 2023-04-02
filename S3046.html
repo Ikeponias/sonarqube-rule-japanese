@@ -1,0 +1,10 @@
+<p>2つのロックが同時に保持されている場合、<code translate="no">wait</code> の呼び出しはそのうちの1つだけを解放します。もう一方は、他のスレッドが待機中のオブジェクトのロックを要求するまで保持されます。もし無関係のコードがそのオブジェクトにロックしようとしなければ、他のすべてのスレッドがロックアウトされ、デッドロックが発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+synchronized (this.mon1) {  // threadB can't enter this block to request this.mon2 lock &amp; release threadA
+	synchronized (this.mon2) {
+		this.mon2.wait();  // Noncompliant; threadA is stuck here holding lock on this.mon1
+	}
+}
+</pre>
+

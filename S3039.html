@@ -1,0 +1,19 @@
+<p>何かを3つに切ることができないように、元の<code translate="no">String</code> の境界の外で始まったり終わったりする<code translate="no">substring</code> を取得することはできません。<code translate="no">substring</code> を使って<code translate="no">String</code> の反転部分を取得することはできません。<code translate="no">String</code> の開始前や終了後にある値を<code translate="no">charAt</code> に取得することはできません。</p>
+<p>このルールは、<code translate="no">String::substring</code> 、<code translate="no">String::charAt</code> および関連するメソッドの引数として、ネガティブリテラルまたは<code translate="no">String::length</code> が渡された場合に検出します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String speech = "Now is the time for all good people to come to the aid of their country.";
+
+String substr1 = speech.substring(-1, speech.length());  // Noncompliant; start and end values both bad
+String substr2 = speech.substring(speech.length(), 0); // Noncompliant, start value must be &lt; end value
+char ch = speech.charAt(speech.length());  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String speech = "Now is the time for all good people to come to the aid of their country.";
+
+String substr1 = speech; // Closest correct values to original code yield whole string
+String substr2 = new StringBuilder(speech).reverse().toString()
+char ch = speech.charAt(speech.length()-1);
+</pre>
+

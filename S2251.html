@@ -1,0 +1,22 @@
+<p>カウンタが間違った方向に動く<code translate="no">for</code> ループは、無限ループではありません。ラップアラウンドのため、ループは最終的に停止条件に達しますが、その際、予想よりも何度も何度も実行され、予期せぬ動作を引き起こす可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomething(String [] strings) {
+  for (int i = 0; i &lt; strings.length; i--) { // Noncompliant;
+    String string = strings[i];  // ArrayIndexOutOfBoundsException when i reaches -1
+    //...
+  }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomething(String [] strings) {
+  for (int i = 0; i &lt; strings.length; i++) {
+    String string = strings[i];
+    //...
+  }
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/aTdGBQ">CERT、MSC54-J。</a>- ループカウンターの不用意なラッピングを防ぐ </li>
+</ul>
+

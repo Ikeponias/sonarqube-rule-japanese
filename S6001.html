@@ -1,0 +1,15 @@
+<p>正規表現における後方参照が、まだ定義されていない(あるいは全く定義されていない)捕獲グループを指す場合、決してマッチングすることはできません。名前付き後方参照はこの場合、<code translate="no">PatternSyntaxException</code> 。数値付き後方参照は、マッチできないときは黙って失敗し、単にマッチが失敗するようにします。</p>
+<p>バックリファレンスの前にグループが定義されているが、異なるコントロールパス上にある場合（例えば<code translate="no">(.)|\1</code> のように）、これもバックリファレンスが絶対に一致しないという事態を招くことになる。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Pattern.compile("\\1(.)"); // Noncompliant, group 1 is defined after the back reference
+Pattern.compile("(.)\\2"); // Noncompliant, group 2 isn't defined at all
+Pattern.compile("(.)|\\1"); // Noncompliant, group 1 and the back reference are in different branches
+Pattern.compile("(?&lt;x&gt;.)|\\k&lt;x&gt;"); // Noncompliant, group x and the back reference are in different branches
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Pattern.compile("(.)\\1");
+Pattern.compile("(?&lt;x&gt;.)\\k&lt;x&gt;");
+</pre>
+

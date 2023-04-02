@@ -1,0 +1,52 @@
+<p>暗号システムの多くは、ブルートフォース攻撃に対して堅牢であるために十分な鍵サイズを必要とします。</p>
+<p><a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf">NISTの勧告は</a>、これらのユースケースをチェックします：</p>
+<p><strong>デジタル署名の生成と</strong> <strong>検証：</strong></p>
+<ul>
+  <li>DSA の場合、p ≥ 2048 AND q ≥ 224 （<code translate="no">p</code> は鍵長、<code translate="no">q</code> はモジュラス長）。 </li>
+  <li>RSA の場合、n ≧ 2048 （<code translate="no">n</code> は鍵長）。 </li>
+</ul>
+<p><strong>キーアグリーメント</strong>です：</p>
+<ul>
+  <li>DHおよびMQVの場合、p≧2048かつq≧224。 </li>
+  <li>n ≧ 224 for ECDH and ECMQV (例:<code translate="no">secp192r1</code> は非準拠曲線(<code translate="no">n</code> &lt; 224 )だが<code translate="no">secp224k1</code> は準拠(<code translate="no">n</code> &gt;= 224 )である) </li>
+</ul>
+<p><strong>シンメトリックキー</strong>です：</p>
+<ul>
+  <li>鍵長≧128ビット </li>
+</ul>
+<p>このルールは、<code translate="no">DES</code>,<code translate="no">Blowfish</code> のような（鍵の大きさに関係なく）弱いとされる暗号には問題を生じさせません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+KeyPairGenerator keyPairGen1 = KeyPairGenerator.getInstance("RSA");
+keyPairGen1.initialize(1024); // Noncompliant
+
+KeyPairGenerator keyPairGen5 = KeyPairGenerator.getInstance("EC");
+ECGenParameterSpec ecSpec1 = new ECGenParameterSpec("secp112r1"); // Noncompliant
+keyPairGen5.initialize(ecSpec1);
+
+KeyGenerator keyGen1 = KeyGenerator.getInstance("AES");
+keyGen1.init(64); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+KeyPairGenerator keyPairGen6 = KeyPairGenerator.getInstance("RSA");
+keyPairGen6.initialize(2048); // Compliant
+
+KeyPairGenerator keyPairGen5 = KeyPairGenerator.getInstance("EC");
+ECGenParameterSpec ecSpec10 = new ECGenParameterSpec("secp256r1"); // compliant
+keyPairGen5.initialize(ecSpec10);
+
+KeyGenerator keyGen2 = KeyGenerator.getInstance("AES");
+keyGen2.init(128); // Compliant
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/">OWASP Top 10 2021 カテゴリ A2</a>- 暗号の失敗 </li>
+  <li><a href="https://www.owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+  <li><a href="https://mobile-security.gitbook.io/masvs/security-requirements/0x08-v3-cryptography_verification_requirements">Mobile AppSec検証基準</a>- 暗号化要件 </li>
+  <li><a href="https://owasp.org/www-project-mobile-top-10/2016-risks/m5-insufficient-cryptography">OWASP Mobile Top 10 2016 カテゴリー M5</a>- Insufficient Cryptography (不十分な暗号) </li>
+  <li><a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar1.pdf">NIST 800-131A</a>- 暗号アルゴリズムと鍵長の使用移行のための推奨事項 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/326">MITRE, CWE-326</a>- 不十分な暗号化強度 </li>
+</ul>
+

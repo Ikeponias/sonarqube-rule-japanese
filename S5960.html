@@ -1,0 +1,11 @@
+<p>アサーションは、<strong>テスト</strong>コードで使用することを意図していますが、<strong>プロダクション</strong>コードでは使用しません。ビルドツールがテストスコープで必要な依存関係しか提供しない場合、混乱しますし、<code translate="no">ClassNotFoundException</code> につながるかもしれません。</p>
+<p>また、アサーションは<code translate="no">Error</code> のサブクラスを投げることになります：<code translate="no">AssertionError</code>のサブクラスを投げます。</p>
+<p>このルールは、テストで使用されることを意図したアサーションが、プロダクションコードで使用される場合に問題となる。</p>
+<p>対応するフレームワーク</p>
+<ul>
+  <li>ジュニト </li>
+  <li>フェスタアサート </li>
+  <li>アサートジェイ </li>
+</ul>
+<p>注：Java自体からの<code translate="no">assert</code> 、またはソースコードのパッケージ名がテストに関連している場合（含む：<code translate="no">test</code> または<code translate="no">assert</code> または<code translate="no">junit</code> ）は、この限りではありません。</p>
+

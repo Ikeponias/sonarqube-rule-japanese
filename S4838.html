@@ -1,0 +1,18 @@
+<p>このルールは、<code translate="no">Collection</code> の項目に対する反復処理を、<code translate="no">Collection</code> が扱う型のスーパータイプに対して行う場合に問題となる。</p>
+<p><code translate="no">Object</code> や<code translate="no">Object</code> と<code translate="no">Collection</code> で扱われる実際のクラスとの間のクラスに依存することは推奨されません。言語としては認められていますが、このやり方はコードの可読性を低下させ、<code translate="no">Collection</code> のアイテムをダウンキャストしてメソッドを呼び出すことを余儀なくされます。一方、繰り返しで正しい型を使用するだけで、物事はより明確でシンプルになります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public Collection&lt;Person&gt; getPersons() { ... }
+
+for (Object item : getPersons()) { // Noncompliant
+  Person person = (Person) item; // Noncompliant; it's required to down-cast to the to correct type to use "item"
+  person.getAdress();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+for (Person person : getPersons()) { // Compliant
+  person.getAddress() ;
+}
+</pre>
+

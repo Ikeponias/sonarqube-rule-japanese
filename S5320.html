@@ -1,0 +1,78 @@
+<p>Androidアプリケーションにおいて、ブロードキャストインテントはセキュリティに敏感である。例えば、過去に以下のような脆弱性につながったことがあります：</p>
+<ul>
+  <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-9489">CVE-2018-9489</a></li>
+</ul>
+<p>デフォルトでは、ブロードキャストされたインテントはすべてのアプリケーションに表示され、その中に含まれるすべての機密情報が公開されます。</p>
+<p>このルールでは、「受信許可」を指定せずにインテントをブロードキャストした場合に問題が発生します。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>インテントに機密情報が含まれている。 </li>
+  <li>インテント受信は制限されない。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングプラクティス</h2>
+<p>ブロードキャストされたインテントへのアクセスを制限する。詳しくは<a href="https://developer.android.com/guide/components/broadcasts.html#restricting_broadcasts_with_permissions">Androidのドキュメントを</a>参照してください。</p>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.UserHandle;
+import android.support.annotation.RequiresApi;
+
+public class MyIntentBroadcast {
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public void broadcast(Intent intent, Context context, UserHandle user,
+                          BroadcastReceiver resultReceiver, Handler scheduler, int initialCode,
+                          String initialData, Bundle initialExtras,
+                          String broadcastPermission) {
+        context.sendBroadcast(intent); // Sensitive
+        context.sendBroadcastAsUser(intent, user); // Sensitive
+
+        // Broadcasting intent with "null" for receiverPermission
+        context.sendBroadcast(intent, null); // Sensitive
+        context.sendBroadcastAsUser(intent, user, null); // Sensitive
+        context.sendOrderedBroadcast(intent, null); // Sensitive
+        context.sendOrderedBroadcastAsUser(intent, user, null, resultReceiver,
+                scheduler, initialCode, initialData, initialExtras); // Sensitive
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.UserHandle;
+import android.support.annotation.RequiresApi;
+
+public class MyIntentBroadcast {
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public void broadcast(Intent intent, Context context, UserHandle user,
+                          BroadcastReceiver resultReceiver, Handler scheduler, int initialCode,
+                          String initialData, Bundle initialExtras,
+                          String broadcastPermission) {
+
+        context.sendBroadcast(intent, broadcastPermission);
+        context.sendBroadcastAsUser(intent, user, broadcastPermission);
+        context.sendOrderedBroadcast(intent, broadcastPermission);
+        context.sendOrderedBroadcastAsUser(intent, user,broadcastPermission, resultReceiver,
+                scheduler, initialCode, initialData, initialExtras);
+    }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A04_2021-Insecure_Design/">OWASP Top 10 2021 カテゴリ A4</a>- 安全でない設計 </li>
+  <li><a href="https://mobile-security.gitbook.io/masvs/security-requirements/0x11-v6-interaction_with_the_environment">Mobile AppSec検証基準</a>-プラットフォームインタラクション要件 </li>
+  <li><a href="https://owasp.org/www-project-mobile-top-10/2016-risks/m1-improper-platform-usage">OWASP Mobile Top 10 2016 Category M1</a>- Improper Platform Usage（不適切なプラットフォームの使用法 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/927">MITRE, CWE-927</a>- 機密通信のための暗黙の意図の使用 </li>
+  <li><a href="https://developer.android.com/guide/components/broadcasts.html#restricting_broadcasts_with_permissions">Androidドキュメント</a>- ブロードキャストの概要 - セキュリティに関する考察とベストプラクティス </li>
+</ul>
+

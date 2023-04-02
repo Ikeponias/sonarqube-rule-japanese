@@ -1,0 +1,32 @@
+<p>セッション固定化攻撃は、攻撃者が知っているセッションIDを正規のユーザーに使用させることで発生します。固定化攻撃を回避するためには、ユーザーが認証するたびに新しいセッションを生成し、既存のセッション（攻撃者が知っている可能性のあるセッション）を削除/無効化することが良い方法です。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>Spring Securityのコンテキストでは、セッション固定化保護はデフォルトで有効になっていますが、<code translate="no">sessionFixation().none()</code>メソッドで無効にすることができます：</p>
+<pre translate="no">
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+   http.sessionManagement()
+     .sessionFixation().none(); // Noncompliant: the existing session will continue
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>Spring Securityのコンテキストでは、セッション固定化保護は以下のように有効にすることができます：</p>
+<pre translate="no">
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+  http.sessionManagement()
+     .sessionFixation().newSession(); // Compliant: a new session is created without any of the attributes from the old session being copied over
+
+  // or
+
+  http.sessionManagement()
+     .sessionFixation().migrateSession(); // Compliant: a new session is created, the old one is invalidated and the attributes from the old session are copied over.
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">OWASP Top 10 2021 カテゴリ A7</a>- 識別と認証の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/OWASP_Top_Ten_2017/Top_10-2017_A2-Broken_Authentication">OWASP Top 10 2017 カテゴリーA2</a>- Broken Authentication </li>
+  <li><a href="https://owasp.org/www-community/attacks/Session_fixation">OWASP Sesssion Fixationの</a>ご案内です。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/384">MITRE, CWE-384</a>- セッションの固定化 </li>
+</ul>
+

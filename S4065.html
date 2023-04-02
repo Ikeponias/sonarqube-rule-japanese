@@ -1,0 +1,17 @@
+<p>Java 8では、<code translate="no">ThreadLocal.withInitial</code> 。これは、<code translate="no">ThreadLocal</code> インスタンスを初期化するために匿名インナークラスを作成する、よりシンプルな代替手段です。</p>
+<p>このルールでは、<code translate="no">ThreadLocal</code> 匿名の内部クラスが、<code translate="no">ThreadLocal.withInitial</code> の呼び出しで置き換えられる場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+ThreadLocal&lt;List&lt;String&gt;&gt; myThreadLocal =
+    new ThreadLocal&lt;List&lt;String&gt;&gt;() { // Noncompliant
+        @Override
+        protected List&lt;String&gt; initialValue() {
+            return new ArrayList&lt;String&gt;();
+        }
+    };
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+ThreadLocal&lt;List&lt;String&gt;&gt; myThreadLocal = ThreadLocal.withInitial(ArrayList::new);
+</pre>
+

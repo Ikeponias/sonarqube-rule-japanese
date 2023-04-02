@@ -1,0 +1,14 @@
+<p>短絡的でない論理をブーリアンコンテキストで使用することは、誤った状況下で条件が評価され、重大なプログラムエラーを引き起こす可能性がある。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if(getTrue() | getFalse()) { ... } // Noncompliant; both sides evaluated
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if(getTrue() || getFalse()) { ... } // true short-circuit logic
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/WNYxBQ">CERT、EXP46-C。</a>- ブール型オペランドにビット演算子を使用しないでください。 </li>
+</ul>
+

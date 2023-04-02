@@ -1,0 +1,22 @@
+<p>中括弧で囲まれていない場合、条件付きの直後の行が条件付きで実行される行となります。慣例的にも、良い習慣としても、このような行はインデントされます。中括弧と字下げの両方がない場合、元のプログラマーの意図はまったく不明であり、おそらく実際に実行されるものではありません。さらに、このようなコードは、保守担当者を混乱させる可能性が高い。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if (condition)  // Noncompliant
+doTheThing();
+
+doTheOtherThing();
+somethingElseEntirely();
+
+foo();
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (condition)
+  doTheThing();
+
+doTheOtherThing();
+somethingElseEntirely();
+
+foo();
+</pre>
+

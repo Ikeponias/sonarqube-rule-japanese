@@ -1,0 +1,60 @@
+<p>メソッド名としての "equals" は、混乱を避けるため、<code translate="no">Object.equals(Object)</code> を上書きする場合にのみ使用する必要があります。</p>
+<p>クラス比較のチェックを省くために、<code translate="no">Object</code> の代わりに特定のクラスをパラメータとして受け取るようにメソッドをオーバーロードしたくなりますが、これが唯一のオーバーライドである場合、期待通りには動作しません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class MyClass {
+  private int foo = 1;
+
+  public boolean equals(MyClass o) {  // Noncompliant; does not override Object.equals(Object)
+    return o != null &amp;&amp; o.foo == this.foo;
+  }
+
+  public static void main(String[] args) {
+    MyClass o1 = new MyClass();
+    Object o2 = new MyClass();
+    System.out.println(o1.equals(o2));  // Prints "false" because o2 an Object not a MyClass
+  }
+}
+
+class MyClass2 {
+  public boolean equals(MyClass2 o) {  // Ignored; `boolean equals(Object)` also present
+    //..
+  }
+
+  public boolean equals(Object o) {
+    //...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class MyClass {
+  private int foo = 1;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+        return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    MyClass other = (MyClass)o;
+    return this.foo == other.foo;
+  }
+
+  /* ... */
+}
+
+class MyClass2 {
+  public boolean equals(MyClass2 o) {
+    //..
+  }
+
+  public boolean equals(Object o) {
+    //...
+  }
+}
+</pre>
+

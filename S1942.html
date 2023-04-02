@@ -1,0 +1,22 @@
+<p>Javaの<code translate="no">import</code> メカニズムでは、単純なクラス名を使用することができます。したがって、<code translate="no">import</code>のファイル内でクラスの完全修飾名を使用することは、冗長で混乱を招くことになります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+import java.util.List;
+import java.sql.Timestamp;
+
+//...
+
+java.util.List&lt;String&gt; myList;  // Noncompliant
+java.sql.Timestamp tStamp; // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+import java.util.List;
+import java.sql.Timestamp;
+
+//...
+
+List&lt;String&gt; myList;
+Timestamp tStamp;
+</pre>
+

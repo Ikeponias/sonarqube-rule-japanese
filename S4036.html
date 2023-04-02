@@ -1,0 +1,39 @@
+<p>OSのコマンドを実行する際、実行ファイルへのフルパスを指定しない限り、アプリケーションの環境変数<code translate="no">PATH</code>の場所が実行ファイルを検索することになります。この検索は、<code translate="no">PATH</code> の要素の1つが攻撃者のコントロール下にあるディレクトリである場合、攻撃者に隙を与える可能性があります。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>環境変数PATHのディレクトリは、信頼できない存在によって定義されている可能性があります。 </li>
+</ul>
+<p>この質問に「はい」と答えた方は、リスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<p>完全修飾/絶対パスで、実行するOSコマンドを指定する必要があります。</p>
+<h2>センシティブコードの例</h2>
+<p>コマンドのフルパスが指定されていないため、実行ファイルは環境変数<code translate="no">PATH</code>にリストされたすべてのディレクトリで検索されます：</p>
+<pre translate="no">
+Runtime.getRuntime().exec("make");  // Sensitive
+Runtime.getRuntime().exec(new String[]{"make"});  // Sensitive
+
+ProcessBuilder builder = new ProcessBuilder("make");  // Sensitive
+builder.command("make");  // Sensitive
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>コマンドはフルパスで定義されます：</p>
+<pre translate="no">
+Runtime.getRuntime().exec("/usr/bin/make");  // Compliant
+Runtime.getRuntime().exec(new String[]{"~/bin/make"});  // Compliant
+
+ProcessBuilder builder = new ProcessBuilder("./bin/make");  // Compliant
+builder.command("../bin/make");  // Compliant
+builder.command(Arrays.asList("..\bin\make", "-j8")); // Compliant
+
+builder = new ProcessBuilder(Arrays.asList(".\make"));  // Compliant
+builder.command(Arrays.asList("C:\bin\make", "-j8"));  // Compliant
+builder.command(Arrays.asList("\\SERVER\bin\make"));  // Compliant
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/">OWASP Top 10 2021 カテゴリ A8</a>- ソフトウェアとデータの整合性の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A1_2017-Injection">OWASP Top 10 2017 カテゴリーA1</a>- インジェクション </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/426">MITRE, CWE-426</a>- Untrusted Search Path（信頼できない検索パス </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/427">MITRE, CWE-427</a>- Uncontrolled Search Path Element (制御不能な検索パス要素) </li>
+</ul>
+

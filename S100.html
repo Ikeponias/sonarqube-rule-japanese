@@ -1,0 +1,17 @@
+<p>命名規則を共有することで、チームは効率的にコラボレーションを行うことができます。このルールは、すべてのメソッド名が指定された正規表現に一致するかどうかをチェックします。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルトで提供される正規表現では<code translate="no">^[a-z][a-zA-Z0-9]*$</code> ：</p>
+<pre translate="no">
+public int DoSomething(){...}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public int doSomething(){...}
+</pre>
+<h2>例外あり</h2>
+<p>オーバーライドメソッドは除きます。</p>
+<pre translate="no">
+@Override
+public int Do_Something(){...}
+</pre>
+

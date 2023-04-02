@@ -1,0 +1,26 @@
+<p><code translate="no">private</code> のコンストラクタしかないクラスは、間違って拡張しようとするのを防ぐために<code translate="no">final</code> とマークする必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class PrivateConstructorClass {  // Noncompliant
+  private PrivateConstructorClass() {
+    // ...
+  }
+
+  public static int magic(){
+    return 42;
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public final class PrivateConstructorClass {  // Compliant
+  private PrivateConstructorClass() {
+    // ...
+  }
+
+  public static int magic(){
+    return 42;
+  }
+}
+</pre>
+

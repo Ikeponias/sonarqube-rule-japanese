@@ -1,0 +1,19 @@
+<p><code translate="no">hashCode</code> への呼び出しが<code translate="no">Integer.MIN_VALUE</code> を返すことはあり得る。このようなハッシュコードの絶対値を取ると、やはり負数になります。このようなハッシュコードの絶対値をとっても、負の数になってしまうので、コードは正の値だと思い込む可能性が高く、結果が信頼できなくなります。</p>
+<p>同様に、<code translate="no">Integer.MIN_VALUE</code> は<code translate="no">Random.nextInt()</code> または任意のオブジェクトの<code translate="no">compareTo</code> メソッドから返される可能性があり、<code translate="no">Long.MIN_VALUE</code> は<code translate="no">Random.nextLong()</code> から返される可能性があります。これらのメソッドから返された値に対して<code translate="no">Math.abs</code> を呼び出すことも、同様に好ましくない。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomething(String str) {
+  if (Math.abs(str.hashCode()) &gt; 0) { // Noncompliant
+    // ...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomething(String str) {
+  if (str.hashCode() != 0) {
+    // ...
+  }
+}
+</pre>
+

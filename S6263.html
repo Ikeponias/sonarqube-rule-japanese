@@ -1,0 +1,35 @@
+<p>AWSでは、長期アクセスキーは手動で取り消すまで有効である。このため、暴露されると深刻な結果を招く可能性があるため、非常に機密性が高く、注意して使用する必要があります。</p>
+<p>このルールは、<code translate="no">com.amazonaws.auth.BasicAWSCredentials</code> のインスタンスに遭遇したときに発動します。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>アクセスキーは、Amazon EC2インスタンス上で動作するアプリケーションまたはAWS CLIスクリプトで直接使用されます。 </li>
+  <li>クロスアカウントアクセスが必要です。 </li>
+  <li>アクセスキーは、モバイルアプリケーションに組み込む必要があります。 </li>
+  <li>既存のIDプロバイダ（SAML 2.0、オンプレミスIDストア）が既に存在する。 </li>
+</ul>
+<p>詳しくは、「<a href="https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html#use-roles">長期アクセスキーの代わりにIAMロールを使用</a>する」を参照してください。</p>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングプラクティス</h2>
+<p>一時的な認証情報を提供するIAMロールやAWS Security Token Serviceの他の機能の利用を検討し、リスクを限定する。</p>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+// ...
+
+AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeyId, secretAccessKey);
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>AWS STSの場合の例（「<a href="https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/prog-services-sts.html">AWS STSで一時的な認証情報を取得する</a>」を参照）。</p>
+<pre translate="no">
+BasicSessionCredentials sessionCredentials = new BasicSessionCredentials(
+   session_creds.getAccessKeyId(),
+   session_creds.getSecretAccessKey(),
+   session_creds.getSessionToken());
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html">AWSのアクセスキーを管理するためのベストプラクティス</a></li>
+  <li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html">IAMユーザーのアクセスキーの管理</a></li>
+</ul>
+

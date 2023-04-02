@@ -1,0 +1,35 @@
+<p><code translate="no">Optional</code> のコンセプトは、<code translate="no">null</code> がエラーを引き起こす可能性がある場合に使用されることである。ある意味、<code translate="no">null</code> を置き換えるもので、<code translate="no">Optional</code> が使用されている場合、コールから<code translate="no">null</code> を返したり受け取ったりすることに疑問を感じることはないはずです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomething () {
+  Optional&lt;String&gt; optional = getOptional();
+  if (optional != null) {  // Noncompliant
+    // do something with optional...
+  }
+  Optional&lt;String&gt; text = null; // Noncompliant, a variable whose type is Optional should never itself be null
+  // ...
+}
+
+@Nullable // Noncompliant
+public Optional&lt;String&gt; getOptional() {
+  // ...
+  return null;  // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomething () {
+  Optional&lt;String&gt; optional = getOptional();
+  optional.ifPresent(
+    // do something with optional...
+  );
+  Optional&lt;String&gt; text = Optional.empty();
+  // ...
+}
+
+public Optional&lt;String&gt; getOptional() {
+  // ...
+  return Optional.empty();
+}
+</pre>
+

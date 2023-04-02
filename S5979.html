@@ -1,0 +1,95 @@
+<p>Mockito アノテーション<code translate="no">@Mock</code>,<code translate="no">@Spy</code>,<code translate="no">@Captor</code>,<code translate="no">@InjectMocks</code>でアノテーションされたオブジェクトは、明示的に初期化する必要があります。</p>
+<p>その方法はいくつかあります：</p>
+<ul>
+  <li>セットアップ方式で<code translate="no">MockitoAnnotations.openMocks(this)</code> または<code translate="no">MockitoAnnotations.initMocks(this)</code> を呼び出します。 </li>
+  <li><code translate="no">@RunWith(MockitoJUnitRunner.class)</code> でテストクラスをアノテートする（JUnit 4） </li>
+  <li><code translate="no">@ExtendWith(MockitoExtension.class)</code> でテストクラスを注釈する（JUnit 5 Jupiter）。 </li>
+  <li><code translate="no">@Rule public MockitoRule rule = MockitoJUnit.rule();</code> をご利用ください。 </li>
+</ul>
+<p>未初期化のモックを使用したテストは失敗します。</p>
+<p>これは，アノテーションされたMockitoオブジェクトにのみ適用されることに注意してください．<code translate="no">Mockito.mock()</code> や<code translate="no">Mockito.spy()</code> を介してインスタンス化されたオブジェクトを初期化する必要はありません．</p>
+<p>このルールは、テストクラスが未初期化のモックを使用する場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class FooTest { // Noncompliant: Mockito initialization missing
+  @Mock private Bar bar;
+
+  @Spy private Baz baz;
+
+  @InjectMocks private Foo fooUnderTest;
+
+  @Test
+  void someTest() {
+    // test something ...
+  }
+
+  @Nested
+  public class Nested {
+    @Mock
+    private Bar bar;
+  }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@RunWith(MockitoJUnitRunner.class)
+public class FooTest {
+  @Mock private Bar bar;
+  // ...
+}
+</pre>
+<pre translate="no">
+@ExtendWith(MockitoExtension.class)
+public class FooTest {
+  @Mock private Bar bar;
+  // ...
+}
+</pre>
+<pre translate="no">
+public class FooTest {
+  @Rule
+  public MockitoRule rule = MockitoJUnit.rule();
+
+  @Mock private Bar bar;
+  // ...
+}
+</pre>
+<pre translate="no">
+public class FooTest {
+  @Mock private Bar bar;
+  // ...
+
+  @BeforeEach
+  void setUp() {
+    MockitoAnnotations.openMocks(this);
+  }
+  // ...
+}
+</pre>
+<pre translate="no">
+public class FooTest {
+  @Mock private Bar bar;
+  // ...
+
+  @Before
+  void setUp() {
+    MockitoAnnotations.initMocks(this);
+  }
+  // ...
+}
+</pre>
+<pre translate="no">
+@ExtendWith(MockitoExtension.class)
+public class FooTest {
+  @Nested
+  public class Nested {
+    @Mock
+    private Bar bar;
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://site.mockito.org/javadoc/current/org/mockito/MockitoAnnotations.html">Mockitoドキュメント - MockitoAnnotations</a></li>
+  <li><a href="https://site.mockito.org/javadoc/current/org/mockito/junit/MockitoRule.html">Mockitoドキュメント - MockitoRule </a></li>
+</ul>
+

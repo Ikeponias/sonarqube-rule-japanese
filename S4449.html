@@ -1,0 +1,62 @@
+<p>グローバルスコープレベルでNULL関連のアノテーションを使用する場合、例えばパッケージレベルで<code translate="no">javax.annotation.ParametersAreNonnullByDefault</code> （JSR-305より）を使用する場合、パッケージに含まれるすべてのメソッドのすべてのパラメータがNon-<code translate="no">null</code> とみなされる、またはみなされるべきということになります。これは、すべてのメソッドのすべてのパラメータにNon-Nullアノテーション（<code translate="no">@Nonnull</code> など）を付けることと同じです。</p>
+<p>このルールでは、メソッド呼び出しの際にパラメータが<code translate="no">null</code> 、メソッドがNULLパラメータを禁止するようにアノテーションされている場合に、毎回問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@javax.annotation.ParametersAreNonnullByDefault
+class A {
+
+  void foo() {
+    bar(getValue()); // Noncompliant - method 'bar' do not expect 'null' values as parameter
+  }
+
+  void bar(Object o) { // 'o' is by contract expected never to be null
+    // ...
+  }
+
+  @javax.annotation.CheckForNull
+  abstract Object getValue();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>2つのソリューションが可能です：</p>
+<ul>
+  <li>メソッドのシグネチャは正しいので、呼び出し前にヌルチェックを行う必要があります。 </li>
+  <li>メソッドのシグネチャが一貫していないので、パラメータとしてNULL値を渡すことができるようにアノテーションを付ける必要がある </li>
+</ul>
+<pre translate="no">
+@javax.annotation.ParametersAreNonnullByDefault
+abstract class A {
+
+  void foo() {
+      Object o = getValue();
+      if (o != null) {
+        bar(o); // Compliant - 'o' can not be null
+      }
+  }
+
+  void bar(Object o) {
+    // ...
+  }
+
+  @javax.annotation.CheckForNull
+  abstract Object getValue();
+}
+</pre>
+<p>または</p>
+<pre translate="no">
+@javax.annotation.ParametersAreNonnullByDefault
+abstract class A {
+
+  void foo() {
+    bar(getValue());
+  }
+
+  void bar(@javax.annotation.Nullable Object o) { // annotation was missing
+    // ...
+  }
+
+  @javax.annotation.CheckForNull
+  abstract Object getValue();
+}
+</pre>
+

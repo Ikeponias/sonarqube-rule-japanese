@@ -1,0 +1,19 @@
+<p><code translate="no">Serializable</code> クラスに<code translate="no">serialVersionUID</code> フィールドを設けることは、<code translate="no">Serializable</code>のドキュメントで強く推奨されていますが、その推奨に盲従することは有害です。</p>
+<p><code translate="no">serialVersionUID</code> このフィールドはデータをデシリアライズするときに検証され、データを読むコードがシリアライズされたデータと互換性があることを確認します。失敗した場合は、シリアライズされたデータとコードが同期していないことを意味し、何が間違っているのかがわかるので、これは結構です。</p>
+<p>IDEで生成された<code translate="no">serialVersionUID</code> 、あるいはやみくもにハードコーディングした場合、<code translate="no">Serializable</code> クラスに追加のフィールドが追加されたときに、<code translate="no">serialVersionUID</code> の値を更新するのを忘れてしまう可能性が高くなります。その結果、古いシリアライズデータが新しいバージョンのコードと互換性があると誤認され、デバッグが困難な状況が発生します。</p>
+<p>したがって、<code translate="no">serialVersionUID</code> の定義は慎重に行う必要がある。このルールは、<code translate="no">Serializable</code> を実装するクラスで宣言された各<code translate="no">serialVersionUID</code> フィールドについて、<code translate="no">serialVersionUID</code> フィールドの存在と値がチームによって挑戦され、検証されることを確認するために問題を提起します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Foo implements Serializable {
+  private static final long serialVersionUID = 1;
+}
+
+public class BarException extends RuntimeException {
+  private static final long serialVersionUID = 8582433437601788991L;
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li>Vojtech Ruzickaのプログラミングブログ：<a href="https://www.vojtechruzicka.com/explicitly-declare-serialversionuid/">serialVersionUIDは明示的に宣言すべき</a>？ </li>
+</ul>
+

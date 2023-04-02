@@ -1,0 +1,29 @@
+<p>バイト列を16進数の文字列表現に変換する際に、<code translate="no">Integer.toHexString</code> を使用するのはよくある間違いです。この方法は、先頭の0を切り捨ててしまうため、間違った変換をする可能性があります。例えば、2バイトの値<code translate="no">0x4508</code> は、<code translate="no">45</code> と<code translate="no">8</code> に変換され、それを連結すると<code translate="no">0x458</code> になります。</p>
+<p>これは特にハッシュコードを変換する際に有害であり、セキュリティの脆弱性につながる可能性があります。</p>
+<p>このルールは、<code translate="no">Integer.toHexString</code> を何らかの文字列の連結に使用する場合に問題となる。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+MessageDigest md = MessageDigest.getInstance("SHA-256");
+byte[] bytes = md.digest(password.getBytes("UTF-8"));
+
+StringBuilder sb = new StringBuilder();
+for (byte b : bytes) {
+    sb.append(Integer.toHexString( b &amp; 0xFF )); // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+MessageDigest md = MessageDigest.getInstance("SHA-256");
+byte[] bytes = md.digest(password.getBytes("UTF-8"));
+
+StringBuilder sb = new StringBuilder();
+for (byte b : bytes) {
+    sb.append(String.format("%02X", b));
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/704">MITRE, CWE-704</a>- 不正なタイプ変換またはキャスト </li>
+  <li>FindSecBugs ルール<a href="https://find-sec-bugs.github.io/bugs.htm#BAD_HEXA_CONVERSION">BAD_HEXA_CONVERSION</a>から派生したものです。 </li>
+</ul>
+

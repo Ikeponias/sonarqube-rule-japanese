@@ -1,0 +1,60 @@
+<p>プールされ、再利用される可能性のあるオブジェクトは、同期に使用するべきではありません。使用すると、無関係なスレッドがデッドロックに陥り、有益でないスタックトレースが発生する可能性があります。具体的には、<code translate="no">String</code> リテラルや、Integer などのボックス型プリミティブは、プールされて再利用されるため、ロックオブジェクトとして使用するべきではありません。<code translate="no">Boolean</code> なぜなら、<code translate="no">Boolean</code> 、<code translate="no">Boolean.TRUE</code> 、<code translate="no">Boolean.FALSE</code> のインスタンスは2つしかない可能性があり、ブール値を使用するすべてのクラスは、そのうちの1つを参照することになるからです。</p>
+<p>ここでは、同期に使用すべきでない型の一覧を示します：</p>
+<ul>
+  <li>The primitive wrapper classes in java.lang; </li>
+  <li>クラス java.lang.Runtime.Version； </li>
+  <li>java.utilの「オプショナル」クラスです：Optional、OptionalInt、OptionalLong、OptionalDoubleです； </li>
+  <li>java.time APIに含まれる多くのクラス：Instant、LocalDate、LocalTime、LocalDateTime、ZonedDateTime、ZoneId、OffsetTime、OffsetDateTime、ZoneOffset、Duration、Period、Year、YearMonth、MonthDay、および java.time.chrono ではMinguoDate、HijrahDate、JapaneseDate、ThaiBuddhistDateがある； </li>
+  <li>インタフェース java.lang.ProcessHandle とその実装クラスです； </li>
+  <li>java.util.Collectionのコレクションファクトリの実装クラスです：List.of, List.copyOf, Set.of, Set.copyOf, Map.of, Map.copyOf, Map.ofEntries, Map.entry. </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+private static final Boolean bLock = Boolean.FALSE;
+private static final Integer iLock = Integer.valueOf(0);
+private static final String sLock = "LOCK";
+private static final List&lt;String&gt; listLock = List.of("a", "b", "c", "d");
+
+public void doSomething() {
+
+  synchronized(bLock) {  // Noncompliant
+    // ...
+  }
+  synchronized(iLock) {  // Noncompliant
+    // ...
+  }
+  synchronized(sLock) {  // Noncompliant
+    // ...
+  }
+  synchronized(listLock) {  // Noncompliant
+    // ...
+  }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+private static final Object lock1 = new Object();
+private static final Object lock2 = new Object();
+private static final Object lock3 = new Object();
+private static final Object lock4 = new Object();
+
+public void doSomething() {
+
+  synchronized(lock1) {
+    // ...
+  }
+  synchronized(lock2) {
+    // ...
+  }
+  synchronized(lock3) {
+    // ...
+  }
+  synchronized(lock4) {
+    // ...
+  }
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/1zdGBQ">CERT、LCK01-J。</a>- 再利用される可能性のあるオブジェクトでは同期をとらない </li>
+  <li><a href="https://openjdk.java.net/jeps/390">JEP-390です。</a>- JEP 390バリュー系クラスへの警告 </li>
+</ul>
+

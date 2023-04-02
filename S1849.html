@@ -1,0 +1,16 @@
+<p><code translate="no">Iterator.hasNext()</code> を呼び出すと、副作用が発生しないため、イテレータの状態が変化しないはずです。<code translate="no">Iterator.next()</code> はイテレータを1つ進めます。そのため、<code translate="no">Iterator.hasNext()</code> の内部でこれを呼び出すと、<code translate="no">hasNext()</code> の契約が破棄され、実運用では予期せぬ動作につながることになります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class FibonacciIterator implements Iterator&lt;Integer&gt;{
+...
+@Override
+public boolean hasNext() {
+  if(next() != null) {
+    return true;
+  }
+  return false;
+}
+...
+}
+</pre>
+

@@ -1,0 +1,15 @@
+<p>常に同じ定数値を返すメソッドに、メソッド呼び出しのオーバーヘッドを強いる意味はない。さらに悪いことに、メソッド呼び出しが必要であるという事実は、そのメソッドを呼び出した開発者を、何かもっと多くのことが行われていると誤解させる可能性があります。代わりに定数を宣言してください。</p>
+<p>このルールは、定数値（<code translate="no">return</code> ）のみのステートメントを含むメソッドで、問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int getBestNumber() {
+  return 12;  // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+static final int BEST_NUMBER = 12;
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">@Override</code> や Spring の<code translate="no">@RequestMapping</code> などのアノテーションを持つメソッドは無視されます。</p>
+

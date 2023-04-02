@@ -1,0 +1,37 @@
+<p>入れ子の<code translate="no">switch</code> 構造は、内側の<code translate="no">switch</code> のケースを外側のステートメントや式に属するものと混同しやすいため、理解しにくい。したがって、<code translate="no">switch</code> ステートメントや式が入れ子になっているのは避けるべきです。</p>
+<p>具体的には、<code translate="no">switch</code> 文や式を入れ子にする必要がないようにコードを構成する必要がありますが、それができない場合は、内側の<code translate="no">switch</code> を別のメソッドに移動することを検討してください。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+void foo(int n, int m) {
+  switch (n) {
+    case 0:
+      switch (m) {  // Noncompliant; nested switch
+        // ...
+      }
+    case 1:
+      // ...
+    default:
+      // ...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+void foo(int n, int m) {
+  switch (n) {
+    case 0:
+      bar(m);
+    case 1:
+      // ...
+    default:
+      // ...
+  }
+}
+
+void bar(int m){
+  switch(m) {
+    // ...
+  }
+}
+</pre>
+

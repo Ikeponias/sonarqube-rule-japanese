@@ -1,0 +1,40 @@
+<p>契約上、メソッド<code translate="no">Object.wait(...)</code> 、<code translate="no">Object.notify()</code> 、<code translate="no">Object.notifyAll()</code> は、オブジェクトのモニターの所有者であるスレッドによって呼び出される必要があります。そうでない場合は、<code translate="no">IllegalMonitorStateException</code> 例外がスローされます。この規則では、これらのメソッドのいずれかを<code translate="no">synchronized</code> のメソッドまたはステートメントの内部でのみ呼び出すことを必須とすることで、この制約を強化しています。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+private void removeElement() {
+  while (!suitableCondition()){
+    obj.wait();
+  }
+  ... // Perform removal
+}
+</pre>
+<p>または</p>
+<pre translate="no">
+private void removeElement() {
+  while (!suitableCondition()){
+    wait();
+  }
+  ... // Perform removal
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+private void removeElement() {
+  synchronized(obj) {
+    while (!suitableCondition()){
+      obj.wait();
+    }
+    ... // Perform removal
+  }
+}
+</pre>
+<p>または</p>
+<pre translate="no">
+private synchronized void removeElement() {
+  while (!suitableCondition()){
+    wait();
+  }
+  ... // Perform removal
+}
+</pre>
+

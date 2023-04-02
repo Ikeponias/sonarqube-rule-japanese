@@ -1,0 +1,36 @@
+<p>Joshua Blochによれば、Javaでは<code translate="no">clone</code> と<code translate="no">Cloneable</code> が壊れていると考える人が多い。その主な理由は、<code translate="no">clone</code> を上書きするためのルールが厄介で、正しく理解するのが難しいからだ：</p>
+<blockquote>
+  <p>オブジェクトのクローン方式は非常にやっかいです。フィールドコピーに基づくもので、"言語外 "なのです。コンストラクタを呼び出すことなく、オブジェクトを作成します。コンストラクタが確立した不変性を維持する保証はありません。オブジェクトのクローンを作成するまで、super.cloneを繰り返し呼び出すと、そのオブジェクトの浅いコピーになるという事実に起因するバグが、長年にわたってSun内外にたくさんありました。クローンは通常、クローンされるオブジェクトと状態を共有します。その状態が変更可能である場合、独立した2つのオブジェクトを持つことはできません。片方を変更すれば、もう片方も同様に変更されます。そして、突然、ランダムな動作が発生するのです。</p>
+</blockquote>
+<p>代わりにコピーコンストラクタまたはコピーファクトリーを使用する必要があります。</p>
+<p>このルールは、<code translate="no">Cloneable</code> の実装の有無にかかわらず、<code translate="no">clone</code> がオーバーライドされた場合に問題となる。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+  // ...
+
+  public Object clone() { // Noncompliant
+    //...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClass {
+  // ...
+
+  MyClass (MyClass source) {
+    //...
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://www.artima.com/intv/bloch13.html">コピーコンストラクタとクローニングの</a>比較 </li>
+</ul>
+<h3>こちらもご覧ください</h3>
+<ul>
+  <li>{rule:java:S2157} です。- "Cloneables "は "clone "を実装する必要がある。 </li>
+  <li>{rule:java:S1182} - "clone "をオーバーライドするクラスは、"Cloneable "とし、"super.clone() "を呼び出す必要があります。 </li>
+</ul>
+

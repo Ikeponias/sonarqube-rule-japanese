@@ -1,0 +1,28 @@
+<p><code translate="no">@Autowired</code> を使用する場合、クラスがインスタンス化されるときに依存関係を解決する必要があります。これは、Bean の初期化を早めたり、Bean を見つけるためにコンテキストが必要のない場所を探したりする原因になるかもしれません。この厄介な問題を回避し、コンテキストのロード方法を最適化するために、依存関係はできるだけ遅く要求する必要があります。つまり、単一の<code translate="no">@Bean</code> メソッドでのみ使用される依存性については、フィールドインジェクションの代わりにパラメータインジェクションを使用することです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Configuration
+public class ​FooConfiguration {
+
+  @Autowired private ​DataSource dataSource​;  // Noncompliant
+
+  @Bean
+  public ​MyService myService() {
+    return new ​MyService(this​.dataSource​);
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Configuration
+public class ​FooConfiguration {
+
+ @Bean
+  public ​MyService myService(DataSource dataSource) {
+    return new ​MyService(dataSource);
+  }
+}
+</pre>
+<h2>例外あり</h2>
+<p>アプリケーションの他のメソッドから直接呼び出される（Springフレームワークによって自動的に呼び出されるのとは対照的）メソッドで使用されるフィールドは、直接呼び出す側が依存関係を自分で提供する必要がないように、この規則によって無視されます。</p>
+

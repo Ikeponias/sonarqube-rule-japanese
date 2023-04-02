@@ -1,0 +1,12 @@
+<p>選択肢に1文字からなる複数の選択肢がある場合、それを文字クラスとして書き換えることができます。これはより効率的で、繰り返しの内部で使用するとスタックのオーバーフローを防ぐのにも役立つので、優先されるべきです（規則{rule:java:S5998}を参照）。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Pattern.compile("a|b|c"); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Pattern.compile("[abc]");
+// or
+Pattern.compile("[a-c]");
+</pre>
+

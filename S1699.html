@@ -1,0 +1,41 @@
+<p>コンストラクタからオーバーライド可能なメソッドを呼び出すと、そのメソッドをオーバーライドするサブクラスのインスタンス化で失敗したり、おかしな動作をすることがある。</p>
+<p>例えば、こんな感じです：</p>
+<ul>
+  <li>サブクラスクラスコンストラクタは、親クラスコンストラクタを呼び出すことで契約を開始します。 </li>
+  <li>親クラスのコンストラクタは、子クラスでオーバーライドされているメソッドを呼び出します。 </li>
+  <li>子クラスメソッドの動作が、子クラスコンストラクタで初期化されるフィールドに依存する場合、フィールドがまだ初期化されていないため、予期せぬ動作（<code translate="no">NullPointerException</code> ）が発生することがあります。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Parent {
+
+  public Parent () {
+    doSomething();  // Noncompliant
+  }
+
+  public void doSomething () {  // not final; can be overridden
+    ...
+  }
+}
+
+public class Child extends Parent {
+
+  private String foo;
+
+  public Child(String foo) {
+    super(); // leads to call doSomething() in Parent constructor which triggers a NullPointerException as foo has not yet been initialized
+    this.foo = foo;
+  }
+
+  public void doSomething () {
+    System.out.println(this.foo.length());
+  }
+
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/8zZGBQ">CERT, MET05-J.</a>- コンストラクタがオーバーライド可能なメソッドを呼び出さないようにすること </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/6ns-BQ">証明書、OOP50-CP。</a>- コンストラクタやデストラクタから仮想関数を呼び出さないでください。  </li>
+</ul>
+

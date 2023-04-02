@@ -1,0 +1,38 @@
+<p>varargs(<code translate="no">...</code>)の引数として渡すためだけに配列を作る意味はありません。<em>varargsは</em>配列です。varargsは配列です。要素を直接渡すだけで、自動的に配列に統合されます。ちなみに、<code translate="no">Object ...</code>が期待されているところに配列を渡すと、意図が曖昧になります：配列は1つのオブジェクトなのか、それともオブジェクトのコレクションなのか？</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void callTheThing() {
+  //...
+  doTheThing(new String[] { "s1", "s2"});  // Noncompliant: unnecessary
+  doTheThing(new String[12]);  // Compliant
+  doTheOtherThing(new String[8]);  // Noncompliant: ambiguous
+  // ...
+}
+
+public void doTheThing (String ... args) {
+  // ...
+}
+
+public void doTheOtherThing(Object ... args) {
+  // ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void callTheThing() {
+  //...
+  doTheThing("s1", "s2");
+  doTheThing(new String[12]);
+  doTheOtherThing((Object[]) new String[8]);
+   // ...
+}
+
+public void doTheThing (String ... args) {
+  // ...
+}
+
+public void doTheOtherThing(Object ... args) {
+  // ...
+}
+</pre>
+

@@ -1,0 +1,17 @@
+<p>命名規則を共有することで、チームでの共同作業を効率的に行うことができます。型パラメーターの名前を1文字にするという確立された慣例に従うことで、コードのユーザーやメンテナンス担当者は、型パラメーターと不適切な名前のクラスとの違いをすぐに見分けることができます。</p>
+<p>このルールは、すべての型パラメーターの名前が指定された正規表現に一致するかどうかをチェックします。以下のコードでは、デフォルトの正規表現が使用されています。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass&lt;TYPE&gt; { // Noncompliant
+  &lt;TYPE&gt; void method(TYPE t) { // Noncompliant
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClass&lt;T&gt; {
+  &lt;T&gt; void method(T t) {
+  }
+}
+</pre>
+

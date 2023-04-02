@@ -1,0 +1,18 @@
+<p>シリアライズ不可能な<code translate="no">Comparator</code> は、そうでなければ<code translate="no">Serializable</code> で順序付けられたコレクションをシリアライズ不可能にすることができます。通常、<code translate="no">Comparator</code> をシリアライズ可能にするためのオーバヘッドは低いので、そうすることは良い防御的なプログラミングと考えることができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class FruitComparator implements Comparator&lt;Fruit&gt; {  // Noncompliant
+  int compare(Fruit f1, Fruit f2) {...}
+  boolean equals(Object obj) {...}
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class FruitComparator implements Comparator&lt;Fruit&gt;, Serializable {
+  private static final long serialVersionUID = 1;
+
+  int compare(Fruit f1, Fruit f2) {...}
+  boolean equals(Object obj) {...}
+}
+</pre>
+

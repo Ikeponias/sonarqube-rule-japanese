@@ -1,0 +1,44 @@
+<p>レコードでは、シリアライズは通常のシリアライズ可能なクラスや外部化可能なクラスの場合と同じようには行われない。レコードオブジェクトのシリアライズされた表現は、値の列（レコードコンポーネント）となる。レコードのデシリアライズの際に、コンポーネントのストリームが読み込まれ、コンポーネントが構築される。そして、レコードオブジェクトは、レコードの正規のコンストラクタを、コンポーネント値を引数として（あるいは引数がない場合のデフォルト値として）呼び出すことによって再作成される。</p>
+<p>この処理はカスタマイズできないので、クラス固有の<code translate="no">writeObject</code>,<code translate="no">readObject</code>,<code translate="no">readObjectNoData</code>,<code translate="no">writeExternal</code>,<code translate="no">readExternal</code> メソッドやレコードクラスの<code translate="no">serialPersistentFields</code> フィールドは、シリアライズとデシリアライズの際に無視されます。</p>
+<p>ただし、<code translate="no">writeReplace</code> と<code translate="no">readResolve</code> で、シリアライズ/デシリアライズされたオブジェクトを代用する方法があります。</p>
+<p>このルールは、<code translate="no">writeObject</code>,<code translate="no">readObject</code>,<code translate="no">readObjectNoData</code>,<code translate="no">writeExternal</code>,<code translate="no">readExternal</code>,<code translate="no">serialPersistentFields</code> のいずれかが Record クラスのメンバーとして存在する場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+record Record() implements Serializable {
+  @Serial
+  private static final ObjectStreamField[] serialPersistentFields = new ObjectStreamField[0]; // Noncompliant
+  @Serial
+  private void writeObject(ObjectOutputStream out) throws IOException { // Noncompliant
+    ...
+  }
+}
+record Record() implements Externalizable {
+  @Override
+  public void writeExternal(ObjectOutput out) throws IOException { // Noncompliant
+    ...
+  }
+  @Override
+  public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException { // Noncompliant
+    ...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+record Record() implements Serializable {}
+
+record Record() implements Serializable {
+  private Object writeReplace() throws ObjectStreamException {
+    ...
+  }
+  private Object readResolve() throws ObjectStreamException {
+    ...
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/javase/specs/jls/se16/html/jls-8.html#jls-8.10">レコード仕様</a></li>
+  <li><a href="https://docs.oracle.com/en/java/javase/16/docs/specs/serialization/serial-arch.html#serialization-of-records">レコードの連続化</a></li>
+</ul>
+

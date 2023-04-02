@@ -1,0 +1,10 @@
+<p><code translate="no">System.gc()</code> や<code translate="no">Runtime.getRuntime().gc()</code> を呼び出すのは、単純な理由で良くない。JVMのベンダー、バージョン、オプションによって動作が変わるため、JVMの内部で何が行われるかを正確に知る術がない：</p>
+<ul>
+  <li>通話中にアプリケーション全体がフリーズしてしまうのでしょうか？ </li>
+  <li><code translate="no">-XX:DisableExplicitGC</code> オプションは有効になっていますか？ </li>
+  <li>JVMは単に呼び出しを無視するのでしょうか？ </li>
+  <li>... </li>
+</ul>
+<p><code translate="no">System.gc()</code> と同様に、最終化を保留しているオブジェクトの最終化メソッドを強制的に呼び出すために、<code translate="no">runFinalization()</code> を手動で呼び出す理由はない。</p>
+<p>これらの予測不可能なメソッドに依存するアプリケーションも予測不可能であるため、壊れてしまいます。ガベージコレクタを実行し、<code translate="no">finalize()</code> メソッドを呼び出すタスクは、JVM にのみ委ねられるべきです。</p>
+

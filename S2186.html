@@ -1,0 +1,9 @@
+<p>JUnit のアサーションは、<code translate="no">Runnable</code> の<code translate="no">run</code> メソッドから行うべきではありません。アサーションに失敗すると、<code translate="no">AssertionError</code>がスローされるからです。テストを実行したスレッド以外からエラーが投げられた場合、そのスレッドは終了しますが、テストは失敗しません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void run() {
+  // ...
+  Assert.assertEquals(expected, actual);  // Noncompliant
+}
+</pre>
+

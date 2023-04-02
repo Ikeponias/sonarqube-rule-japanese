@@ -1,0 +1,48 @@
+<p><code translate="no">Serializable</code> クラスの作成者は、Java の自動的なメカニズムにシリアライズとデシリアライズの処理を任せるか、特定のメソッドを実装して自分で処理することを選択できます。ただし、これらのメソッドのシグネチャが期待されるものと異なる場合、それらは無視され、デフォルトのシリアライズ機構が戻ってくることになります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Watermelon implements Serializable {
+  // ...
+  void writeObject(java.io.ObjectOutputStream out)// Noncompliant; not private
+        throws IOException
+  {...}
+
+  private void readObject(java.io.ObjectInputStream in)
+  {...}
+
+  public void readObjectNoData()  // Noncompliant; not private
+  {...}
+
+  static Object readResolve() throws ObjectStreamException  // Noncompliant; this method may have any access modifier, may not be static
+
+  Watermelon writeReplace() throws ObjectStreamException // Noncompliant; this method may have any access modifier, but must return Object
+  {...}
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Watermelon implements Serializable {
+  // ...
+  private void writeObject(java.io.ObjectOutputStream out)
+        throws IOException
+  {...}
+
+  private void readObject(java.io.ObjectInputStream in)
+        throws IOException, ClassNotFoundException
+  {...}
+
+  private void readObjectNoData()
+        throws ObjectStreamException
+  {...}
+
+  protected Object readResolve() throws ObjectStreamException
+  {...}
+
+  private Object writeReplace() throws ObjectStreamException
+  {...}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/WTdGBQ">CERT、SER01-J。</a>- シリアル化手法の適切な署名から逸脱しないようにすること  </li>
+</ul>
+

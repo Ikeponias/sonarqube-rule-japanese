@@ -1,0 +1,23 @@
+<p>インクリメントまたはデクリメントされた後、保存されない値は、良く言えば無駄なコード、悪く言えばバグです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public int pickNumber() {
+  int i = 0;
+  int j = 0;
+
+  i = i++; // Noncompliant; i is still zero
+
+  return j++; // Noncompliant; 0 returned
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public int pickNumber() {
+  int i = 0;
+  int j = 0;
+
+  i++;
+  return ++j;
+}
+</pre>
+

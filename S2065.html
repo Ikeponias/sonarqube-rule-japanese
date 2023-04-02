@@ -1,0 +1,16 @@
+<p><code translate="no">transient</code> は、 クラスの中で、ファイル（またはストリーム）に書き出されないフィールドをマークするために使用されます。 を実装していないクラスでは、この修飾子は単にキー入力の無駄であり、削除する必要があります。<code translate="no">Serializable</code> <code translate="no">Serializable</code></p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class Vegetable {  // does not implement Serializable
+  private transient Season ripe;  // Noncompliant
+  // ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class Vegetable {
+  private Season ripe;
+  // ...
+}
+</pre>
+

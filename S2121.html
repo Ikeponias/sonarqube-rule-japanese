@@ -1,0 +1,23 @@
+<p>0から末尾までの部分文字列を作るのは愚かです。結局、最初に作ったのと同じ文字列になります。<code translate="no">String.length</code>の値を部分文字列の開始または終了として使用する場合も、同様に予測可能な結果となります。</p>
+<p>引数が contains を呼び出す String と同じで<code translate="no">String.contains</code> を呼び出しても意味がない。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String speech = "Now is the time for all good people to come to the aid of their country.";
+
+String s1 = speech.substring(0); // Noncompliant. Yields the whole string
+String s2 = speech.substring(speech.length()); // Noncompliant. Yields "";
+String s3 = speech.substring(5,speech.length()); // Noncompliant. Use the 1-arg version instead
+
+if (speech.contains(speech)) { // Noncompliant
+ // always true
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String speech = "Now is the time for all good people to come to the aid of their country.";
+
+String s1 = speech;
+String s2 = "";
+String s3 = speech.substring(5);
+</pre>
+

@@ -1,0 +1,57 @@
+<p><code translate="no">Stream</code> APIを使用する場合、可読性と保守性を向上させるために、コールチェーンをできるだけ簡略化する必要があります。</p>
+<p>このルールは、次のいずれかの代用が可能な場合に問題となる：</p>
+<table>
+  <colgroup>
+    <col style="width: 50%;" />
+    <col style="width: 50%;" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>オリジナル</th>
+      <th>プリファード</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><p><code translate="no">stream.collect(counting())</code></p></td>
+      <td><p><code translate="no">stream.count()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">stream.collect(maxBy(comparator))</code></p></td>
+      <td><p><code translate="no">stream.max(comparator)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">stream.collect(minBy(comparator))</code></p></td>
+      <td><p><code translate="no">stream.min(comparator)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">stream.collect(mapping(mapper))</code></p></td>
+      <td><p><code translate="no">stream.map(mapper).collect()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">stream.collect(reducing(...))</code></p></td>
+      <td><p><code translate="no">stream.reduce(...)</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">stream.collect(summingInt(mapper))</code></p></td>
+      <td><p><code translate="no">stream.mapToInt(mapper).sum()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">stream.collect(summingLong(mapper))</code></p></td>
+      <td><p><code translate="no">stream.mapToLong(mapper).sum()</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">stream.collect(summingDouble(mapper))</code></p></td>
+      <td><p><code translate="no">stream.mapToDouble(mapper).sum()</code></p></td>
+    </tr>
+  </tbody>
+</table>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int count = stream.collect(counting());  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int count = stream.count();
+</pre>
+

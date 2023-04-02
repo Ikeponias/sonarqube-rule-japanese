@@ -1,0 +1,23 @@
+<p>AWS SDKのようないくつかのAPIは、異なるデータ構造を作成するためにビルダーパターンに大きく依存しています。しかし、このパターンは、特にネストされた構造を扱う場合、非常に冗長になる可能性があります。より簡潔なコードにするために、「コンシューマー・インターフェイス」とも呼ばれる「コンシューマー・ビルダー」がしばしば導入されます。</p>
+<p>このアイデアは、Builderの中で他の構造を取るメソッドを、代わりにConsumer of Builderでオーバーロードすることです。これにより、別のBuilderをネストする代わりにラムダを使用することができ、より簡潔で読みやすいコードになります。</p>
+<p>このルールでは、コンシューマービルダーのメソッドが古典的なメソッドの代わりに使用される可能性がある問題を報告します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+SendEmailRequest.builder()
+  .destination(Destination.builder()
+    .toAddresses("to-email@domain.com")
+    .bccAddresses("bcc-email@domain.com")
+    .build())
+.build();
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+SendEmailRequest.builder()
+  .destination(d -&gt; d.toAddresses("to-email@domain.com").bccAddresses("bcc-email@domain.com"))
+  .build();
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://aws.amazon.com/fr/blogs/developer/consumer-builders-in-the-aws-sdk-for-java-v2/">AWS SDK for Java v2におけるConsumer Buildersについて</a></li>
+</ul>
+

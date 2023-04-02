@@ -1,0 +1,46 @@
+<p>Java 15では、テキストブロックは正式なもので、普通の文字列と同じように使うことができます。しかし、大きなテキストの塊を表現するために使用する場合、複雑な式の中で直接使用するのは可読性を低下させるので避けなければなりません。この場合、テキストブロックを変数やフィールドに抽出するのがよいでしょう。</p>
+<p>このルールでは、パラメータとして与えられた行数以上のテキストブロックをラムダ式内で直接使用する場合の問題を報告します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+listOfString.stream()
+  .map(str -&gt; !"""
+    &lt;project&gt;
+      &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+      &lt;parent&gt;
+        &lt;groupId&gt;com.mycompany.app&lt;/groupId&gt;
+        &lt;artifactId&gt;my-app&lt;/artifactId&gt;
+        &lt;version&gt;1&lt;/version&gt;
+      &lt;/parent&gt;
+
+      &lt;groupId&gt;com.mycompany.app&lt;/groupId&gt;
+      &lt;artifactId&gt;my-module&lt;/artifactId&gt;
+      &lt;version&gt;1&lt;/version&gt;
+    &lt;/project&gt;
+    """.equals(str));
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String myTextBlock = """
+    &lt;project&gt;
+      &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+      &lt;parent&gt;
+        &lt;groupId&gt;com.mycompany.app&lt;/groupId&gt;
+        &lt;artifactId&gt;my-app&lt;/artifactId&gt;
+        &lt;version&gt;1&lt;/version&gt;
+      &lt;/parent&gt;
+
+      &lt;groupId&gt;com.mycompany.app&lt;/groupId&gt;
+      &lt;artifactId&gt;my-module&lt;/artifactId&gt;
+      &lt;version&gt;1&lt;/version&gt;
+    &lt;/project&gt;
+    """;
+
+listOfString.stream()
+  .map(str -&gt; !myTextBlock.equals(str));
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://openjdk.java.net/jeps/378">JEP 378：テキストブロック</a></li>
+  <li><a href="https://cr.openjdk.java.net/~jlaskey/Strings/TextBlocksGuide_v9.html">プログラマーズ・ガイド・トゥ・テキスト・ブロック</a>」ジム・ラスキー、スチュアート・マークス著 </li>
+</ul>
+

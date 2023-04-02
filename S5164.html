@@ -1,0 +1,60 @@
+<p><code translate="no">ThreadLocal</code> 変数は、保持するスレッドが生きなくなった時点でガベージコレクションされることになっています。メモリリークは、スレッドのプールを使用するアプリケーションサーバーに見られるように、保持スレッドが再利用される場合に発生する可能性があります。</p>
+<p>このような問題を避けるため、<code translate="no">ThreadLocal</code> 変数のクリーンアップには必ず<code translate="no">remove()</code> メソッドを使用し、<code translate="no">ThreadLocal</code> 変数に対する現在のスレッドの値を削除することが推奨されます。</p>
+<p>また、<code translate="no">set(null)</code> を呼び出して値を削除すると、<code translate="no">this</code> ポインタへの参照がマップに残る可能性があり、シナリオによってはメモリリークを引き起こす可能性があります。この問題を回避するためには、<code translate="no">remove</code> を使用するのがより安全です。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class ThreadLocalUserSession implements UserSession {
+
+  private static final ThreadLocal&lt;UserSession&gt; DELEGATE = new ThreadLocal&lt;&gt;();
+
+  public UserSession get() {
+    UserSession session = DELEGATE.get();
+    if (session != null) {
+      return session;
+    }
+    throw new UnauthorizedException("User is not authenticated");
+  }
+
+  public void set(UserSession session) {
+    DELEGATE.set(session);
+  }
+
+   public void incorrectCleanup() {
+     DELEGATE.set(null); // Noncompliant
+   }
+
+  // some other methods without a call to DELEGATE.remove()
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class ThreadLocalUserSession implements UserSession {
+
+  private static final ThreadLocal&lt;UserSession&gt; DELEGATE = new ThreadLocal&lt;&gt;();
+
+  public UserSession get() {
+    UserSession session = DELEGATE.get();
+    if (session != null) {
+      return session;
+    }
+    throw new UnauthorizedException("User is not authenticated");
+  }
+
+  public void set(UserSession session) {
+    DELEGATE.set(session);
+  }
+
+  public void unload() {
+    DELEGATE.remove(); // Compliant
+  }
+
+  // ...
+}
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">remove()</code> は他のクラスから呼び出すことができるため、ルールはプライベートでない<code translate="no">ThreadLocal</code> 変数を検出しない。</p>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://www.baeldung.com/java-memory-leaks">Javaのメモリリークを理解する</a></li>
+</ul>
+

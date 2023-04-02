@@ -1,0 +1,11 @@
+<p>クラスを静的にインポートすると、クラス名で修飾することなく、その<code translate="no">public static</code> メンバーを使用することができます。これは便利ですが、あまりに多くのクラスを静的にインポートすると、コードが混乱し、保守が困難になる可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルトの閾値で4</p>
+<pre translate="no">
+import static java.lang.Math.*;
+import static java.util.Collections.*;
+import static com.myco.corporate.Constants.*;
+import static com.myco.division.Constants.*;
+import static com.myco.department.Constants.*;  // Noncompliant
+</pre>
+

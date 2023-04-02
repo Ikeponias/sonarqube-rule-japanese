@@ -1,0 +1,29 @@
+<p>Java Collections APIの目的は、実装の詳細を隠すために、明確に定義されたインターフェースの階層を提供することである。</p>
+<p>新しいコレクションをインスタンス化するには、実装クラスを使用する必要がありますが、インスタンス化の結果は、理想的には、Javaコレクションインタフェースを型とする変数に格納されるべきです。</p>
+<p>このルールでは、実装クラスがある場合に問題が発生します：</p>
+<ul>
+  <li>は、<code translate="no">public</code> メソッドから返されます。 </li>
+  <li>は、<code translate="no">public</code> メソッドの引数として受け取ります。 </li>
+  <li>は、<code translate="no">public</code> メンバーとして公開されています。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Employees {
+  private HashSet&lt;Employee&gt; employees = new HashSet&lt;Employee&gt;();  // Noncompliant - "employees" should have type "Set" rather than "HashSet"
+
+  public HashSet&lt;Employee&gt; getEmployees() {                       // Noncompliant
+    return employees;
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Employees {
+  private Set&lt;Employee&gt; employees = new HashSet&lt;Employee&gt;();      // Compliant
+
+  public Set&lt;Employee&gt; getEmployees() {                           // Compliant
+    return employees;
+  }
+}
+</pre>
+

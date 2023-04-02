@@ -1,0 +1,32 @@
+<p>サーブレットのメソッドのシグネチャに<code translate="no">throws IOException, ServletException</code> が含まれていても、そのような例外をスローさせるのは悪い考えです。サーブレットが例外をスローすると、サーブレットコンテナは通常デバッグ情報をユーザーに送り返すため、サーブレットで例外をキャッチしないと、システムが脆弱な状態になり、サービス拒否攻撃や機密情報の暴露につながる可能性があります。なぜなら、サーブレットが例外をスローした場合、サーブレットコンテナは通常、デバッグ情報をユーザーに送り返すからです。その情報は、攻撃者にとって非常に貴重なものです。</p>
+<p>このルールは、"do*"と名付けられたメソッドの例外が、サーブレットクラスで明示的に処理されているかどうかをチェックします。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doGet(HttpServletRequest request, HttpServletResponse response)
+  throws IOException, ServletException {
+  String ip = request.getRemoteAddr();
+  InetAddress addr = InetAddress.getByName(ip); // Noncompliant; getByName(String) throws UnknownHostException
+  //...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doGet(HttpServletRequest request, HttpServletResponse response)
+  throws IOException, ServletException {
+  try {
+    String ip = request.getRemoteAddr();
+    InetAddress addr = InetAddress.getByName(ip);
+    //...
+  }
+  catch (UnknownHostException uhex) {
+    //...
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://www.owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/600">MITRE, CWE-600</a>- サーブレットでキャッチされない例外 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/-zZGBQ">CERT、ERR01-J。</a>- 例外的に機密情報を公開させないようにする </li>
+</ul>
+

@@ -1,0 +1,33 @@
+<p>部分式内の代入は発見しにくいので、コードの可読性が低下します。理想的には、部分式は副作用を持たないようにすることです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if ((str = cont.substring(pos1, pos2)).isEmpty()) {  // Noncompliant
+  //...
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+str = cont.substring(pos1, pos2);
+if (str.isEmpty()) {
+  //...
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">while</code> 文の条件中の代入、および関係式で囲まれた代入は無視される。</p>
+<pre translate="no">
+BufferedReader br = new BufferedReader(/* ... */);
+String line;
+while ((line = br.readLine()) != null) {...}
+if ((i = j) &gt;= 1) {...}
+</pre>
+<p>複合代入を含む連鎖代入は、無視されます。</p>
+<pre translate="no">
+int i = j = 0;
+int k = (j += 1);
+result = (bresult = new byte[len]);
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/481">MITRE, CWE-481</a>- 比較するのではなく、割り当てる。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/ZNYxBQ">CERT、EXP45-C。</a>- 選択文での割り付けを行わない </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/ITZGBQ">CERT、EXP51-J。</a>- 条件式で代入を実行しない </li>
+</ul>
+

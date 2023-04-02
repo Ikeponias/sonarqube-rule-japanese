@@ -1,0 +1,90 @@
+<p>複数のテストが、いくつかのハードコードされた値によってのみ異なる場合、それらは単一の「パラメータ化された」テストとしてリファクタリングされるべきです。こうすることで、バグを追加する可能性を減らし、より読みやすくすることができます。パラメータ化されたテストは、ほとんどのテストフレームワーク（JUnit、TestNG など）に存在します。</p>
+<p>もちろん、適切なバランスを見つける必要があります。パラメータ化されたバージョンが初期テストよりもずっと複雑である場合、テストメソッドを因数分解することに意味はありません。</p>
+<p>このルールは、少なくとも3つのテストが、4つ以下のパラメータを持つ1つのパラメータ化されたテストとしてリファクタリングできる場合に問題が発生します。少なくとも1つの重複するステートメントを持つテストメソッドのみが考慮されます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>JUnit 5で</p>
+<pre translate="no">
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+public class AppTest
+{
+    @Test
+    void test_not_null1() {  // Noncompliant. The 3 following tests differ only by one hardcoded number.
+      setupTax();
+      assertNotNull(getTax(1));
+    }
+
+    @Test
+    void test_not_null2() {
+      setupTax();
+      assertNotNull(getTax(2));
+    }
+
+    @Test
+    void test_not_nul3l() {
+      setupTax();
+      assertNotNull(getTax(3));
+    }
+
+    @Test
+    void testLevel1() {  // Noncompliant. The 3 following tests differ only by a few hardcoded numbers.
+        setLevel(1);
+        runGame();
+        assertEquals(playerHealth(), 100);
+    }
+
+    @Test
+    void testLevel2() {  // Similar test
+        setLevel(2);
+        runGame();
+        assertEquals(playerHealth(), 200);
+    }
+
+    @Test
+    void testLevel3() {  // Similar test
+        setLevel(3);
+        runGame();
+        assertEquals(playerHealth(), 300);
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+public class AppTest
+{
+
+   @ParameterizedTest
+   @ValueSource(ints = {1, 2, 3})
+   void test_not_null(int arg) {
+     setupTax();
+     assertNotNull(getTax(arg));
+   }
+
+    @ParameterizedTest
+    @CsvSource({
+        "1, 100",
+        "2, 200",
+        "3, 300",
+    })
+    void testLevels(int level, int health) {
+        setLevel(level);
+        runGame();
+        assertEquals(playerHealth(), health);
+    }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://phauer.com/2019/modern-best-practices-testing-java/#use-parameterized-tests">Javaにおけるテストのための最新のベストプラクティス - Philipp Hauer</a></li>
+  <li><a href="https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests">JUnit 5 ドキュメント - パラメータ化されたテスト</a></li>
+  <li><a href="https://www.testwithspring.com/lesson/writing-parameterized-tests-with-junit-4/">JUnit 4でパラメータ化されたテストを記述する</a></li>
+  <li><a href="https://testng.org/doc/documentation-main.html#parameters">TestNGドキュメント - パラメータ</a></li>
+</ul>
+

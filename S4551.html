@@ -1,0 +1,40 @@
+<p><code translate="no">equals</code> enumはObjectであり、Objectの内容を比較するために"=="を使ってはいけないことは、Javaの開発者なら誰でも知っているからです。同時に、enumに"=="を使用することも問題です：</p>
+<ul>
+  <li>は、<code translate="no">equals</code> と同じ期待値で比較（コンテンツ）することができます。 </li>
+  <li>は equals() よりもヌルセーフです。 </li>
+  <li>は、実行時チェックではなく、コンパイル時（静的）チェックを提供します。 </li>
+</ul>
+<p>これらの理由から、"=="の使用は、<code translate="no">equals</code> よりも優先されるべきです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public enum Fruit {
+   APPLE, BANANA, GRAPE
+}
+
+public enum Cake {
+  LEMON_TART, CHEESE_CAKE
+}
+
+public boolean isFruitGrape(Fruit candidateFruit) {
+  return candidateFruit.equals(Fruit.GRAPE); // Noncompliant; this will raise an NPE if candidateFruit is NULL
+}
+
+public boolean isFruitGrape(Cake candidateFruit) {
+  return candidateFruit.equals(Fruit.GRAPE); // Noncompliant; always returns false
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public boolean isFruitGrape(Fruit candidateFruit) {
+  return candidateFruit == Fruit.GRAPE; // Compliant; there is only one instance of Fruit.GRAPE - if candidateFruit is a GRAPE it will have the same reference as Fruit.GRAPE
+}
+
+public boolean isFruitGrape(Cake candidateFruit) {
+  return candidateFruit == Fruit.GRAPE; // Compliant; compilation time failure
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://www.javaworld.com/article/2074292/core-java/use-----or-----to-compare-java-enums.html">JavaのEnumを比較するために==（または!=）を使用</a>します。 </li>
+</ul>
+

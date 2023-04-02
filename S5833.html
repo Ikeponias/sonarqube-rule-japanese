@@ -1,0 +1,30 @@
+<p><a href="https://assertj.github.io/doc/">AssertJの</a>記述、エラーメッセージの設定、コンパレータの追加は、アサーションを呼び出す前に行う必要があります。そうでない場合、設定は考慮されません。</p>
+<p>このルールは、メソッドの1つが（すべての類似したメソッドを持つ）場合に問題を生じさせる：</p>
+<ul>
+  <li> <code translate="no">as</code> </li>
+  <li> <code translate="no">describedAs</code> </li>
+  <li> <code translate="no">withFailMessage</code> </li>
+  <li> <code translate="no">overridingErrorMessage</code> </li>
+  <li> <code translate="no">usingComparator</code> </li>
+  <li> <code translate="no">usingElementComparator</code> </li>
+  <li> <code translate="no">extracting</code> </li>
+  <li> <code translate="no">filteredOn</code> </li>
+</ul>
+<p>が呼び出された場合、その後にAssertJアサーションを呼び出すことはありません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+assertThat(actual).isEqualTo(expected).as("Description"); // Noncompliant
+assertThat(actual).isEqualTo(expected).withFailMessage("Fail message"); // Noncompliant
+assertThat(actual).isEqualTo(expected).usingComparator(new CustomComparator()); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+assertThat(actual).as("Description").isEqualTo(expected);
+assertThat(actual).withFailMessage("Fail message").isEqualTo(expected);
+assertThat(actual).usingComparator(new CustomComparator()).isEqualTo(expected);
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://assertj.github.io/doc/#calling-as-after-the-assertion">AssertJの使用説明書が間違って</a>いる </li>
+</ul>
+

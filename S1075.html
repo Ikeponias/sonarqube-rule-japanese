@@ -1,0 +1,36 @@
+<p>パスリテラルはオペレーティングシステム間で必ずしも移植可能ではない、指定した絶対パスが特定のテスト環境に存在しないかもしれない、指定したインターネットURLがテスト実行時に利用できないかもしれない、本番環境のファイルシステムは通常開発環境と異なる、...などなど、URIをハードコーディングするとプログラムのテストが困難になります。このような理由から、URIは決してハードコードされるべきではありません。その代わりに、カスタマイズ可能なパラメータに置き換える必要があります。</p>
+<p>また、URIの要素を動的に取得する場合でも、パスデリミタがハードコードされていると、移植性が制限されることがある。</p>
+<p>このルールは、URIやパスの区切り文字がハードコーディングされている場合に問題となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Foo {
+  public Collection&lt;User&gt; listUsers() {
+    File userList = new File("/home/mylogin/Dev/users.txt"); // Noncompliant
+    Collection&lt;User&gt; users = parse(userList);
+    return users;
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Foo {
+  // Configuration is a class that returns customizable properties: it can be mocked to be injected during tests.
+  private Configuration config;
+  public Foo(Configuration myConfig) {
+    this.config = myConfig;
+  }
+  public Collection&lt;User&gt; listUsers() {
+    // Find here the way to get the correct folder, in this case using the Configuration object
+    String listingFolder = config.getProperty("myApplication.listingFolder");
+    // and use this parameter instead of the hard coded path
+    File userList = new File(listingFolder, "users.txt"); // Compliant
+    Collection&lt;User&gt; users = parse(userList);
+    return users;
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/OjdGBQ">CERT、MSC03-J。</a>- 機密情報をハードコードしない </li>
+</ul>
+

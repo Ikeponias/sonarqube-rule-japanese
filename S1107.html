@@ -1,0 +1,45 @@
+<p>コーディング規約を共有することで、チームでの効率的なコラボレーションが可能になります。</p>
+<p>このルールにより、閉じ中括弧を次の<code translate="no">else</code>,<code translate="no">catch</code>,<code translate="no">finally</code> キーワードと同じ行に置くことが必須となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void myMethod() {
+  if(something) {
+    executeTask();
+  } else if (somethingElse) {
+    doSomethingElse();
+  }
+  else {                               // Noncompliant
+     generateError();
+  }
+
+  try {
+    generateOrder();
+  } catch (Exception e) {
+    log(e);
+  }
+  finally {                            // Noncompliant
+    closeConnection();
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void myMethod() {
+  if(something) {
+    executeTask();
+  } else if (somethingElse) {
+    doSomethingElse();
+  } else {
+     generateError();
+  }
+
+  try {
+    generateOrder();
+  } catch (Exception e) {
+    log(e);
+  } finally {
+    closeConnection();
+  }
+}
+</pre>
+

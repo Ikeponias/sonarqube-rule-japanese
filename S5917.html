@@ -1,0 +1,50 @@
+<p><code translate="no">WeekFields.weekBasedYear()</code> temporalフィールドを使用して<code translate="no">DateTimeFormatter</code> を作成する場合、新しい年の始まりには、結果の年号が1つずれることがあります（フォーマットする日付が、連続する2つの年に共有されている週の場合）。</p>
+<p>この年号と、互換性のない週番号を組み合わせて使用すると、前年の第1週と混同する可能性がある結果が得られます。</p>
+<p>その代わり、週単位の年号は、週単位の年号の週単位の時間フィールド（<code translate="no">WeekFields.weekOfWeekBasedYear()</code> ）と組み合わせてのみ使用する。</p>
+<p>また、時間フィールド<code translate="no">ChronoField.ALIGNED_WEEK_OF_YEAR</code> は、通常の年とともに使用することができます（ただし、週を基準とした年は不可）。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+new DateTimeFormatterBuilder()
+      .appendValue(ChronoField.YEAR, 4) // Noncompliant: using week of week-based year with regular year
+      .appendLiteral('-')
+      .appendValue(WeekFields.ISO.weekOfWeekBasedYear(), 2)
+      .toFormatter();
+
+new DateTimeFormatterBuilder()
+      .appendValue(ChronoField.YEAR_OF_ERA, 4) // Noncompliant: using week of week-based year with regular year
+      .appendLiteral('-')
+      .appendValue(WeekFields.ISO.weekOfWeekBasedYear(), 2)
+      .toFormatter();
+
+new DateTimeFormatterBuilder()
+      .appendValue(WeekFields.ISO.weekBasedYear(), 4) // Noncompliant: using aligned week of year with week-based year
+      .appendLiteral('-')
+      .appendValue(ChronoField.ALIGNED_WEEK_OF_YEAR, 2)
+      .toFormatter();
+</pre>
+<p>ここでは、最初の2つのフォーマッタは2016年1月1日を "2016-53 "と誤ってフォーマットし、最後のフォーマッタは "2015-01 "とフォーマットします。</p>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+new DateTimeFormatterBuilder()
+      .appendValue(WeekFields.ISO.weekBasedYear(), 4)
+      .appendLiteral('-')
+      .appendValue(WeekFields.ISO.weekOfWeekBasedYear(), 2)
+      .toFormatter();
+
+new DateTimeFormatterBuilder()
+      .appendValue(ChronoField.YEAR, 4)
+      .appendLiteral('-')
+      .appendValue(ChronoField.ALIGNED_WEEK_OF_YEAR, 2)
+      .toFormatter();
+
+new DateTimeFormatterBuilder()
+      .appendValue(ChronoField.YEAR_OF_ERA, 4)
+      .appendLiteral('-')
+      .appendValue(ChronoField.ALIGNED_WEEK_OF_YEAR, 2)
+      .toFormatter();
+</pre>
+<p>ここでは、最初のフォーマッタは2016年1月1日を「2015-53」とフォーマットし、最後の2つは「2016-01」と出力しますが、週の数え方によってはどちらも正しいです。</p>
+<h2>例外あり</h2>
+<p>週単位の年を週単位の時間フィールドと組み合わせて使用しない場合は、問題は発生しない。</p>
+<p>同様に、週単位の年の週が、年の一時的なフィールドと組み合わせて使用されない場合は、問題は発生しない。</p>
+

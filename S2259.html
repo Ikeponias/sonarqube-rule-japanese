@@ -1,0 +1,49 @@
+<p><code translate="no">null</code> への参照は、決して再参照したりアクセスしたりしてはならない。そうすると、<code translate="no">NullPointerException</code> がスローされます。このような例外は、せいぜいプログラムの突然の終了を引き起こす程度です。最悪の場合、攻撃者にとって有益なデバッグ情報が公開されたり、攻撃者がセキュリティ対策を迂回したりする可能性があります。</p>
+<p><code translate="no">@CheckForNull</code> <code translate="no">@Nonnull</code> ただし、<code translate="no">@Nonnull</code> が<code translate="no">equals</code> のパラメータに使用されている場合は例外で、契約上常に null で動作する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@CheckForNull
+String getName(){...}
+
+public boolean isNameEmpty() {
+  return getName().length() == 0; // Noncompliant; the result of getName() could be null, but isn't null-checked
+}
+</pre>
+<pre translate="no">
+Connection conn = null;
+Statement stmt = null;
+try{
+  conn = DriverManager.getConnection(DB_URL,USER,PASS);
+  stmt = conn.createStatement();
+  // ...
+
+}catch(Exception e){
+  e.printStackTrace();
+}finally{
+  stmt.close();   // Noncompliant; stmt could be null if an exception was thrown in the try{} block
+  conn.close();  // Noncompliant; conn could be null if an exception was thrown
+}
+</pre>
+<pre translate="no">
+private void merge(@Nonnull Color firstColor, @Nonnull Color secondColor){...}
+
+public  void append(@CheckForNull Color color) {
+    merge(currentColor, color);  // Noncompliant; color should be null-checked because merge(...) doesn't accept nullable parameters
+}
+</pre>
+<pre translate="no">
+void paint(Color color) {
+  if(color == null) {
+    System.out.println("Unable to apply color " + color.toString());  // Noncompliant; NullPointerException will be thrown
+    return;
+  }
+  ...
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/476">MITRE, CWE-476</a>- NULLポインタのデリファレンス </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/QdcxBQ">CERT、EXP34-C。</a>- ヌルポインタの再参照を行わない </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/aDdGBQ">CERT、EXP01-J。</a>- オブジェクトが必要な場合にNULLを使用しないでください </li>
+</ul>
+

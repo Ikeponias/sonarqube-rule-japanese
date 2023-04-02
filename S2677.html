@@ -1,0 +1,32 @@
+<p>あるデータソースから読み込んだデータを返すメソッドが呼ばれたとき、そのデータは捨てられるのではなく、保存されるべきです。それ以外の行動は、きっとバグです。</p>
+<p>このルールは、以下のいずれかの戻り値が無視されるか、単にヌルチェックされる場合に問題が発生します：<code translate="no">BufferedReader.readLine()</code><code translate="no">Reader.read()</code> 、およびこれらのメソッドを子クラスで使用する場合。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomethingWithFile(String fileName) {
+  BufferedReader buffReader = null;
+  try {
+    buffReader = new BufferedReader(new FileReader(fileName));
+    while (buffReader.readLine() != null) { // Noncompliant
+      // ...
+    }
+  } catch (IOException e) {
+    // ...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomethingWithFile(String fileName) {
+  BufferedReader buffReader = null;
+  try {
+    buffReader = new BufferedReader(new FileReader(fileName));
+    String line = null;
+    while ((line = buffReader.readLine()) != null) {
+      // ...
+    }
+  } catch (IOException e) {
+    // ...
+  }
+}
+</pre>
+

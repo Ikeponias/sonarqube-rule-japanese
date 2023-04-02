@@ -1,0 +1,40 @@
+<p>無限ループとは、プログラムが実行されている間は決して終わらないループのことで、つまり、 ループから抜け出すためにはプログラムを終了させなければなりません。ループの終了条件を満たすか、<code translate="no">break</code> 、すべてのループに終了条件を設定する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+for (;;) {  // Noncompliant; end condition omitted
+  // ...
+}
+
+int j;
+while (true) { // Noncompliant; end condition omitted
+  j++;
+}
+
+int k;
+boolean b = true;
+while (b) { // Noncompliant; b never written to in loop
+  k++;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int j;
+while (true) { // reachable end condition added
+  j++;
+  if (j  == Integer.MIN_VALUE) {  // true at Integer.MAX_VALUE +1
+    break;
+  }
+}
+
+int k;
+boolean b = true;
+while (b) {
+  k++;
+  b = k &lt; Integer.MAX_VALUE;
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/lzZGBQ">CERT、MSC01-J。</a>- 空の無限ループを使用しないでください </li>
+</ul>
+

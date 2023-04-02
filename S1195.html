@@ -1,0 +1,19 @@
+<p>Java Language Specificationによる：</p>
+<blockquote>
+  <p>旧バージョンのJava SEプラットフォームとの互換性のため、</p>
+  <p>配列を返すメソッドの宣言では、配列型の宣言を構成する空括弧の組を正式なパラメータリストの後に（一部または全部）置くことが許可されています。</p>
+  <p>この陳腐化した構文は、新しいコードに使うべきではない。</p>
+</blockquote>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public int getVector()[] { /* ... */ }    // Noncompliant
+
+public int[] getMatrix()[] { /* ... */ }  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public int[] getVector() { /* ... */ }
+
+public int[][] getMatrix() { /* ... */ }
+</pre>
+

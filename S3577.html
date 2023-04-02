@@ -1,0 +1,33 @@
+<p>命名規則を共有することで、チームは効率的にコラボレーションを行うことができます。このルールでは、テストクラス名が提供された正規表現に一致しない場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルト値で：<code translate="no">^((Test|IT)[a-zA-Z0-9_]+|[A-Z][a-zA-Z0-9_]*(Test|Tests|TestCase|IT|ITCase))$</code></p>
+<pre translate="no">
+class Foo {  // Noncompliant
+  @Test
+  void check() {  }
+}
+
+class Bar {  // Noncompliant
+  @Nested
+  class PositiveCase {
+    @Test
+    void check() {  }
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class FooTest {
+  @Test
+  void check() {  }
+}
+
+class BarIT {
+  @Nested
+  class PositiveCase {
+    @Test
+    void check() {  }
+  }
+}
+</pre>
+

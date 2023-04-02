@@ -1,0 +1,14 @@
+<p>あるクラスが拡張している他のパッケージのクラスや、そのクラスが実装しているインターフェースと同じ単純な名前を付けることは、完全に合法ですが、混乱を招き、将来的に問題を引き起こす可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+package my.mypackage;
+
+public class Foo implements a.b.Foo { // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+package my.mypackage;
+
+public class FooJr implements a.b.Foo {
+</pre>
+

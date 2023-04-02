@@ -1,0 +1,20 @@
+<p><code translate="no">Object.finalize()</code> は、オブジェクトが参照されなくなった後のある時点で、ガベージコレクタによって呼び出されます。</p>
+<p>一般的に、<code translate="no">Object.finalize()</code> のオーバーロードは良くないとされています：</p>
+<ul>
+  <li>オーバーロードは、ガベージコレクタから呼び出されない場合があります。 </li>
+  <li>ユーザーは<code translate="no">Object.finalize()</code> に電話することを想定していないので、混乱することになる。 </li>
+</ul>
+<p>しかし、それ以上に、実際に<code translate="no">Object.finalize()</code> をオーバーライドしていないメソッドに "finalize" という名前をつけるのは、ひどいアイデアです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public int finalize(int someParameter) {        // Noncompliant
+  /* ... */
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public int someBetterName(int someParameter) {  // Compliant
+  /* ... */
+}
+</pre>
+

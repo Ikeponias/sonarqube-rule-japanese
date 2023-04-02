@@ -1,0 +1,12 @@
+<p>Unicode<a href="https://unicode.org/glossary/#grapheme_cluster">Grapheme Clusters</a>（複数の<a href="https://unicode.org/glossary/#code_point">Code Pointで</a>エンコードする必要がある文字）を正規表現の文字クラス内に配置する場合、意図しない動作になる可能性があります。</p>
+<p>たとえば、<code translate="no">c̈</code> という書記素クラスタには 2 つのコードポイントが必要です。1 つは<code translate="no">'c'</code> で、もう 1 つは<em>ウムラウト</em>修飾語<code translate="no">'\u{0308}'</code> で す。<code translate="no">[c̈]</code> のような文字クラス内に置かれた場合、正規表現はその文字クラスを列挙型<code translate="no">[c\u{0308}]</code> とみなします。したがって、1つのコードポイントとして表現されていないすべての<code translate="no">'c'</code> とすべての<em>ウムラウトに</em>マッチすることになりますが、これは意図した動作ではありません。</p>
+<p>このルールでは、正規表現の文字クラス内でUnicode Grapheme Clustersが使用されるたびに問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+"cc̈d̈d".replaceAll("[c̈d̈]", "X"); // Noncompliant, print "XXXXXX" instead of expected "cXXd".
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+"cc̈d̈d".replaceAll("c̈|d̈", "X"); // print "cXXd"
+</pre>
+

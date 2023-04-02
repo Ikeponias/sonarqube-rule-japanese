@@ -1,0 +1,54 @@
+<p>異種型の比較は常に false を返します。比較とその依存するすべてのコードは、単に削除することができます。これには以下が含まれます：</p>
+<ul>
+  <li>くうふく </li>
+  <li>けいたいじょうほう </li>
+  <li>比較級 </li>
+  <li>無関係な<code translate="no">class</code> と<code translate="no">interface</code> を比較する </li>
+  <li>無関係な<code translate="no">interface</code> タイプの比較 </li>
+  <li>配列と非配列を比較する </li>
+  <li>配列比較 </li>
+</ul>
+<p>特に配列の場合、配列は<code translate="no">Object.equals()</code> を上書きしないので、2つの配列に対して<code translate="no">equals</code> を呼び出すと、そのアドレスを比較するのと同じことになる。つまり、<code translate="no">array1.equals(array2)</code> は、<code translate="no">array1==array2</code> と同等です。</p>
+<p>しかし、開発者によっては、<code translate="no">Array.equals(Object obj)</code> に単純なメモリアドレスの比較以上の機能を期待し、例えば2つの配列のサイズと内容を比較することもあります。代わりに、<code translate="no">==</code> 演算子または<code translate="no">Arrays.equals(array1, array2)</code> を常に配列に使用する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+interface KitchenTool { ... };
+interface Plant {...}
+
+public class Spatula implements KitchenTool { ... }
+public class Tree implements Plant { ...}
+//...
+
+Spatula spatula = new Spatula();
+KitchenTool tool = spatula;
+KitchenTool [] tools = {tool};
+
+Tree tree = new Tree();
+Plant plant = tree;
+Tree [] trees = {tree};
+
+
+if (spatula.equals(tree)) { // Noncompliant; unrelated classes
+  // ...
+}
+else if (spatula.equals(plant)) { // Noncompliant; unrelated class and interface
+  // ...
+}
+else if (tool.equals(plant)) { // Noncompliant; unrelated interfaces
+  // ...
+}
+else if (tool.equals(tools)) { // Noncompliant; array &amp; non-array
+  // ...
+}
+else if (trees.equals(tools)) { // Noncompliant; incompatible arrays
+  // ...
+}
+else if (tree.equals(null)) { // Noncompliant
+  // ...
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/5zdGBQ">CERT、EXP02-J。</a>- Object.equals()メソッドを使用して2つの配列を比較しないでください。 </li>
+</ul>
+

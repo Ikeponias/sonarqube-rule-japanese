@@ -1,0 +1,37 @@
+<p>X.509証明書の検証は、中間者攻撃に脆弱でない安全なSSL/TLSセッションを作成するために不可欠である。</p>
+<p>証明書チェーンの検証は、以下のステップを含みます：</p>
+<ul>
+  <li>証明書は、その親認証局またはシステムから信頼されたルートCAから発行されます。 </li>
+  <li>各CAは、証明書の発行を許可される。 </li>
+  <li>チェーン内の各証明書は、有効期限が切れていない。 </li>
+</ul>
+<p>このルールは、X509TrustManagerの実装が証明書の有効性を制御していない（つまり、例外が発生しない）場合に問題となる。証明書の検証を無効にするために、<code translate="no">X509TrustManager</code> インタフェースの空の実装が作成されることがよくあります。正しい解決策は、適切なトラストストアを提供することです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class TrustAllManager implements X509TrustManager {
+
+    @Override
+    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {  // Noncompliant, nothing means trust any client
+    }
+
+    @Override
+    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException { // Noncompliant, this method never throws exception, it means trust any server
+        LOG.log(Level.SEVERE, ERROR_MESSAGE);
+    }
+
+    @Override
+    public X509Certificate[] getAcceptedIssuers() {
+        return null;
+    }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/">OWASP Top 10 2021 カテゴリ A2</a>- 暗号の失敗 </li>
+  <li><a href="https://owasp.org/Top10/A05_2021-Security_Misconfiguration/">OWASP Top 10 2021 カテゴリ A5</a>- セキュリティの誤設定 </li>
+  <li><a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">OWASP Top 10 2021 カテゴリ A7</a>- 識別と認証の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/295">MITRE、CWE-295</a>- 不適切な証明書のバリデーション </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/hDdGBQ">CERT、MSC61-J。</a>- 安全でない、または弱い暗号アルゴリズムを使用しないこと </li>
+</ul>
+

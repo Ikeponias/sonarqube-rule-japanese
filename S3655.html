@@ -1,0 +1,54 @@
+<p><code translate="no">Optional</code> valueは、値を保持することも、保持しないことも可能です。 に保持された値は、 メソッドでアクセスすることができますが、その際に<code translate="no">Optional</code><code translate="no">get()</code> </p>
+<p><code translate="no">NoSuchElementException</code> が存在しない場合、例外が発生します。この例外を回避するには、 または メソッドを呼び出す前に、必ず を呼び出す必要があります。<code translate="no">isPresent()</code> <code translate="no">!
+isEmpty()</code> <code translate="no">get()</code></p>
+<p>あるいは、<code translate="no">orElse(...)</code> 、<code translate="no">orElseGet(...)</code> 、<code translate="no">orElseThrow(...)</code> などの他のメソッドを使用して、空の<code translate="no">Optional</code> をどうするか指定できることに注意してください。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Optional&lt;String&gt; value = this.getOptionalValue();
+
+// ...
+
+String stringValue = value.get(); // Noncompliant
+</pre>
+<pre translate="no">
+if (methodThatReturnsOptional().isEmpty()) {
+  throw new NotFoundException();
+}
+String value = methodThatReturnsOptional().get(); // Noncompliant: indirect access, we consider that two consecutive calls can return different values.
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+this.getOptionalValue().ifPresent(stringValue -&gt;
+  // Do something with stringValue
+);
+</pre>
+<p>または</p>
+<pre translate="no">
+Optional&lt;String&gt; value = this.getOptionalValue();
+
+// ...
+
+if (value.isPresent()) {
+  String stringValue = value.get();
+}
+</pre>
+<p>または</p>
+<pre translate="no">
+Optional&lt;String&gt; value = this.getOptionalValue();
+
+// ...
+
+String stringValue = value.orElse("default");
+</pre>
+<pre translate="no">
+Optional&lt;String&gt; optional = methodThatReturnsOptional();
+if (optional.isEmpty()) {
+  throw new NotFoundException();
+}
+String value = optional.get();
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/476">MITRE, CWE-476</a>- NULLポインタのデリファレンス </li>
+</ul>
+

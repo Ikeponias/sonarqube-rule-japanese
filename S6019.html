@@ -1,0 +1,14 @@
+<p>消極的な量化子（<code translate="no">*?</code> や<code translate="no">+?</code> など）の後に、空文字列にマッチするパターンや、正規表現の末尾に直接マッチするパターンがある場合、部分一致を見つけるメソッド（<code translate="no">find</code>,<code translate="no">replaceAll</code>,<code translate="no">split</code> など）と併用すると、常に空文字列にマッチします。</p>
+<p>同様に、完全一致を求めるメソッドで使用する場合、正規表現の末尾に直接続く不本意な量化子（または<code translate="no">()</code> のように常に空文字列にマッチするパターン）は、貪欲な量化子と区別なく動作しますが、効率は悪くなります。</p>
+<p>これは、正規表現が意図したとおりに動作していないことの表れであると思われます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+"start123endstart456".replaceAll("start\\w*?(end)?", "x"); // Noncompliant. In contrast to what one would expect, the result is not "xx".
+str.matches("\\d*?"); // Noncompliant. Matches the same as "\d*", but will backtrack in every position.
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+"start123endstart456".replaceAll("start\\w*?(end|$)", "x"); // Result is "xx".
+str.matches("\\d*");
+</pre>
+

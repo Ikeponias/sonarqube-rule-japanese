@@ -1,0 +1,42 @@
+<p>XML署名の検証は、実際に検証されるまでは信頼できない第三者のデータを解析することで機能します。</p>
+<p>他の解析処理と同様に、サードパーティーのXML署名を無制限に検証すると、セキュリティの脆弱性につながる可能性があります。この場合、脅威はサービス拒否から機密保持違反まで多岐にわたります。</p>
+<p>デフォルトでは、Java XML Digital Signature APIは、アプリケーションがセキュリティマネージャーで実行されない限り、XML署名の検証に関する制限を適用しません。<br>これらの脆弱性からアプリケーションを保護するには、<code translate="no">javax.xml.crypto.dsig.dom.DOMValidateContext.setProperty</code> メソッドを使用して、<code translate="no">org.jcp.xml.dsig.secureValidation</code> 属性を<code translate="no">true</code> に設定します。<br>この属性は、コードが以下の制限を実施することを保証します：</p>
+<ul>
+  <li>XSLTトランスフォームの使用を禁止する。 </li>
+  <li><code translate="no">SignedInfo</code> または<code translate="no">Manifest Reference</code> の要素数を30個以下に制限する。 </li>
+  <li><code translate="no">Reference</code> トランスフォームの数を5つ以下に制限する。 </li>
+  <li>MD5関連の署名やMACアルゴリズムの使用を禁止する。 </li>
+  <li><code translate="no">Reference</code> IDが一意であることを保証し、シグネチャラッピング攻撃を防止します。 </li>
+  <li><code translate="no">http</code>,<code translate="no">https</code>, または<code translate="no">file</code> のタイプの参照 URI を禁止する。 </li>
+  <li><code translate="no">RetrievalMethod</code> 要素が他の<code translate="no">RetrievalMethod</code> 要素を参照することを認めない。 </li>
+  <li>1024ビット未満のRSAまたはDSA鍵の禁止 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+NodeList signatureElement = doc.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
+
+XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
+DOMValidateContext valContext = new DOMValidateContext(new KeyValueKeySelector(), signatureElement.item(0)); // Noncompliant
+XMLSignature signature = fac.unmarshalXMLSignature(valContext);
+
+boolean signatureValidity = signature.validate(valContext);
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>この安全な検証モードを利用するためには、DOMValidateContext の<code translate="no">org.jcp.xml.dsig.secureValidation</code> プロパティを<code translate="no">TRUE</code> に設定してください。</p>
+<pre translate="no">
+NodeList signatureElement = doc.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
+
+XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
+DOMValidateContext valContext = new DOMValidateContext(new KeyValueKeySelector(), signatureElement.item(0));
+valContext.setProperty("org.jcp.xml.dsig.secureValidation", Boolean.TRUE);
+XMLSignature signature = fac.unmarshalXMLSignature(valContext);
+
+boolean signatureValidity = signature.validate(valContext);
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/en/java/javase/14/security/java-xml-digital-signature-api-overview-and-tutorial.html#GUID-DB46A001-6DBD-4571-BDBC-1BBC394BF61E">Oracle Java ドキュメント</a>- XML Digital Signature API の概要とチュートリアル </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/347">MITRE, CWE-347</a>- 暗号化された署名の不適切な検証 </li>
+</ul>
+

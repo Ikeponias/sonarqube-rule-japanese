@@ -1,0 +1,11 @@
+<p><code translate="no">File.deleteOnExit()</code> の使用は、以下の理由により推奨されません：</p>
+<ul>
+  <li>削除は、通常のJVMのシャットダウンの場合にのみ発生し、JVMがクラッシュしたり、強制終了した場合には発生しない。 </li>
+  <li>各ファイルハンドラについて、ハンドラに関連するメモリは、プロセスの終了時にのみ解放されます。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+File file = new File("file.txt");
+file.deleteOnExit();  // Noncompliant
+</pre>
+

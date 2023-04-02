@@ -1,0 +1,29 @@
+<p>再利用性を最大限に高めるために、メソッドはできるだけ特殊化せずにパラメータを受け取る必要があります。したがって、子クラスの特定の機能がメソッドに要求されない限り、クラス階層の上位にある型を代わりに使用する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void printSize(ArrayList&lt;Object&gt; list) {  // Collection can be used instead
+    System.out.println(list.size());
+}
+
+public static void loop(List&lt;Object&gt; list) { // java.lang.Iterable can be used instead
+   for (Object o : list) {
+     o.toString();
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void printSize(Collection&lt;?&gt; list) {  // Collection can be used instead
+    System.out.println(list.size());
+}
+
+public static void loop(Iterable&lt;?&gt; list) { // java.lang.Iterable can be used instead
+   for (Object o : list) {
+     o.toString();
+  }
+}
+</pre>
+<h2>例外あり</h2>
+<p>非公開メソッドのパラメータはチェックされません。なぜなら、そのようなメソッドは一般的に再利用されることを意図していないからです。<code translate="no">java.lang.String</code>
+文字列は不変であり、より汎用的な型に常に置き換えることができないため、パラメータは除外されます。また、メソッドの呼び出しやループの強化以外のコンテキストで使用されるパラメータも除外されます。</p>
+

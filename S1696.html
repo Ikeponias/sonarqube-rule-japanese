@@ -1,0 +1,34 @@
+<p><code translate="no">NullPointerException</code> は避けるべきであり、捕らえるべきではありません。 が明示的にキャッチされるような状況は、簡単に テストに変換できます。また、キャッチブロック内で実行される動作は、簡単に条件分岐の "is null" に移動させることができます。<code translate="no">NullPointerException</code> <code translate="no">null</code> </p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public int lengthPlus(String str) {
+  int len = 2;
+  try {
+    len += str.length();
+  }
+  catch (NullPointerException e) {
+    log.info("argument was null");
+  }
+  return len;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public int lengthPlus(String str) {
+  int len = 2;
+
+  if (str != null) {
+    len += str.length();
+  }
+  else {
+    log.info("argument was null");
+  }
+  return len;
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/395">MITRE, CWE-395</a>- NULLポインタの脱離を検出するためのNullPointerExceptionキャッチの使用について  </li>
+  <li><a href="https://tinyurl.com/y6r4amg3">CERT、ERR08-J。</a>- NullPointerExceptionまたはその先祖をキャッチしないこと </li>
+</ul>
+

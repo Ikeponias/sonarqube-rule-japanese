@@ -1,0 +1,14 @@
+<p>ほとんどの<code translate="no">compareTo</code> メソッドは -1、0、または 1 を返しますが、そうでないものもあります。<code translate="no">compareTo</code> の結果を 0 以外の特定の値でテストすると、偽陰性になることがあります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if (myClass.compareTo(arg) == -1) {  // Noncompliant
+  // ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (myClass.compareTo(arg) &lt; 0) {
+  // ...
+}
+</pre>
+

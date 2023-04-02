@@ -1,0 +1,23 @@
+<p>オブジェクトとそれ自身を比較するアサーションは、開発者の不注意によるバグである可能性が高いです。</p>
+<p>このルールでは、実際の表現が期待される表現と一致する場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+assertThat(actual).isEqualTo(actual); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+assertThat(actual).isEqualTo(expected);
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">equals(...)</code> と<code translate="no">hashCode()</code> のメソッドを検証するユニットテストでは、オブジェクトをそれ自体と比較することは正当です。このルールは、<code translate="no">isEqualTo</code> 、<code translate="no">assertEquals</code> 、<code translate="no">hasSameHashCodeAs</code> 、ユニットテストの名前に（大文字と小文字を区別しない）含まれている場合、問題を発生させない：<code translate="no">equal</code> <code translate="no">hash_?code</code>,<code translate="no">object_?method</code>.例えば、次のような名前のテストでは、<code translate="no">test_equals</code>,<code translate="no">testEqual</code>,<code translate="no">test_hashCode</code>,<code translate="no">test_hash_code</code>,<code translate="no">test_object_methods</code>.</p>
+<pre translate="no">
+class MyClassTest {
+  @Test
+  void test_equals_and_hash_code() {
+    MyClass obj = new MyClass();
+    assertThat(obj).isEqualTo(obj); // Compliant
+    assertThat(obj).hasSameHashCodeAs(obj); // Compliant
+  }
+}
+</pre>
+

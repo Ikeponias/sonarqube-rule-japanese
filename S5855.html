@@ -1,0 +1,13 @@
+<p>正規表現の代替案が、他の代替案で既にマッチしているものにしかマッチしない場合、その代替案は冗長であり、何の役にも立たない。</p>
+<p>最良の場合、これは問題のあるサブパターンが単に冗長であることを意味し、削除されるべきです。最悪の場合は、この正規表現が意図したものにマッチしないので、作り直すべきだというサインです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+"[ab]|a"   // The "|a" is redundant because "[ab]" already matches "a"
+".*|a"     // .* matches everything, so any other alternative is redundant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+"[ab]"
+".*"
+</pre>
+

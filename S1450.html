@@ -1,0 +1,43 @@
+<p>プライベートフィールドの値が、クラスのメソッドで常に代入されてから読み込まれる場合、クラスの情報を保存するために使用されていないことになります。したがって、誤解を防ぐために、関連するメソッドではローカル変数にする必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Foo {
+  private int a;
+  private int b;
+
+  public void doSomething(int y) {
+    a = y + 5;
+    ...
+    if(a == 0) {
+      ...
+    }
+    ...
+  }
+
+  public void doSomethingElse(int y) {
+    b = y + 3;
+    ...
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Foo {
+
+  public void doSomething(int y) {
+    int a = y + 5;
+    ...
+    if(a == 0) {
+      ...
+    }
+  }
+
+  public void doSomethingElse(int y) {
+    int b = y + 3;
+    ...
+  }
+}
+</pre>
+<h2>例外あり</h2>
+<p>このルールは、アノテーションフィールドに関する問題を生じさせません。</p>
+

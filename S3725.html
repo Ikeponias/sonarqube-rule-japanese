@@ -1,0 +1,23 @@
+<p><code translate="no">Files.exists</code> メソッドは、JDK 8 では著しくパフォーマンスが低下し、実際に存在しないファイルをチェックするために使用すると、アプリケーションの速度が著しく低下することがあります。</p>
+<p><code translate="no">java.nio.file</code>のパッケージから<code translate="no">Files.notExists</code> 、<code translate="no">Files.isDirectory</code> 、<code translate="no">Files.isRegularFile</code> も同様です。</p>
+<p><strong>なお</strong>、このルールは、プロジェクトの<code translate="no">sonar.java.source</code> が8でない場合、自動的に無効になります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Path myPath;
+if(java.nio.file.Files.exists(myPath)) {  // Noncompliant
+ // do something
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Path myPath;
+if(myPath.toFile().exists())) {
+ // do something
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li>h<a href="https://bugs.openjdk.java.net/browse/JDK-8153414">ttps://bugs.openjdk.java.net/browse/JDK-8153414</a></li>
+  <li>h<a href="https://bugs.openjdk.java.net/browse/JDK-8154077">ttps://bugs.openjdk.java.net/browse/JDK-8154077</a></li>
+</ul>
+

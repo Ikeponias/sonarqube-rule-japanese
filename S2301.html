@@ -1,0 +1,35 @@
+<p>セレクタ引数とは、<code translate="no">boolean</code> 、メソッドを通過する2つの経路のうちどちらを取るかを決定するために使用される引数です。このようなパラメータを指定することは、特に名前がついている場合は、無害に見えるかもしれません。</p>
+<p>しかし、残念ながら、そのメソッドを呼び出すコードのメンテナは、パラメータ名を見ることはできず、その値だけを見ることになります。そのため、その意味を推測するか、そのメソッドを調べるために余分な時間を割かざるを得なくなります。</p>
+<p>その代わり、別のメソッドを書く必要があります。</p>
+<p>このルールは、メソッドを通過する経路を決定するために使用される<code translate="no">boolean</code> を持つメソッドを見つけます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public String tempt(String name, boolean ofAge) {
+  if (ofAge) {
+    offerLiquor(name);
+  } else {
+    offerCandy(name);
+  }
+}
+
+// ...
+public void corrupt() {
+  tempt("Joe", false); // does this mean not to temp Joe?
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void temptAdult(String name) {
+  offerLiquor(name);
+}
+
+public void temptChild(String name) {
+    offerCandy(name);
+}
+
+// ...
+public void corrupt() {
+  age &lt; legalAge ? temptChild("Joe") : temptAdult("Joe");
+}
+</pre>
+

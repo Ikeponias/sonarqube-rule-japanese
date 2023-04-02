@@ -1,0 +1,26 @@
+<p><code translate="no">String::replaceAll</code> の基礎となる実装では、最初の引数が正規表現でない場合でも、<code translate="no">java.util.regex.Pattern.compile()</code> メソッドが呼び出されるたびに呼び出されます。これには大きなパフォーマンスコストがかかるため、注意して使用する必要があります。</p>
+<p><code translate="no">String::replaceAll</code> を使用する場合、第一引数は実際の正規表現であるべきです。そうでない場合、<code translate="no">String::replace</code> は<code translate="no">String::replaceAll</code> と全く同じことを正規表現によるパフォーマンスの欠点なしに行います。</p>
+<p>このルールは、<code translate="no">String</code> を最初のパラメータとして使用する各<code translate="no">String::replaceAll</code> で、特殊な正規表現文字またはパターンを含まない場合に問題を発生させます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String init = "Bob is a Bird... Bob is a Plane... Bob is Superman!";
+String changed = init.replaceAll("Bob is", "It's"); // Noncompliant
+changed = changed.replaceAll("\\.\\.\\.", ";"); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String init = "Bob is a Bird... Bob is a Plane... Bob is Superman!";
+String changed = init.replace("Bob is", "It's");
+changed = changed.replace("...", ";");
+</pre>
+<p>または、正規表現で：</p>
+<pre translate="no">
+String init = "Bob is a Bird... Bob is a Plane... Bob is Superman!";
+String changed = init.replaceAll("\\w*\\sis", "It's");
+changed = changed.replaceAll("\\.{3}", ";");
+</pre>
+<h2>見る</h2>
+<ul>
+  <li>{rule:java:S4248}です。- Regex パターンは不必要に作成しないこと </li>
+</ul>
+

@@ -1,0 +1,39 @@
+<p>レコードでは、<code translate="no">equals()</code> メソッドのデフォルトの動作は、フィールド値による等質性をチェックすることです。これはプリミティブフィールドや、型が<code translate="no">equals()</code> をオーバーライドするフィールドではうまく機能しますが、配列フィールドではこの動作は期待通りには機能しません。</p>
+<p>デフォルトでは、配列フィールドはその参照によって比較されます。<code translate="no">equals()</code> をオーバーライドすることで、深い等価チェックを実現できることが高く評価されています。同じ方法が<code translate="no">hashcode()</code> と<code translate="no">toString()</code> メソッドにも適用されます。</p>
+<p>このルールは、レコードクラスに配列フィールドがあり、<code translate="no">equals()</code> 、<code translate="no">hashcode()</code> 、<code translate="no">toString()</code> メソッドをオーバーライドしていない場合に問題を報告します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+record Person(String[] names, int age) {} // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+record Person(String[] names, int age) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return age == person.age &amp;&amp; Arrays.equals(names, person.names);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(age);
+        result = 31 * result + Arrays.hashCode(names);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "names=" + Arrays.toString(names) +
+                ", age=" + age +
+                '}';
+    }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/javase/specs/jls/se16/html/jls-8.html#jls-8.10">レコード仕様</a></li>
+</ul>
+

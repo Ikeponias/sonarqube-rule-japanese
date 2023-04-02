@@ -1,0 +1,24 @@
+<p>Java 8以前は、Javaでクロージャを部分的にサポートする唯一の方法は、匿名のインナークラスを使用することでした。しかし、匿名クラスの構文は扱いにくく、不明瞭に感じられるかもしれません。</p>
+<p>Java 8では、ソースコードの可読性を高めるために、匿名内部クラスのほとんどの使用をラムダで置き換える必要があります。</p>
+<p><strong>なお</strong>、このルールは、プロジェクトの<code translate="no">sonar.java.source</code> が<code translate="no">8</code> よりも低い場合、自動的に無効となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+myCollection.stream().map(new Mapper&lt;String,String&gt;() {
+  public String map(String input) {
+    return new StringBuilder(input).reverse().toString();
+  }
+});
+
+Predicate&lt;String&gt; isEmpty = new Predicate&lt;String&gt; {
+    boolean test(String myString) {
+        return myString.isEmpty();
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+myCollection.stream().map(input -&gt; new StringBuilder(input).reverse().toString());
+
+Predicate&lt;String&gt; isEmpty = myString -&gt; myString.isEmpty();
+</pre>
+

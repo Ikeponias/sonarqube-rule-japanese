@@ -1,0 +1,18 @@
+<p>変数をそれ自身に再割り当てする理由はありません。この文が冗長で削除されるべきか、再代入が間違いで、他の値や変数が代わりに代入されることを意図しているかのどちらかです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void setName(String name) {
+  name = name;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void setName(String name) {
+  this.name = name;
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/5dUxBQ">CERT、MSC12-C。</a>- 効果がない、または実行されないコードを検出して削除する  </li>
+</ul>
+

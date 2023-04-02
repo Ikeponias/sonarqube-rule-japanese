@@ -1,0 +1,39 @@
+<p>インスタンスデータにアクセスしないオーバーライド不可のメソッド（<code translate="no">private</code> または<code translate="no">final</code> ）は、メソッドの契約に関する誤解を防ぐために<code translate="no">static</code> とすることができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class Utilities {
+  private static String magicWord = "magic";
+
+  private String getMagicWord() { // Noncompliant
+    return magicWord;
+  }
+
+  private void setMagicWord(String value) { // Noncompliant
+    magicWord = value;
+  }
+
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class Utilities {
+  private static String magicWord = "magic";
+
+  private static String getMagicWord() {
+    return magicWord;
+  }
+
+  private static void setMagicWord(String value) {
+    magicWord = value;
+  }
+
+}
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">java.io.Serializable</code> を導入する場合、以下の3つの方法はルールにより除外されます：</p>
+<ul>
+  <li> <code translate="no">private void writeObject(java.io.ObjectOutputStream out) throws IOException;</code> </li>
+  <li> <code translate="no">private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException;</code> </li>
+  <li> <code translate="no">private void readObjectNoData() throws ObjectStreamException;</code> </li>
+</ul>
+

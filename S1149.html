@@ -1,0 +1,24 @@
+<p>Java APIの初期のクラス、例えば<code translate="no">Vector</code> 、<code translate="no">Hashtable</code> 、<code translate="no">StringBuffer</code> などは、スレッドセーフにするために同期化されています。残念ながら、これらのコレクションをシングルスレッドから使用する場合でも、同期は性能に大きな悪影響を及ぼします。</p>
+<p>同期していない新しい代替品を使用するのがよいでしょう：</p>
+<ul>
+  <li><code translate="no">ArrayList</code> または、<code translate="no">Vector</code> の代わりに<code translate="no">LinkedList</code> </li>
+  <li><code translate="no">Deque</code> ではなく、<code translate="no">Stack</code> 。 </li>
+  <li><code translate="no">HashMap</code> ではなく、<code translate="no">Hashtable</code> 。 </li>
+  <li><code translate="no">StringBuilder</code> ではなく、<code translate="no">StringBuffer</code> 。 </li>
+</ul>
+<p>同期コンテキストで使用される場合でも、その使用方法は巧妙であるため、使用する前によく考える必要があります。もし、その使い方が正当なものであると確信しているのであれば、この警告を無視していただいて結構です。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Vector cats = new Vector();
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+ArrayList cats = new ArrayList();
+</pre>
+<h2>例外あり</h2>
+<p>これらの同期化されたクラスの使用は、オーバーライドするメソッドのシグネチャでは無視されます。</p>
+<pre translate="no">
+@Override
+public Vector getCats() {...}
+</pre>
+

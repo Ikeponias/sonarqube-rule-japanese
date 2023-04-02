@@ -1,0 +1,32 @@
+<p><code translate="no">notify</code> と はどちらも眠っているスレッドを起こしますが、 は1つしか起こさず、 はすべてのスレッドを起こします。 は正しいスレッドを起こさないかもしれないので、 を代わりに使用する必要があります。<code translate="no">notifyAll</code> <code translate="no">notify</code> <code translate="no">notifyAll</code> <code translate="no">notify</code> <code translate="no">notifyAll</code> </p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class MyThread extends Thread{
+
+  @Override
+  public void run(){
+    synchronized(this){
+      // ...
+      notify();  // Noncompliant
+    }
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class MyThread extends Thread{
+
+  @Override
+  public void run(){
+    synchronized(this){
+      // ...
+      notifyAll();
+    }
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/MTdGBQ">CERT、THI02-J。</a>- 単一のスレッドではなく、待機しているすべてのスレッドに通知する </li>
+</ul>
+

@@ -1,0 +1,38 @@
+<p><code translate="no">private</code> 実行されないメソッドはデッドコードと呼ばれ、不要で動作しないコードであり、削除する必要がある。デッドコードを削除することで、維持されているコードベースのサイズが小さくなり、プログラムの理解が容易になり、バグの発生を防ぐことができます。</p>
+<p>なお、このルールはリフレクションを考慮していないため、リフレクションAPIを使用してのみアクセスできる<code translate="no">private</code> メソッドに問題が発生することになります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Foo implements Serializable
+{
+  private Foo(){}     //Compliant, private empty constructor intentionally used to prevent any direct instantiation of a class.
+  public static void doSomething(){
+    Foo foo = new Foo();
+    ...
+  }
+  private void unusedPrivateMethod(){...}
+  private void writeObject(ObjectOutputStream s){...}  //Compliant, relates to the java serialization mechanism
+  private void readObject(ObjectInputStream in){...}  //Compliant, relates to the java serialization mechanism
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Foo implements Serializable
+{
+  private Foo(){}     //Compliant, private empty constructor intentionally used to prevent any direct instantiation of a class.
+  public static void doSomething(){
+    Foo foo = new Foo();
+    ...
+  }
+
+  private void writeObject(ObjectOutputStream s){...}  //Compliant, relates to the java serialization mechanism
+
+  private void readObject(ObjectInputStream in){...}  //Compliant, relates to the java serialization mechanism
+}
+</pre>
+<h2>例外あり</h2>
+<p>については、このルールでは問題が生じない：</p>
+<ul>
+  <li>註釈付きメソッド </li>
+  <li><code translate="no">@javax.enterprise.event.Observes</code> でアノテーションされたパラメータを持つメソッドです。 </li>
+</ul>
+

@@ -1,0 +1,17 @@
+<p>文字列は不変のオブジェクトなので、連結は単純に新しい文字列を既存の文字列の末尾に追加するわけではありません。その代わり、ループの各繰り返しで、最初のStringが中間オブジェクト型に変換され、2番目のStringが追加され、その後、中間オブジェクトがStringに変換されることになります。さらに、これらの中間処理の性能は、Stringが長くなるにつれて低下する。そのため、StringBuilderの使用が好ましいとされています。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String str = "";
+for (int i = 0; i &lt; arrayOfStrings.length ; ++i) {
+  str = str + arrayOfStrings[i];
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+StringBuilder bld = new StringBuilder();
+  for (int i = 0; i &lt; arrayOfStrings.length; ++i) {
+    bld.append(arrayOfStrings[i]);
+  }
+  String str = bld.toString();
+</pre>
+

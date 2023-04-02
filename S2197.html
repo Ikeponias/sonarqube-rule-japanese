@@ -1,0 +1,19 @@
+<p>負の数のモジュラスを計算すると、結果は負かゼロのどちらかになります。したがって、等式を求める変数のモジュラスを正の数（または負の数）と比較すると、予期せぬ結果になることがあります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public boolean isOdd(int x) {
+  return x % 2 == 1;  // Noncompliant; if x is an odd negative, x % 2 == -1
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public boolean isOdd(int x) {
+  return x % 2 != 0;
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/pDdGBQ">CERT, NUM51-J.</a>- 余り演算子が積分なオペランドに対して常に非負の結果を返すと仮定しないでください。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/_NUxBQ">CERT, INT10-C</a>- %演算子の使用時に正の余りを仮定しないでください。 </li>
+</ul>
+

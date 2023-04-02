@@ -1,0 +1,22 @@
+<p>Java 9以降、<code translate="no">@Deprecated</code> 、アノテーションに2つの引数が追加されました：</p>
+<ul>
+  <li><code translate="no">since</code> は、非推奨がいつ行われたかを記述することができます。 </li>
+  <li><code translate="no">forRemoval</code>非推奨の要素が将来的に削除されるかどうかを示します。 </li>
+</ul>
+<p>メンテナの作業を楽にするために、これらの引数を常に1つまたは両方追加することが推奨されます。</p>
+<p>このルールは、<code translate="no">@Deprecated</code> を引数なしで使用した場合の問題を報告するものです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Deprecated
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Deprecated(since="4.2", forRemoval=true)
+</pre>
+<h2>例外あり</h2>
+<p>非推奨のクラスやインターフェースのメンバやメソッドは、このルールでは無視されます。クラスやインターフェイスそのものは、依然としてこの規則の対象となる。</p>
+<h3>こちらもご覧ください</h3>
+<ul>
+  <li>{rule:java:S1123}です。 </li>
+</ul>
+

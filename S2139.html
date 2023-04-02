@@ -1,0 +1,25 @@
+<p><code translate="no">Exception</code> を記録し、それを再投げるというのが一般的なやり方であるアプリケーションでは、同じ例外の複数のインスタンスを含む、何キロも続くログが出来上がってしまう。<code translate="no">Exception</code>マルチスレッドアプリケーションでは、このタイプのログをデバッグすることは、特に地獄のようなものです。その代わりに、例外はログに記録されるか、投げ直されるかのどちらかであるべきで、両方ではありません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+catch (SQLException e) {
+  ...
+  LOGGER.log(Level.ERROR,  contextInfo, e);
+  throw new MySQLException(contextInfo, e);
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+catch (SQLException e) {
+  ...
+  throw new MySQLException(contextInfo, e);
+}
+</pre>
+<p>または</p>
+<pre translate="no">
+catch (SQLException e) {
+  ...
+  LOGGER.log(Level.ERROR,  contextInfo, e);
+  // handle exception...
+}
+</pre>
+

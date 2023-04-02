@@ -1,0 +1,16 @@
+<p><code translate="no">System.exit(int status)</code> または<code translate="no">Rutime.getRuntime().exit(int status)</code> を呼び出すと、シャットダウンフックが呼び出され、Java仮想マシン全体がシャットダウンされます。<code translate="no">Runtime.getRuntime().halt(int)</code> を呼び出すと、シャットダウンフックを呼び出さず、ファイナライズをスキップして、即座にシャットダウンします。</p>
+<p>これらのメソッドは、細心の注意を払い、Javaプロセス全体を停止させることを意図する場合にのみ使用する必要があります。例えば、J2EEコンテナで動作しているアプリケーションからこれらのメソッドを呼び出すべきではありません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+System.exit(0);
+Runtime.getRuntime().exit(0);
+Runtime.getRuntime().halt(0);
+</pre>
+<h2>例外あり</h2>
+<p>これらのメソッドは、<code translate="no">main</code> 内部では無視されます。</p>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/382">MITRE, CWE-382</a>- System.exit()を使用する。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/7zZGBQ">CERT, ERR09-J.</a>- 信頼できないコードにJVMを終了させないようにする </li>
+</ul>
+

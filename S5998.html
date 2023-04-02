@@ -1,0 +1,17 @@
+<p>Javaの正規表現エンジンは、バックトラックを実装するために再帰的なメソッド呼び出しを使用します。そのため、正規表現内の繰り返しに複数のパスが含まれている場合（つまり、繰り返しの本体に交替記号（<code translate="no">|</code> ）、オプション要素、別の繰り返しが含まれている場合）、正規表現にマッチしようとすると、大きな入力でスタックオーバーフローを引き起こすことがあります。所有格の量化子を使用する場合（<code translate="no">*</code> の代わりに<code translate="no">*+</code>など）や、繰り返しの中で文字クラスを使用する場合（<code translate="no">(a|b)*</code> の代わりに<code translate="no">[ab]*</code> など）は、この現象は起こりません。</p>
+<p>スタックをオーバーフローさせるために必要な入力のサイズは、もちろんJVMのスタックサイズを含む様々な要因に依存します。処理可能な入力のサイズを大幅に増加させるものとして、繰り返しの各反復が複数の定数文字の連鎖を通過する場合、そのような連続した文字は再帰を呼び出すことなく正規表現エンジンによってマッチングされるからです。</p>
+<p>例えば、スタックサイズが1MBのJVMでは、正規表現<code translate="no">(?:a|b)*</code> は約6000文字（実際の数字はJVMのバージョンや同じJVMで複数回実行しても異なる場合があります）のマッチングでスタックをオーバーフローしますが、<code translate="no">(?:abc|def)*</code> は約15000文字を処理できます。</p>
+<p>スタックの増大は簡単に回避できないことが多いので、このルールでは、現実的な大きさの入力でスタックのオーバーフローを引き起こす可能性がある場合にのみ、正規表現に関する問題を報告します。これを調整するために、<code translate="no">maxStackConsumptionFactor</code> パラメータを調整することができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Pattern.compile("(a|b)*"); // Noncompliant
+Pattern.compile("(.|\n)*"); // Noncompliant
+Pattern.compile("(ab?)*"); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Pattern.compile("[ab]*"); // Character classes don't cause recursion the way that '|' does
+Pattern.compile("(?s).*"); // Enabling the (?s) flag makes '.' match line breaks, so '|\n' isn't necessary
+Pattern.compile("(ab?)*+"); // Possessive quantifiers don't cause recursion because they disable backtracking
+</pre>
+

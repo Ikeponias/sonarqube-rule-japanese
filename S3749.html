@@ -1,0 +1,32 @@
+<p>Spring<code translate="no">@Component</code>,<code translate="no">@Controller</code>,<code translate="no">@Service</code>,<code translate="no">@Repository</code> クラスはデフォルトでシングルトンであり、アプリケーションでインスタンス化されるクラスは1つだけという意味です。通常、このようなクラスには、ロガーなどいくつかの<code translate="no">static</code> メンバがあるかもしれませんが、<code translate="no">static</code> 以外のメンバはすべて Spring が管理する必要があります。つまり、以下のアノテーションのいずれかを持つ必要があります:<code translate="no">@Resource</code>,<code translate="no">@Inject</code>,<code translate="no">@Autowired</code>,<code translate="no">@Value</code>.</p>
+<p>これらのクラスで非インジェクションメンバーを持つことは、状態を管理しようとする試みであることを示すかもしれません。これらはシングルトンであるため、このような試みは最終的にUser1のセッションからUser2にデータを公開することがほぼ確実である。</p>
+<p>このルールは、<code translate="no">@ConfigurationProperties</code> のアノテーションがないシングルトン<code translate="no">@Component</code>,<code translate="no">@Controller</code>,<code translate="no">@Service</code>, または<code translate="no">@Repository</code> が、<code translate="no">static</code> 以外のメンバーを持つ場合に問題を生じます：</p>
+<ul>
+  <li> <code translate="no">org.springframework.beans.factory.annotation.Autowired</code> </li>
+  <li> <code translate="no">org.springframework.beans.factory.annotation.Value</code> </li>
+  <li> <code translate="no">javax.annotation.Inject</code> </li>
+  <li> <code translate="no">javax.annotation.Resource</code> </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Controller
+public class HelloWorld {
+
+  private String name = null;
+
+  @RequestMapping("/greet", method = GET)
+  public String greet(String greetee) {
+
+    if (greetee != null) {
+      this.name = greetee;
+    }
+
+    return "Hello " + this.name;  // if greetee is null, you see the previous user's data
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://www.owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+</ul>
+

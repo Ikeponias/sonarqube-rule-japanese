@@ -1,0 +1,15 @@
+<p>ローカル変数が宣言されているのに使われていない場合、それはデッドコードであり、削除されるべきです。そうすることで、開発者がその変数が何に使われているのか疑問に思うことがなくなるので、保守性が向上します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public int numberOfMinutes(int hours) {
+  int seconds = 0;   // seconds is never used
+  return hours * 60;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public int numberOfMinutes(int hours) {
+  return hours * 60;
+}
+</pre>
+

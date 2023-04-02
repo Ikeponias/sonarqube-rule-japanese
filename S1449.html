@@ -1,0 +1,15 @@
+<p><code translate="no">String</code> オブジェクトのメソッド<code translate="no">toLowerCase()</code> 、<code translate="no">toUpperCase()</code> 、<code translate="no">format()</code> を呼び出す際にロケールを指定しないと、システムのデフォルトエンコーディングが使用され、国際文字や数値表現で問題が発生する可能性があります。例えばトルコ語では、小さな文字「i」を大文字に変換すると、大文字の「I」の上にドットが付いたものになります。</p>
+<p>ロケールなしの大文字小文字変換は、「ホーム」環境では問題なく動作しても、異なるエンコーディングを使用する顧客にとっては診断が非常に困難な方法で壊れることがあります。このようなバグは、完全にではないにせよ、いざ修正しようと思っても再現が不可能な場合があります。ロケールに依存する文字列には、常に正しいロケールを使用すべきですが、大文字小文字を区別しないものには<code translate="no">Locale.ROOT</code> を使用することができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+myString.toLowerCase()
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+myString.toLowerCase(Locale.TR)
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/4zdGBQ">CERT, STR02-J.</a>- ロケールに依存するデータを比較する際に、適切なロケールを指定する  </li>
+</ul>
+

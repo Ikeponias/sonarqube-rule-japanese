@@ -1,0 +1,28 @@
+<p>コードは、各ステートメントが独立した行を持つとき、最も明確になります。それでも、<code translate="no">if</code> とその結果の<em>then</em>文を同じ行にまとめるのは、よくあるパターンです。しかし、<code translate="no">if</code> が、直前の<em>then</em>、<em>else</em>、<em>else if</em>部分の終了<code translate="no">}</code> と同じ行に置かれた場合、それはエラーになるか、<code translate="no">else</code> が欠けているか、あるいは、2つの文がつながっていないことを保守者が理解できず、将来のエラーにつながるかのどちらかです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if (condition1) {
+  // ...
+} if (condition2) {  // Noncompliant
+  //...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (condition1) {
+  // ...
+} else if (condition2) {
+  //...
+}
+</pre>
+<p>または</p>
+<pre translate="no">
+if (condition1) {
+  // ...
+}
+
+if (condition2) {
+  //...
+}
+</pre>
+

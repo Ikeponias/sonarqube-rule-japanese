@@ -1,0 +1,16 @@
+<p><code translate="no">hashCode</code> と<code translate="no">toString</code> は配列に対して利用できますが、ほとんど役に立ちません。<code translate="no">hashCode</code> は配列の「IDハッシュコード」を返し、<code translate="no">toString</code> はほぼ同じ値を返します。どちらのメソッドも、実際には配列の内容を反映した出力ではありません。 代わりに、関連する静的メソッドである<code translate="no">Arrays</code> に配列を渡す必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public static void main( String[] args )
+{
+    String argStr = args.toString(); // Noncompliant
+    int argHash = args.hashCode(); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public static void main( String[] args )
+{
+    String argStr = Arrays.toString(args);
+    int argHash = Arrays.hashCode(args);
+</pre>
+

@@ -1,0 +1,35 @@
+<p><code translate="no">Comparable&lt;T&gt;.compareTo</code> メソッドを実装する場合、パラメータの型は<code translate="no">Comparable</code> の宣言で使用されている型と一致させる必要があります。異なる型が使用されると、オーバーライドではなくオーバーロードが作成されます。</p>
+<p>このルールにより、<code translate="no">Comparable&lt;T&gt;</code> を実装したクラスの<code translate="no">compareTo</code> メソッドのパラメータが、<code translate="no">Comparable</code> の宣言で使用されているパラメータと異なる場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Foo {
+  static class Bar implements Comparable&lt;Bar&gt; {
+    public int compareTo(Bar rhs) {
+      return -1;
+    }
+  }
+
+  static class FooBar extends Bar {
+    public int compareTo(FooBar rhs) {  // Noncompliant: Parameter should be of type Bar
+      return 0;
+    }
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Foo {
+  static class Bar implements Comparable&lt;Bar&gt; {
+    public int compareTo(Bar rhs) {
+      return -1;
+    }
+  }
+
+  static class FooBar extends Bar {
+    public int compareTo(Bar rhs) {
+      return 0;
+    }
+  }
+}
+</pre>
+

@@ -1,0 +1,36 @@
+<p>ラムダ関数の複数回の呼び出しにまたがって再利用できるリソースは、構築時に初期化する必要があります。例えば、クラスのコンストラクタや、フィールドのイニシャライザで。こうすることで、同じコンテナを複数の関数呼び出しに再利用する場合、既存のインスタンスと、そのフィールドに格納されたすべてのリソースを再利用することができます。SDKクライアントやデータベース接続は、クラス構築時に初期化することで再利用し、ラムダ呼び出しのたびに再作成しないようにするのがよい方法です。これを怠ると、パフォーマンスが低下したり、適切に閉じられない場合はメモリ不足のエラーが発生したりすることがあります。</p>
+<p>このルールは、SDKクライアントまたはデータベース接続がLambda関数内でローカルに初期化される場合の問題を報告するものです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class App implements RequestHandler&lt;Object, Object&gt; {
+    @Override
+    public Object handleRequest(final Object input, final Context context) {
+      S3Client s3Client = DependencyFactory.s3Client();
+      s3Client.listBuckets();
+      // ...
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class App implements RequestHandler&lt;Object, Object&gt; {
+    private final S3Client s3Client;
+
+    public App() {
+      s3Client = DependencyFactory.s3Client();
+    }
+
+    @Override
+    public Object handleRequest(final Object input, final Context context) {
+      s3Client.listBuckets();
+      // ...
+    }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://aws.amazon.com/fr/blogs/developer/tuning-the-aws-java-sdk-2-x-to-reduce-startup-time/">AWS Java SDK 2.xの起動時間短縮のためのチューニング</a></li>
+  <li><a href="https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html">AWS Lambdaファンクションと連携するためのベストプラクティス</a></li>
+  <li><a href="https://aws.amazon.com/fr/blogs/compute/container-reuse-in-lambda/">AWS Lambdaにおけるコンテナ再利用の理解</a></li>
+</ul>
+

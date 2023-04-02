@@ -1,0 +1,12 @@
+<p>すでに文字列であるオブジェクトの文字列表現を返すように設計されたメソッドを呼び出すのは、キー入力の無駄遣いです。この冗長な構造は、コンパイラによって最適化されるかもしれませんが、その間に混乱を招くことになるでしょう。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String message = "hello world";
+System.out.println(message.toString()); // Noncompliant;
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String message = "hello world";
+System.out.println(message);
+</pre>
+

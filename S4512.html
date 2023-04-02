@@ -1,0 +1,41 @@
+<p>JavaBeanのプロパティを設定することは、セキュリティ上重要です。信頼できない値で行うことで、過去に以下のような脆弱性が発生しました：</p>
+<ul>
+  <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0114">CVE-2014-0114</a></li>
+</ul>
+<p>JavaBeanは、そのプロパティやネストしたプロパティを人口関数で設定することができます。攻撃者はこの機能を利用して、ソフトウェアの整合性を損なうような悪意のあるデータをJavaBeanに押し込むことができます。典型的な攻撃は、ClassLoaderを操作して、最終的に悪意のあるコードを実行しようとします。</p>
+<p>このルールは、以下のような場合に問題となる：</p>
+<ul>
+  <li><a href="http://commons.apache.org/proper/commons-beanutils/">Apache Commons BeanUtils</a>の BeanUtils.populate(...) または BeanUtilsBean.populate(...) を呼び出します。 </li>
+  <li><a href="http://commons.apache.org/proper/commons-beanutils/">Apache Commons BeanUtils</a>の BeanUtils.setProperty(...) または BeanUtilsBean.setProperty(...) を呼び出します。 </li>
+  <li>Spring の org.springframework.beans.BeanWrapper.setPropertyValue(...) または org.springframework.beans.BeanWrapper.setPropertyValues(...) を呼び出します。  </li>
+</ul>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>新しいプロパティ値が改ざんされているか、信頼できない情報源から提供されている可能性があります。 </li>
+  <li>sensitive properties は変更可能です。例：<code translate="no">class.classLoader</code> </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<p>JavaBeanのプロパティとして使用されるすべての値をサニタイズする。</p>
+<p>機密性の高いプロパティは設定しない。どのプロパティを設定するかを完全に制御してください。プロパティ名が信頼できないソースから提供されている場合、ホワイトリストでフィルタリングする。</p>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+Company bean = new Company();
+HashMap map = new HashMap();
+Enumeration names = request.getParameterNames();
+while (names.hasMoreElements()) {
+    String name = (String) names.nextElement();
+    map.put(name, request.getParameterValues(name));
+}
+BeanUtils.populate(bean, map); // Sensitive: "map" is populated with data coming from user input, here "request.getParameterNames()"
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A03_2021-Injection/">OWASP Top 10 2021 カテゴリ A3</a>- インジェクション </li>
+  <li><a href="https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/">OWASP Top 10 2021 カテゴリ A8</a>- ソフトウェアとデータの整合性の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A1_2017-Injection">OWASP Top 10 2017 カテゴリーA1</a>- インジェクション </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/915">MITRE, CWE-915</a>- 動的に決定されるオブジェクト属性の不適切な制御による変更。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/hDdGBQ">CERT、MSC61-J。</a>- 安全でない、または弱い暗号アルゴリズムを使用しないこと </li>
+  <li>FindSecBugs ルール<a href="https://find-sec-bugs.github.io/bugs.htm#BEAN_PROPERTY_INJECTION">BEAN_PROPERTY_INJECTIONから</a>派生したものです。 </li>
+</ul>
+

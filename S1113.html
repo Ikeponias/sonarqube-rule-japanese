@@ -1,0 +1,16 @@
+<p><code translate="no">Object.finalize()</code> メソッドは、ガベージコレクタがオブジェクトへの参照がもうないと判断したときに、オブジェクトに対して呼び出されます。しかし、このメソッドが、オブジェクトへの最後の参照が削除されると同時に呼び出されることは全く保証されていません。数マイクロ秒から数分後に呼ばれることもあります。ですから、オブジェクトによってシステムリソースを廃棄する必要がある場合、この非同期メカニズムに頼って廃棄しないほうがよいでしょう。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+  ...
+  protected void finalize() {
+    releaseSomeResources();    // Noncompliant
+  }
+  ...
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/4jZGBQ">CERT、MET12-J。</a>- ファイナライザーを使用しない </li>
+</ul>
+

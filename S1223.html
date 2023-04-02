@@ -1,0 +1,16 @@
+<p>クラスとそのメソッドの一部が同じ名前を持つことは誤解を招き、意図的にそうしたのか、それともそのメソッドがコンストラクタであることを想定していたのか、他の人に疑問を抱かせることになります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Foo {
+   public Foo() {...}
+   public void Foo(String label) {...}  // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Foo {
+   public Foo() {...}
+   public void foo(String label) {...}  // Compliant
+}
+</pre>
+

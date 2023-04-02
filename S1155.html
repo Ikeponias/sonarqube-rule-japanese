@@ -1,0 +1,14 @@
+<p><code translate="no">Collection.size()</code> を使って空虚さをテストするのはうまくいくが、<code translate="no">Collection.isEmpty()</code> を使うとコードが読みやすくなり、より高性能になる可能性がある。<code translate="no">isEmpty()</code> メソッドの実装の時間的複雑さは<code translate="no">O(1)</code> であるべきですが、<code translate="no">size()</code> の実装の中には<code translate="no">O(n)</code> になるものもあります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if (myCollection.size() == 0) {  // Noncompliant
+  /* ... */
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (myCollection.isEmpty()) {
+  /* ... */
+}
+</pre>
+

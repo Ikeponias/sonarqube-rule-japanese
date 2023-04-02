@@ -1,0 +1,26 @@
+<p>契約上、サーブレットコンテナは各サーブレットのインスタンスを1つ作成し、その後、新しい受信HTTPリクエストごとに専用のスレッドがアタッチされ、リクエストを処理します。そのため、すべてのスレッドがサーブレットインスタンスを共有し、ひいてはそのインスタンスフィールドを共有します。実行時の誤解や予期せぬ動作を防ぐために、すべてのサーブレットフィールドは、<code translate="no">static</code> および/または<code translate="no">final</code> のどちらか、または単に削除する必要があります。</p>
+<p>Struts 1.Xでは、<code translate="no">org.apache.struts.action.Action</code> に同じ制約があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyServlet extends HttpServlet {
+  private String userName;  //As this field is shared by all users, it's obvious that this piece of information should be managed differently
+  ...
+}
+</pre>
+<p>または</p>
+<pre translate="no">
+public class MyAction extends Action {
+  private String userName;  //Same reason
+  ...
+}
+</pre>
+<h2>例外あり</h2>
+<ul>
+  <li><code translate="no">@javax.inject.Inject</code>,<code translate="no">@javax.ejb.EJB</code>,<code translate="no">@org.springframework.beans.factory.annotation.Autowired</code>,<code translate="no">@javax.annotation.Resource</code> で注釈されたフィールド。 </li>
+  <li><code translate="no">init()</code> または<code translate="no">init(ServletConfig config)</code> のメソッドで初期化されたフィールド。 </li>
+</ul>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/2TZGBQ">CERT、MSC11-J。</a>- サーブレット内でセッション情報を漏らさないようにすること </li>
+</ul>
+

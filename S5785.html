@@ -1,0 +1,18 @@
+<p>JUnitの<code translate="no">assertTrue()</code> 、<code translate="no">assertFalse()</code> を使った等質性・ヌル性のテストは、対応する専用のアサーションに簡略化する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Assert.assertTrue(a.equals(b));
+Assert.assertTrue(a == b);
+Assert.assertTrue(a == null);
+Assert.assertTrue(a != null);
+Assert.assertFalse(a.equals(b));
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Assert.assertEquals(a, b);
+Assert.assertSame(a, b);
+Assert.assertNull(a);
+Assert.assertNotNull(a);
+Assert.assertNotEquals(a, b);
+</pre>
+

@@ -1,0 +1,23 @@
+<p>Java 8以前は、同じアノテーションの複数のインスタンスを使用する必要がある場合、それらをコンテナアノテーションでラップする必要がありました。Java 8では、その必要がなくなり、よりきれいで読みやすいコードを実現できるようになりました。</p>
+<p><strong>なお</strong>、このルールは、プロジェクトの<code translate="no">sonar.java.source</code> が<code translate="no">8</code> よりも低い場合、自動的に無効となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@SomeAnnotations({  // Noncompliant
+  @SomeAnnotation(..a..),
+  @SomeAnnotation(..b..),
+  @SomeAnnotation(..c..),
+})
+public class SomeClass {
+  ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@SomeAnnotation(..a..)
+@SomeAnnotation(..b..)
+@SomeAnnotation(..c..)
+public class SomeClass {
+  ...
+}
+</pre>
+

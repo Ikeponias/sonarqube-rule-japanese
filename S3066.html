@@ -1,0 +1,36 @@
+<p><code translate="no">enum</code>は一般的に定数と考えられていますが、<code translate="no">public</code> フィールドや<code translate="no">public</code> セッターを持つ<code translate="no">enum</code> は非定数です。<code translate="no">enum</code> のフィールドは<code translate="no">private</code> で、コンストラクタで設定するのが理想的ですが、それが不可能な場合は、できるだけ可視性を低くする必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public enum Continent {
+
+  NORTH_AMERICA (23, 24709000),
+  // ...
+  EUROPE (50, 39310000);
+
+  public int countryCount;  // Noncompliant
+  private int landMass;
+
+  Continent(int countryCount, int landMass) {
+    // ...
+  }
+
+  public void setLandMass(int landMass) {  // Noncompliant
+    this.landMass = landMass;
+  }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public enum Continent {
+
+  NORTH_AMERICA (23, 24709000),
+  // ...
+  EUROPE (50, 39310000);
+
+  private int countryCount;
+  private int landMass;
+
+  Continent(int countryCount, int landMass) {
+    // ...
+  }
+</pre>
+

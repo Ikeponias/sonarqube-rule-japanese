@@ -1,0 +1,52 @@
+<p>モバイルアプリケーションでは、データをローカルに保存することが一般的なタスクとなっています。このようなデータには、特にファイルが含まれます。ファイルを保存する便利な方法の1つは、内部ストレージと比較してより大きなディスク容量を提供する外部ファイルストレージを使用することです。</p>
+<p>外部ストレージに作成されたファイルは、グローバルに読み取りと書き込みが可能です。そのため、<code translate="no">WRITE_EXTERNAL_STORAGE</code> または<code translate="no">READ_EXTERNAL_STORAGE</code> の権限を持つ悪意のあるアプリケーションは、他のアプリケーションが外部ストレージに保存したファイルから機密情報を読み取ろうとすることができます。</p>
+<p>外部ストレージは、ユーザーによって削除されることもあり（例：SDカードをベースにした場合）、アプリケーションからファイルを利用することができなくなります。</p>
+<h2>ということを自問自答してください。</h2>
+<p>あなたのアプリケーションは、外部ストレージを使用しています：</p>
+<ul>
+  <li>は、機密データを含むファイルを保存します。 </li>
+  <li>他のアプリケーションと共有することを意図していないファイルを保存します。 </li>
+  <li>は、アプリケーションが動作するために重要なファイルを保存します。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<ul>
+  <li>システムは他のアプリがこの場所にアクセスするのを防ぐため、可能な限り内部ストレージを使用します。 </li>
+  <li>外部ストレージは、機密性のないファイルを他のアプリケーションと共有する必要がある場合にのみ使用してください。 </li>
+  <li>アプリケーションが機密データを保存するために外部ストレージを使用する必要がある場合、<a href="https://developer.android.com/reference/androidx/security/crypto/EncryptedFile">EncryptedFileを</a>使用してファイルを暗号化することを確認してください。 </li>
+  <li>外部ストレージからのデータは、常に信頼できないものと考え、検証する必要があります。 </li>
+  <li>外部ストレージは取り外せるものもあるので、アプリケーションの使い勝手に関わる重要なファイルは絶対に保存しないようにしてください。 </li>
+</ul>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+import android.content.Context;
+
+public class AccessExternalFiles {
+
+    public void accessFiles(Context context) {
+        context.getExternalFilesDir(null); // Sensitive
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+import android.content.Context;
+
+public class AccessExternalFiles {
+
+    public void accessFiles(Context context) {
+        context.getFilesDir();
+    }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A04_2021-Insecure_Design/">OWASP Top 10 2021 カテゴリ A4</a>- 安全でない設計 </li>
+  <li><a href="https://developer.android.com/training/articles/security-tips#ExternalStorage">Android 外部ファイルストレージに関するセキュリティ</a>上の注意点  </li>
+  <li><a href="https://mobile-security.gitbook.io/masvs/security-requirements/0x07-v2-data_storage_and_privacy_requirements">Mobile AppSec検証基準</a>- データの保存とプライバシーの要件 </li>
+  <li><a href="https://owasp.org/www-project-mobile-top-10/2016-risks/m2-insecure-data-storage">OWASP Mobile Top 10 2016 カテゴリーM2</a>- 安全でないデータストレージ </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/312">MITRE, CWE-312</a>- 機密情報のクリアテキスト保存について </li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat2">SANS Top 25</a>- リスクの高い資源管理 </li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat3">SANS Top 25</a>- ポーラスディフェンス </li>
+</ul>
+

@@ -1,0 +1,36 @@
+<p>過度に複雑な正規表現は、読みにくく、保守しにくく、見つけにくいバグを引き起こしやすくなります。正規表現が複雑すぎる場合は、少なくともその一部または全部を正規のコードに置き換えるか、複数のパターンに分割することを検討すべきです。</p>
+<p>正規表現の複雑さは、以下のように決定されます：</p>
+<p>以下の各演算子は、現在のネスティングレベルに等しい量だけ複雑さを増加させ、またその引数に対して現在のネスティングレベルを1つ増加させます：</p>
+<ul>
+  <li><code translate="no">|</code> - 複数の<code translate="no">|</code> 演算子を併用する場合、後続の演算子は複雑さを1だけ増加させます。 </li>
+  <li><code translate="no">&amp;&amp;</code> (文字クラス内) - 複数の<code translate="no">&amp;&amp;</code> 演算子を併用した場合、後続の演算子は1だけ複雑さを増す </li>
+  <li>数量詞 (<code translate="no">*</code>,<code translate="no">+</code>,<code translate="no">?</code>,<code translate="no">{n,m}</code>,<code translate="no">{n,}</code> or<code translate="no">{n}</code>) </li>
+  <li>フラグを立てる非捕獲グループ（<code translate="no">(?i:some_pattern)</code> や<code translate="no">(?i)some_pattern</code> など）。 </li>
+  <li>ルックアヘッドとルックビハインドのアサーション </li>
+</ul>
+<p>また、以下の機能を使用するごとに、ネスティングに関係なく、複雑さが1ずつ増加します：</p>
+<ul>
+  <li>文字種 </li>
+  <li>バックレファレンス </li>
+</ul>
+<p>正規表現が複数の変数に分割されている場合、複雑さは正規表現全体ではなく、各変数に対して個別に計算されます。正規表現が複数行に分かれている場合、コメント（Javaのコメントまたは正規表現内のコメント）を伴っている場合は各行を個別に扱い、それ以外の場合は正規表現全体を解析する。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if (dateString.matches("^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$")) {
+    handleDate(dateString);
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (dateString.matches("^\\d{1,2}([-/.])\\d{1,2}\\1\\d{1,4}$")) {
+    String dateParts[] = dateString.split("[-/.]");
+    int day = Integer.parseInt(dateParts[0]);
+    int month = Integer.parseInt(dateParts[1]);
+    int year = Integer.parseInt(dateParts[2]);
+    // Put logic to validate and process the date based on its integer parts here
+}
+</pre>
+<h2>例外あり</h2>
+<p>正規表現は、正規表現のすべての部分が文字列リテラル、事実上の最終ローカル変数、<code translate="no">static final</code> フィールドのいずれかである場合にのみ解析されます。これらのすべては '<code translate="no">+</code>' 演算子を使用して結合することができます。</p>
+<p>正規表現が複数の変数やコメント行に分割されている場合、各部分はそれ自体で構文的に有効である場合のみ解析されます。</p>
+

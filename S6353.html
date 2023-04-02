@@ -1,0 +1,24 @@
+<p>正規表現の構文では、同じことを何通りにも表現することが可能です。例えば、2桁の数字にマッチさせる場合、<code translate="no">[0-9]{2,2}</code> や<code translate="no">\d{2}</code> と書くことができます。この規則では、かさばる量化子や文字クラスを、より簡潔な同等物に置き換えることを推奨しています：</p>
+<ul>
+  <li><code translate="no">\d</code> for<code translate="no">[0-9]</code> and<code translate="no">\D</code> for<code translate="no">[^0-9]</code> </li>
+  <li><code translate="no">\w</code> for<code translate="no">[A-Za-z0-9_]</code> and<code translate="no">\W</code> for<code translate="no">[^A-Za-z0-9_]</code> </li>
+  <li><code translate="no">.</code> 全てにマッチする文字クラス（例：<code translate="no">[\w\W]</code>,<code translate="no">[\d\D]</code>, または<code translate="no">[\s\S]</code> と<code translate="no">s</code> フラグ）の場合 </li>
+  <li><code translate="no">x?</code> for<code translate="no">x{0,1}</code>,<code translate="no">x*</code> for<code translate="no">x{0,}</code>,<code translate="no">x+</code> for<code translate="no">x{1,}</code>,<code translate="no">x{N}</code> for<code translate="no">x{N,N}</code> </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+"[0-9]" // Noncompliant - same as "\\d"
+"[^0-9]" // Noncompliant - same as "\\D"
+"[A-Za-z0-9_]" // Noncompliant - same as "\\w"
+"[\\w\\W]" // Noncompliant - same as "."
+"a{0,}" // Noncompliant - same as "a*"
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+"\\d"
+"\\D"
+"\\w"
+"."
+"a*"
+</pre>
+

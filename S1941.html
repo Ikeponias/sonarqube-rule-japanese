@@ -1,0 +1,38 @@
+<p>わかりやすくするために、変数はできるだけ使用する場所の近くで宣言する必要があります。特に、アーリーリターンを含むメソッドや例外を発生させる可能性のあるメソッドを考慮した場合、その傾向が顕著です。このような場合、アーリーリターンの条件が先に満たされるため、使われることのない変数を宣言することは無意味であるだけでなく、混乱も招きます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public boolean isConditionMet(int a, int b) {
+  int difference = a - b;
+  MyClass foo = new MyClass(a);  // Noncompliant; not used before early return
+
+  if (difference &lt; 0) {
+    return false;
+  }
+
+  // ...
+
+  if (foo.doTheThing()) {
+    return true;
+  }
+  return false;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public boolean isConditionMet(int a, int b) {
+  int difference = a - b;
+
+  if (difference &lt; 0) {
+    return false;
+  }
+
+  // ...
+
+  MyClass foo = new MyClass(a);
+  if (foo.doTheThing()) {
+    return true;
+  }
+  return false;
+}
+</pre>
+

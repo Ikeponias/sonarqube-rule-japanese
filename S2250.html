@@ -1,0 +1,43 @@
+<p>コレクションに対するメソッド呼び出しの時間的複雑さは、必ずしも明らかではありません。たとえば、ほとんどのコレクションでは、<code translate="no">size()</code> メソッドに一定の時間がかかりますが、<code translate="no">ConcurrentLinkedQueue.size()</code> を実行するのに必要な時間は O(n)、つまりコレクション内の要素数に正比例します。コレクションが大きい場合、これは高価な操作となる可能性があります。</p>
+<p>このルールは、以下のO(n)メソッドがクラスフィールドのコンストラクタ以外で呼び出された場合に問題となる：</p>
+<ul>
+  <li> <code translate="no">ArrayList</code>
+    <ul>
+      <li> <code translate="no">contains</code> </li>
+      <li> <code translate="no">remove</code> </li>
+    </ul>  </li>
+  <li> <code translate="no">LinkedList</code>
+    <ul>
+      <li> <code translate="no">get</code> </li>
+      <li> <code translate="no">contains</code> </li>
+    </ul>  </li>
+  <li> <code translate="no">ConcurrentLinkedQueue</code>
+    <ul>
+      <li> <code translate="no">size</code> </li>
+      <li> <code translate="no">contains</code> </li>
+    </ul>  </li>
+  <li> <code translate="no">ConcurrentLinkedDeque</code>
+    <ul>
+      <li> <code translate="no">size</code> </li>
+      <li> <code translate="no">contains</code> </li>
+    </ul>  </li>
+  <li> <code translate="no">CopyOnWriteArrayList</code>
+    <ul>
+      <li> <code translate="no">add</code> </li>
+      <li> <code translate="no">contains</code> </li>
+      <li> <code translate="no">remove</code> </li>
+    </ul>  </li>
+  <li> <code translate="no">CopyOnWriteArraySet</code>
+    <ul>
+      <li> <code translate="no">add</code> </li>
+      <li> <code translate="no">contains</code> </li>
+      <li> <code translate="no">remove</code> </li>
+    </ul>  </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+ConcurrentLinkedQueue queue = new ConcurrentLinkedQueue();
+//...
+log.info("Queue contains " + queue.size() + " elements");  // Noncompliant
+</pre>
+

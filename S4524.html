@@ -1,0 +1,31 @@
+<p><code translate="no">switch</code> は、様々な理由で 節を含むことができます：予期せぬ値を処理するため、すべてのケースが適切に考慮されたことを示すためです。<code translate="no">default</code> </p>
+<p>読みやすくするために、<code translate="no">switch</code> 文のデフォルトの動作を開発者がすぐに見つけられるように、<code translate="no">default</code> 節を<code translate="no">switch</code> 文の最後に置くことが推奨されています。このルールは、<code translate="no">default</code> 節が<code translate="no">switch</code>'のケースの最後のものでない場合、問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+switch (param) {
+  case 0:
+    doSomething();
+    break;
+  default: // default clause should be the last one
+    error();
+    break;
+  case 1:
+    doSomethingElse();
+    break;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+switch (param) {
+  case 0:
+    doSomething();
+    break;
+  case 1:
+    doSomethingElse();
+    break;
+  default:
+    error();
+    break;
+}
+</pre>
+

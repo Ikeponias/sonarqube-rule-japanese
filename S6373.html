@@ -1,0 +1,74 @@
+<p>XML規格では、<a href="https://www.w3.org/TR/xinclude-11/">xinclude</a>要素でxmlファイルをインクルードすることができます。</p>
+<p>XMLプロセッサは、xinclude要素をhref属性で定義されたURIにあるファイルの内容に置き換えますが、これはファイルシステムやネットワークなどの外部ストレージからの可能性があり、制限がない場合、任意のファイルの開示や<a href="https://owasp.org/www-community/attacks/Server_Side_Request_Forgery">SSRF（Server-Side Request Forgery）</a>脆弱性につながる恐れがあります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/parsers/DocumentBuilderFactory.html">DocumentBuilder</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/parsers/SAXParserFactory.html">SAXParser</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/stream/XMLInputFactory.html">XMLInput</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/transform/TransformerFactory.html">Transformer</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/validation/SchemaFactory.html">Schema</a>JAPXファクトリー用：</p>
+<pre translate="no">
+factory.setXIncludeAware(true); // Noncompliant
+// or
+factory.setFeature("http://apache.org/xml/features/xinclude", true); // Noncompliant
+</pre>
+<p><a href="https://dom4j.github.io/">Dom4j</a>ライブラリ用：</p>
+<pre translate="no">
+SAXReader xmlReader = new SAXReader();
+xmlReader.setFeature("http://apache.org/xml/features/xinclude", true); // Noncompliant
+</pre>
+<p><a href="http://www.jdom.org/">Jdom2</a>ライブラリ用：</p>
+<pre translate="no">
+SAXBuilder builder = new SAXBuilder();
+builder.setFeature("http://apache.org/xml/features/xinclude", true); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>Xincludeはデフォルトで無効になっていますが、以下のように明示的に無効にすることができます。</p>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/parsers/DocumentBuilderFactory.html">DocumentBuilder</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/parsers/SAXParserFactory.html">SAXParser</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/stream/XMLInputFactory.html">XMLInput</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/transform/TransformerFactory.html">Transformer</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/validation/SchemaFactory.html">Schema</a>JAPXファクトリー用です：</p>
+<pre translate="no">
+factory.setXIncludeAware(false);
+// or
+factory.setFeature("http://apache.org/xml/features/xinclude", false);
+</pre>
+<p><a href="https://dom4j.github.io/">Dom4j</a>ライブラリ用：</p>
+<pre translate="no">
+SAXReader xmlReader = new SAXReader();
+xmlReader.setFeature("http://apache.org/xml/features/xinclude", false);
+</pre>
+<p><a href="http://www.jdom.org/">Jdom2</a>ライブラリ用：</p>
+<pre translate="no">
+SAXBuilder builder = new SAXBuilder();
+builder.setFeature("http://apache.org/xml/features/xinclude", false);
+</pre>
+<h2>例外あり</h2>
+<p>このルールは、Xincludeがカスタム<code translate="no">EntityResolver</code> で有効になっている場合、問題を生じません：</p>
+<p>DocumentBuilderFactoryの場合：</p>
+<pre translate="no">
+DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+factory.setXIncludeAware(true);
+// ...
+DocumentBuilder builder = factory.newDocumentBuilder();
+builder.setEntityResolver((publicId, systemId) -&gt; new MySafeEntityResolver(publicId, systemId));
+</pre>
+<p>SAXBuilderの場合：</p>
+<pre translate="no">
+SAXBuilder builder = new SAXBuilder();
+builder.setFeature("http://apache.org/xml/features/xinclude", true);
+builder.setEntityResolver((publicId, systemId) -&gt; new MySafeEntityResolver(publicId, systemId));
+</pre>
+<p>SAXReaderの場合：</p>
+<pre translate="no">
+SAXReader xmlReader = new SAXReader();
+xmlReader.setFeature("http://apache.org/xml/features/xinclude", true);
+xmlReader.setEntityResolver((publicId, systemId) -&gt; new MySafeEntityResolver(publicId, systemId));
+</pre>
+<p>XMLInputFactoryの場合：</p>
+<pre translate="no">
+XMLInputFactory factory = XMLInputFactory.newInstance();
+factory.setProperty("http://apache.org/xml/features/xinclude", true);
+factory.setXMLResolver(new MySafeEntityResolver());
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/en/java/javase/13/security/java-api-xml-processing-jaxp-security-guide.html#GUID-8CD65EF5-D113-4D5C-A564-B875C8625FAC">Oracle Javaドキュメント</a>- XML External Entity Injection攻撃 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A4_2017-XML_External_Entities_(XXE)">OWASP Top 10 2017 カテゴリーA4</a>- XML External Entities (XXE) </li>
+  <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html#java">OWASP XXE防止チートシート</a></li>
+  <li><a href="https://cwe.mitre.org/data/definitions/611">MITRE, CWE-611</a>- XML外部エンティティ参照による情報公開について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/827">MITRE, CWE-827</a>- ドキュメントタイプ定義の不適切なコントロール </li>
+</ul>
+

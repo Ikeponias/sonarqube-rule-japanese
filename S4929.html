@@ -1,0 +1,40 @@
+<p><code translate="no">java.io.InputStream</code> や<code translate="no">java.io.FilterInputStream</code> を直接サブクラス化する場合、唯一の要件は<code translate="no">read()</code> メソッドを実装することです。しかし、このようなストリームのほとんどの用途では、一度に1バイトも読み込まないため、<code translate="no">read(byte[],int,int)</code> のデフォルトの実装では、配列内の1バイトごとに<code translate="no">read(int)</code> を呼び出すことになり、多くのオーバーヘッドが発生し、まったく非効率的です。したがって、サブクラスは<code translate="no">read(byte[],int,int)</code> の効率的な実装を提供することを強く推奨します。</p>
+<p>このルールは、<code translate="no">java.io.InputStream</code> または<code translate="no">java.io.FilterInputStream</code> の直接のサブクラスが、<code translate="no">read(byte[],int,int)</code> のオーバーライドを提供しない場合に問題となる。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyInputStream extends java.io.InputStream {
+  private FileInputStream fin;
+
+  public MyInputStream(File file) throws IOException {
+    fin = new FileInputStream(file);
+  }
+
+  @Override
+  public int read() throws IOException {
+    return fin.read();
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyInputStream extends java.io.InputStream {
+  private FileInputStream fin;
+
+  public MyInputStream(File file) throws IOException {
+    fin = new FileInputStream(file);
+  }
+
+  @Override
+  public int read() throws IOException {
+    return fin.read();
+  }
+
+  @Override
+  public int read(byte[] b, int off, int len) throws IOException {
+    return fin.read(b, off, len);
+  }
+}
+</pre>
+<h2>例外あり</h2>
+<p>このルールは、クラスが<code translate="no">abstract</code> で宣言されている場合には問題にはなりません。</p>
+

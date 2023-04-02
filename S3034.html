@@ -1,0 +1,30 @@
+<p><code translate="no">int</code>s や<code translate="no">long</code>s などの他のプリミティブ値を構築するためにバイトを読み込む場合、<code translate="no">byte</code> 値が自動的に昇格されますが、この昇格は予期せぬ結果をもたらすことがあります。</p>
+<p>例えば、整数640の2進数表現は<code translate="no">0b0000_0010_1000_0000</code> 、（符号なし）バイトの配列<code translate="no">[2, 128]</code> と書くこともできます。しかし、Javaでは2の補数を使用するため、符号付きバイトによる整数の表現は<code translate="no">[2,
+-128]</code> となります（<code translate="no">byte</code> <code translate="no">0b1000_0000</code> が<code translate="no">int</code><code translate="no">0b1111_1111_1111_1111_1111_1111_1000_0000</code> に昇格するため）。そのため、符号を気にせずにバイトの値をシフトしたり加算したりして初期整数を再構築しようとしても、期待通りの結果は得られません。</p>
+<p>このような偶発的な値の変換を防ぐには、ビット演算と（<code translate="no">&amp;</code> ）を使って、<code translate="no">byte</code> の値を<code translate="no">0xff</code>（255）と結合し、すべての上位ビットをオフに戻す必要があります。</p>
+<p>このルールは、<code translate="no">byte</code> の値が<code translate="no">&amp; 0xff</code> を伴わずにオペランドとして使用され、シフトと組み合わされる場合に問題となる。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+  int intFromBuffer() {
+    int result = 0;
+    for (int i = 0; i &lt; 4; i++) {
+      result = (result &lt;&lt; 8) | readByte(); // Noncompliant
+    }
+    return result;
+  }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+  int intFromBuffer() {
+    int result = 0;
+    for (int i = 0; i &lt; 4; i++) {
+      result = (result &lt;&lt; 8) | (readByte() &amp; 0xff);
+    }
+    return result;
+  }
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/kDZGBQ">CERT、NUM52-J。</a>- 数値推進行動を意識する </li>
+</ul>
+

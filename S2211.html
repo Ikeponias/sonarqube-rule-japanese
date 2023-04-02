@@ -1,0 +1,23 @@
+<p>コーディング規約を共有することで、チームは効果的にコラボレーションを行うことができます。ラムダ引数の型は任意ですが、とにかく指定することで、コードがより明確になり、読みやすくなります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Arrays.sort(rosterAsArray,
+    (a, b) -&gt; {  // Noncompliant
+        return a.getBirthday().compareTo(b.getBirthday());
+    }
+);
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Arrays.sort(rosterAsArray,
+    (Person a, Person b) -&gt; {
+        return a.getBirthday().compareTo(b.getBirthday());
+    }
+);
+</pre>
+<h2>例外あり</h2>
+<p>ラムダが1つか2つのパラメータを持ち、ブロックを持たない場合、このルールは問題を起こさないでしょう。</p>
+<pre translate="no">
+stream.map((a, b) -&gt; a.length); // compliant
+</pre>
+

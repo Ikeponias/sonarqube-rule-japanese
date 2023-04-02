@@ -1,0 +1,14 @@
+<p><code translate="no">null</code> は技術的には有効な<code translate="no">Boolean</code> の値ですが、その事実、そして<code translate="no">Boolean</code> と<code translate="no">boolean</code> の区別は忘れがちです。そのため、<code translate="no">Boolean</code> のメソッドから<code translate="no">null</code> を返すと、呼び出し元のコードで問題が発生する可能性が高い。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public Boolean isUsable() {
+  // ...
+  return null;  // Noncompliant
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/476">MITRE, CWE-476</a>- NULLポインタのデリファレンス </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/aDdGBQ">CERT、EXP01-J。</a>- オブジェクトが必要な場合にNULLを使用しないでください </li>
+</ul>
+

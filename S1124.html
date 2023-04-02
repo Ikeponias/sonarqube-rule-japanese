@@ -1,0 +1,28 @@
+<p>Java Language Specificationでは、修飾語を以下の順序で並べることを推奨しています：</p>
+<ol>
+  <li>アノテーション </li>
+  <li>おもてだった </li>
+  <li>プロテクテッド </li>
+  <li>個人 </li>
+  <li>ちゅうしょう </li>
+  <li>スタティック </li>
+  <li>最終 </li>
+  <li>果敢ない </li>
+  <li>揮発性 </li>
+  <li>シンクロナイズド </li>
+  <li>ネイティブ </li>
+  <li>デフォルト </li>
+  <li>厳密なfp </li>
+</ol>
+<p>この規約に従わないことは技術的な影響はありませんが、多くの開発者が標準的な順序に慣れているため、コードの可読性を低下させます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+static public void main(String[] args) {   // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public static void main(String[] args) {   // Compliant
+}
+</pre>
+

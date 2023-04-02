@@ -1,0 +1,60 @@
+<p>JUnit5は、すべてをpublicにする必要があったJUnit4よりも、テストクラスやメソッドの可視性に関して寛容です。JUnit5では、デフォルトのパッケージ、public、protectedの可視性をサポートしていますが、コードの可読性を向上させるために、デフォルトのパッケージの可視性を使用することが推奨されています。</p>
+<p>しかし、JUnit5では何の警告もなく無視されます：</p>
+<ul>
+  <li>私的クラスと私的メソッド </li>
+  <li>静的方法 </li>
+  <li>TestFactoryでなくとも値を返すメソッド </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+import org.junit.jupiter.api.Test;
+
+class MyClassTest {
+  @Test
+  private void test1() { // Noncompliant - ignored by JUnit5
+    // ...
+  }
+  @Test
+  static void test2() { // Noncompliant - ignored by JUnit5
+    // ...
+  }
+  @Test
+  boolean test3() { // Noncompliant - ignored by JUnit5
+    // ...
+  }
+  @Nested
+  private class MyNestedClass { // Noncompliant - ignored by JUnit5
+    @Test
+    void test() {
+      // ...
+    }
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+import org.junit.jupiter.api.Test;
+
+class MyClassTest {
+  @Test
+  void test1() {
+    // ...
+  }
+  @Test
+  void test2() {
+    // ...
+  }
+  @Test
+  void test3() {
+    // ...
+  }
+  @Nested
+  class MyNestedClass {
+    @Test
+    void test() {
+      // ...
+    }
+  }
+}
+</pre>
+

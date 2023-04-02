@@ -1,0 +1,32 @@
+<p>任意のストリーム読み取り呼び出しが、メソッドに渡された<code translate="no">byte[]</code> を満たすと仮定することはできません。その代わりに、readメソッドが返す値をチェックして、何バイトが読み込まれたかを確認する必要があります。これを怠ると、有害で再現が困難なバグが発生します。</p>
+<p>同様に、<code translate="no">InputStream.skip</code> が実際に要求されたバイト数をスキップすると仮定することはできず、メソッドから返される値を確認する必要があります。</p>
+<p>このルールでは、<code translate="no">byte[]</code> を受け付ける<code translate="no">InputStream.read</code> メソッドを呼び出したが、その戻り値がチェックされない場合、および<code translate="no">InputStream.skip</code> の戻り値がチェックされない場合に問題が発生する。また、このルールは<code translate="no">InputStream</code> の子クラスにも適用されます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void doSomething(String fileName) {
+  try {
+    InputStream is = new InputStream(file);
+    byte [] buffer = new byte[1000];
+    is.read(buffer);  // Noncompliant
+    // ...
+  } catch (IOException e) { ... }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomething(String fileName) {
+  try {
+    InputStream is = new InputStream(file);
+    byte [] buffer = new byte[1000];
+    int count = 0;
+    while (count = is.read(buffer) &gt; 0) {
+      // ...
+    }
+  } catch (IOException e) { ... }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/VzdGBQ">CERT、FIO10-J。</a>- read()を使用して配列を埋める際に、配列が埋まっていることを確認する。 </li>
+</ul>
+

@@ -1,0 +1,32 @@
+<p>メンバ変数の可視性を明示的に宣言しないと、予想外の可視性を持つことになり、他のクラスから予期せぬ改変を受ける可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class Ball {
+    String color="red";  // Noncompliant
+}
+enum A {
+  B;
+  int a;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class Ball {
+    private String color="red";  // Compliant
+}
+enum A {
+  B;
+  private int a;
+}
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">@VisibleForTesting</code> のアノテーションが付いたメンバーは無視されます。これは、コードをテスト可能にするために、意図的に可視性を緩和したことを示すからです。</p>
+<pre translate="no">
+class Cone {
+  @VisibleForTesting
+  Logger logger; // Compliant
+}
+</pre>
+<h2>非推奨</h2>
+<p>このルールは非推奨であり、いずれ削除される予定です。</p>
+

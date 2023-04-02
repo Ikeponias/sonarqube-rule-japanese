@@ -1,0 +1,68 @@
+<p>デフォルトでは、XMLプロセッサは、すべてのXMLスキーマとDTD（それらの場所は、<code translate="no">xsi:schemaLocation</code> 属性と<code translate="no">DOCTYPE</code> 宣言で定義されます）を、ファイルシステムやネットワークなどの外部ストレージから読み込もうとする可能性があり、制限を設けない場合、<a href="https://owasp.org/www-community/attacks/Server_Side_Request_Forgery">サーバーサイドリクエストフォージェリ（SSRF）</a>脆弱性につながる可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/parsers/DocumentBuilderFactory.html">DocumentBuilder</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/parsers/SAXParserFactory.html">SAXParser</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/validation/SchemaFactory.html">Schema</a>JAPXファクトリー用：</p>
+<pre translate="no">
+DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+factory.setValidating(true); // Noncompliant
+factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true); // Noncompliant
+
+SAXParserFactory factory = SAXParserFactory.newInstance();
+factory.setValidating(true); // Noncompliant
+factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true); // Noncompliant
+
+SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+schemaFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true); // Noncompliant
+</pre>
+<p><a href="https://dom4j.github.io/">Dom4j</a>ライブラリ用：</p>
+<pre translate="no">
+SAXReader xmlReader = new SAXReader(); // Noncompliant
+xmlReader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);  // Noncompliant
+</pre>
+<p><a href="http://www.jdom.org/">Jdom2</a>ライブラリ用：</p>
+<pre translate="no">
+SAXBuilder builder = new SAXBuilder();
+builder.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p><a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/parsers/DocumentBuilderFactory.html">DocumentBuilder</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/parsers/SAXParserFactory.html">SAXParser</a>、<a href="https://docs.oracle.com/javase/9/docs/api/javax/xml/validation/SchemaFactory.html">Schema</a>JAPXファクトリー用：</p>
+<pre translate="no">
+DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+
+SAXParserFactory factory = SAXParserFactory.newInstance();
+factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+
+SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+schemaFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+</pre>
+<p><a href="https://dom4j.github.io/">Dom4j</a>ライブラリ用：</p>
+<pre translate="no">
+SAXReader xmlReader = new SAXReader(); // Noncompliant
+xmlReader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+</pre>
+<p><a href="http://www.jdom.org/">Jdom2</a>ライブラリ用：</p>
+<pre translate="no">
+SAXBuilder builder = new SAXBuilder();
+builder.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+</pre>
+<h2>例外あり</h2>
+<p>このルールでは、<code translate="no">EntityResolver</code> を設定しても問題は発生しません。</p>
+<pre translate="no">
+DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+factory.setValidating(true);
+DocumentBuilder builder = factory.newDocumentBuilder();
+builder.setEntityResolver(new MyEntityResolver());
+
+SAXBuilder builder = new SAXBuilder();
+builder.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", true);
+builder.setEntityResolver(new EntityResolver());
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/en/java/javase/13/security/java-api-xml-processing-jaxp-security-guide.html#GUID-8CD65EF5-D113-4D5C-A564-B875C8625FAC">Oracle Javaドキュメント</a>- XML External Entity Injection攻撃 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A4_2017-XML_External_Entities_(XXE)">OWASP Top 10 2017 カテゴリーA4</a>- XML External Entities (XXE) </li>
+  <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html#java">OWASP XXE防止チートシート</a></li>
+  <li><a href="https://cwe.mitre.org/data/definitions/611">MITRE, CWE-611</a>- XML外部エンティティ参照による情報公開について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/827">MITRE, CWE-827</a>- ドキュメントタイプ定義の不適切なコントロール </li>
+</ul>
+

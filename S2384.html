@@ -1,0 +1,66 @@
+<p>ミュータブルオブジェクトとは、状態を変化させることができるオブジェクトのことです。例えば、配列はミュータブルですが、Stringはミュータブルではありません。Mutableなクラス・メンバーは、決して呼び出し元に返したり、直接受け取ったり保存したりしてはいけません。そうすることで、クラスの状態が予期せず変化する可能性があります。</p>
+<p>その代わりに、変更不可能な<code translate="no">Collection</code> (<code translate="no">Collections.unmodifiableCollection</code>,<code translate="no">Collections.unmodifiableList</code>, ...を経由して)を使用するか、ミュータブルオブジェクトのコピーを作成し、代わりにそのコピーを保存または返します。</p>
+<p>このルールは、配列、コレクション、およびDateが直接保存または返されないことを確認します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class A {
+  private String [] strings;
+
+  public A () {
+    strings = new String[]{"first", "second"};
+  }
+
+  public String [] getStrings() {
+    return strings; // Noncompliant
+  }
+
+  public void setStrings(String [] strings) {
+    this.strings = strings;  // Noncompliant
+  }
+}
+
+public class B {
+
+  private A a = new A();  // At this point a.strings = {"first", "second"};
+
+  public void wreakHavoc() {
+    a.getStrings()[0] = "yellow";  // a.strings = {"yellow", "second"};
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class A {
+  private String [] strings;
+
+  public A () {
+    strings = new String[]{"first", "second"};
+  }
+
+  public String [] getStrings() {
+    return strings.clone();
+  }
+
+  public void setStrings(String [] strings) {
+    this.strings = strings.clone();
+  }
+}
+
+public class B {
+
+  private A a = new A();  // At this point a.strings = {"first", "second"};
+
+  public void wreakHavoc() {
+    a.getStrings()[0] = "yellow";  // a.strings = {"first", "second"};
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/374">MITRE, CWE-374</a>- Mutable Objects を信頼できないメソッドに渡す。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/375">MITRE, CWE-375</a>- 信頼されていない呼び出し元へミュータブルオブジェクトを返す </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/OTdGBQ">CERT、OBJ05-J。</a>- プライベートなミュータブルクラスメンバーへの参照を返さないこと </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/HTdGBQ">CERT、OBJ06-J。</a>- ミュータブル入力とミュータブル内部コンポーネントをディフェンシブコピーする  </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/VzZGBQ">CERT、OBJ13-J。</a>- ミュータブルオブジェクトへの参照が公開されないようにすること </li>
+</ul>
+

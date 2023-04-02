@@ -1,0 +1,21 @@
+<p>ストリーム操作には、別のストリームを返す中間操作と、ストリーム以外のものを返す終端操作の2種類があります。中間処理は遅延処理であり、その結果に対して終端処理が行われない限り、実際には実行されない。従って、中間ストリーム操作の結果がターミナル操作に供給されない場合、それは何の役にも立たず、ほぼ間違いなくエラーとなる。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+widgets.stream().filter(b -&gt; b.getColor() == RED); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int sum = widgets.stream()
+                      .filter(b -&gt; b.getColor() == RED)
+                      .mapToInt(b -&gt; b.getWeight())
+                      .sum();
+Stream&lt;Widget&gt; pipeline = widgets.stream()
+                                 .filter(b -&gt; b.getColor() == GREEN)
+                                 .mapToInt(b -&gt; b.getWeight());
+sum = pipeline.sum();
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html#StreamOps">ストリーム・オペレーション</a></li>
+</ul>
+

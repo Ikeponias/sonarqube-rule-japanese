@@ -1,0 +1,16 @@
+<p>使われていない型パラメータはデッドコードであり、メンテナンス時に開発者の気を散らし、場合によっては混乱させるだけである。したがって、未使用の型パラメータは削除する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int &lt;T&gt; Add(int a, int b) // Noncompliant; &lt;T&gt; is ignored
+{
+  return a + b;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int Add(int a, int b)
+{
+  return a + b;
+}
+</pre>
+

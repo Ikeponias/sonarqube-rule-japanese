@@ -1,0 +1,27 @@
+<p><code translate="no">int</code> は32ビット変数なので、+/-31以上のシフトは良く言えば混乱し、悪く言えばエラーになります。ランタイムは32ビット整数をシフトするとき、シフトカウントオペランドの下位5ビットを使用します。つまり、<code translate="no">int</code> を32シフトすることは、0シフトすることと同じであり、33シフトすることは、1シフトすることと同じである。</p>
+<p>同様に64ビット整数をシフトする場合、ランタイムはシフトカウントオペランドの下位6ビットを使用し、<code translate="no">long</code> を64シフトすることは0シフトすることと同じであり、65シフトすることは1シフトすることと同じです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public int shift(int a) {
+  int x = a &gt;&gt; 32; // Noncompliant
+  return a &lt;&lt; 48;  // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public int shift(int a) {
+  int x = a &gt;&gt; 31;
+  return a &lt;&lt; 16;
+}
+</pre>
+<h2>例外あり</h2>
+<p>このルールは、ゼロによるシフトが明らかに外観上の理由である場合には、問題を生じない：</p>
+<ul>
+  <li>シフトされた値がリテラルである場合。 </li>
+  <li>前後の行の同じ位置に同様のシフトがある場合。例． </li>
+</ul>
+<pre translate="no">
+bytes[loc+0] = (byte)(value &gt;&gt; 8);
+bytes[loc+1] = (byte)(value &gt;&gt; 0);
+</pre>
+

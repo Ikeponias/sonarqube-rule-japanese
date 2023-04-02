@@ -1,0 +1,25 @@
+<p>継承は、オブジェクト指向プログラミングにおいて最も価値のある概念の1つであることは間違いありません。クラスと呼ばれる属性や動作のコレクションを作成し、以前に作成したクラスをベースにすることで、コードを区分けし再利用する方法です。しかし、この概念を悪用して深い継承ツリーを作成すると、非常に複雑で保守性のないソースコードになる可能性があります。ほとんどの場合、深すぎる継承ツリーは、オブジェクト指向の設計が悪いために、「コンポジション」の方が適しているにもかかわらず、「継承」を体系的に使用してしまうことに起因しています。</p>
+<p>このルールは、<code translate="no">Object</code> から始まる継承ツリーが許容範囲を超える深さを持つ場合に問題が発生します。</p>
+<p>ルールのパラメータについては、以下のルールが適用されます：</p>
+<ul>
+  <li><code translate="no">?</code> は1つの文字にマッチします </li>
+  <li><code translate="no">*</code> は0文字以上と一致する </li>
+  <li><code translate="no">**</code> は、0個以上のパッケージと一致します。 </li>
+</ul>
+<p>例を挙げます：</p>
+<ul>
+  <li><code translate="no">java.fwk.AbstractFwkClass</code> は、AbstractFwkClassclassに到達するとカウントを停止します。 </li>
+  <li><code translate="no">java.fwk.*</code> は、java.fwkPackageパッケージのいずれかのメンバに到達した時点でカウントを停止します。 </li>
+  <li><code translate="no">java.fwk.**</code> 同上、ただしサブパッケージは含む。 </li>
+</ul>
+<p>例外があります：</p>
+<p>このルールは、次のパッケージ（またはサブパッケージ）のいずれかに属するクラスに遭遇した時点でカウントを停止します：</p>
+<ul>
+  <li> <code translate="no">android.**</code> </li>
+  <li> <code translate="no">com.intellij.**</code> </li>
+  <li> <code translate="no">com.persistit.**</code> </li>
+  <li> <code translate="no">javax.swing.**</code> </li>
+  <li> <code translate="no">org.eclipse.**</code> </li>
+  <li> <code translate="no">org.springframework.**</code> </li>
+</ul>
+

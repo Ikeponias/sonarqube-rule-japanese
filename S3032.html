@@ -1,0 +1,10 @@
+<p>標準の<code translate="no">getClassLoader()</code> を使用すると、JEE コンテキストで<em>正しい</em>クラスローダーが返されない場合があります。その代わりに、<code translate="no">currentThread</code> を通してください。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+ClassLoader cl = this.getClass().getClassLoader();  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+ClassLoader cl = Thread.currentThread().getContextClassLoader();
+</pre>
+

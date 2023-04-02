@@ -1,0 +1,15 @@
+<p>正規表現には、本文が空文字列と一致するような繰り返しパターンを含んではいけません。これは通常、正規表現の一部が冗長であるか、作者が意図したとおりになっていないことを示すサインです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+"(?:)*"      // same as the empty regex, the '*' accomplishes nothing
+"(?:|x)*"    // same as the empty regex, the alternative has no effect
+"(?:x|)*"    // same as 'x*', the empty alternative has no effect
+"(?:x*|y*)*" // same as 'x*', the first alternative would always match, y* is never tried
+"(?:x?)*"    // same as 'x*'
+"(?:x?)+"    // same as 'x*'
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+"x*"
+</pre>
+

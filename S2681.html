@@ -1,0 +1,42 @@
+<p><code translate="no">if</code> 文や<code translate="no">for</code> ループなどの1行ブロックでは、中括弧を省略することができますが、そうすることで誤解を招いたり、バグを誘発することがあります。</p>
+<p>このルールは、1行ブロックの後の行の空白が、その行をブロックに含める意図を示すが、中括弧が省略されているため、その行が無条件に1回実行されることを意味する場合に問題が発生する。</p>
+<p>なお、このルールでは、タブ文字は1スペースと同等とみなしています。スペースとタブを混在させると、エディタ上では問題ないが、タブの大きさを変えたときに混乱する問題がコードに発生することがあります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if (condition)
+  firstActionInBlock();
+  secondAction();  // Noncompliant; executed unconditionally
+thirdAction();
+
+if (condition) firstActionInBlock(); secondAction();  // Noncompliant; secondAction executed unconditionally
+
+if (condition) firstActionInBlock();  // Noncompliant
+  secondAction();  // Executed unconditionally
+
+if (condition); secondAction();  // Noncompliant; secondAction executed unconditionally
+
+String str = null;
+for (int i = 0; i &lt; array.length; i++)
+  str = array[i];
+  doTheThing(str);  // Noncompliant; executed only on last array element
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (condition) {
+  firstActionInBlock();
+  secondAction();
+}
+thirdAction();
+
+String str = null;
+for (int i = 0; i &lt; array.length; i++) {
+  str = array[i];
+  doTheThing(str);
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/483">MITRE, CWE-483</a>- ブロックの区切りが正しくない。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/MzZGBQ">CERT、EXP52-J。</a>- if文、for文、while文の本文に中括弧を使用する。 </li>
+</ul>
+

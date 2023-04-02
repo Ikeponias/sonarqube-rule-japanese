@@ -1,0 +1,41 @@
+<p><code translate="no">@ComponentScan</code> の設定に含まれていないパッケージに属するSpring Beanは、Spring Application Contextでアクセスできなくなります。したがって、このルールで検出されるのは設定ミスである可能性が高いです。</p>
+<p><strong>注：</strong> <code translate="no">@ComponentScan</code> は<code translate="no">@SpringBootApplication</code> アノテーションで暗黙の了解になっています。Spring BootがSpring Bootメインクラスとそのサブパッケージを含むパッケージ内のコンポーネントを自動スキャンする場合です。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+package com.mycompany.app;
+
+@Configuration
+@ComponentScan("com.mycompany.app.beans")
+public class Application {
+...
+}
+
+package com.mycompany.app.web;
+
+@Controller
+public class MyController { // Noncompliant; MyController belong to "com.mycompany.app.web" while the ComponentScan is looking for beans in "com.mycompany.app.beans" package
+...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+package com.mycompany.app;
+
+@Configuration
+@ComponentScan({"com.mycompany.app.beans","com.mycompany.app.web"})
+or
+@ComponentScan("com.mycompany.app")
+or
+@ComponentScan
+public class Application {
+...
+}
+
+package com.mycompany.app.web;
+
+@Controller
+public class MyController { // "com.mycompany.app.web" is referenced by a @ComponentScan annotated class
+...
+}
+</pre>
+

@@ -1,0 +1,47 @@
+<p>互換性のない型を比較するアサーションは常に失敗し、負のアサーションは常に通過する。よく言えば、否定的なアサーションは役に立ちません。最悪の場合、開発者は間違ったアサーションに気づく前に、コードのロジックを修正しようとして時間を失うことになります。</p>
+<p>異質なタイプは</p>
+<ul>
+  <li>nullとプリミティブの比較 </li>
+  <li>けいたいじょうほう </li>
+  <li>比較級 </li>
+  <li>配列と非配列を比較する </li>
+  <li>異種配列比較 </li>
+</ul>
+<p>このルールは、ネガティブ・アサーションにおいて、無関係な<code translate="no">class</code> と<code translate="no">interface</code> または無関係な<code translate="no">interface</code> の型についても問題を生じさせる。なぜなら、一部のコーナーケースを除いて、これらの型は非類似である可能性がより高いからです。そして、否定的なアサーションの中では、この異常な比較について開発者に知らせるためのテストの失敗がありません。</p>
+<p>対応するテストフレームワーク</p>
+<ul>
+  <li>ジュウニットフォー </li>
+  <li>ジュウニットファイブ </li>
+  <li>アサートジェイ </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+interface KitchenTool {}
+interface Plant {}
+class Spatula implements KitchenTool {}
+class Tree implements Plant {}
+
+void assertValues(int size,
+                  Spatula spatula, KitchenTool tool,  KitchenTool[] tools,
+                  Tree    tree,    Plant       plant, Tree[]        trees) {
+
+  // Whatever the given values, those negative assertions will always pass due to dissimilar types:
+  assertThat(size).isNotNull();           // Noncompliant; primitives can not be null
+  assertThat(spatula).isNotEqualTo(tree); // Noncompliant; unrelated classes
+  assertThat(tool).isNotSameAs(tools);    // Noncompliant; array &amp; non-array
+  assertThat(trees).isNotEqualTo(tools);  // Noncompliant; incompatible arrays
+
+  // Those assertions will always fail
+  assertThat(size).isNull();                       // Noncompliant
+  assertThat(spatula).isEqualTo(tree);             // Noncompliant
+
+  // Those negative assertions are more likely to always pass
+  assertThat(spatula).isNotEqualTo(plant); // Noncompliant; unrelated class and interface
+  assertThat(tool).isNotEqualTo(plant);    // Noncompliant; unrelated interfaces
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li>{rule:java:S2159} です。- 愚かな平等チェックは行われるべきではない </li>
+</ul>
+

@@ -1,0 +1,27 @@
+<p>Springフレームワークには、より良い、よりシンプルなユニットテストを書くのに役立つ専用のクラスが用意されています。特に、Spring MVCの上に構築されたアプリケーションをテストする場合、MVCのプロパティを手動でテストする代わりに、Springの<code translate="no">ModelAndViewAssert</code> アサーションクラスを使用することが推奨されます。</p>
+<p></p>
+<p>このルールは、手動テストの代わりにSpringの<code translate="no">ModelAndViewAssert</code> アサーションを使用すべき場合に問題を生じます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+ModelAndView mav = getMyModelAndView();
+
+Assert.assertEquals("register", mav.getViewName());
+Assert.assertTrue((Boolean) mav.getModelMap().get("myAttribute"));
+Assert.assertFalse((Boolean) mav.getModelMap().get("myAttribute"));
+Assert.assertEquals(myObject, mav.getModelMap().get("myAttribute"));
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+ModelAndView mav = getMyModelAndView();
+
+ModelAndViewAssert.assertViewName(mav, "register");
+ModelAndViewAssert.assertModelAttributeValue(mav, "myAttribute", Boolean.TRUE);
+ModelAndViewAssert.assertModelAttributeValue(mav, "myAttribute", Boolean.FALSE);
+ModelAndViewAssert.assertModelAttributeValue(mav, "myAttribute", myObject);
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/testing.html#unit-testing-spring-mvc">ユニットテスト Spring MVC</a></li>
+  <li><a href="https://docs.spring.io/spring-framework/docs/5.2.8.RELEASE/javadoc-api/org/springframework/test/web/ModelAndViewAssert.html">ModelAndViewAssert Javadoc</a></li>
+</ul>
+

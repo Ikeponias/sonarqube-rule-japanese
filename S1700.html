@@ -1,0 +1,42 @@
+<p>クラスメンバが、その囲むクラスと同じ名前（大文字小文字の違いは別として）であることは、混乱を招く。特に、クラスインスタンスにクラス自体の名前を付けるという一般的な慣習を考えると、そのようなことが起こり得ます。</p>
+<p>ベストプラクティスでは、クラスと同じ名前のフィールドやメンバは、そのクラスが表す、または保持する特定の側面をより説明するために名前を変更することが指示されています。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Foo {
+  private String foo;
+
+  public String getFoo() { }
+}
+
+Foo foo = new Foo();
+foo.getFoo() // what does this return?
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Foo {
+  private String name;
+
+  public String getName() { }
+}
+
+//...
+
+Foo foo = new Foo();
+foo.getName()
+</pre>
+<h2>例外あり</h2>
+<p>フィールドの型が包含クラスであり、そのフィールドが静的である場合、型のような名前のシングルトンを許可する問題は発生しない。</p>
+<pre translate="no">
+public class Foo {
+  ...
+  private static Foo foo;
+  public Foo getInstance() {
+    if(foo==null) {
+      foo = new Foo();
+    }
+    return foo;
+  }
+  ...
+}
+</pre>
+

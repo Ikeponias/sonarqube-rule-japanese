@@ -1,0 +1,45 @@
+<p>さらなる評価を必要とするメッセージ引数をGuavaの<code translate="no">com.google.common.base.Preconditions</code> チェックに渡すと、パフォーマンスが低下することがあります。それは、必要であろうとなかろうと、メソッドが実際に呼ばれる前に各引数が解決されなければならないからです。</p>
+<p>同様に、連結された文字列をロギングメソッドに渡すと、ログレベルがメッセージを表示するのに十分低いかどうかにかかわらず、メソッドが呼び出されるたびに連結が実行されるため、不必要なパフォーマンスヒットが発生することがあります。</p>
+<p>その代わり、<code translate="no">Preconditions</code> の条件チェックやロギング呼び出しに静的な値や事前に計算された値を渡すようにコードを構成する必要があります。</p>
+<p>具体的には、文字列の連結の代わりに組み込みの文字列フォーマットを使用し、メッセージがメソッド呼び出しの結果である場合は、<code translate="no">Preconditions</code> を完全にスキップして、代わりに関連する例外を条件付きでスローする必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+logger.log(Level.DEBUG, "Something went wrong: " + message);  // Noncompliant; string concatenation performed even when log level too high to show DEBUG messages
+
+logger.fine("An exception occurred with message: " + message); // Noncompliant
+
+LOG.error("Unable to open file " + csvPath, e);  // Noncompliant
+
+Preconditions.checkState(a &gt; 0, "Arg must be positive, but got " + a);  // Noncompliant. String concatenation performed even when a &gt; 0
+
+Preconditions.checkState(condition, formatMessage());  // Noncompliant. formatMessage() invoked regardless of condition
+
+Preconditions.checkState(condition, "message: %s", formatMessage());  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+logger.log(Level.SEVERE, "Something went wrong: {0} ", message);  // String formatting only applied if needed
+
+logger.fine("An exception occurred with message: {}", message);  // SLF4J, Log4j
+
+logger.log(Level.SEVERE, () -&gt; "Something went wrong: " + message); // since Java 8, we can use Supplier , which will be evaluated lazily
+
+LOG.error("Unable to open file {0}", csvPath, e);
+
+if (LOG.isDebugEnabled()) {
+  LOG.debug("Unable to open file " + csvPath, e);  // this is compliant, because it will not evaluate if log level is above debug.
+}
+
+Preconditions.checkState(arg &gt; 0, "Arg must be positive, but got %d", a);  // String formatting only applied if needed
+
+if (!condition) {
+  throw new IllegalStateException(formatMessage());  // formatMessage() only invoked conditionally
+}
+
+if (!condition) {
+  throw new IllegalStateException("message: " + formatMessage());
+}
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">catch</code> なぜなら，例外的な経路では性能上のペナルティは重要ではないからです（catchブロックは標準的なプログラムフローの一部であってはなりません）．ゲッターは、ゲッターとみなされるアノテーションで呼び出されるメソッドと同様に無視されます。このルールは、SLF4J のメソッド による明示的なテストレベルのテストを考慮し、そのような ステートメントの本体を無視する。<code translate="no">isXXXEnabled</code> <code translate="no">if</code> </p>
+

@@ -1,0 +1,17 @@
+<p><code translate="no">AtomicInteger</code> <code translate="no">AtomicLong</code> <code translate="no">Number</code> <code translate="no">Integer</code><code translate="no">Long</code> <code translate="no">AtomicInteger</code> と は、単一変数のロックフリー、スレッドセーフなプログラミングをサポートするために設計されています。そのため、 はそれ自身と「等しい」状態にしかなりません。その代わりに、 、その値で比較を行う必要があります。<code translate="no">AtomicLong</code> <code translate="no">AtomicInteger</code><code translate="no">.get()</code> </p>
+<p>これは、原子的な、一見すると原始的なラッパークラスのすべてに適用されます：<code translate="no">AtomicInteger</code>,<code translate="no">AtomicLong</code>, および<code translate="no">AtomicBoolean</code>.</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+AtomicInteger aInt1 = new AtomicInteger(0);
+AtomicInteger aInt2 = new AtomicInteger(0);
+
+if (aInt1.equals(aInt2)) { ... }  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+AtomicInteger aInt1 = new AtomicInteger(0);
+AtomicInteger aInt2 = new AtomicInteger(0);
+
+if (aInt1.get() == aInt2.get()) { ... }
+</pre>
+

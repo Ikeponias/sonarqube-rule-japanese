@@ -1,0 +1,63 @@
+<p>Springのプロキシを使う場合、同じクラスのメソッド(例:<code translate="no">this.aMethod()</code>)を互換性のない<code translate="no">@Transactional</code>の要件で呼び出すと、実行時例外が発生します。Springは呼び出し側だけを「見て」、呼び出し側を適切に呼び出すための規定を作らないからです。</p>
+<p>そのため、同じクラス内では、特定の呼び出しは決して行ってはならない：</p>
+<table>
+  <colgroup>
+    <col style="width: 50%;" />
+    <col style="width: 50%;" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>から</th>
+      <th>への</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><p>ノン<code translate="no">@Transactional</code></p></td>
+      <td><p>必須、入れ子、必須、requires_new</p></td>
+    </tr>
+    <tr>
+      <td><p>マンダトリー</p></td>
+      <td><p>nested、never、not_supported、requires_new</p></td>
+    </tr>
+    <tr>
+      <td><p>ネステッド</p></td>
+      <td><p>nested、never、not_supported、requires_new</p></td>
+    </tr>
+    <tr>
+      <td><p>ネバー</p></td>
+      <td><p>必須、入れ子、必須、requires_new</p></td>
+    </tr>
+    <tr>
+      <td><p>NOT_SUPPORTED</p></td>
+      <td><p>必須、入れ子、必須、requires_new</p></td>
+    </tr>
+    <tr>
+      <td><p>必須または<code translate="no">@Transactional</code></p></td>
+      <td><p>nested、never、not_supported、requires_new</p></td>
+    </tr>
+    <tr>
+      <td><p>REQUIRES_NEW</p></td>
+      <td><p>nested、never、not_supported、requires_new</p></td>
+    </tr>
+    <tr>
+      <td><p>サポーターズ</p></td>
+      <td><p>必須、入れ子、絶対、not_supported、必須、requires_new</p></td>
+    </tr>
+  </tbody>
+</table>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Override
+public void doTheThing() {
+  // ...
+  actuallyDoTheThing();  // Noncompliant
+}
+
+@Override
+@Transactional
+public void actuallyDoTheThing() {
+  // ...
+}
+</pre>
+

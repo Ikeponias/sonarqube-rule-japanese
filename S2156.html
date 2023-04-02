@@ -1,0 +1,34 @@
+<p><code translate="no">private</code> と<code translate="no">protected</code> の可視性の違いは、子クラスは<code translate="no">protected</code>のメンバーを見たり使ったりできますが、<code translate="no">private</code> のメンバーを見ることはできないということです。<code translate="no">final</code> クラスは子クラスを持たないので、<code translate="no">final</code> クラスのメンバを<code translate="no">protected</code> にマークすることは、混乱するほど無意味なことです。</p>
+<p>あるクラスの<code translate="no">protected</code> メンバは、同じパッケージ内に配置された他のクラスからも見え、使用される可能性があることに注意してください。このため、プライベートなメンバに意図せずアクセスする可能性があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public final class MyFinalClass {
+
+  protected String name = "Fred";  // Noncompliant
+  protected void setName(String name) {  // Noncompliant
+    // ...
+  }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public final class MyFinalClass {
+
+  private String name = "Fred";
+  public void setName(String name) {
+    // ...
+  }
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">@VisibleForTesting</code> のアノテーションが付いたメンバーは無視されます。これは、コードをテスト可能にするために、意図的に可視性を緩和したことを示すからです。</p>
+<pre translate="no">
+public final class MyFinalClass {
+  @VisibleForTesting
+  protected Logger logger; // Compliant
+
+  @VisibleForTesting
+  protected int calculateSomethingComplex(String input) { // Compliant
+    // ...
+  }
+}
+</pre>
+

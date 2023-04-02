@@ -1,0 +1,22 @@
+<p>アノテーションパラメータのデフォルト値の指定は冗長である。読みやすさを考慮し、このような値は省略されるべきである。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@MyAnnotation(arg = "def")  // Noncompliant
+public class MyClass {
+  // ...
+}
+public @interface MyAnnotation {
+  String arg() default "def";
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@MyAnnotation
+public class MyClass {
+  // ...
+}
+public @interface MyAnnotation {
+  String arg() default "def";
+}
+</pre>
+

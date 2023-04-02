@@ -1,0 +1,25 @@
+<p>変数を宣言して、すぐに返したり投げたりするのは、悪い習慣です。</p>
+<p>何が返されるかを明示的に指定できるため、このやり方はコードの可読性を向上させると主張する開発者もいます。しかし、この変数は内部実装の詳細であり、メソッドの呼び出し側には公開されません。メソッド名は、呼び出し側が何が返されるかを正確に知るのに十分なものであるべきです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public long computeDurationInMilliseconds() {
+  long duration = (((hours * 60) + minutes) * 60 + seconds ) * 1000 ;
+  return duration;
+}
+
+public void doSomething() {
+  RuntimeException myException = new RuntimeException();
+  throw myException;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public long computeDurationInMilliseconds() {
+  return (((hours * 60) + minutes) * 60 + seconds ) * 1000 ;
+}
+
+public void doSomething() {
+  throw new RuntimeException();
+}
+</pre>
+

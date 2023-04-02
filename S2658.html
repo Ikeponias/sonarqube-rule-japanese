@@ -1,0 +1,15 @@
+<p>動的にロードされたクラスは、静的なクラスイニシャライザによって実行される悪意のあるコードを含む可能性があります。つまり、そのようなクラスのメソッドをインスタンス化したり、明示的に呼び出したりしなくても、攻撃を受ける可能性があるのです。</p>
+<p>このルールは、ダイナミック・クラス・ローディングの使用ごとに問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String className = System.getProperty("messageClassName");
+Class clazz = Class.forName(className);  // Noncompliant
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A1_2017-Injection">OWASP Top 10 2017 カテゴリーA1</a>- インジェクション </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/470">MITRE, CWE-470</a>- クラスやコードを選択するための外部から制御された入力の使用（「安全でない反射」）。 </li>
+</ul>
+<h2>非推奨</h2>
+<p>このルールは非推奨です。代わりに {rule:javasecurity:S6173} を使用してください。</p>
+

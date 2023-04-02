@@ -1,0 +1,13 @@
+<p>単一のステートメントを含むラムダの書き方には2つの方法がありますが、1つの方がコンパクトで読みやすいのは確かです。</p>
+<p><strong>なお</strong>、このルールは、プロジェクトの<code translate="no">sonar.java.source</code> が<code translate="no">8</code> よりも低い場合、自動的に無効となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+x -&gt; {System.out.println(x+1);}
+(a, b) -&gt; { return a+b; }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+x -&gt; System.out.println(x+1)
+(a, b) -&gt; a+b    //For return statement, the return keyword should also be dropped
+</pre>
+

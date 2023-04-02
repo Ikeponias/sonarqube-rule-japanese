@@ -1,0 +1,29 @@
+<p>ユーティリティクラスは、<code translate="no">static</code> メンバーのコレクションであり、インスタンス化されることを意図していません。拡張可能な抽象ユーティリティクラスであっても、パブリックコンストラクタを持つべきではありません。</p>
+<p>Javaでは、少なくとも1つの明示的なコンストラクタを定義していないクラスには、暗黙のパブリックコンストラクタが追加されます。したがって、少なくとも1つの非パブリックコンストラクタを定義する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class StringUtils { // Noncompliant
+
+  public static String concatenate(String s1, String s2) {
+    return s1 + s2;
+  }
+
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class StringUtils { // Compliant
+
+  private StringUtils() {
+    throw new IllegalStateException("Utility class");
+  }
+
+  public static String concatenate(String s1, String s2) {
+    return s1 + s2;
+  }
+
+}
+</pre>
+<h2>例外あり</h2>
+<p>クラスが<code translate="no">public static void main(String[] args)</code> メソッドを含む場合、ユーティリティクラスとはみなされず、本ルールでは無視されます。</p>
+

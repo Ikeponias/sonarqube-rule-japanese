@@ -1,0 +1,17 @@
+<p>公式のOracle Javadocより：</p>
+<blockquote>
+  <p>注：このEnumerationインターフェースの機能は、Iteratorインターフェースと重複しています。さらに、Iteratorはオプションでremove操作を追加し、より短いメソッド名を持っています。新しい実装では、Enumeration よりも Iterator の使用を検討する必要があります。</p>
+</blockquote>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass implements Enumeration {  // Non-Compliant
+  /* ... */
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClass implements Iterator {     // Compliant
+  /* ... */
+}
+</pre>
+

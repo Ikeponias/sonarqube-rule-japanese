@@ -1,0 +1,19 @@
+<p>演算子のペア（<code translate="no">=+</code>,<code translate="no">=-</code> or<code translate="no">=!</code> ）を使用した場合、逆に単一の演算子（<code translate="no">+=</code>,<code translate="no">-=</code> or<code translate="no">!=</code> ）を使用した場合は、コンパイルと実行はできますが、期待した結果は得られません。</p>
+<p>このルールは、<code translate="no">=+</code> 、<code translate="no">=-</code> 、<code translate="no">=!</code> が、2つの演算子の間にスペースがなく、かつ、その後に少なくとも1つの空白文字がある場合に問題が発生することを示しています。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int target = -5;
+int num = 3;
+
+target =- num;  // Noncompliant; target = -3. Is that really what's meant?
+target =+ num; // Noncompliant; target = 3
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int target = -5;
+int num = 3;
+
+target = -num;  // Compliant; intent to assign inverse value of num is clear
+target += num;
+</pre>
+

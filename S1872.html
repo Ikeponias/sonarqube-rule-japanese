@@ -1,0 +1,52 @@
+<p>クラス名が一意であることは要求されておらず、パッケージ内で一意であることだけが要求されています。したがって、クラス名に基づいてオブジェクトの型を決定しようとすることは、危険と隣り合わせの行為です。その危険性の1つは、悪意のあるユーザーが信頼されたクラスと同じ名前のオブジェクトを送信し、それによって信頼されたアクセスを得ることである。</p>
+<p>代わりに、<code translate="no">instanceof</code> 演算子または<code translate="no">Class.isAssignableFrom()</code> メソッドを使用して、オブジェクトの基本的な型を確認する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+package computer;
+class Pear extends Laptop { ... }
+
+package food;
+class Pear extends Fruit { ... }
+
+class Store {
+
+  public boolean hasSellByDate(Object item) {
+    if ("Pear".equals(item.getClass().getSimpleName())) {  // Noncompliant
+      return true;  // Results in throwing away week-old computers
+    }
+    return false;
+  }
+
+  public boolean isList(Class&lt;T&gt; valueClass) {
+    if (List.class.getName().equals(valueClass.getName())) {  // Noncompliant
+      return true;
+    }
+    return false;
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class Store {
+
+  public boolean hasSellByDate(Object item) {
+    if (item instanceof food.Pear) {
+      return true;
+    }
+    return false;
+  }
+
+  public boolean isList(Class&lt;T&gt; valueClass) {
+    if (valueClass.isAssignableFrom(List.class)) {
+      return true;
+    }
+    return false;
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/486">MITRE, CWE-486</a>- 名前によるクラスの比較 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/eDdGBQ">CERT, OBJ09-J.</a>- クラス名ではなく、クラスを比較する </li>
+</ul>
+

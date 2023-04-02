@@ -1,0 +1,12 @@
+<p>汎用型は、変数宣言や戻り値で生のまま（型パラメータなしで）使用するべきではありません。そうすることで、汎用型チェックを回避し、安全でないコードの検出を実行時に先送りすることができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+List myList; // Noncompliant
+Set mySet; // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+List&lt;String&gt; myList;
+Set&lt;? extends Number&gt; mySet;
+</pre>
+

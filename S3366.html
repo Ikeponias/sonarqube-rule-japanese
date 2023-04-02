@@ -1,0 +1,26 @@
+<p>シングルスレッド環境では、コンストラクタで<code translate="no">this</code> を使用することは普通であり、期待されています。しかし、マルチスレッド環境では、部分的に構築されたオブジェクトが他のスレッドに公開される可能性があり、注意して使用する必要があります。</p>
+<p>典型的な例は、インスタンスのリスト（<code translate="no">static</code> ）を持つクラスです。コンストラクタがリストに<code translate="no">this</code> を格納すると、他のスレッドがオブジェクトを完全に形成する前にアクセスする可能性があります。<code translate="no">this</code> の格納がコンストラクタの最後の命令であっても、クラスが<code translate="no">final</code> でない場合には、まだ危険性があります。その場合、<code translate="no">this</code> が公開される前に、サブクラスの初期化が完了しないことになります。</p>
+<p>このルールは、コンストラクタで<code translate="no">this</code> がグローバルに可視化されたオブジェクトに割り当てられたとき、およびコンストラクタで他のオブジェクトのメソッドに渡されたときに問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Monument {
+
+  public static final List&lt;Monument&gt; ALL_MONUMENTS = new ArrayList()&lt;&gt;;
+  // ...
+
+  public Monument(String location, ...) {
+    ALL_MONUMENTS.add(this);  // Noncompliant; passed to a method of another object
+
+    this.location = location;
+    // ...
+  }
+}
+</pre>
+<h2>例外あり</h2>
+<p>このルールは、<code translate="no">this</code> を同じクラスの<code translate="no">static</code> フィールドに直接割り当てる事例を無視します。この事例は {rule:java:S3010} でカバーされているからです。</p>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/iDdGBQ">CERT、TSM01-J。</a>- オブジェクトの構築中にこのリファレンスを逃がさないこと  </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/vzdGBQ">CERT、TSM03-J。</a>- 部分的に初期化されたオブジェクトを公開してはいけない </li>
+</ul>
+

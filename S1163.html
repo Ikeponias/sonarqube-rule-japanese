@@ -1,0 +1,25 @@
+<p>最終ブロック内で例外をスローすると、<code translate="no">try</code> または<code translate="no">catch</code>ブロック内で以前にスローされた例外がマスクされ、マスクされた例外メッセージとスタックトレースは失われます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+try {
+  /* some work which end up throwing an exception */
+  throw new IllegalArgumentException();
+} finally {
+  /* clean up */
+  throw new RuntimeException();       // Noncompliant; masks the IllegalArgumentException
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+try {
+  /* some work which end up throwing an exception */
+  throw new IllegalArgumentException();
+} finally {
+  /* clean up */
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/FTZGBQ">CERT、ERR05-J。</a>- チェックされた例外を最終ブロックから逃がさないようにする </li>
+</ul>
+

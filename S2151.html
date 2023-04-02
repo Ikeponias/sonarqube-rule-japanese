@@ -1,0 +1,33 @@
+<p>JVM終了時にファイナライザーを実行することは、デフォルトでは無効になっています。<code translate="no">System.runFinalizersOnExit</code> と<code translate="no">Runtime.runFinalizersOnExit</code> で有効にすることができますが、どちらの方法も本質的に安全でないため、非推奨です。</p>
+<p>Oracle Javadocによると：</p>
+<blockquote>
+  <p>その結果、他のスレッドが同時にオブジェクトを操作している間に、ライブオブジェクト上でファイナライザーが呼び出され、異常な動作やデッドロックが発生する可能性があります。</p>
+</blockquote>
+<p>仮想マシンがシャットダウンを開始したときに、どうしても何かを実行したい場合は、シャットダウンフックを付ける必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public static void main(String [] args) {
+  ...
+  System.runFinalizersOnExit(true);  // Noncompliant
+  ...
+}
+
+protected void finalize(){
+  doSomething();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public static void main(String [] args) {
+  Runtime.addShutdownHook(new Runnable() {
+    public void run(){
+      doSomething();
+    }
+  });
+  //...
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/4jZGBQ">CERT、MET12-J。</a>- ファイナライザーを使用しない </li>
+</ul>
+

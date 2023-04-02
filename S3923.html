@@ -1,0 +1,35 @@
+<p><code translate="no">switch</code> または<code translate="no">if</code> チェーンのすべてのブランチが同じ実装であることはエラーです。コピーペーストの間違いで違うものを実行するか、<code translate="no">switch</code>/<code translate="no">if</code> チェーンが全く存在しないかのどちらかです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+if (b == 0) {  // Noncompliant
+  doOneMoreThing();
+} else {
+  doOneMoreThing();
+}
+
+int b = a &gt; 12 ? 4 : 4;  // Noncompliant
+
+switch (i) {  // Noncompliant
+  case 1:
+    doSomething();
+    break;
+  case 2:
+    doSomething();
+    break;
+  case 3:
+    doSomething();
+    break;
+  default:
+    doSomething();
+}
+</pre>
+<h2>例外あり</h2>
+<p>このルールは、<code translate="no">else</code>-s のない<code translate="no">if</code> チェーンや、<code translate="no">default</code>節のない<code translate="no">switch</code>-es には適用されない。</p>
+<pre translate="no">
+if(b == 0) {    //no issue, this could have been done on purpose to make the code more readable
+  doSomething();
+} else if(b == 1) {
+  doSomething();
+}
+</pre>
+

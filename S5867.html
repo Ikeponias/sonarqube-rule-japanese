@@ -1,0 +1,15 @@
+<p><code translate="no">UNICODE_CHARACTER_CLASS</code> フラグなしで<code translate="no">\p{Alpha}</code> のような POSIX クラスを使用する場合、または<code translate="no">"[a-zA-Z]"</code> のようなハードコードされた文字クラスを使用する場合、ウムラウト、アクセント文字、非ラテン言語の文字など、ASCII 範囲外の文字はマッチングされない。このため、このような文字を含む入力を正しく扱えないことがあります。</p>
+<p>非ASCII入力を正しく処理するには、<code translate="no">\p{IsAlphabetic}</code> のようなUnicodeクラスを使用することが推奨されます。POSIX クラスを使用する場合、<code translate="no">Pattern.compile</code> にフラグとして<code translate="no">Pattern.UNICODE_CHARACTER_CLASS</code> を渡すか、正規表現内で<code translate="no">(?U)</code> を使用することによって、Unicode サポートを有効にする必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Pattern.compile("[a-zA-Z]");
+Pattern.compile("\\p{Alpha}");
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Pattern.compile("\\p{IsAlphabetic}"); // matches all letters from all languages
+Pattern.compile("\\p{IsLatin}"); // matches latin letters, including umlauts and other non-ASCII variations
+Pattern.compile("\\p{Alpha}", Pattern.UNICODE_CHARACTER_CLASS);
+Pattern.compile("(?U)\\p{Alpha}");
+</pre>
+

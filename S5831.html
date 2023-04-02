@@ -1,0 +1,19 @@
+<p><code translate="no">org.assertj.core.configuration.Configuration</code> は、<code translate="no">Configuration.apply()</code> または<code translate="no">Configuration.applyAndDisplay()</code> を呼び出した時点で初めて有効になります。</p>
+<p>このルールでは、コンフィギュレーションを適用するための適切な呼び出しがないままコンフィギュレーションが設定された場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Configuration configuration = new Configuration(); // Noncompliant, this configuration will not be applied.
+configuration.setComparingPrivateFields(true);{code}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Configuration configuration = new Configuration();
+configuration.setComparingPrivateFields(true);
+configuration.applyAndDisplay();
+// Alternatively: configuration.apply();
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://assertj.github.io/doc/#assertj-configuration">AssertJの設定資料</a></li>
+</ul>
+

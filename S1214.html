@@ -1,0 +1,30 @@
+<p>Effective Java」の著者であるJoshua Bloch氏によると：</p>
+<blockquote>
+  <p>定型インターフェイスパターンは、インターフェイスの使い方に問題がある。</p>
+  <p>クラスが内部でいくつかの定数を使用することは、実装の詳細である。</p>
+  <p>定数インタフェースを実装すると、この実装の詳細がクラスのエクスポートされたAPIに漏れることになります。クラスの利用者にとって、そのクラスが定数インタフェースを実装していることは、全く重要ではありません。むしろ、ユーザーを混乱させるかもしれません。さらに悪いことに、これは約束事です。将来のリリースでクラスが修正されて定数を使う必要がなくなったとしても、バイナリ互換性を確保するためにインターフェイスを実装しなければなりません。 非最終クラスが定数インターフェイスを実装している場合、</p>
+  <p>のサブクラスは、インターフェイスの定数によって名前空間が汚染されることになります。</p>
+</blockquote>
+<p>このルールは、インターフェイスがフィールドのみで構成され、他のメンバーが存在しない場合に問題となる。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+interface Status {                      // Noncompliant
+   int OPEN = 1;
+   int CLOSED = 2;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public enum Status {                    // Compliant
+  OPEN,
+  CLOSED;
+}
+</pre>
+<p>または</p>
+<pre translate="no">
+public final class Status {             // Compliant
+   public static final int OPEN = 1;
+   public static final int CLOSED = 2;
+}
+</pre>
+

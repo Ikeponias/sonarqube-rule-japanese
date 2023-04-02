@@ -1,0 +1,19 @@
+<p>いくつかの命名規則を共有することは、チームが効率的にコラボレーションを行うための重要なポイントです。このルールでは、<code translate="no">abstract</code> のクラス名が提供された正規表現に一致するかどうかをチェックすることができます。抽象化されていないクラスが正規表現に一致した場合、そのクラスを抽象化するか、名前を変更するかを提案する問題が提起されます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルトの正規表現では、<code translate="no">^Abstract[A-Z][a-zA-Z0-9]*$</code> ：</p>
+<pre translate="no">
+abstract class MyClass { // Noncompliant
+}
+
+class AbstractLikeClass { // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+abstract class AbstractClass {
+}
+
+class LikeClass {
+}
+</pre>
+

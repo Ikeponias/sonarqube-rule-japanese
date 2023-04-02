@@ -1,0 +1,67 @@
+<p><code translate="no">Cloneable</code> は、 がオブジェクト上で呼び出される可能性があることを示すマーカー です。 を実装せずに をオーバーライドすることは、サブクラスが自分自身をクローンする方法を制御したい場合に便利ですが、そうでない場合は、おそらく間違いです。<code translate="no">clone()</code> <code translate="no">Interface</code> <code translate="no">Cloneable</code><code translate="no">clone()</code> </p>
+<p>OracleのJavadocによると、<code translate="no">Object.clone()</code> の通常の規約は次のとおりです：</p>
+<ol>
+  <li> <code translate="no">x.clone() != x</code> </li>
+  <li> <code translate="no">x.clone().getClass() == x.getClass()</code> </li>
+  <li> <code translate="no">x.clone().equals(x)</code> </li>
+</ol>
+<p><code translate="no">super.clone()</code> を呼び出して返されるオブジェクトを取得することで、これらの不変性を満たすことができます：</p>
+<ol>
+  <li><code translate="no">super.clone()</code> 新しいオブジェクトのインスタンスを返します。 </li>
+  <li><code translate="no">super.clone()</code> は、<code translate="no">clone()</code> が呼び出されたオブジェクトと同じ型のオブジェクトを返します。 </li>
+  <li><code translate="no">Object.clone()</code> オブジェクトの状態の浅いコピーを実行します。 </li>
+</ol>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class BaseClass {  // Noncompliant; should implement Cloneable
+  @Override
+  public Object clone() throws CloneNotSupportedException {    // Noncompliant; should return the super.clone() instance
+    return new BaseClass();
+  }
+}
+
+class DerivedClass extends BaseClass implements Cloneable {
+  /* Does not override clone() */
+
+  public void sayHello() {
+    System.out.println("Hello, world!");
+  }
+}
+
+class Application {
+  public static void main(String[] args) throws Exception {
+    DerivedClass instance = new DerivedClass();
+    ((DerivedClass) instance.clone()).sayHello();              // Throws a ClassCastException because invariant #2 is violated
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class BaseClass implements Cloneable {
+  @Override
+  public Object clone() throws CloneNotSupportedException {    // Compliant
+    return super.clone();
+  }
+}
+
+class DerivedClass extends BaseClass implements Cloneable {
+  /* Does not override clone() */
+
+  public void sayHello() {
+    System.out.println("Hello, world!");
+  }
+}
+
+class Application {
+  public static void main(String[] args) throws Exception {
+    DerivedClass instance = new DerivedClass();
+    ((DerivedClass) instance.clone()).sayHello();              // Displays "Hello, world!" as expected. Invariant #2 is satisfied
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/580">MITRE, CWE-580</a>- super.clone()メソッドがない。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/FjZGBQ">CERT、MET53-J。</a>- clone()メソッドがsuper.clone()を呼び出すことを確認する。 </li>
+</ul>
+

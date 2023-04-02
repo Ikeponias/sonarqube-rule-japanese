@@ -1,0 +1,20 @@
+<p>Java 8では、<code translate="no">Streams</code> 、関数型スタイルでコレクションに対する操作の連鎖をサポートするために導入されました。このような連鎖の結果を保存する最も一般的な方法は、何らかのコレクション（通常は<code translate="no">List</code> ）に保存することです。そのために、<code translate="no">Collectors</code> のライブラリで使用できるターミナルメソッド<code translate="no">collect</code>があります。重要な問題は、<code translate="no">.collect(Collectors.toList())</code> が実際には変更可能な種類の<code translate="no">List</code> を返すということです。Java 10では、変更不可能なリストを返す新しいコレクターが登場しました：<code translate="no">toUnmodifiableList()</code>.これはトリックを実行しますが、冗長なコードになります。Java 16からは、ストリームから直接変更不可能なリストを生成する、より良いバリエーションがあります:<code translate="no">Stream.toList()</code>.</p>
+<p>このルールは、ストリームからリストを作成するために "collect "を使用する場合に問題が発生する。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+List&lt;String&gt; list1 = Stream.of("A", "B", "C")
+                           .collect(Collectors.toList()); // Noncompliant
+
+List&lt;String&gt; list2 = Stream.of("A", "B", "C")
+                           .collect(Collectors.toUnmodifiableList()); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+List&lt;String&gt; list1 = Stream.of("A", "B", "C").toList(); // Compliant
+
+List&lt;String&gt; list2 = Stream.of("A", "B", "C")
+                           .collect(Collectors.toList()); // Compliant, the list2 needs to be mutable
+
+list2.add("X");
+</pre>
+

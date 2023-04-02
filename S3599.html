@@ -1,0 +1,18 @@
+<p>ダブルブレース初期化（DBI）は、所有するオブジェクトのインスタンスへの参照を持つ匿名クラスを作成するため、匿名内部クラスが他のオブジェクトによって返され保持される場合、その使用はメモリリークにつながる可能性があります。リークがない場合でも、DBIは非常にわかりにくいので、ほとんどの保守者が混乱することになります。</p>
+<p>コレクションの場合は、代わりに<code translate="no">Arrays.asList</code> を使用するか、明示的に各アイテムをコレクションに直接追加します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Map source = new HashMap(){{ // Noncompliant
+    put("firstName", "John");
+    put("lastName", "Smith");
+}};
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Map source = new HashMap();
+// ...
+source.put("firstName", "John");
+source.put("lastName", "Smith");
+// ...
+</pre>
+

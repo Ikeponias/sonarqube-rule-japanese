@@ -1,0 +1,46 @@
+<p>Switch Expressionsでは、<code translate="no">yield</code> を1つ持つブロックで構成される矢印ラベルを簡略化して直接値を返すことができるため、よりすっきりとしたコードになります。</p>
+<p>同様に、Switchステートメントや矢印ラベルの場合、ブロック内の<code translate="no">break</code> は常に冗長であるため、使用しないほうがよい。さらに、結果のブロックに文が1つしかない場合は、そのブロックの中括弧も省略することができる。</p>
+<p>このルールでは、Switch Expressionのケースに単一の<code translate="no">yield</code> を持つブロックが含まれる場合、またはSwitch Statementに<code translate="no">break</code> を持つブロックが含まれる場合の問題を報告します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int i = switch (mode) {
+  case "a" -&gt; {        // Noncompliant: Remove the redundant block and yield.
+    yield 1;
+  }
+  default -&gt; {         // Noncompliant: Remove the redundant block and yield.
+    yield 2;
+  }
+};
+
+switch (mode) {
+  case "a" -&gt; {        // Noncompliant: Remove the redundant block and break.
+    result = 1;
+    break;
+  }
+  default -&gt; {         // Noncompliant: Remove the redundant break.
+    doSomethingElse();
+    result = 2;
+    break;
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int i = switch (mode) {
+  case "a" -&gt; 1;
+  default -&gt; 2;
+};
+
+switch (mode) {
+  case "a" -&gt; result = 1;
+  default -&gt; {
+   doSomethingElse();
+   result = 2;
+ }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://openjdk.java.net/jeps/361">JEP 361：スイッチ・エクスプレッション</a></li>
+</ul>
+

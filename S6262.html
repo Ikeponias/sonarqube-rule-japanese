@@ -1,0 +1,11 @@
+<p>AWSクライアントで明示的にリージョンを設定する場合、ハードコードされたStringではなく、Enum<a href="https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/index.html?com/amazonaws/regions/Regions.html">Regionsから</a>値を提供することを常に好むべきです。 これにより、APIの変更に透過的に対応でき、間違いを避けることができます。</p>
+<p>このルールでは、利用可能な列挙値の代わりにハードコードされた文字列が使用される場合の問題を報告します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+AmazonS3ClientBuilder.standard().withRegion("eu_west_1").build();
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+AmazonS3ClientBuilder.standard().withRegion(Regions.EU_WEST_1).build();
+</pre>
+

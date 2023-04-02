@@ -1,0 +1,18 @@
+<p>もしあなたが<code translate="no">HttpSession</code> オブジェクトをファイルに書き込むつもりがないのであれば、<code translate="no">serializable</code> 以外のオブジェクトをその中に保存することは大したことではないと思われるかもしれません。しかし、セッションを明示的にシリアライズしてもしなくても、サーバーが "passivation "と呼ばれるプロセスでメモリ使用を管理するため、いずれにせよディスクに書き込まれるかもしれません。さらに、いくつかのサーバーは、シャットダウン時にアクティブなセッションを自動的にファイルに書き出し、起動時にそのようなセッションをデシリアライズします。</p>
+<p>ポイントは、<code translate="no">HttpSession</code> が<code translate="no">extend Serializable</code> でないとしても、それでもシリアライズされることを想定し、シリアライズ不可能なオブジェクトをセッションに保存した場合、エラーが発生することを理解する必要があるということです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Address {
+  //...
+}
+
+//...
+HttpSession session = request.getSession();
+session.setAttribute("address", new Address());  // Noncompliant; Address isn't serializable
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A04_2021-Insecure_Design/">OWASP Top 10 2021 カテゴリ A4</a>- 安全でない設計 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/579">MITRE, CWE-579</a>- J2EE Bad Practices：セッションに格納された非シリアライズ可能なオブジェクト </li>
+</ul>
+

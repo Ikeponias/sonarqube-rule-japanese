@@ -1,0 +1,16 @@
+<p>一般に、クラス、メソッド、フィールドのアクセシビリティを変更したり回避したりすると、カプセル化の原則に違反し、ランタイムエラーにつながる可能性があります。レコードの場合はさらに厄介で、レコードのフィールドの可視性を変更することはできず、既存の値を更新しようとすると、実行時に<code translate="no">IllegalAccessException</code> につながります。</p>
+<p>このルールは、リフレクションがレコードのフィールドの可視性を変更するために使用される場合と、レコードのフィールドの値を直接更新するために使用される場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+record Person(String name, int age) {}
+
+Person person = new Person("A", 26);
+Field field = Person.class.getDeclaredField("name");
+field.setAccessible(true); // secondary
+field.set(person, "B"); // Noncompliant
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://docs.oracle.com/javase/specs/jls/se16/html/jls-8.html#jls-8.10">レコード仕様</a></li>
+</ul>
+

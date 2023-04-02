@@ -1,0 +1,21 @@
+<p>フィールドを "final "と宣言せずに "public "と "static "と宣言する正当な理由はない。ほとんどの場合、これは複数のオブジェクトの間で状態を共有するためのごまかしです。しかし、この方法では、どのオブジェクトも、共有された状態に対して、<code translate="no">null</code> に設定するなど、好きなことをすることができます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Greeter {
+  public static Foo foo = new Foo();
+  ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Greeter {
+  public static final Foo FOO = new Foo();
+  ...
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/500">MITRE, CWE-500</a>- 公開静的フィールド Not Marked Final </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/WjdGBQ">CERT OBJ10-J.</a>- パブリックな静的非終端フィールドを使用しない </li>
+</ul>
+

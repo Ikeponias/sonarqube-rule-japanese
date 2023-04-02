@@ -1,0 +1,39 @@
+<p>Java<code translate="no">Condition</code> インタフェースのドキュメントによる：</p>
+<blockquote>
+  <p><code translate="no">Condition</code> で待機する場合、基本的なプラットフォームのセマンティクスに対する譲歩として、一般的に「スプリアスウェイクアップ」の発生が許容される。条件（Condition）は常にループ内で待機され、待機されている状態述語をテストする必要があるため、これはほとんどのアプリケーションプログラムにほとんど実用的な影響を及ぼさない。しかし、アプリケーションのプログラマは、偽のウェイクアップが発生する可能性を常に想定し、常にループ内で待機することが推奨されます。</p>
+</blockquote>
+<p>また、<code translate="no">Object.wait(...)</code> 方式でも同様のアドバイスがあります：</p>
+<blockquote>
+  <p>は、常にこのようなループの中で発生する必要があります：</p>
+  <pre translate="no">
+synchronized (obj) {
+  while (&lt;condition does not hold&gt;){
+    obj.wait(timeout);
+  }
+   ... // Perform action appropriate to condition
+}
+</pre>
+</blockquote>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+synchronized (obj) {
+  if (!suitableCondition()){
+    obj.wait(timeout);   //the thread can wake up even if the condition is still false
+  }
+   ... // Perform action appropriate to condition
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+synchronized (obj) {
+  while (!suitableCondition()){
+    obj.wait(timeout);
+  }
+   ... // Perform action appropriate to condition
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/EzdGBQ">CERT THI03-J.</a>- ループ内で常にwait()メソッドとawait()メソッドを呼び出す </li>
+</ul>
+

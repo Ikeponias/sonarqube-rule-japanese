@@ -1,0 +1,45 @@
+<p><code translate="no">@Nested</code> でアノテーションされていない場合、いくつかのテストを含む内部クラスは、テストの実行中に実行されることはないでしょう。IDEでそのテストを手動で実行することは可能ですが、ビルド中はそうはいきません。これとは対照的に、いくつかのテストを含む静的な入れ子クラスは、<code translate="no">@Nested</code> のアノテーションを付けるべきではありません。JUnit5 は、その包含クラスのインスタンスと設定と状態を共有することはありません。</p>
+<p>このルールにより、JUnit5 のテストメソッドを含む内部クラスや静的入れ子クラスで、<code translate="no">@Nested</code>アノテーションの使い方が間違っている問題が発生します。</p>
+<p>注：このルールは、JUnit 5が実行されているコンテキスト（例：Maven Surefire Plugin）が、静的ネストされたクラスを実行するように適切に構成されているかどうかをチェックしません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+import org.junit.jupiter.api.Test;
+
+class MyJunit5Test {
+  @Test
+  void test() { /* ... */ }
+
+  class InnerClassTest { // Noncompliant, missing @Nested annotation
+    @Test
+    void test() { /* ... */ }
+  }
+
+  @Nested
+  static class StaticNestedClassTest { // Noncompliant, invalid usage of @Nested annotation
+    @Test
+    void test() { /* ... */ }
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Nested;
+
+class MyJunit5Test {
+  @Test
+  void test() { /* ... */ }
+
+  @Nested
+  class InnerClassTest {
+    @Test
+    void test() { /* ... */ }
+  }
+
+  static class StaticNestedClassTest {
+    @Test
+    void test() { /* ... */ }
+  }
+}
+</pre>
+

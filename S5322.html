@@ -1,0 +1,76 @@
+<p>Androidアプリケーションは、システムまたは他のアプリケーションからのブロードキャストを受信することができます。インテントを受信することは、セキュリティ上、注意が必要です。例えば、過去に以下のような脆弱性につながったことがあります：</p>
+<ul>
+  <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-1677">CVE-2019-1677</a></li>
+  <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1275">CVE-2015-1275</a></li>
+</ul>
+<p>レシーバーは、マニフェストまたはコードで宣言して、コンテキストに依存するようにすることができます。受信機がマニフェストで宣言されている場合、Android は一致するブロードキャストを受信すると、まだ実行されていない場合はアプリケーションを開始します。レシーバーはアプリケーションへのエントリーポイントです。</p>
+<p>他のアプリケーションは潜在的に悪意のあるブロードキャストを送信することができるので、ブロードキャストを信頼できないものと考え、受信機にブロードキャストを送信できるアプリケーションを制限することが重要である。</p>
+<p>許可されたアプリケーションにブロードキャストを制限するために、パーミッションを指定することができます。制限は、ブロードキャストの送信者と受信者の両方が実施することができます。ブロードキャスト受信者の登録時にパーミッションが指定された場合、このパーミッションを与えられたブロードキャスト送信者のみが受信者にメッセージを送信することができます。</p>
+<p>このルールでは、「放送許可」を指定せずに受信機を登録した場合に問題が発生します。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>インテントから抽出されたデータは、サニタイズされていません。 </li>
+  <li>インテント放送は制限されない。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<p>ブロードキャストされたインテントへのアクセスを制限する。詳しくは<a href="https://developer.android.com/guide/components/broadcasts.html#restricting_broadcasts_with_permissions">Androidのドキュメントを</a>参照してください。</p>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
+import android.os.Build;
+import android.os.Handler;
+import android.support.annotation.RequiresApi;
+
+public class MyIntentReceiver {
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void register(Context context, BroadcastReceiver receiver,
+                         IntentFilter filter,
+                         String broadcastPermission,
+                         Handler scheduler,
+                         int flags) {
+        context.registerReceiver(receiver, filter); // Sensitive
+        context.registerReceiver(receiver, filter, flags); // Sensitive
+
+        // Broadcasting intent with "null" for broadcastPermission
+        context.registerReceiver(receiver, filter, null, scheduler); // Sensitive
+        context.registerReceiver(receiver, filter, null, scheduler, flags); // Sensitive
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
+import android.os.Build;
+import android.os.Handler;
+import android.support.annotation.RequiresApi;
+
+public class MyIntentReceiver {
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void register(Context context, BroadcastReceiver receiver,
+                         IntentFilter filter,
+                         String broadcastPermission,
+                         Handler scheduler,
+                         int flags) {
+
+        context.registerReceiver(receiver, filter, broadcastPermission, scheduler);
+        context.registerReceiver(receiver, filter, broadcastPermission, scheduler, flags);
+    }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://mobile-security.gitbook.io/masvs/security-requirements/0x11-v6-interaction_with_the_environment">Mobile AppSec検証基準</a>-プラットフォームインタラクション要件 </li>
+  <li><a href="https://owasp.org/www-project-mobile-top-10/2016-risks/m1-improper-platform-usage">OWASP Mobile Top 10 2016 Category M1</a>- Improper Platform Usage（不適切なプラットフォームの使用法 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/925">MITRE, CWE-925</a>- 放送受信機による意図の不適切な検証 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/926">MITRE, CWE-926</a>- Androidアプリケーションコンポーネントの不適切な輸出について </li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat1">SANS Top 25</a>- コンポーネント間の安全でない相互作用 </li>
+  <li><a href="https://developer.android.com/guide/components/broadcasts.html#restricting_broadcasts_with_permissions">Androidドキュメント</a>- ブロードキャストの概要 - セキュリティに関する考察とベストプラクティス </li>
+</ul>
+

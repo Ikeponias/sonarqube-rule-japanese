@@ -1,0 +1,34 @@
+<p>暗号技術において、「ソルト」とは、パスワードをハッシュ化する際に含まれる余分なデータのことです。これにより、<code translate="no">rainbow-table attacks</code> がより困難になります。予測不可能なソルトを使用しない暗号化ハッシュ関数を使用すると、攻撃者が事前に計算されたハッシュのデータベース（<code translate="no">rainbow-tables</code> ）からハッシュ値を見つけることに成功する可能性が高くなります。</p>
+<p>このルールは、<code translate="no">PBKDF2</code> のようなパスワードのハッシュ化のために特別に設計されたハッシュ関数が、非ランダム、再利用、または短すぎるソルト値とともに使用された場合に問題となる。<code translate="no">sha1</code> や<code translate="no">md5</code>のような基本的なハッシュアルゴリズムについては、パスワードのハッシュ化に使用すべきではないため、問題にはなりません。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<ul>
+  <li>独自のセキュアソルトを生成するハッシュ関数を使用するか、少なくとも16バイトのセキュアな乱数値を生成する。 </li>
+  <li>ソルトは、ユーザーパスワードによってユニークでなければならない。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<p>以下、ハッシュ化されたパスワードは、予測可能なソルトを使用します：</p>
+<pre translate="no">
+byte[] salt = "notrandom".getBytes();
+
+PBEParameterSpec cipherSpec = new PBEParameterSpec(salt, 10000); // Noncompliant, predictable salt
+PBEKeySpec spec = new PBEKeySpec(chars, salt, 10000, 256); // Noncompliant, predictable salt
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p><code translate="no">java.security.SecureRandom</code> を使って、予測不可能な塩を生成します：</p>
+<pre translate="no">
+SecureRandom random = new SecureRandom();
+byte[] salt = new byte[16];
+random.nextBytes(salt);
+
+PBEParameterSpec cipherSpec = new PBEParameterSpec(salt, 10000); // Compliant
+PBEKeySpec spec = new PBEKeySpec(chars, salt, 10000, 256); // Compliant
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/">OWASP Top 10 2021 カテゴリ A2</a>- 暗号の失敗 </li>
+  <li><a href="https://www.owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/759">MITRE, CWE-759</a>- ソルトを使用しないワンウェイハッシュの使用について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/760">MITRE, CWE-760</a>- 予測可能なソルトを使用したワンウェイハッシュの使用 </li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat3">SANS Top 25</a>- ポーラスディフェンス </li>
+</ul>
+

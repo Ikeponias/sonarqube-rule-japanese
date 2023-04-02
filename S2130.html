@@ -1,0 +1,14 @@
+<p><code translate="no">String</code> からボックス型プリミティブを作成してプリミティブ値を抽出するのではなく、関連する<code translate="no">parse</code> のメソッドを使用します。その方が明確で効率的でしょう。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String myNum = "12.2";
+
+float f = (new Float(myNum)).floatValue();  // Noncompliant; creates &amp; discards a Float
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String myNum = "12.2";
+
+float f = Float.parseFloat(myNum);
+</pre>
+

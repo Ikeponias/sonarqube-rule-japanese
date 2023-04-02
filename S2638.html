@@ -1,0 +1,33 @@
+<p>サブクラスのインスタンスはスーパークラスにキャストされ、スーパークラスのインスタンスとして扱われることがあるので、オーバーライドするメソッドは、リスコフ置換原則に関連するスーパークラスの契約の側面を維持する必要があります。具体的には、スーパークラスのメソッドのパラメータや戻り値の型に、以下のいずれかが記されている場合です：<code translate="no">@Nullable</code> <code translate="no">@CheckForNull</code> 、<code translate="no">@NotNull</code> 、<code translate="no">@NonNull</code> 、<code translate="no">@Nonnull</code> 、サブクラスのパラメータは契約を厳しくすることは許されず、戻り値は契約を緩めることは許されません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Fruit {
+
+  private Season ripe;
+  private String color;
+
+  public void setRipe(@Nullable Season ripe) {
+    this.ripe = ripe;
+  }
+
+  public @NotNull Integer getProtein() {
+    return 12;
+  }
+}
+
+public class Raspberry extends Fruit {
+
+  public void setRipe(@NotNull Season ripe) {  // Noncompliant
+    this.ripe = ripe;
+  }
+
+  public @Nullable Integer getProtein() {  // Noncompliant
+    return null;
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Liskov_substitution_principle">Wikipedia - リスコフ置換原理</a></li>
+</ul>
+

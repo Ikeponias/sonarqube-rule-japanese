@@ -1,0 +1,25 @@
+<p><code translate="no">return</code> や<code translate="no">continue</code> などのジャンプ文は、プログラムの実行の既定の流れを変えることができますが、制御の流れを元の方向に向けるジャンプ文は、キー入力の無駄遣いにしかなりません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void foo() {
+  while (condition1) {
+    if (condition2) {
+      continue; // Noncompliant
+    } else {
+      doTheThing();
+    }
+  }
+  return; // Noncompliant; this is a void method
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void foo() {
+  while (condition1) {
+    if (!condition2) {
+      doTheThing();
+    }
+  }
+}
+</pre>
+

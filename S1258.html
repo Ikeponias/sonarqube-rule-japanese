@@ -1,0 +1,42 @@
+<p><code translate="no">static</code>,<code translate="no">private</code> 以外のメンバーを持つ非抽象クラスおよび列挙型は、コンストラクタ内またはデフォルト値で、これらのメンバーを明示的に初期化する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class A { // Noncompliant
+  private int field;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class A {
+  private int field;
+
+  A(int field) {
+    this.field = field;
+  }
+}
+</pre>
+<h2>例外あり</h2>
+<ul>
+  <li>Builder パターンを実装したクラス（名称が "Builder" で終わるもの）。 </li>
+  <li>でアノテーションされた<a href="https://docs.oracle.com/javaee/7/tutorial/index.html">Java EE</a>クラス：    <ul>
+      <li><a href="https://docs.oracle.com/javaee/7/api/javax/annotation/ManagedBean.html">ManagedBean</a></li>
+      <li><a href="https://docs.oracle.com/javaee/7/api/javax/ejb/MessageDriven.html">メッセージドリブン</a></li>
+      <li><a href="https://docs.oracle.com/javaee/7/api/javax/ejb/Singleton.html">シングルトン</a></li>
+      <li><a href="https://docs.oracle.com/javaee/7/api/javax/ejb/Stateful.html">ステートフル</a></li>
+      <li><a href="https://docs.oracle.com/javaee/7/api/javax/ejb/Stateless.html">ステートレス</a></li>
+      <li><a href="https://docs.oracle.com/javaee/7/api/javax/jws/WebService.html">ウェブサービス</a></li>
+      <li><a href="https://docs.oracle.com/javaee/7/api/javax/servlet/annotation/WebFilter.html">ウェブフィルタ</a></li>
+      <li><a href="https://docs.oracle.com/javaee/7/api/javax/servlet/annotation/WebServlet.html">ウェブサーブレット</a></li>
+    </ul>  </li>
+  <li>クラスとフィールドにアノテーションを施した    <ul>
+      <li><a href="https://codehaus-plexus.github.io/plexus-containers/plexus-component-annotations/index.html">プレクサス コンポーネント</a>アノテーション      </li>
+      <li><a href="https://maven.apache.org/developers/mojo-api-specification.html">メイブンモジョ</a></li>
+    </ul>  </li>
+  <li>フィールドに注釈をつける：    <ul>
+      <li><a href="https://docs.oracle.com/javaee/7/api/javax/annotation/Resource.html">リソース</a></li>
+      <li><a href="https://docs.oracle.com/javaee/7/api/javax/ejb/EJB.html">イージェービー</a></li>
+      <li><a href="https://docs.oracle.com/javaee/7/api/javax/inject/Inject.html">インジェクト</a></li>
+      <li><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Autowired.html">オートワイヤード</a></li>
+    </ul>  </li>
+</ul>
+

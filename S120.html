@@ -1,0 +1,11 @@
+<p>コーディング規約を共有することで、チームでの共同作業を効率的に行うことができます。このルールは、すべてのパッケージ名が指定された正規表現に一致するかどうかをチェックします。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルトの正規表現で<code translate="no">^[a-z_]+(\.[a-z_][a-z0-9_]*)*$</code> ：</p>
+<pre translate="no">
+package org.exAmple; // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+package org.example;
+</pre>
+

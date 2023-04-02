@@ -1,0 +1,43 @@
+<p><code translate="no">Serializable</code> クラスのフィールドは、クラスが明示的にシリアライズまたはデシリアライズされない場合でも、それ自体が<code translate="no">Serializable</code> または<code translate="no">transient</code> のいずれかでなければなりません。例えば、負荷がかかると、ほとんどのJ2EEアプリケーションフレームワークはオブジェクトをディスクにフラッシュします。非一過性でシリアライズ不可能なデータメンバーを持つ<code translate="no">Serializable</code> とされるオブジェクトは、プログラムクラッシュの原因となり、攻撃者に門戸を開くことになります。一般に、<code translate="no">Serializable</code> クラスは、その契約を履行し、インスタンスがシリアライズされたときに予期しない動作をしないことが期待されます。</p>
+<p>このルールは、<code translate="no">Serializable</code> 以外のフィールド、およびコレクションフィールドが<code translate="no">private</code> でない場合（外部から<code translate="no">Serializable</code> 以外の値を割り当てられる可能性があるため）、およびクラス内で<code translate="no">Serializable</code> 以外の型を割り当てられた場合に問題を生じます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Address {
+  //...
+}
+
+public class Person implements Serializable {
+  private static final long serialVersionUID = 1905122041950251207L;
+
+  private String name;
+  private Address address;  // Noncompliant; Address isn't serializable
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Address implements Serializable {
+  private static final long serialVersionUID = 2405172041950251807L;
+}
+
+public class Person implements Serializable {
+  private static final long serialVersionUID = 1905122041950251207L;
+
+  private String name;
+  private Address address;
+}
+</pre>
+<h2>例外あり</h2>
+<p>すべてのメンバーを<code translate="no">serializable</code> または<code translate="no">transient</code> にする代わりに、オブジェクトのシリアライズとデシリアライズを適切に行う責任を負う特別なメソッドを実装することができます。このルールでは、以下のメソッドを実装したクラスは無視されます：</p>
+<pre translate="no">
+ private void writeObject(java.io.ObjectOutputStream out)
+     throws IOException
+ private void readObject(java.io.ObjectInputStream in)
+     throws IOException, ClassNotFoundException;
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/594">MITRE, CWE-594</a>- Unserializable Objectをディスクに保存する。 </li>
+  <li><a href="https://docs.oracle.com/javase/6/docs/api/java/io/Serializable.html">Oracle Java 6、シリアライザブル</a></li>
+  <li><a href="https://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html">Oracle Java 7、シリアライザブル</a></li>
+</ul>
+

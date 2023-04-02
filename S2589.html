@@ -1,0 +1,37 @@
+<p>もし、ブーリアン式が条件の評価を変えないのであれば、全く不要なものであり、削除してよい。プログラマの意図と一致しないためにありがた迷惑であるなら、それはバグであり、その表現は修正されるべきです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+a = true;
+if (a) { // Noncompliant
+  doSomething();
+}
+
+if (b &amp;&amp; a) { // Noncompliant; "a" is always "true"
+  doSomething();
+}
+
+if (c || !a) { // Noncompliant; "!a" is always "false"
+  doSomething();
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+a = true;
+if (foo(a)) {
+  doSomething();
+}
+
+if (b) {
+  doSomething();
+}
+
+if (c) {
+  doSomething();
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/571">MITRE, CWE-571</a>- 式は常に真である。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/570">MITRE, CWE-570</a>- 式は常に偽である。 </li>
+</ul>
+

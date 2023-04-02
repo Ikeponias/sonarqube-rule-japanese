@@ -1,0 +1,15 @@
+<p>標準的なJavaライブラリのすべてのクラスがスレッドセーフであるように書かれているわけではありません。それらをマルチスレッドで使用すると、実行時にデータの問題や例外が発生する可能性が高くなります。</p>
+<p>このルールは、<code translate="no">Calendar</code> 、<code translate="no">DateFormat</code> 、<code translate="no">javax.xml.xpath.XPath</code> 、<code translate="no">javax.xml.validation.SchemaFactory</code> のインスタンスが、<code translate="no">static</code> と表示されている場合に問題となる。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+  private static SimpleDateFormat format = new SimpleDateFormat("HH-mm-ss");  // Noncompliant
+  private static Calendar calendar = Calendar.getInstance();  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClass {
+  private SimpleDateFormat format = new SimpleDateFormat("HH-mm-ss");
+  private Calendar calendar = Calendar.getInstance();
+</pre>
+

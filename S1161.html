@@ -1,0 +1,27 @@
+<p><code translate="no">@Override</code> のアノテーションを使用すると、2つの理由で便利です：</p>
+<ul>
+  <li>アノテーションされたメソッドが実際には何もオーバーライドしていない場合、スペルミスのようにコンパイラから警告が表示されます。 </li>
+  <li>メソッドがオーバーライドされていることを明白にすることで、ソースコードの可読性を向上させます。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+class ParentClass {
+  public boolean doSomething(){...}
+}
+class FirstChildClass extends ParentClass {
+  public boolean doSomething(){...}  // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+class ParentClass {
+  public boolean doSomething(){...}
+}
+class FirstChildClass extends ParentClass {
+  @Override
+  public boolean doSomething(){...}  // Compliant
+}
+</pre>
+<h2>例外あり</h2>
+<p>このルールは、<code translate="no">toString()</code>,<code translate="no">hashCode()</code>, ...のように、<code translate="no">Object</code> クラスのメソッドをオーバーライドするときに緩和されます。</p>
+

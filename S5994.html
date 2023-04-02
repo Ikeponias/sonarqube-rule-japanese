@@ -1,0 +1,16 @@
+<p>以下のようなRegexパターンにおける所有格の量化子は、無駄なバックトラックを排除することでパフォーマンスを向上させます：</p>
+<pre translate="no">
+?+ , *+ , ++ , {n}+ , {n,}+ , {n,m}+
+</pre>
+<p>しかし、所有量化詞は後退位置を保持せず、決して引き渡さないので、次のサブパターンは類似の文字だけにマッチしてはならない。そうでないと、所有量詞は、次のサブパターンにマッチしうるすべての文字を消費してしまい、次のサブパターンには何も残りません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Pattern pattern1 = Pattern.compile("a++abc");       // Noncompliant, the second 'a' never matches
+Pattern pattern2 = Pattern.compile("\\d*+[02468]"); // Noncompliant, the sub-pattern "[02468]" never matches
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Pattern pattern1 = Pattern.compile("aa++bc");            // Compliant, for example it can match "aaaabc"
+Pattern pattern2 = Pattern.compile("\\d*+(?&lt;=[02468])"); // Compliant, for example it can match an even number like "1234"
+</pre>
+

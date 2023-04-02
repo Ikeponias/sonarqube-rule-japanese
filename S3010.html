@@ -1,0 +1,26 @@
+<p>コンストラクタで<code translate="no">static</code> フィールドに値を割り当てると、クラスのすべてのインスタンスで値が変更されるため、実行時に信頼できない動作が発生する可能性があります。</p>
+<p>その代わりに、フィールドの<code translate="no">static</code> モディファイアを削除するか、静的に初期化します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Person {
+  static Date dateOfBirth;
+  static int expectedFingers;
+
+  public Person(date birthday) {
+    dateOfBirth = birthday;  // Noncompliant; now everyone has this birthday
+    expectedFingers = 10;  // Noncompliant
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Person {
+  Date dateOfBirth;
+  static int expectedFingers = 10;
+
+  public Person(date birthday) {
+    dateOfBirth = birthday;
+  }
+}
+</pre>
+

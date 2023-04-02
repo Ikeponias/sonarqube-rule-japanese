@@ -1,0 +1,29 @@
+<p>Java 7以降、複数の例外を一度にキャッチすることができるようになりました。そのため、複数の<code translate="no">catch</code> ブロックに同じコードがある場合は、可読性を高めるために結合する必要があります。</p>
+<p><strong>なお</strong>、このルールは、プロジェクトの<code translate="no">sonar.java.source</code> が<code translate="no">7</code> よりも低い場合、自動的に無効となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+catch (IOException e) {
+  doCleanup();
+  logger.log(e);
+}
+catch (SQLException e) {  // Noncompliant
+  doCleanup();
+  logger.log(e);
+}
+catch (TimeoutException e) {  // Compliant; block contents are different
+  doCleanup();
+  throw e;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+catch (IOException|SQLException e) {
+  doCleanup();
+  logger.log(e);
+}
+catch (TimeoutException e) {
+  doCleanup();
+  throw e;
+}
+</pre>
+

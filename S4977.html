@@ -1,0 +1,31 @@
+<p>シャドーイングを行うと、外側スコープから型パラメータを使用することができなくなります。また、どの型パラメータが使用されているのか区別がつかなくなることもあります。</p>
+<p>このルールでは、内側スコープの型パラメーターが外側スコープの型パラメーターと同じ名前を使用している場合に問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+ public class TypeParameterHidesAnotherType&lt;T&gt; {
+
+    public class Inner&lt;T&gt; { // Noncompliant
+      //...
+    }
+
+    private &lt;T&gt; T method() { // Noncompliant
+      return null;
+    }
+
+  }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class NoTypeParameterHiding&lt;T&gt; {
+
+    public class Inner&lt;S&gt; { // Compliant
+      List&lt;S&gt; listOfS;
+    }
+
+    private &lt;V&gt; V method() { // Compliant
+      return null;
+    }
+
+  }
+</pre>
+

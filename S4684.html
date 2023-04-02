@@ -1,0 +1,81 @@
+<p>一方、Spring MVCは、<code translate="no">@RequestMapping</code> でアノテーションされたメソッドの引数として宣言されたBeanに、リクエストパラメータを自動的にバインドします。この自動バインディング機能のせいで、<code translate="no">@RequestMapping</code> アノテーションされたメソッドの引数に予期せぬフィールドを与えてしまう可能性があるのです。</p>
+<p>一方、永続オブジェクト（<code translate="no">@Entity</code> または<code translate="no">@Document</code> ）は、基礎となるデータベースにリンクされ、Hibernate、JPA、Spring Data MongoDBなどの永続化フレームワークによって自動的に更新されます。</p>
+<p>永続オブジェクトが<code translate="no">@RequestMapping</code> でアノテーションされたメソッドの引数として使用されている場合、特別に細工されたユーザー入力から、データベースの予期しないフィールドの内容を変更することが可能です。</p>
+<p>このため、<code translate="no">@RequestMapping</code>でアノテーションされたメソッドの引数として<code translate="no">@Entity</code> または<code translate="no">@Document</code> のオブジェクトを使用することは避けるべきです。</p>
+<p><code translate="no">@RequestMapping</code> に加えて、このルールは Spring Framework 4.3 で導入されたアノテーションも考慮します：<code translate="no">@GetMapping</code><code translate="no">@PostMapping</code>,<code translate="no">@PutMapping</code>,<code translate="no">@DeleteMapping</code>,<code translate="no">@PatchMapping</code> 。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+import javax.persistence.Entity;
+
+@Entity
+public class Wish {
+  Long productId;
+  Long quantity;
+  Client client;
+}
+
+@Entity
+public class Client {
+  String clientId;
+  String name;
+  String password;
+}
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class WishListController {
+
+  @PostMapping(path = "/saveForLater")
+  public String saveForLater(Wish wish) {
+    session.save(wish);
+  }
+
+  @RequestMapping(path = "/saveForLater", method = RequestMethod.POST)
+  public String saveForLater(Wish wish) {
+    session.save(wish);
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class WishDTO {
+  Long productId;
+  Long quantity;
+  Long clientId;
+}
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class PurchaseOrderController {
+
+  @PostMapping(path = "/saveForLater")
+  public String saveForLater(WishDTO wish) {
+    Wish persistentWish = new Wish();
+    // do the mapping between "wish" and "persistentWish"
+    [...]
+    session.save(persistentWish);
+  }
+
+  @RequestMapping(path = "/saveForLater", method = RequestMethod.POST)
+  public String saveForLater(WishDTO wish) {
+    Wish persistentWish = new Wish();
+    // do the mapping between "wish" and "persistentWish"
+    [...]
+    session.save(persistentWish);
+  }
+}
+</pre>
+<h2>例外あり</h2>
+<p>パラメータにSpring Frameworkの<code translate="no">@PathVariable</code> のアノテーションを付けた場合、idで検索するため、クライアント側でオブジェクトを偽造することはできないため、問題は発生しないとのことです。</p>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/">OWASP Top 10 2021 カテゴリ A8</a>- ソフトウェアとデータの整合性の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control">OWASP Top 10 2017 カテゴリーA5</a>「壊れたアクセスコントロール  </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/915">MITRE, CWE-915</a>- 動的に決定されるオブジェクト属性の不適切な制御による変更。 </li>
+  <li><a href="https://o2platform.files.wordpress.com/2011/07/ounce_springframework_vulnerabilities.pdf">Spring FrameworkのMVCにおける2つのセキュリティ脆弱性 by Ryan Berg and Dinis Cruz</a></li>
+</ul>
+

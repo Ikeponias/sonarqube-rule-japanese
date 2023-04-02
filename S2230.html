@@ -1,0 +1,10 @@
+<p><code translate="no">@Transactional</code> Springは<code translate="no">public</code>以外のメソッドを "見ない "ので、そのメソッドを適切に呼び出すための規定を作らないからです。また、Springは呼び出されたメソッドによって呼び出されるメソッドについて規定することもありません。</p>
+<p>したがって、<code translate="no">private</code> のメソッドを、たとえば<code translate="no">@Transactional</code> とマークしても、実行時エラーや例外が発生するのは、そのメソッドが実際には<code translate="no">@Transactional</code> となるように書かれている場合だけです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Transactional  // Noncompliant
+private void doTheThing(ArgClass arg) {
+  // ...
+}
+</pre>
+

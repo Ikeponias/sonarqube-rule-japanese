@@ -1,0 +1,26 @@
+<p>メソッドの命名は、<code translate="no">tostring</code> 、<code translate="no">hashcode</code> 、<code translate="no">equal</code> のいずれかです：</p>
+<ul>
+  <li>タイプミスという形のバグです。<code translate="no">toString</code>,<code translate="no">Object.hashCode()</code> (camelCasingに注意) または<code translate="no">Object.equals</code> (末尾の's'に注意)を上書きすることを意味しており、アプリケーションは期待通りの動作をしない。 </li>
+  <li>意図的に行われたものです。しかし、この名前は他のすべての開発者を混乱させ、名前の違いに気づかないかもしれませんし、バグだと思うかもしれません。  </li>
+</ul>
+<p>いずれの場合も、メソッドの名称を変更する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public int hashcode() { /* ... */ }  // Noncompliant
+
+public String tostring() { /* ... */ } // Noncompliant
+
+public boolean equal(Object obj) { /* ... */ }  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Override
+public int hashCode() { /* ... */ }
+
+@Override
+public String toString() { /* ... */ }
+
+@Override
+public boolean equals(Object obj) { /* ... */ }
+</pre>
+

@@ -1,0 +1,39 @@
+<p>CBC（Cipher Block Chaining）モードでデータを暗号化する場合、暗号化をランダム化するために初期化ベクトル（IV）が使用されます。つまり、与えられた鍵の下で同じ平文が同じ暗号文になるとは限りません。IVは秘密である必要はありませんが、「選ばれた平文攻撃」を避けるために予測不可能である必要があります。</p>
+<p>初期化ベクターを生成するために、NISTは安全な乱数生成器を使用することを推奨しています。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public void encrypt(String key, String plainText) throws GeneralSecurityException {
+    byte[] bytesIV = "7cVgr5cbdCZVw5WY".getBytes(StandardCharsets.UTF_8); // secondary
+
+    GCMParameterSpec iv = new GCMParameterSpec(128,bytesIV);  // secondary
+    SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "AES");
+
+    Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
+    cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv); // Noncompliant
+  }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void encrypt(String key, String plainText) throws GeneralSecurityException {
+    SecureRandom random = new SecureRandom();
+    byte[] bytesIV = new byte[16];
+    random.nextBytes(bytesIV); // Random initialization vector
+
+    GCMParameterSpec iv = new GCMParameterSpec(128, bytesIV);
+    SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "AES");
+
+    Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
+    cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
+  }
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/">OWASP Top 10 2021 カテゴリ A2</a>- 暗号の失敗 </li>
+  <li><a href="https://www.owasp.org/index.php/Top_10-2017_A3-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。  </li>
+  <li><a href="https://mobile-security.gitbook.io/masvs/security-requirements/0x08-v3-cryptography_verification_requirements">Mobile AppSec検証基準</a>- 暗号化要件 </li>
+  <li><a href="https://owasp.org/www-project-mobile-top-10/2016-risks/m5-insufficient-cryptography">OWASP Mobile Top 10 2016 カテゴリー M5</a>- Insufficient Cryptography (不十分な暗号) </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/329">MITRE, CWE-329</a>- CBCモードで予測不可能なIVを使用しないでください。 </li>
+  <li><a href="https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a.pdf">NIST, SP-800-38A</a>- ブロック暗号の動作モードに関する推奨事項 </li>
+  <li>FindSecBugsルール<a href="https://find-sec-bugs.github.io/bugs.htm#STATIC_IV">STATIC_IVから</a>派生したものです。 </li>
+</ul>
+

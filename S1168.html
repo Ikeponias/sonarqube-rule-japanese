@@ -1,0 +1,69 @@
+<p>実際の配列、コレクション、マップの代わりに<code translate="no">null</code> を返すと、メソッドの呼び出し元は明示的に無効をテストしなければならず、メソッドはより複雑になり、読みにくくなる。</p>
+<p>さらに、「<code translate="no">null</code> 」が「empty」の対義語として使われるケースも少なくありません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public static List&lt;Result&gt; getAllResults() {
+  return null;                             // Noncompliant
+}
+
+public static Result[] getResults() {
+  return null;                             // Noncompliant
+}
+
+public static Map&lt;String, Object&gt; getValues() {
+  return null;                             // Noncompliant
+}
+
+public static void main(String[] args) {
+  Result[] results = getResults();
+  if (results != null) {                   // Nullity test required to prevent NPE
+    for (Result result: results) {
+      /* ... */
+    }
+  }
+
+  List&lt;Result&gt; allResults = getAllResults();
+  if (allResults != null) {                // Nullity test required to prevent NPE
+    for (Result result: allResults) {
+      /* ... */
+    }
+  }
+
+  Map&lt;String, Object&gt; values = getValues();
+  if (values != null) {                   // Nullity test required to prevent NPE
+    values.forEach((k, v) -&gt; doSomething(k, v));
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public static List&lt;Result&gt; getAllResults() {
+  return Collections.emptyList();          // Compliant
+}
+
+public static Result[] getResults() {
+  return new Result[0];                    // Compliant
+}
+
+public static Map&lt;String, Object&gt; getValues() {
+  return Collections.emptyMap();           // Compliant
+}
+
+public static void main(String[] args) {
+  for (Result result: getAllResults()) {
+    /* ... */
+  }
+
+  for (Result result: getResults()) {
+    /* ... */
+  }
+
+  getValues().forEach((k, v) -&gt; doSomething(k, v));
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/aNYxBQ">CERT、MSC19-C。</a>- 配列を返す関数では、NULL値よりも空の配列を返すことを優先してください。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/JzZGBQ">CERT、MET55-J。</a>- 配列やコレクションを返すメソッドで、NULL値ではなく空の配列やコレクションを返す。 </li>
+</ul>
+

@@ -1,0 +1,21 @@
+<p>空のクラスには良い言い訳はありません。もし、単に共通の拡張ポイントとして使われているのであれば、<code translate="no">interface</code> に置き換えるべきでしょう。また、将来の開発のためのプレースホルダとして挿入されたのであれば、その内容を充実させる必要があります。それ以外の場合は、削除されるべきです。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Nothing {  // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public interface Nothing {
+}
+</pre>
+<h2>例外あり</h2>
+<p>空のクラスはマーカータイプとして使用できるため（例えばSpringの場合）、アノテーションが付けられた空のクラスは無視されます。</p>
+<pre translate="no">
+@Configuration
+@EnableWebMvc
+public final class ApplicationConfiguration {
+
+}
+</pre>
+

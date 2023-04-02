@@ -1,0 +1,22 @@
+<p><code translate="no">switch</code> ステートメントは、同じ式の値によって異なるケースが多数存在する場合に便利です。</p>
+<p>しかし、たった1つか2つのケースについては、<code translate="no">if</code> ステートメントを使用することで、より読みやすいコードになります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+switch (variable) {
+  case 0:
+    doSomething();
+    break;
+  default:
+    doSomethingElse();
+    break;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if (variable == 0) {
+  doSomething();
+} else {
+  doSomethingElse();
+}
+</pre>
+

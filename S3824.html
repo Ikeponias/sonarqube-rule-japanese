@@ -1,0 +1,30 @@
+<p>マップの値の追加や変更を行う前に、<code translate="no">java.util.Map.get()</code> の結果を<code translate="no">null</code> と照合したり、<code translate="no">java.util.Map.containsKey()</code> を呼び出したりするのが一般的なパターンです。しかし、<code translate="no">java.util.Map</code> APIは、<code translate="no">computeIfPresent()</code> と<code translate="no">computeIfAbsent()</code> メソッドという形で、より優れた代替手段を提供しています。これを使うことで、よりきれいで読みやすいコードになります。</p>
+<p><strong>なお</strong>、このルールは、プロジェクトの<code translate="no">sonar.java.source</code> が8でない場合、自動的に無効になります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+V value = map.get(key);
+if (value == null) {  // Noncompliant
+  value = V.createFor(key);
+  if (value != null) {
+    map.put(key, value);
+  }
+}
+if (!map.containsKey(key)) {  // Noncompliant
+  value = V.createFor(key);
+  if (value != null) {
+    map.put(key, value);
+  }
+}
+return value;
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+return map.computeIfAbsent(key, k -&gt; V.createFor(k));
+</pre>
+<h2>例外あり</h2>
+<p>このルールは、<code translate="no">null</code> を地図に追加しようとするときに問題になりません。なぜなら、関数が返す値が<code translate="no">null</code> である場合、<code translate="no">computeIfAbsent</code> はエントリーを追加しないからです。</p>
+<h2>こちらもご覧ください</h2>
+<ul>
+  <li>{rule:java:S6104} です。- マップ「computeIfAbsent()」と「computeIfPresent()」は、「null」値を追加するために使用しないでください。 </li>
+</ul>
+

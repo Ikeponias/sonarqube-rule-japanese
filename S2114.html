@@ -1,0 +1,14 @@
+<p>コレクションをコレクション自身のメソッドの引数として渡すことは、他の引数を意図したエラーであるか、単に無意味なコードであるかのいずれかです。</p>
+<p>さらに、メソッドによっては、実行中に引数が変更されないことが要求されるため、コレクションをそれ自身に渡すと、未定義の動作になることがあります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+List &lt;Object&gt; objs = new ArrayList&lt;Object&gt;();
+objs.add("Hello");
+
+objs.add(objs); // Noncompliant; StackOverflowException if objs.hashCode() called
+objs.addAll(objs); // Noncompliant; behavior undefined
+objs.containsAll(objs); // Noncompliant; always true
+objs.removeAll(objs); // Noncompliant; confusing. Use clear() instead
+objs.retainAll(objs); // Noncompliant; NOOP
+</pre>
+

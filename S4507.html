@@ -1,0 +1,77 @@
+<p>デバッグ機能を有効にした状態でコードを本番環境に提供することは、セキュリティ上、重要なことです。過去に以下のような脆弱性につながったことがあります：</p>
+<ul>
+  <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-1999007">CVE-2018-1999007</a></li>
+  <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-5306">CVE-2015-5306</a></li>
+  <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-2006">CVE-2013-2006</a></li>
+</ul>
+<p>アプリケーションのデバッグ機能は、開発者がより簡単にバグを見つけることを可能にし、その結果、攻撃者の作業も容易にします。また、アプリケーションを実行しているシステムとユーザーの両方に関する詳細な情報にアクセスできるようになることもあります。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>アプリケーションのデバッグ機能を有効にするコードや構成が、本番サーバーにデプロイされたり、エンドユーザーに配布されたりする。 </li>
+  <li>の場合、アプリケーションはデフォルトでデバッグ機能を有効にした状態で実行されます。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<p>本番サーバーやエンドユーザーに配布するアプリケーションでは、デバッグ機能を有効にしないでください。</p>
+<h2>センシティブコードの例</h2>
+<p><code translate="no">Throwable.printStackTrace(...)</code> は、Throwableとそのスタックトレースを （デフォルト）に出力します。これは、簡単に解析することができず、機密情報を公開する可能性があります：<code translate="no">System.Err</code> </p>
+<pre translate="no">
+try {
+  /* ... */
+} catch(Exception e) {
+  e.printStackTrace(); // Sensitive
+}
+</pre>
+<p>SpringFramework の<a href="https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configuration/EnableWebSecurity.html">EnableWebSecurity</a>アノテーションを<code translate="no">debug</code> から<code translate="no">true</code> に変更することで、デバッグ対応が可能になりました：</p>
+<pre translate="no">
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
+@Configuration
+@EnableWebSecurity(debug = true) // Sensitive
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+  // ...
+}
+</pre>
+<p>Androidでは<a href="https://developer.android.com/reference/android/webkit/WebView#setWebContentsDebuggingEnabled(boolean)">WebView.setWebContentsDebuggingEnabled(true</a>)でデバッグのサポートが有効になります：</p>
+<pre translate="no">
+import android.webkit.WebView;
+
+WebView.setWebContentsDebuggingEnabled(true); // Sensitive
+WebView.getFactory().getStatics().setWebContentsDebuggingEnabled(true); // Sensitive
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>ロガーは、（<code translate="no">printStackTrace</code> の代わりに）スローアブルを表示するために使用する必要があります：</p>
+<pre translate="no">
+try {
+  /* ... */
+} catch(Exception e) {
+  LOGGER.log("context", e);
+}
+</pre>
+<p>SpringFramework の<a href="https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configuration/EnableWebSecurity.html">EnableWebSecurity</a>アノテーションを<code translate="no">debug</code> から<code translate="no">false</code> にすると、デバッグのサポートが無効になる：</p>
+<pre translate="no">
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
+@Configuration
+@EnableWebSecurity(debug = false)
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+  // ...
+}
+</pre>
+<p>Android の<a href="https://developer.android.com/reference/android/webkit/WebView#setWebContentsDebuggingEnabled(boolean)">WebView.setWebContentsDebuggingEnabled(false)</a>は、デバッグのサポートを無効にする：</p>
+<pre translate="no">
+import android.webkit.WebView;
+
+WebView.setWebContentsDebuggingEnabled(false);
+WebView.getFactory().getStatics().setWebContentsDebuggingEnabled(false);
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A05_2021-Security_Misconfiguration/">OWASP Top 10 2021 カテゴリ A5</a>- セキュリティの誤設定 </li>
+  <li><a href="https://www.owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/489">MITRE, CWE-489</a>- アクティブデバッグコード </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/215">MITRE, CWE-215</a>- デバッグ情報による情報漏えいについて </li>
+</ul>
+

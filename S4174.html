@@ -1,0 +1,17 @@
+<p>コーディング規約を共有することで、チームは効率的に共同作業を行うことができます。このルールでは、すべてのローカル変数、<code translate="no">final</code> 、初期化されたプリミティブ変数が、指定された正規表現に一致する名前を持っていることをチェックします。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルトの正規表現で<code translate="no">^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$</code> ：</p>
+<pre translate="no">
+public void doSomething() {
+  final int local = 42;
+  ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public void doSomething() {
+  final int LOCAL = 42;
+  ...
+}
+</pre>
+

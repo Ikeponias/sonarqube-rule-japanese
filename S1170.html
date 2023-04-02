@@ -1,0 +1,20 @@
+<p><code translate="no">public</code> の定数を<code translate="no">final</code> だけにして<code translate="no">static final</code> とすると、クラスのインスタンスごとにその値が重複することになり、アプリケーションの実行に必要なメモリ量が無駄に増えてしまいます。</p>
+<p>さらに、非<code translate="no">public</code>,<code translate="no">final</code> フィールドが<code translate="no">static</code> でもない場合、異なるインスタンスが異なる値を持つことができることを意味する。しかし、<code translate="no">static final</code> 以外のフィールドを宣言時に初期化すると、すべてのインスタンスが同じ値を持つように強制されます。したがって、このようなフィールドは<code translate="no">static</code> にするか、コンストラクタで初期化する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class Myclass {
+  public final int THRESHOLD = 3;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class Myclass {
+  public static final int THRESHOLD = 3;    // Compliant
+}
+</pre>
+<h2>例外あり</h2>
+<p>プリミティブやString以外の型を持つ内部クラスの最終フィールドについては、問題は報告されていません。確かにJavaの仕様によると</p>
+<blockquote>
+  <p>内部クラスは、明示的または暗黙的に静的宣言されていないネストされたクラスです。内部クラスは、静的イニシャライザ (§8.7) やメンバインタフェースを宣言することはできません。内部クラスは、コンパイル時定数フィールド(15.28節)でない限り、静的メンバを宣言することができません。</p>
+</blockquote>
+

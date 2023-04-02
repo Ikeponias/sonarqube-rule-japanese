@@ -1,0 +1,23 @@
+<p>オブジェクトの配列の場合、<code translate="no">Arrays.asList(T ... a).stream()</code> と<code translate="no">Arrays.stream(array)</code> は基本的に性能的に同等です。しかし、プリミティブの配列の場合、<code translate="no">Arrays.asList</code> を使用すると、ボックス型のリストを強制的に構築し、<em>その</em>リストをストリームとして使用することになります。一方、<code translate="no">Arrays.stream</code> は、該当する場合、適切なプリミティブ・ストリーム型（<code translate="no">IntStream</code>,<code translate="no">LongStream</code>,<code translate="no">DoubleStream</code> ）を使用し、はるかに優れた性能を発揮します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Arrays.asList("a1", "a2", "b1", "c2", "c1").stream()
+    .filter(...)
+    .forEach(...);
+
+Arrays.asList(1, 2, 3, 4).stream() // Noncompliant
+    .filter(...)
+    .forEach(...);
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Arrays.asList("a1", "a2", "b1", "c2", "c1").stream()
+    .filter(...)
+    .forEach(...);
+
+int[] intArray = new int[]{1, 2, 3, 4};
+Arrays.stream(intArray)
+    .filter(...)
+    .forEach(...);
+</pre>
+

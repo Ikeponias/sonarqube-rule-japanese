@@ -1,0 +1,41 @@
+<p>0は有効なインデックスであるため、<code translate="no">indexOf</code> の値に対するほとんどのチェックは -1 と比較します。0を超える値を探すチェックでは、最初の要素を無視しますが、これはバグである可能性が高いです。単に<code translate="no">String</code> や<code translate="no">List</code> に値が含まれているかどうかを調べるだけであれば、代わりに<code translate="no">contains</code> メソッドを使用することを検討してください。</p>
+<p>このルールは、<code translate="no">String</code> または<code translate="no">List</code> から取得した<code translate="no">indexOf</code> の値を、<code translate="no">&gt;0</code> と照合する場合に問題とな る。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String color = "blue";
+String name = "ishmael";
+
+List&lt;String&gt; strings = new ArrayList&lt;String&gt; ();
+strings.add(color);
+strings.add(name);
+
+if (strings.indexOf(color) &gt; 0) {  // Noncompliant
+  // ...
+}
+if (name.indexOf("ish") &gt; 0) { // Noncompliant
+  // ...
+}
+if (name.indexOf("ae") &gt; 0) { // Noncompliant
+  // ...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String color = "blue";
+String name = "ishmael";
+
+List&lt;String&gt; strings = new ArrayList&lt;String&gt; ();
+strings.add(color);
+strings.add(name);
+
+if (strings.indexOf(color) &gt; -1) {
+  // ...
+}
+if (name.indexOf("ish") &gt;= 0) {
+  // ...
+}
+if (name.contains("ae") {
+  // ...
+}
+</pre>
+

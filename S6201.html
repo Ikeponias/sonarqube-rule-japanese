@@ -1,0 +1,26 @@
+<p>Java 16では、「instanceofのパターンマッチ」という機能が確定し、実運用で使用できるようになりました。これまでは、変数の型をチェックし、キャストし、キャストした値を新しい変数に代入する、という3つの操作を行う必要がありました。この方法は非常に冗長で、これらの3つの動作（チェック、キャスト、割り当て）を1つの式で行う、<code translate="no">instanceof</code> のパターンマッチングで置き換えることができます。</p>
+<p>このルールでは、<code translate="no">instanceof</code> チェックの後にキャストと代入が続くと、パターンマッチで置き換えられる可能性があるという問題が発生します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int f(Object o) {
+  if (o instanceof String) {&nbsp; // Noncompliant
+    String string = (String) o;
+    return string.length();
+  }
+  return 0;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int f(Object o) {
+&nbsp; if (o instanceof String string) {&nbsp; // Compliant
+&nbsp; &nbsp; return string.length();
+&nbsp; }
+&nbsp; return 0;
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://openjdk.java.net/jeps/394">JEP 394です：instanceofのパターンマッチング</a></li>
+</ul>
+

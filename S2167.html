@@ -1,0 +1,16 @@
+<p>重要なのは、<code translate="no">compareTo</code> から返される値の大きさではなく、符号である。<code translate="no">Integer.MIN_VALUE</code>を返しても、より高度な不等式を伝えることは<em>できません</em>。また、<code translate="no">compareTo</code> の返り値が、負の値が正になることを期待して反転されることがあるので、そうするとエラーが発生することがあります。しかし，<code translate="no">Integer.MIN_VALUE</code> を反転させると，<code translate="no">Integer.MAX_VALUE</code> ではなく，<code translate="no">Integer.MIN_VALUE</code> が返されます．</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public int compareTo(MyClass) {
+  if (condition) {
+    return Integer.MIN_VALUE;  // Noncompliant
+  }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public int compareTo(MyClass) {
+  if (condition) {
+    return -1;
+  }
+</pre>
+

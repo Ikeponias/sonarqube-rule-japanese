@@ -1,0 +1,56 @@
+<p>2018年、Duo SecurityはSAMLベースのシングルサインオン（SSO）システムに影響を与える新しい脆弱性クラスを発見し、これにより以下の脆弱性が公開されました：<a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-11427">CVE-2017-11427</a>、<a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-11428">CVE-2017-11428</a>、<a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-11429">CVE-2017-11429</a>、<a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-11430">CVE-2017-11430</a>、<a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-0489">CVE-2018-0489</a>、<a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-7340">CVE-2018-7340</a>です。</p>
+<p>特別に細工された<code translate="no">&lt;SAMLResponse&gt;</code> ファイルから、すでに自分のアカウントで SAML システムにアクセスしている攻撃者は、認証メカニズムをバイパスして、別のユーザーとして認証されることができます。</p>
+<p>これは、SAML プロトコルが XML 形式に依存しており、基礎となる XML パーサが XML コメントをどのように解釈するかという事実に起因している。</p>
+<p>攻撃者がXMLコメントで認証ユーザーを識別する<code translate="no">&lt;NameID&gt;</code> フィールドを変更することに成功した場合、脆弱性を悪用することができます。</p>
+<p>ここでは、想定されるペイロードの一例を紹介します：</p>
+<pre translate="no">
+&lt;SAMLResponse&gt;
+  [...]
+  &lt;Subject&gt;
+    &lt;NameID&gt;admin@domain.com&lt;!----&gt;.evil.com&lt;/NameID&gt;
+  &lt;/Subject&gt;
+  [...]
+&lt;/SAMLResponse&gt;
+</pre>
+<p>攻撃者は、アカウント「admin@domain.com.evil.com」で有効な&lt;SAMLResponse&gt;コンテンツを生成することに成功します。それを XML コメントで修正し、最終的に "admin@domain.com" として認証される。OpenSAML2 に依存する Spring Security SAML を使用するアプリケーションでこの脆弱性を防ぐには、<code translate="no">ignoreComments</code> プロパティを<code translate="no">true</code> に設定することで XML コメントを無視する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+import org.opensaml.xml.parse.BasicParserPool;
+import org.opensaml.xml.parse.ParserPool;
+import org.opensaml.xml.parse.StaticBasicParserPool;
+
+public ParserPool parserPool() {
+  StaticBasicParserPool staticBasicParserPool = new StaticBasicParserPool();
+  staticBasicParserPool.setIgnoreComments(false); // Noncompliant: comments are not ignored during parsing opening the door to exploit the vulnerability
+  return staticBasicParserPool;
+}
+</pre>
+<pre translate="no">
+public ParserPool parserPool() {
+  BasicParserPool basicParserPool = new BasicParserPool();
+  basicParserPool.setIgnoreComments(false); // Noncompliant
+  return basicParserPool;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public ParserPool parserPool() {
+  return new StaticBasicParserPool(); // Compliant: "ignoreComments" is set to "true" in StaticBasicParserPool constructor
+}
+</pre>
+<pre translate="no">
+public ParserPool parserPool() {
+  return new BasicParserPool();  // Compliant: "ignoreComments" is set to "true" in BasicParserPool constructor
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/">OWASP Top 10 2021 Category A6</a>- Vulnerable and Outdated Components（脆弱なコンポーネントと時代遅れのコンポーネント </li>
+  <li><a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">OWASP Top 10 2021 カテゴリ A7</a>- 識別と認証の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication">OWASP Top 10 2017 カテゴリーA2</a>- Broken Authentication  </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A9_2017-Using_Components_with_Known_Vulnerabilities">OWASP Top 10 2017 カテゴリーA9</a>「既知の脆弱性を持つコンポーネントを使用する」。 </li>
+  <li><a href="https://duo.com/blog/duo-finds-saml-vulnerabilities-affecting-multiple-implementations">Duo、複数の実装に影響するSAML脆弱</a>性を発見 </li>
+  <li><a href="https://spring.io/blog/2018/03/01/spring-security-saml-and-this-week-s-saml-vulnerability">Spring Security SAMLと今週のSAML 脆弱性</a></li>
+  <li><a href="https://github.com/spring-projects/spring-security-saml/issues/228">Spring Security SAMLです：課題番号228</a></li>
+</ul>
+

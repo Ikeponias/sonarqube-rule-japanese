@@ -1,0 +1,190 @@
+<p>JUnit5のドキュメントにもあるように、JUnit4とJUnit5を統合することは可能である：</p>
+<blockquote>
+  <p>JUnitは、JUnit 3とJUnit 4に基づく既存のテストをJUnit Platformインフラストラクチャで実行できるようにするJUnit Vintageテストエンジンを介して、穏やかな移行経路を提供します。JUnit Jupiterに固有のすべてのクラスとアノテーションは、新しいorg.junit.jupiterベースパッケージの下に存在するので、クラスパスにJUnit 4とJUnit Jupiterの両方があっても競合は発生しません。</p>
+</blockquote>
+<p>しかし、両方のシステムを維持することは一時的な解決策となります。このルールは、JUnit4からJUnit5に移行する必要があるすべてのアノテーションにフラグを立て、プロジェクトの移行を支援します。</p>
+<p>以下は、ルールが追跡するJUnit4のアノテーションのリストと、それに対応するJUnit5のアノテーションのリストです：</p>
+<table>
+  <colgroup>
+    <col style="width: 50%;" />
+    <col style="width: 50%;" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>ジュウニットフォー</th>
+      <th>ジュウニットファイブ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><p><code translate="no">org.junit.Test</code></p></td>
+      <td><p><code translate="no">org.junit.jupiter.api.Test</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">org.junit.Before</code></p></td>
+      <td><p><code translate="no">org.junit.jupiter.api.BeforeEach</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">org.junit.After</code></p></td>
+      <td><p><code translate="no">org.junit.jupiter.api.AfterEach</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">org.junit.BeforeClass</code></p></td>
+      <td><p><code translate="no">org.junit.jupiter.api.BeforeAll</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">org.junit.AfterClass</code></p></td>
+      <td><p><code translate="no">org.junit.jupiter.api.AfterAll</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">org.junit.Ignore</code></p></td>
+      <td><p><code translate="no">org.junit.jupiter.api.Disabled</code></p></td>
+    </tr>
+  </tbody>
+</table>
+<p>以下のアノテーションは、JUnit5と同等の動作をさせるために、テストに多少の手直しが必要な場合があることに注意してください。アノテーションを単純に置き換えただけでは、すぐに動作しないでしょう：</p>
+<table>
+  <colgroup>
+    <col style="width: 50%;" />
+    <col style="width: 50%;" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>ジュウニットフォー</th>
+      <th>ジュウニットファイブ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><p><code translate="no">org.junit.experimental.categories.Category</code></p></td>
+      <td><p><code translate="no">org.junit.jupiter.api.Tag</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">org.junit.Rule</code></p></td>
+      <td><p><code translate="no">org.junit.jupiter.api.extension.ExtendWith</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">org.junit.ClassRule</code></p></td>
+      <td><p><code translate="no">org.junit.jupiter.api.extension.RegisterExtension</code></p></td>
+    </tr>
+    <tr>
+      <td><p><code translate="no">org.junit.runner.RunWith</code></p></td>
+      <td><p><code translate="no">org.junit.jupiter.api.extension.ExtendWith</code></p></td>
+    </tr>
+  </tbody>
+</table>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+package org.foo;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
+
+@RunWith(MyJUnit4Runner.class)
+public class MyJUnit4Test {
+
+  @BeforeClass
+  public static void beforeAll() {
+    System.out.println("beforeAll");
+  }
+
+  @AfterClass
+  public static void afterAll() {
+    System.out.println("AfterAll");
+  }
+
+  @Before
+  public void beforeEach() {
+    System.out.println("beforeEach");
+  }
+
+  @After
+  public void afterEach() {
+    System.out.println("afterEach");
+  }
+
+  @Test
+  public void test1() throws Exception {
+    System.out.println("test1");
+  }
+
+  public interface SomeTests { /* category marker */ }
+
+  @Test
+  @Category(SomeTests.class)
+  public void test2() throws Exception {
+    System.out.println("test2");
+  }
+
+  @Test
+  @Ignore("Requires fix of #42")
+  public void ignored() throws Exception {
+    System.out.println("ignored");
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+package org.foo;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+@ExtendWith(MyJUnit5Extension.class)
+class MyJUnit5Test {
+
+  @BeforeAll
+  static void beforeAll() {
+    System.out.println("beforeAll");
+  }
+
+  @AfterAll
+  static void afterAll() {
+    System.out.println("afterAll");
+  }
+
+  @BeforeEach
+  void beforeEach() {
+    System.out.println("beforeEach");
+  }
+
+  @AfterEach
+  void afterEach() {
+    System.out.println("afterEach");
+  }
+
+  @Test
+  void test1() {
+    System.out.println("test1");
+  }
+
+  @Test
+  @Tag("SomeTests")
+  void test2() {
+    System.out.println("test2");
+  }
+
+  @Test
+  @Disabled("Requires fix of #42")
+  void disabled() {
+    System.out.println("ignored");
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://junit.org/junit5/docs/current/user-guide/#migrating-from-junit4">JUnit 5：JUnit4からの移行</a></li>
+</ul>
+

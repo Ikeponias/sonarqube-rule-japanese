@@ -1,0 +1,36 @@
+<p><code translate="no">HttpSecurity.authorizeRequests()</code> メソッドで設定された URL パターンは、宣言された順番に考慮されます。間違えて、より制限の少ない設定をより制限の多い設定の前に宣言してしまうことはよくあることです。そのため、「antMatchers」の宣言の順番を見直すことが必要です。<code translate="no">/**</code> のものが宣言されている場合は、最後にする必要があります。</p>
+<p>このルールは、以下のような場合に問題となる：</p>
+<ul>
+  <li>あるパターンの前には、<code translate="no">**</code> で終わり、同じ開始を持つ別のパターンがあります。例）<code translate="no">/page*-admin/db/**</code> は<code translate="no">/page*-admin/**</code> の後です。 </li>
+  <li>ワイルドカード文字を含まないパターンは、マッチする他の文字が前にあります。例：<code translate="no">/page-index/db</code> は<code translate="no">/page*/**</code>の後です。  </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+      .antMatchers("/resources/**", "/signup", "/about").permitAll() // Compliant
+      .antMatchers("/admin/**").hasRole("ADMIN")
+      .antMatchers("/admin/login").permitAll() // Noncompliant; the pattern "/admin/login" should appear before "/admin/**"
+      .antMatchers("/**", "/home").permitAll()
+      .antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')") // Noncompliant; the pattern "/db/**" should occurs before "/**"
+      .and().formLogin().loginPage("/login").permitAll().and().logout().permitAll();
+  }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+      .antMatchers("/resources/**", "/signup", "/about").permitAll() // Compliant
+      .antMatchers("/admin/login").permitAll()
+      .antMatchers("/admin/**").hasRole("ADMIN") // Compliant
+      .antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')")
+      .antMatchers("/**", "/home").permitAll() // Compliant; "/**" is the last one
+      .and().formLogin().loginPage("/login").permitAll().and().logout().permitAll();
+  }
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A01_2021-Broken_Access_Control/">OWASP Top 10 2021 カテゴリ A1</a>- 壊れたアクセス制御 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+</ul>
+

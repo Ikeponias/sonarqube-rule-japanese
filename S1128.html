@@ -1,0 +1,24 @@
+<p>ファイルのインポート部分は、開発者が手動で行うのではなく、統合開発環境（IDE）で処理する必要があります。</p>
+<p>未使用で無駄な輸入は、そうであれば発生しないはずです。</p>
+<p>これを入れると、コードの可読性が低下し、混乱を招きます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+package my.company;
+
+import java.lang.String;        // Noncompliant; java.lang classes are always implicitly imported
+import my.company.SomeClass;    // Noncompliant; same-package files are always implicitly imported
+import java.io.File;            // Noncompliant; File is not used
+
+import my.company2.SomeType;
+import my.company2.SomeType;    // Noncompliant; 'SomeType' is already imported
+
+class ExampleClass {
+
+  public String someString;
+  public SomeType something;
+
+}
+</pre>
+<h2>例外あり</h2>
+<p>Javadocsに記載されている型のImportは無視されます。</p>
+

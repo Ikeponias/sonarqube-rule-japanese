@@ -1,0 +1,26 @@
+<p><code translate="no">String</code>,<code translate="no">BigInteger</code>,<code translate="no">BigDecimal</code> およびプリミティブをラップするために使用されるオブジェクトのコンストラクタは、決して使用しないでください。そうすることで、文字列の場合は単に目的の値を使用し、それ以外のものには<code translate="no">valueOf</code> を使用するよりも、より明確でなく、より多くのメモリを使用します。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+String empty = new String(); // Noncompliant; yields essentially "", so just use that.
+String nonempty = new String("Hello world"); // Noncompliant
+Double myDouble = new Double(1.1); // Noncompliant; use valueOf
+Integer integer = new Integer(1); // Noncompliant
+Boolean bool = new Boolean(true); // Noncompliant
+BigInteger bigInteger1 = new BigInteger("3"); // Noncompliant
+BigInteger bigInteger2 = new BigInteger("9223372036854775807"); // Noncompliant
+BigInteger bigInteger3 = new BigInteger("111222333444555666777888999"); // Compliant, greater than Long.MAX_VALUE
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String empty = "";
+String nonempty = "Hello world";
+Double myDouble = Double.valueOf(1.1);
+Integer integer = Integer.valueOf(1);
+Boolean bool = Boolean.valueOf(true);
+BigInteger bigInteger1 = BigInteger.valueOf(3);
+BigInteger bigInteger2 = BigInteger.valueOf(9223372036854775807L);
+BigInteger bigInteger3 = new BigInteger("111222333444555666777888999");
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">BigDecimal</code> <code translate="no">double</code> の引数を持つコンストラクタは無視されます。代わりに を使用すると、結果の値が変わる可能性があるからです。rule:java:S2111}を参照してください。<code translate="no">valueOf</code> </p>
+

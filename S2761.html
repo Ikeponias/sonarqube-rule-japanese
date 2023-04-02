@@ -1,0 +1,28 @@
+<p>演算子の無駄な繰り返しは、たいていタイプミスです。<code translate="no">!i</code> で済むところを<code translate="no">!!!i</code> と書く理由はない。</p>
+<p>一方、インクリメントとデクリメントという演算子の繰り返しは、意図的にやっているのかもしれませんが、そうすることで意味がわからなくなるので、簡略化すべきです。</p>
+<p>このルールは、以下のようなシーケンスで問題が発生します：<code translate="no">!</code> <code translate="no">~</code>,<code translate="no">-</code>, および<code translate="no">+</code> 。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+int i = 1;
+
+int j = - - -i;  // Noncompliant; just use -i
+int k = ~~~i;    // Noncompliant; same as i
+int m = + +i;    // Noncompliant; operators are useless here
+
+boolean b = false;
+boolean c = !!!b;   // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+int i =  1;
+
+int j = -i;
+int k = ~i;
+int m =  i;
+
+boolean b = false;
+boolean c = !b;
+</pre>
+<h2>例外あり</h2>
+<p><code translate="no">~~</code> を使用した GWT コンパイル時のオーバーフロー処理は無視されます。</p>
+

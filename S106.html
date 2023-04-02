@@ -1,0 +1,23 @@
+<p>メッセージをログに記録する場合、いくつかの重要な要件を満たす必要があります：</p>
+<ul>
+  <li>ユーザーが簡単にログを取り出すことができること </li>
+  <li>ログに記録されるメッセージの形式は、ユーザーが簡単に読めるように統一されていなければならない </li>
+  <li>記録されたデータは、実際に記録されている必要がある </li>
+  <li>機密性の高いデータは、安全にログを取る必要があります </li>
+</ul>
+<p>プログラムが標準出力に直接書き込む場合、これらの要件に準拠する方法は全くありません。そのため、専用のロガーを定義して使用することが強く推奨されます。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+System.out.println("My Message");  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+logger.log("My Message");
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/">OWASP Top 10 2021 Category A9</a>- セキュリティログとモニタリングの失敗 </li>
+  <li><a href="https://www.owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/nzdGBQ">CERT、ERR02-J。</a>- データロギング中に例外が発生しないようにする </li>
+</ul>
+

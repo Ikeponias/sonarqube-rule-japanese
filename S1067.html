@@ -1,0 +1,14 @@
+<p>式の複雑さは、それが含む<code translate="no">&amp;&amp;</code>,<code translate="no">||</code> および<code translate="no">condition ? ifTrue : ifFalse</code>演算子の数によって定義されます。</p>
+<p>コードの可読性を保つために、1つの式の複雑さが高くなりすぎないようにする。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>デフォルトの閾値が3である場合：</p>
+<pre translate="no">
+if (((condition1 &amp;&amp; condition2) || (condition3 &amp;&amp; condition4)) &amp;&amp; condition5) { ... }
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+if ( (myFirstCondition() || mySecondCondition()) &amp;&amp; myLastCondition()) { ... }
+</pre>
+<h2>例外あり</h2>
+<p>この種のメソッドでは、クラスのすべてのフィールドを等しく比較するのが一般的であるため、<code translate="no">equals</code> メソッド内では問題は報告されません。</p>
+

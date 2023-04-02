@@ -1,0 +1,33 @@
+<p>ロックがメソッド内で取得および解放される場合、そのメソッドのすべての実行パスに沿って解放されなければならない。</p>
+<p>これを怠ると、条件付きロックロジックがメソッドの呼び出し元に公開され、デッドロックが発生しやすくなります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyClass {
+  public void doSomething() {
+    Lock lock = new Lock();
+    lock.lock(); // Noncompliant
+    if (isInitialized()) {
+      // ...
+      lock.unlock();
+    }
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyClass {
+  public void doSomething() {
+    Lock lock = new Lock();
+    if (isInitialized()) {
+      lock.lock();
+      // ...
+      lock.unlock();
+    }
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/459">MITRE、CWE-459</a>- 不完全なクリーンアップ </li>
+</ul>
+

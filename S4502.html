@@ -1,0 +1,52 @@
+<p>クロスサイトリクエストフォージェリ（CSRF）攻撃は、ウェブアプリケーションの信頼できるユーザーが、攻撃者によって、プロフィールの更新やメッセージの送信など、本人が意図していない機密性の高いアクションを実行させられるときに発生します。</p>
+<p>攻撃者は、ユーザー/被害者を騙して、特権的なアクションに対応するリンクをクリックさせたり、隠れたWebリクエストを埋め込んだ悪意のあるWebサイトを訪問させたりすることができます。Webブラウザは自動的にクッキーを含むため、アクションは認証され、機密性を高めることが可能です。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>Webアプリケーションは、Cookieを使用してユーザーを認証します。 </li>
+  <li>Webアプリケーションには、ユーザーが認証されたときに実行できる機密性の高い操作が存在します。 </li>
+  <li>例えば、HTTP POSTやHTTP DELETEリクエストを行うことで、Webアプリケーションの状態やリソースを変更することができます。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<ul>
+  <li>CSRF 攻撃に対する保護を強く推奨します：    <ul>
+      <li><a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Safe_methods">安全でない</a>すべての<a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Safe_methods">HTTPメソッドに対して</a>デフォルトで有効にすること。 </li>
+      <li>例えば、推測不可能な CSRF トークンで実装します。 </li>
+    </ul>  </li>
+  <li>もちろん、すべての機密操作は、<code translate="no">GET</code> のような、情報検索にのみ使用されるように設計された<a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Safe_methods">安全な HTTP</a>メソッドで実行すべきではありません。 </li>
+</ul>
+<h2>センシティブコードの例</h2>
+<p><a href="https://docs.spring.io/spring-security/site/docs/5.0.x/reference/html/csrf.html#csrf-using">Spring Securityは</a>デフォルトでCSRF攻撃に対する保護を提供していますが、これを無効にすることができます：</p>
+<pre translate="no">
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.csrf().disable(); // Sensitive: csrf protection is entirely disabled
+   // or
+    http.csrf().ignoringAntMatchers("/route/"); // Sensitive: csrf protection is disabled for specific routes
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p><a href="https://docs.spring.io/spring-security/site/docs/5.0.x/reference/html/csrf.html#csrf-using">Spring Security</a>CSRF保護はデフォルトで有効になっているので、無効にしないでください：</p>
+<pre translate="no">
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    // http.csrf().disable(); // Compliant
+  }
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A01_2021-Broken_Access_Control/">OWASP Top 10 2021 カテゴリ A1</a>- 壊れたアクセス制御 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/352">MITRE, CWE-352</a>- クロスサイトリクエストフォージェリ(CSRF) </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+  <li><a href="https://owasp.org/www-community/attacks/csrf">OWASPクロスサイトリクエストフォージェリ</a></li>
+  <li><a href="https://www.sans.org/top25-software-errors/#cat1">SANS Top 25</a>- コンポーネント間の安全でない相互作用 </li>
+</ul>
+

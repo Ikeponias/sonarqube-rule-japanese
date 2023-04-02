@@ -1,0 +1,14 @@
+<p>型変数やワイルドカードが<code translate="no">final</code> である上限を宣言する場合，実行時に1つの型しか受け入れないため，パラメトリゼーションは全く汎用的ではありません：<code translate="no">final</code> です．<code translate="no">Generics</code> を使う代わりに，具象の<code translate="no">final</code> クラスを直接使うほうが単純です．</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public static &lt;T extends String&gt; T getMyString() { // Noncompliant; String is a "final" class and so can't be extended
+ [...]
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public static String getMyString() { // Compliant
+  [...]
+}
+</pre>
+

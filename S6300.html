@@ -1,0 +1,41 @@
+<p>ローカルにファイルを保存することは、モバイルアプリケーションにとって一般的なタスクです。暗号化されずに保存されたファイルは、デバイスに物理的にアクセスできる攻撃者が読み出し、変更することができます。機密データへのアクセスは、例えばデバイスが盗まれた場合など、アプリケーションのユーザーにとって有害となる可能性があります。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>このファイルには、漏えいすると被害が発生する可能性のある機密データが含まれています。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングプラクティス</h2>
+<p>機密情報を含むローカルファイルは、パスワードで暗号化することが推奨されます。<a href="https://developer.android.com/reference/androidx/security/crypto/EncryptedFile">EncryptedFileという</a>クラスを使うと、簡単にファイルを暗号化することができます。</p>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+Files.write(path, content); // Sensitive
+
+FileOutputStream out = new FileOutputStream(file); // Sensitive
+
+FileWriter fw = new FileWriter("outfilename", false); // Sensitive
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+
+File file = new File(context.getFilesDir(), "secret_data");
+EncryptedFile encryptedFile = EncryptedFile.Builder(
+    file,
+    context,
+    masterKeyAlias,
+    EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+).build();
+
+// write to the encrypted file
+FileOutputStream encryptedOutputStream = encryptedFile.openFileOutput();
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A04_2021-Insecure_Design/">OWASP Top 10 2021 カテゴリ A4</a>- 安全でない設計 </li>
+  <li><a href="https://mobile-security.gitbook.io/masvs/security-requirements/0x07-v2-data_storage_and_privacy_requirements">Mobile AppSec検証基準</a>- データの保存とプライバシーの要件 </li>
+  <li><a href="https://owasp.org/www-project-mobile-top-10/2016-risks/m2-insecure-data-storage">OWASP Mobile Top 10 2016 カテゴリーM2</a>- 安全でないデータストレージ </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure">OWASP Top 10 2017 カテゴリーA3</a>「機密データ露出」。 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration.html">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/311">MITRE、CWE-311</a>- 機密データの暗号化の欠落について </li>
+</ul>
+

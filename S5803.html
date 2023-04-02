@@ -1,0 +1,31 @@
+<p>VisibleForTestingを使用すると、メソッド、フィールド、クラスなどの可視性制限がAPIに必要以上に緩和され、ユニットテストが容易にできるようになります。</p>
+<p>このようなメソッド、フィールド、クラスへのアクセスは、テストコードでは問題ありませんが、プロダクションコードでは避けなければなりません。プロダクションコードでは、これらのメソッドはprivateであるかのように扱われるべきです。</p>
+<p>対応するフレームワーク</p>
+<ul>
+  <li>グアバです： <code translate="no">com.google.common.annotations.VisibleForTesting</code> </li>
+  <li>AssertJ:<code translate="no">org.assertj.core.util.VisibleForTesting</code> </li>
+  <li>Android：<code translate="no">androidx.annotation.VisibleForTesting</code> </li>
+  <li>Apache Flinkです： <code translate="no">org.apache.flink.annotation.VisibleForTesting</code> </li>
+</ul>
+<p>という名前のアノテーションや、その他のアノテーションがあります。<code translate="no">VisibleForTesting</code></p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+/** src/main/java/MyObject.java */
+
+@VisibleForTesting String foo;
+
+/** src/main/java/Service.java */
+
+new MyObject().foo; // Noncompliant, foo is accessed from production code
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+/** src/main/java/MyObject.java */
+
+@VisibleForTesting String foo;
+
+/** src/test/java/MyObjectTest.java */
+
+new MyObject().foo; // Compliant, foo is accessed from test code
+</pre>
+

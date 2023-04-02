@@ -1,0 +1,22 @@
+<p>アサーションでリテラルなブーリアン値やヌルを使用する理由はありません。<em>assertEquals</em> や<em>assertNotEquals</em>などのメソッドでこれらを使うのではなく、<em>assertTrue</em> や<em>assertFalse</em>、<em>assertNull</em>や<em>assertNotNull</em>を使うべきでしょう (Fest を使う場合は<em>isNull</em>など)。<em>assertNullの</em>ような等式とは関係のないアサーションでこれらを使用することは、ほとんどの場合バグである。</p>
+<p>対応するフレームワーク</p>
+<ul>
+  <li>ジュウニットスリー </li>
+  <li>ジュウニットフォー </li>
+  <li>ジュウニットファイブ </li>
+  <li>フェストアサート </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Assert.assertTrue(true);  // Noncompliant
+assertThat(null).isNull(); // Noncompliant
+
+assertEquals(true, something()); // Noncompliant
+assertNotEquals(null, something()); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+assertTrue(something());
+assertNotNull(something());
+</pre>
+

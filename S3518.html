@@ -1,0 +1,37 @@
+<p>除算やモジュロ演算の分母がゼロの場合、致命的なエラーとなる。</p>
+<p><code translate="no">double</code> や<code translate="no">float</code> で作業する場合、致命的なエラーは発生しませんが、異常な結果につながるため、いずれにせよ避けるべきです。</p>
+<p>このルールは、プリミティブな<code translate="no">int</code>,<code translate="no">long</code>,<code translate="no">double</code>,<code translate="no">float</code> に加え、<code translate="no">BigDecimal</code> と<code translate="no">BigInteger</code> をサポートします。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+void test_divide() {
+  int z = 0;
+  if (unknown()) {
+    // ..
+    z = 3;
+  } else {
+    // ..
+  }
+  z = 1 / z; // Noncompliant, possible division by zero
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+void test_divide() {
+  int z = 0;
+  if (unknown()) {
+    // ..
+    z = 3;
+  } else {
+    // ..
+    z = 1;
+  }
+  z = 1 / z;
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/369">MITRE, CWE-369</a>- ゼロで割る </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/CTZGBQ">CERT、NUM02-J。</a>- 除算と余りの演算がゼロ除算エラーにならないようにすること </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/ftYxBQ">CERT、INT33-C。</a>- 除算と余りの演算がゼロ除算エラーにならないようにすること </li>
+</ul>
+

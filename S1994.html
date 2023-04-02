@@ -1,0 +1,22 @@
+<p><code translate="no">for</code> ループのカウンタが、そのインクリメント句の外でインクリメントされると、非常に混乱することがあります。このような場合、可能な限りループのincrement句に移動させる必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+for (i = 0; i &lt; 10; j++) { // Noncompliant
+  // ...
+  i++;
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+for (i = 0; i &lt; 10; i++, j++) {
+  // ...
+}
+</pre>
+<p>または</p>
+<pre translate="no">
+for (i = 0; i &lt; 10; i++) {
+  // ...
+  j++;
+}
+</pre>
+

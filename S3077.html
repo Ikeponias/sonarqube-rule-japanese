@@ -1,0 +1,17 @@
+<p>配列に<code translate="no">volatile</code> のマークを付けると、配列自体は常に新鮮な状態で読み込まれ、スレッドキャッシュされることはありませんが、配列<em>内の</em>項目はそうではありません。同様に、ミュータブルオブジェクトフィールドに<code translate="no">volatile</code> のマークを付けると、オブジェクトの<em>参照は</em> <code translate="no">volatile</code> になりますが、オブジェクト自体はそうではなく、他のスレッドがオブジェクトの状態の更新を見ることができない場合があります。</p>
+<p>配列の場合は、<code translate="no">AtomicIntegerArray</code> のように、関連する AtomicArray クラスを代わりに使用することで、これを回避することができます。ミュータブルオブジェクトの場合は、<code translate="no">volatile</code> を削除し、同期やThreadLocalストレージなど、スレッドセーフを保証する他のメソッドを使用する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+private volatile int [] vInts;  // Noncompliant
+private volatile MyObj myObj;  // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+private AtomicIntegerArray vInts;
+private MyObj myObj;
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/UzdGBQ">CERT、CON50-J。</a>- 参照揮発性を宣言することで、参照されるオブジェクトのメンバーの安全な公開が保証されると思わないでください。 </li>
+</ul>
+

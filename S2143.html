@@ -1,0 +1,81 @@
+<p><code translate="no">Date</code> と<code translate="no">Calendar</code> のクラスは、特にマルチスレッドコンテキストでは、常に混乱し、適切に使用するのが困難でした。<code translate="no">JodaTime</code> は、長い間人気のある代替手段でしたが、今ではさらに優れたオプションが組み込まれています。Java 8のJSR 310実装では、以下のような特定のクラスを提供しています：</p>
+<table>
+  <colgroup>
+    <col style="width: 50%;" />
+    <col style="width: 50%;" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>クラス</th>
+      <th>に使用する。</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><p>ローカルデイト</p></td>
+      <td><p>日付（時刻、オフセット、ゾーンなし）。</p></td>
+    </tr>
+    <tr>
+      <td><p>ローカルタイム</p></td>
+      <td><p>日付、オフセット、ゾーンを除いた、その日の時刻を表示します。</p></td>
+    </tr>
+    <tr>
+      <td><p>ローカルデイトタイム</p></td>
+      <td><p>オフセットなしの日付と時刻、またはゾーンを表示します。</p></td>
+    </tr>
+    <tr>
+      <td><p>オフセット日</p></td>
+      <td><p>02:00のようなオフセットを持つ日付で、時刻やゾーンは含まれません。</p></td>
+    </tr>
+    <tr>
+      <td><p>オフセットタイム</p></td>
+      <td><p>02:00のようなオフセットを持つ時刻を、日付やゾーンなしで表示します。</p></td>
+    </tr>
+    <tr>
+      <td><p>オフセットデートタイム</p></td>
+      <td><p>日付と時刻に+02:00のようなオフセットがあり、ゾーンがない場合</p></td>
+    </tr>
+    <tr>
+      <td><p>ゾーンドデイトタイム</p></td>
+      <td><p>日付と時刻、タイムゾーンとオフセットを表示します。</p></td>
+    </tr>
+    <tr>
+      <td><p>年 月</p></td>
+      <td><p>としつき</p></td>
+    </tr>
+    <tr>
+      <td><p>月日</p></td>
+      <td><p>月日</p></td>
+    </tr>
+    <tr>
+      <td><p>年/月/日/週/...</p></td>
+      <td><p>重要な分野のクラス</p></td>
+    </tr>
+    <tr>
+      <td><p>DateTimeFields</p></td>
+      <td><p>無効である可能性のあるフィールド-値ペアのマップを格納する。</p></td>
+    </tr>
+    <tr>
+      <td><p>カレンドリカル</p></td>
+      <td><p>低レベルAPIへのアクセス</p></td>
+    </tr>
+    <tr>
+      <td><p>期間</p></td>
+      <td><p>"2ヶ月と3日 "のような記述的な時間。</p></td>
+    </tr>
+  </tbody>
+</table>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Date now = new Date();  // Noncompliant
+DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+Calendar christmas  = Calendar.getInstance();  // Noncompliant
+christmas.setTime(df.parse("25.12.2020"));
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+LocalDate now = LocalDate.now();  // gets calendar date. no time component
+LocalTime now2 = LocalTime.now(); // gets current time. no date component
+LocalDate christmas = LocalDate.of(2020,12,25);
+</pre>
+

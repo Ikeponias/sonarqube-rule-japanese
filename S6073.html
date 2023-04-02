@@ -1,0 +1,34 @@
+<p>Mockitoは、メソッド呼び出しのスタブ化や検証を柔軟に行うための<em>引数マッチャーと</em> <em>引数キャプチャーを</em>提供します。</p>
+<p><code translate="no">Mockito.verify()</code>,<code translate="no">Mockito.when()</code>,<code translate="no">Stubber.when()</code>,<code translate="no">BDDMockito.given()</code> それぞれに、引数マッチャーの有無に関わらずオーバーロードがあります。</p>
+<p>ただし、一部のパラメータにのみ引数マッチャーやキャプチャーを使用する場合、すべてのパラメータにマッチャーを使用する必要があり、そうでない場合は<code translate="no">InvalidUseOfMatchersException</code> がスローされます。</p>
+<p>このルールにより、スタブ化/検証されたメソッドのすべてのパラメータでマッチャーが使用されていない場合に、問題が発生することになります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+@Test
+public void myTest() {
+  given(foo.bar(anyInt(), i1, i2)).willReturn(null); // Noncompliant
+  when(foo.baz(eq(val1), val2)).thenReturn("hi"); // Noncompliant
+  doThrow(new RuntimeException()).when(foo).quux(intThat(x -&gt; x &gt;= 42), -1); // Noncompliant
+  verify(foo).bar(i1, anyInt(), i2); // Noncompliant
+  ArgumentCaptor&lt;Integer&gt; captor = ArgumentCaptor.forClass(Integer.class);
+  verify(foo).bar(captor.capture(), i1, any()); // Noncompliant
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+@Test
+public void myTest() {
+  given(foo.bar(anyInt(), eq(i1), eq(i2))).willReturn(null);
+  when(foo.baz(val1, val2)).thenReturn("hi");
+  doThrow(new RuntimeException()).when(foo).quux(intThat(x -&gt; x &gt;= 42), eq(-1));
+  verify(foo).bar(eq(i1), anyInt(), eq(i2));
+  ArgumentCaptor&lt;Integer&gt; captor = ArgumentCaptor.forClass(Integer.class);
+  verify(foo).bar(captor.capture(), any(), any());
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#argument_matchers">Mockitoのドキュメント</a>- 引数マッチャー </li>
+  <li>{rule:java:S6068} です。- Mockitoのメソッド「verify」「when」「given」の呼び出しを簡略化する必要がある。 </li>
+</ul>
+

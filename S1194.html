@@ -1,0 +1,10 @@
+<p><code translate="no">java.lang.Error</code> およびそのサブクラスは、 のような、Java 仮想マシンのみが遭遇すべき異常な状態を表します。<code translate="no">OutOfMemoryError</code></p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public class MyException extends Error { /* ... */ }       // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public class MyException extends Exception { /* ... */ }   // Compliant
+</pre>
+

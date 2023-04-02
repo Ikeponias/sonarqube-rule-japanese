@@ -1,0 +1,48 @@
+<p>Java 7では、try-with-resources文が導入され、該当のリソースが閉じられることが保証されるようになりました。新しい構文はより防弾に近いので、古い<code translate="no">try</code>/<code translate="no">catch</code>/<code translate="no">finally</code> バージョンよりも優先されるべきです。</p>
+<p>このルールは、<code translate="no">close</code>-可能なリソースがtry-with-resources文で開かれることをチェックします。</p>
+<p><strong>なお</strong>、このルールは、プロジェクトの<code translate="no">sonar.java.source</code> が<code translate="no">7</code> よりも低い場合、自動的に無効となります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+FileReader fr = null;
+BufferedReader br = null;
+try {
+  fr = new FileReader(fileName);
+  br = new BufferedReader(fr);
+  return br.readLine();
+} catch (...) {
+} finally {
+  if (br != null) {
+    try {
+      br.close();
+    } catch(IOException e){...}
+  }
+  if (fr != null ) {
+    try {
+      br.close();
+    } catch(IOException e){...}
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+try (
+    FileReader fr = new FileReader(fileName);
+    BufferedReader br = new BufferedReader(fr)
+  ) {
+  return br.readLine();
+}
+catch (...) {}
+</pre>
+<p>または</p>
+<pre translate="no">
+try (BufferedReader br =
+        new BufferedReader(new FileReader(fileName))) { // no need to name intermediate resources if you don't want to
+  return br.readLine();
+}
+catch (...) {}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/6DZGBQ">CERT、ERR54-J。</a>- クローズ可能なリソースを安全に扱うためにtry-with-resourcesステートメントを使用します。 </li>
+</ul>
+

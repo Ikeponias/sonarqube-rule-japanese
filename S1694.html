@@ -1,0 +1,54 @@
+<p>抽象クラスの目的は、継承可能な動作を提供すると同時に、サブクラスが実装しなければならないメソッドを定義することである。</p>
+<p>純粋にインスタンス化を防ぐために抽象化された、抽象メソッドを持たないクラスは、プライベートコンストラクタを持つ具象クラスに変換する（つまり、<code translate="no">abstract</code> キーワードを削除する）必要があります。</p>
+<p>抽象的なメソッドしかなく、継承可能な動作がないクラスは、インターフェースに変換する必要があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public abstract class Animal {  // Noncompliant; should be an interface
+  abstract void move();
+  abstract void feed();
+}
+
+public abstract class Color {  // Noncompliant; should be concrete with a private constructor
+  private int red = 0;
+  private int green = 0;
+  private int blue = 0;
+
+  public int getRed() {
+    return red;
+  }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public interface Animal {
+  void move();
+  void feed();
+}
+
+public class Color {
+  private int red = 0;
+  private int green = 0;
+  private int blue = 0;
+
+  private Color () {}
+
+  public int getRed() {
+    return red;
+  }
+}
+
+public abstract class Lamp {
+
+  private boolean switchLamp=false;
+
+  public abstract void glow();
+
+  public void flipSwitch() {
+    switchLamp = !switchLamp;
+    if (switchLamp) {
+      glow();
+    }
+  }
+}
+</pre>
+

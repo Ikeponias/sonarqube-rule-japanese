@@ -1,0 +1,63 @@
+<p>デフォルトのシステムエンコーディングに依存するクラスやメソッドを使用すると、「ホーム」環境では問題なく動作するコードを作成できます。しかし、そのコードは、異なるエンコーディングを使用している顧客にとっては、診断が非常に困難で、修正するときに再現することがほぼ不可能な方法で壊れるかもしれません。</p>
+<p>このルールは、以下のクラスとメソッドの使用を検出します：</p>
+<ul>
+  <li> <code translate="no">FileReader</code> </li>
+  <li> <code translate="no">FileWriter</code> </li>
+  <li><code translate="no">byte[]</code> の引数を持ち、<code translate="no">Charset</code> の引数を持たない文字列コンストラクタ。    <ul>
+      <li> <code translate="no">String(byte[] bytes)</code> </li>
+      <li> <code translate="no">String(byte[] bytes, int offset, int length)</code> </li>
+    </ul>  </li>
+  <li> <code translate="no">String.getBytes()</code> </li>
+  <li> <code translate="no">String.getBytes(int srcBegin, int srcEnd, byte[] dst, int dstBegin)</code> </li>
+  <li> <code translate="no">InputStreamReader(InputStream in)</code> </li>
+  <li> <code translate="no">OutputStreamWriter(OutputStream out)</code> </li>
+  <li> <code translate="no">ByteArrayOutputStream.toString()</code> </li>
+  <li>一部<code translate="no">Formatter</code> のコンストラクタ    <ul>
+      <li> <code translate="no">Formatter(String fileName)</code> </li>
+      <li> <code translate="no">Formatter(File file)</code> </li>
+      <li> <code translate="no">Formatter(OutputStream os)</code> </li>
+    </ul>  </li>
+  <li>いくつかの<code translate="no">Scanner</code> コンストラクタ    <ul>
+      <li> <code translate="no">Scanner(File source)</code> </li>
+      <li> <code translate="no">Scanner(Path source)</code> </li>
+      <li> <code translate="no">Scanner(InputStream source)</code> </li>
+    </ul>  </li>
+  <li>一部<code translate="no">PrintStream</code> のコンストラクタ    <ul>
+      <li> <code translate="no">PrintStream(File file)</code> </li>
+      <li> <code translate="no">PrintStream(OutputStream out)</code> </li>
+      <li> <code translate="no">PrintStream(OutputStream out, boolean autoFlush)</code> </li>
+      <li> <code translate="no">PrintStream(String fileName)</code> </li>
+    </ul>  </li>
+  <li>いくつかの<code translate="no">PrintWriter</code> コンストラクタ    <ul>
+      <li> <code translate="no">PrintWriter(File file)</code> </li>
+      <li> <code translate="no">PrintWriter(OutputStream out)</code> </li>
+      <li> <code translate="no">PrintWriter(OutputStream out, boolean autoFlush)</code> </li>
+      <li> <code translate="no">PrintWriter(String fileName)</code> </li>
+    </ul>  </li>
+  <li>Apache commons-io ライブラリのメソッドで、エンコーディングの引数が NULL のときに受け付けるもの、およびエンコーディングの引数を省略したこれらのメソッドのオーバーロード。    <ul>
+      <li> <code translate="no">IOUtils.copy(InputStream, Writer)</code> </li>
+      <li> <code translate="no">IOUtils.copy(Reader, OutputStream)</code> </li>
+      <li> <code translate="no">IOUtils.readLines(InputStream)</code> </li>
+      <li> <code translate="no">IOUtils.toByteArray(Reader)</code> </li>
+      <li> <code translate="no">IOUtils.toByteArray(String)</code> </li>
+      <li> <code translate="no">IOUtils.toCharArray(InputStream)</code> </li>
+      <li> <code translate="no">IOUtils.toInputStream(TypeCriteria.subtypeOf(CharSequence))</code> </li>
+      <li> <code translate="no">IOUtils.toString(byte[])</code> </li>
+      <li> <code translate="no">IOUtils.toString(URI)</code> </li>
+      <li> <code translate="no">IOUtils.toString(URL)</code> </li>
+      <li> <code translate="no">IOUtils.write(char[], OutputStream)</code> </li>
+      <li> <code translate="no">IOUtils.write(CharSequence, OutputStream)</code> </li>
+      <li> <code translate="no">IOUtils.writeLines(Collection, String, OutputStream)</code> </li>
+      <li> <code translate="no">FileUtils.readFileToString(File)</code> </li>
+      <li> <code translate="no">FileUtils.readLines(File)</code> </li>
+      <li> <code translate="no">FileUtils.write(File, CharSequence)</code> </li>
+      <li> <code translate="no">FileUtils.write(File, CharSequence, boolean)</code> </li>
+      <li> <code translate="no">FileUtils.writeStringToFile(File, String)</code> </li>
+    </ul>  </li>
+</ul>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/pzdGBQ">CERT、STR04-J。</a>- JVM間で文字列データを通信する場合は、互換性のある文字エンコーディングを使用すること </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/ujZGBQ">CERT、STR50-J。</a>- 文字列の文字数を数えるのに、適切な方法を使用する。  </li>
+</ul>
+

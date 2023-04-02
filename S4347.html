@@ -1,0 +1,31 @@
+<p><code translate="no">java.security.SecureRandom</code> クラスは、暗号に適した強力な乱数生成器（RNG）を提供します。しかし、定数や他の予測可能な値で種を蒔くと、大幅に弱体化します。一般に、<code translate="no">SecureRandom</code> の実装が提供するシードに依存する方がはるかに安全です。</p>
+<p>このルールでは、<code translate="no">SecureRandom.setSeed()</code> または<code translate="no">SecureRandom(byte[])</code> が、以下のいずれかのシードで呼び出された場合に問題が発生します：</p>
+<ul>
+  <li>一定数 </li>
+  <li>システム時間 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+SecureRandom sr = new SecureRandom();
+sr.setSeed(123456L); // Noncompliant
+int v = sr.next(32);
+
+sr = new SecureRandom("abcdefghijklmnop".getBytes("us-ascii")); // Noncompliant
+v = sr.next(32);
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+SecureRandom sr = new SecureRandom();
+int v = sr.next(32);
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/">OWASP Top 10 2021 カテゴリ A2</a>- 暗号の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration">OWASP Top 10 2017 カテゴリーA6</a>「セキュリティの誤設定について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/330">MITRE, CWE-330</a>- 不十分な乱数値の使用について </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/332">MITRE, CWE-332</a>- PRNGのエントロピーの不足 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/336">MITRE, CWE-336</a>- 擬似乱数生成器(PRNG)のシードが同じ。 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/337">MITRE, CWE-337</a>- 擬似乱数生成器(PRNG)の予測可能なシードについて </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/display/java/MSC63-J.+Ensure+that+SecureRandom+is+properly+seeded">CERT、MSC63J。</a>- SecureRandomが適切にシードされていることを確認する。 </li>
+</ul>
+

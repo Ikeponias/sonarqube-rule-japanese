@@ -1,0 +1,45 @@
+<p>LDAPクライアントは、LDAPサーバーに対して「バインドリクエスト」で認証を行うが、その際、特に<a href="https://ldapwiki.com/wiki/Simple%20Authentication">簡単な認証</a>方法を提供する。</p>
+<p>LDAPの簡易認証は、3種類の仕組みで利用することができます：</p>
+<ul>
+  <li>ユーザー名とパスワードの長さがゼロの値でバインドリクエストを実行することによる<em>匿名認証の仕組み</em>。 </li>
+  <li>長さゼロのパスワード値でバインドリクエストを行うことで、<em>認証されない認証機構</em>。 </li>
+  <li>長さが0でないパスワードの値でバインドリクエストを行うことで、<em>名前/パスワードの認証機構を</em>実現します。 </li>
+</ul>
+<p>匿名バインドと認証なしバインドは、パスワードを入力せずにLDAPディレクトリの情報にアクセスできるため、これらの使用は強く推奨されません。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>このルールでは、<code translate="no">Context.SECURITY_AUTHENTICATION</code> を<code translate="no">"none"</code> に設定して LDAP 接続を作成した場合に問題が発生します。</p>
+<pre translate="no">
+// Set up the environment for creating the initial context
+Hashtable&lt;String, Object&gt; env = new Hashtable&lt;String, Object&gt;();
+env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+env.put(Context.PROVIDER_URL, "ldap://localhost:389/o=JNDITutorial");
+
+// Use anonymous authentication
+env.put(Context.SECURITY_AUTHENTICATION, "none"); // Noncompliant
+
+// Create the initial context
+DirContext ctx = new InitialDirContext(env);
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+// Set up the environment for creating the initial context
+Hashtable&lt;String, Object&gt; env = new Hashtable&lt;String, Object&gt;();
+env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+env.put(Context.PROVIDER_URL, "ldap://localhost:389/o=JNDITutorial");
+
+// Use simple authentication
+env.put(Context.SECURITY_AUTHENTICATION, "simple");
+env.put(Context.SECURITY_PRINCIPAL, "cn=S. User, ou=NewHires, o=JNDITutorial");
+env.put(Context.SECURITY_CREDENTIALS, getLDAPPassword());
+
+// Create the initial context
+DirContext ctx = new InitialDirContext(env);
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">OWASP Top 10 2021 カテゴリ A7</a>- 識別と認証の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication">OWASP Top 10 2017 カテゴリーA2</a>- Broken Authentication  </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/521">MITRE, CWE-521</a>- 弱いパスワードの要件 </li>
+  <li><a href="https://ldapwiki.com/wiki/Simple%20Authentication">ldapwiki.com-</a> 簡易認証について </li>
+</ul>
+

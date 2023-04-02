@@ -1,0 +1,33 @@
+<p>すべてのクラスは<code translate="no">Object</code> を暗黙のうちに拡張します。明示的に拡張することは冗長です。</p>
+<p>また、インターフェイスの<em>実装と</em>その親の実装を宣言することも、冗長です。インターフェイスを実装すれば、その親も暗黙のうちに実装することになり、明示的に実装する必要はない。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public interface MyFace {
+  // ...
+}
+
+public interface MyOtherFace extends MyFace {
+  // ...
+}
+
+public class Foo
+    extends Object // Noncompliant
+    implements MyFace, MyOtherFace {  // Noncompliant
+  //...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public interface MyFace {
+  // ...
+}
+
+public interface MyOtherFace extends MyFace {
+  // ...
+}
+
+public class Foo implements MyOtherFace {
+  //...
+}
+</pre>
+

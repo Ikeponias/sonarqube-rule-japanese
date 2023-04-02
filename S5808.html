@@ -1,0 +1,92 @@
+<p>アプリケーションのリソースにアクセスするためにユーザーに付与される権限、または付与されない権限は、強力な判断に基づくものであるべきです。例えば、ユーザーが認証されているかどうか、正しい役割や特権を持っているかどうかをチェックします。また、ユーザーの所在地や、ユーザーがアクセスを要求した日時にも依存する場合があります。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<p>Spring-securityのWebアプリケーションで：</p>
+<ul>
+  <li><a href="https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/access/AccessDecisionVoter.html">AccessDecisionVoter</a>タイプの<code translate="no">vote</code> メソッドが、肯定的な決定（<code translate="no">ACCESS_GRANTED</code> ）のみを返す場合、または決定を行わない（<code translate="no">ACCESS_ABSTAIN</code> ）場合には、準拠しない： </li>
+</ul>
+<pre translate="no">
+public class WeakNightVoter implements AccessDecisionVoter {
+    @Override
+    public int vote(Authentication authentication, Object object, Collection collection) {  // Noncompliant
+
+      Calendar calendar = Calendar.getInstance();
+
+      int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+
+      if(currentHour &gt;= 8 &amp;&amp; currentHour &lt;= 19) {
+        return ACCESS_GRANTED; // Noncompliant
+      }
+
+      // when users connect during the night, do not make decision
+      return ACCESS_ABSTAIN; // Noncompliant
+    }
+}
+</pre>
+<ul>
+  <li><a href="https://docs.spring.io/spring-security/site/docs/4.2.13.RELEASE/apidocs/org/springframework/security/access/PermissionEvaluator.html">PermissionEvaluator</a>タイプの<code translate="no">hasPermission</code> メソッドが<code translate="no">false</code> を返さない場合、準拠しない： </li>
+</ul>
+<pre translate="no">
+public class MyPermissionEvaluator implements PermissionEvaluator {
+    @Override
+    public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
+        //Getting subject
+        Object user = authentication.getPrincipal();
+
+        if(user.getRole().equals(permission)) {
+              return true; // Noncompliant
+        }
+
+        return true;  // Noncompliant
+    }
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p>Spring-securityのWebアプリケーションで：</p>
+<ul>
+  <li>の場合、<a href="https://docs.spring.io/spring-security/site/docs/4.0.x/apidocs/org/springframework/security/access/AccessDecisionVoter.html">AccessDecisionVoter</a>型の<code translate="no">vote</code> メソッドは否定的な判定を返すべきである（<code translate="no">ACCESS_DENIED</code> ）： </li>
+</ul>
+<pre translate="no">
+public class StrongNightVoter implements AccessDecisionVoter {
+    @Override
+    public int vote(Authentication authentication, Object object, Collection collection) {
+
+      Calendar calendar = Calendar.getInstance();
+
+      int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+
+      if(currentHour &gt;= 8 &amp;&amp; currentHour &lt;= 19) {
+        return ACCESS_GRANTED;
+      }
+
+      // users are not allowed to connect during the night
+      return ACCESS_DENIED; // Compliant
+    }
+}
+</pre>
+<ul>
+  <li><a href="https://docs.spring.io/spring-security/site/docs/4.2.13.RELEASE/apidocs/org/springframework/security/access/PermissionEvaluator.html">PermissionEvaluator</a>タイプの<code translate="no">hasPermission</code> メソッドは<code translate="no">false</code> を返すべきである： </li>
+</ul>
+<pre translate="no">
+public class MyPermissionEvaluator implements PermissionEvaluator {
+    @Override
+    public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
+        //Getting subject
+        Object user = authentication.getPrincipal();
+
+        if(user.getRole().equals(permission)) {
+              return true;
+        }
+
+        return false; // Compliant
+    }
+}
+</pre>
+<h2>例外あり</h2>
+<p>このメソッドが例外をスローした場合、強い意思決定を示すために使用される可能性があるため、問題は報告されません。</p>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A01_2021-Broken_Access_Control/">OWASP Top 10 2021 カテゴリ A1</a>- 壊れたアクセス制御 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A5_2017-Broken_Access_Control">OWASP Top 10 2017 カテゴリーA5</a>「壊れたアクセスコントロール  </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/285">MITRE、CWE-285</a>- 不適切な権限付与 </li>
+</ul>
+

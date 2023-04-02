@@ -1,0 +1,53 @@
+<p>Javaの<code translate="no">throws</code> 宣言の中に例外があると余計なお世話です：</p>
+<ul>
+  <li>何度も掲載 </li>
+  <li>列記された他の例外の下位クラス </li>
+  <li>宣言された例外型は実際には投げられないので、完全に不要です。 </li>
+</ul>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+void foo() throws MyException, MyException {}  // Noncompliant; should be listed once
+void bar() throws Throwable, Exception {}  // Noncompliant; Exception is a subclass of Throwable
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+void foo() throws MyException {}
+void bar() throws Throwable {}
+</pre>
+<h2>例外あり</h2>
+<p>メソッド本体から投げることができない例外については、このルールは問題を提起しない：</p>
+<ul>
+  <li>オーバーライドとインプリメンテーション方式で </li>
+  <li>in interface<code translate="no">default</code> メソッド </li>
+  <li>のみ、<code translate="no">throw</code> 、空のボディを持つ、または単一の戻りステートメントを持つ非プライベートメソッドで使用します。 </li>
+  <li>オーバーライド可能なメソッド（非最終クラス、または最終クラスのメンバーではない、非静的、非プライベート）において、例外が適切なJavaDocで文書化されている場合。 </li>
+</ul>
+<p>また、<code translate="no">RuntimeException</code> 、またはその子孫の1つで問題が発生することはありません。投げられる可能性のある実行時例外を説明することは、最終的にそのメソッドのユーザーを助けることになり、良い習慣とさえ見なされることがあります。</p>
+<pre translate="no">
+class A extends B {
+  @Override
+  void doSomething() throws IOException {
+    compute(a);
+  }
+
+  public void foo() throws IOException {}
+
+  public void qix() throws MyRuntimeException {}
+
+  protected void bar() throws IOException {
+    throw new UnsupportedOperationException("This method should be implemented in subclasses");
+  }
+
+  Object foobar(String s) throws IOException {
+    return null;
+  }
+
+  /**
+   * @throws IOException Overriding classes may throw this exception if they print values into a file
+   */
+  protected void print() throws IOException { // no issue, method is overridable and the exception has proper javadoc
+    System.out.println("foo");
+  }
+}
+</pre>
+

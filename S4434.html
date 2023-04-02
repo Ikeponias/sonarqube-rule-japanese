@@ -1,0 +1,37 @@
+<p>JNDIは、LDAPディレクトリからのオブジェクトのデシリアライズをサポートしており、リモートでコードを実行される可能性があります。</p>
+<p>このルールは、<code translate="no">SearchControls</code> 、デシリアライズを許可するように設定された状態でLDAP検索クエリを実行した場合に問題が発生します。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>アプリケーションは信頼されていないLDAPディレクトリに接続します。 </li>
+  <li>ユーザーが管理するオブジェクトは、LDAPディレクトリに保存することができます。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた方はリスクがあります。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<p>LDAPオブジェクトのデシリアライズを無効にすることが推奨されます。</p>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+DirContext ctx = new InitialDirContext();
+// ...
+ctx.search(query, filter,
+        new SearchControls(scope, countLimit, timeLimit, attributes,
+            true, // Noncompliant; allows deserialization
+            deref));
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+DirContext ctx = new InitialDirContext();
+// ...
+ctx.search(query, filter,
+        new SearchControls(scope, countLimit, timeLimit, attributes,
+            false, // Compliant
+            deref));
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/">OWASP Top 10 2021 カテゴリ A8</a>- ソフトウェアとデータの整合性の失敗 </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/502">MITRE, CWE-502</a>- 信頼されていないデータのデシリアライズ </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization">OWASP Top 10 2017 カテゴリーA8</a>「安全でないデシリアライゼーション </li>
+  <li><a href="https://www.blackhat.com/docs/us-16/materials/us-16-Munoz-A-Journey-From-JNDI-LDAP-Manipulation-To-RCE-wp.pdf">BlackHatのプレゼンテーション</a></li>
+  <li>FindSecBugs ルール<a href="https://find-sec-bugs.github.io/bugs.htm#LDAP_ENTRY_POISONING">LDAP_ENTRY_POISONING</a>から派生したものです。 </li>
+</ul>
+

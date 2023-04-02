@@ -1,0 +1,87 @@
+<p>アプリケーションのソースコードやバイナリから文字列を抽出することは容易であるため、秘密はハードコードされるべきではない。これは、特に分散型やオープンソースのアプリケーションに当てはまります。</p>
+<p>過去には、以下のような脆弱性につながっています：</p>
+<ul>
+  <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-25510">CVE-2022-25510</a></li>
+  <li><a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-42635">CVE-2021-42635</a></li>
+</ul>
+<p>シークレットは、設定ファイルやシークレットの管理サービスなど、ソースコードの外に保管する必要があります。</p>
+<p>このルールは、単語リスト（secret, token, credential, auth, api[_.-]?key） に一致する名前を持つ変数/フィールドに、疑似ランダムなハードコード値を割り当てることを検出します。ハードコード値の擬似ランダム性は、そのエントロピーと人間が読める確率に基づいている。ランダム性の感度は、必要に応じて調整することができます。値を小さくすると、ランダムな値が検出されなくなり、誤検出が増える可能性があります。</p>
+<h2>ということを自問自答してください。</h2>
+<ul>
+  <li>シークレットは、データベース、ファイルストレージ、API、またはサービスのような機密性の高いコンポーネントへのアクセスを可能にします。 </li>
+  <li>本番環境ではシークレットを使用します。 </li>
+  <li>シークレットを更新する前に、アプリケーションの再配布が必要です。 </li>
+</ul>
+<p>これらの質問のいずれかに「はい」と答えた場合、リスクが発生します。</p>
+<h2>推奨されるセキュアコーディングの慣行</h2>
+<ul>
+  <li>コードリポジトリにプッシュされない設定ファイルにシークレットを保存します。 </li>
+  <li>秘密管理には、クラウド事業者のサービスをご利用ください。 </li>
+  <li>ソースコードを通じて秘密が公開された場合：それを取り消し、新しいものを作成する。 </li>
+</ul>
+<h2>センシティブコードの例</h2>
+<pre translate="no">
+private static final String MY_SECRET = "47828a8dd77ee1eb9dde2d5e93cb221ce8c32b37";
+
+public static void main(String[] args) {
+  MyClass.callMyService(MY_SECRET);
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<p><a href="https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/javav2/example_code/secretsmanager">AWS Secrets Managerを</a>使用する：</p>
+<pre translate="no">
+import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
+import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueResponse;
+
+public static void main(String[] args) {
+  SecretsManagerClient secretsClient = ...
+  MyClass.doSomething(secretsClient, "MY_SERVICE_SECRET");
+}
+
+public static void doSomething(SecretsManagerClient secretsClient, String secretName) {
+  GetSecretValueRequest valueRequest = GetSecretValueRequest.builder()
+    .secretId(secretName)
+    .build();
+
+  GetSecretValueResponse valueResponse = secretsClient.getSecretValue(valueRequest);
+  String secret = valueResponse.secretString();
+  // do something with the secret
+  MyClass.callMyService(secret);
+}
+</pre>
+<p><a href="https://docs.microsoft.com/en-us/azure/key-vault/secrets/quick-create-java?tabs=azure-cli">Azure Key Vault Secretを</a>使用する：</p>
+<pre translate="no">
+import com.azure.identity.DefaultAzureCredentialBuilder;
+
+import com.azure.security.keyvault.secrets.SecretClient;
+import com.azure.security.keyvault.secrets.SecretClientBuilder;
+import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
+
+public static void main(String[] args) throws InterruptedException, IllegalArgumentException {
+  String keyVaultName = System.getenv("KEY_VAULT_NAME");
+  String keyVaultUri = "https://" + keyVaultName + ".vault.azure.net";
+
+  SecretClient secretClient = new SecretClientBuilder()
+    .vaultUrl(keyVaultUri)
+    .credential(new DefaultAzureCredentialBuilder().build())
+    .buildClient();
+
+  MyClass.doSomething(secretClient, "MY_SERVICE_SECRET");
+}
+
+public static void doSomething(SecretClient secretClient, String secretName) {
+  KeyVaultSecret retrievedSecret = secretClient.getSecret(secretName);
+  String secret = retrievedSecret.getValue(),
+
+  // do something with the secret
+  MyClass.callMyService(secret);
+}
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/">OWASP Top 10 2021 カテゴリ A7</a>- 識別と認証の失敗 </li>
+  <li><a href="https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication">OWASP Top 10 2017 カテゴリーA2</a>- Broken Authentication  </li>
+  <li><a href="https://cwe.mitre.org/data/definitions/798.html">MITRE、CWE-798</a>- ハードコード化されたクレデンシャルの使用 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/OjdGBQ">CERT、MSC03-J。</a>- 機密情報をハードコードしない </li>
+</ul>
+

@@ -1,0 +1,30 @@
+<p>メソッド呼び出しのパラメータ名がメソッド引数の名前と一致する場合、より明確で読みやすいコードに貢献します。しかし、名前が一致していても、メソッドの引数と異なる順序で渡される場合は、パラメータの順序に間違いがあることを示し、予期しない結果につながる可能性が高い。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+public double divide(int divisor, int dividend) {
+  return divisor/dividend;
+}
+
+public void doTheThing() {
+  int divisor = 15;
+  int dividend = 5;
+
+  double result = divide(dividend, divisor);  // Noncompliant; operation succeeds, but result is unexpected
+  //...
+}
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+public double divide(int divisor, int dividend) {
+  return divisor/dividend;
+}
+
+public void doTheThing() {
+  int divisor = 15;
+  int dividend = 5;
+
+  double result = divide(divisor, dividend);
+  //...
+}
+</pre>
+

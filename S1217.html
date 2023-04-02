@@ -1,0 +1,18 @@
+<p><code translate="no">Thread.run()</code> メソッドの目的は、コードを別の専用スレッドで実行することです。このメソッドを直接呼び出すと、そのコードが現在のスレッドで実行されてしまうので、意味がありません。</p>
+<p>期待通りの動作を得るには、代わりに<code translate="no">Thread.start()</code> メソッドを呼び出してください。</p>
+<h2>コンプライアンス違反のコード例</h2>
+<pre translate="no">
+Thread myThread = new Thread(runnable);
+myThread.run(); // Noncompliant
+</pre>
+<h2>コンプライアンス・ソリューション</h2>
+<pre translate="no">
+Thread myThread = new Thread(runnable);
+myThread.start(); // Compliant
+</pre>
+<h2>見る</h2>
+<ul>
+  <li><a href="https://cwe.mitre.org/data/definitions/572">MITRE, CWE-572</a>- start()の代わりにthread run()を呼び出す。 </li>
+  <li><a href="https://wiki.sei.cmu.edu/confluence/x/6DdGBQ">CERT THI00-J.</a>- Thread.run()を呼び出さないでください。 </li>
+</ul>
+
